@@ -22,6 +22,9 @@ const AuthSchema = new Schema({
     type: Boolean,
     default: false
   },
+  token: {
+    type: String
+  },
 
   date: {
     type: Date,

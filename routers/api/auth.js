@@ -6,6 +6,7 @@ const keys = require("../../config/dev_keys").secredOrKey;
 const passport = require("passport");
 const Auth = require("../../models/Auth");
 const validateRegisterInput = require("../validation/register");
+const sendMail = require("../../utils/MailTransporter");
 
 router.get("/test", (req, res) => {
   res.status(200).json({ message: "Works!" });
@@ -59,6 +60,9 @@ router.post("/register", (req, res) => {
           });
           newUser.save().then(user => {
             console.log("temp user created", user);
+            let URLString;
+            URLString = `http://localhost:5000/confirm_registration/${user.token}/${user._id}`;
+            console.log("URLString", URLString);
 
             //create data object for mailer trasporter
             // let urlConfirm;
@@ -67,11 +71,32 @@ router.post("/register", (req, res) => {
             // } else {
             //   urlConfirm = `https://morning-thicket-46114.herokuapp.com/confirm_registration/${user.token}/${user._id}`;
             // }
+
+            const data = {
+              type: "REGISTER",
+              token: user.token,
+              name: user.name,
+              email: user.email,
+              url: URLString
+            };
+
+            sendMail(data, cb => {
+              if (cb.infoMessageid) {
+                res.status(200).json({
+                  message:
+                    "Success! Thank You for Registering on HourManager. Please check your email to confirm registration. "
+                });
+              }
+            });
           });
         });
       });
     });
   });
 });
+
+// @desc /Confirmation of New User
+// @route POST /api/users/confirm_registration/:token
+// @access Public
 
 module.exports = router;
