@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
@@ -7,6 +8,7 @@ const app = express();
 
 //Routes
 const auth = require("./routers/api/auth");
+const project = require("./routers/api/project");
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -39,9 +41,18 @@ mongoose
   .then(() => console.log(`connected to ${db}`))
   .catch(err => console.log(err));
 
+//Public Folder
+app.use(express.static(path.join(__dirname, "public")));
+
+//Views
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+app.engine("html", require("ejs").renderFile);
+
 // Use Routes
 
 app.use("/api/auth", auth);
+app.use("/api/project", project);
 
 const port = process.env.PORT || 5000;
 

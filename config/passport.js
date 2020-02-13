@@ -1,4 +1,6 @@
 const keys = require("./dev_keys").secredOrKey;
+const mongoose = require("mongoose");
+const Auth = mongoose.model("auth");
 
 const JwtStrategy = require("passport-jwt").Strategy,
   ExtractJwt = require("passport-jwt").ExtractJwt;
@@ -9,7 +11,7 @@ opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 module.exports = passport => {
   passport.use(
     new JwtStrategy(opts, (jwt_payload, done) => {
-      User.findById(jwt_payload.id)
+      Auth.findById(jwt_payload.id)
         .then(user => {
           if (user) {
             return done(null, user);

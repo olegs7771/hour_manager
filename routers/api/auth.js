@@ -6,10 +6,13 @@ const keys = require("../../config/dev_keys").secredOrKey;
 const passport = require("passport");
 const Auth = require("../../models/Auth");
 const validateRegisterInput = require("../validation/register");
+const validateLoginInput = require("../validation/login");
 const sendMail = require("../../utils/MailTransporter");
 
 router.get("/test", (req, res) => {
-  res.status(200).json({ message: "Works!" });
+  // res.render("index", {
+  //   data: { name: req.query["name"] }
+  // });
 });
 
 //Registration
@@ -61,7 +64,7 @@ router.post("/register", (req, res) => {
           newUser.save().then(user => {
             console.log("temp user created", user);
             let URLString;
-            URLString = `http://localhost:5000/confirm_registration/${user.token}/${user._id}`;
+            URLString = `http://192.168.43.14:5000/api/auth/confirm_registration?id=${user.id}&token=${user.token}`;
             console.log("URLString", URLString);
 
             //create data object for mailer trasporter
@@ -98,5 +101,102 @@ router.post("/register", (req, res) => {
 // @desc /Confirmation of New User
 // @route POST /api/users/confirm_registration/:token
 // @access Public
+
+router.get("/confirm_registration", (req, res) => {
+  const uid = req.query["id"];
+  const token = req.query["token"];
+  // console.log("uid", uid);
+  // console.log("token", token);
+  Auth.findOne({ _id: uid }).then(user => {
+    if (!user) {
+      return res
+        .status(200)
+        .json({ message: "No account for this email exists" });
+    }
+    //confirmed:true
+    if (user.confirmed) {
+      return res
+        .status(200)
+        .json({ message: "Account for this email alredy has been confirmed" });
+    }
+    console.log("user found", user);
+
+    //Create Token for Confirmed user
+    const payload = {
+      id: user._id,
+      email: user.email,
+      phone: user.phone,
+      password: user.password,
+      date: user.date
+    };
+    jwt.sign(payload, keys, { expiresIn: 36000 }, (err, token) => {
+      //Update Temp User to Verified user
+      const set = {
+        confirmed: true,
+        token: null
+      };
+      Auth.updateMany({
+        $set: set
+      })
+        .then(() => {
+          Auth.findOne({ email: user.email }).then(upUser => {
+            //Here Updated and Confirmed User
+            res.render("index", {
+              data: {
+                name: upUser.name,
+                email: upUser.email,
+                phone: upUser.phone
+              }
+            });
+
+            console.log("upUser", upUser);
+          });
+        })
+        .catch(err => {
+          console.log("cant update", err);
+        });
+    });
+  });
+});
+// // @desc /Login User
+// // @route POST /api/auth/login
+// // @access Public
+router.post("/login", (req, res) => {
+  const { errors, isValid } = validateLoginInput(req.body);
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+  Auth.findOne({ email: req.body.email }).then(user => {
+    if (!user) {
+      res.status(400).json({ message: "User with such email does not exist" });
+    }
+    //User Found
+    bcrypt.compare(req.body.password, user.password).then(match => {
+      if (!match) {
+        return res
+          .status(400)
+          .json({ password: "Password Email invalid pair" });
+      }
+      //Password matched, prepare token
+
+      console.log("user", user);
+
+      const payload = {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        password: user.password,
+        date: user.date
+      };
+      jwt.sign(payload, keys, { expiresIn: 36000 }, (err, token) => {
+        if (err) {
+          return res.status(400).json({ message: "something wrong" });
+        }
+        res.status(200).json({ token });
+      });
+    });
+  });
+});
 
 module.exports = router;
