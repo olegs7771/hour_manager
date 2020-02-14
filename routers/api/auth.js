@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/dev_keys").secredOrKey;
 const passport = require("passport");
-const Auth = require("../../models/Auth");
+const User = require("../../models/User");
 const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
 const sendMail = require("../../utils/MailTransporter");
@@ -26,7 +26,7 @@ router.post("/register", (req, res) => {
     return res.status(500).json(errors);
   }
   const email = req.body.email;
-  Auth.findOne({ email }).then(user => {
+  User.findOne({ email }).then(user => {
     if (user) {
       return res
         .status(400)
@@ -53,7 +53,7 @@ router.post("/register", (req, res) => {
             return res.status(400).json({ error: err });
           }
           // Store hash in  password DB.
-          const newUser = new Auth({
+          const newUser = new User({
             name: req.body.name,
             email: req.body.email,
             phone: req.body.phone,
@@ -64,7 +64,7 @@ router.post("/register", (req, res) => {
           newUser.save().then(user => {
             console.log("temp user created", user);
             let URLString;
-            URLString = `http://192.168.43.14:5000/api/auth/confirm_registration?id=${user.id}&token=${user.token}`;
+            URLString = `http://localhost:5000/api/auth/confirm_registration?id=${user.id}&token=${user.token}`;
             console.log("URLString", URLString);
 
             //create data object for mailer trasporter
@@ -107,7 +107,7 @@ router.get("/confirm_registration", (req, res) => {
   const token = req.query["token"];
   // console.log("uid", uid);
   // console.log("token", token);
-  Auth.findOne({ _id: uid }).then(user => {
+  User.findOne({ _id: uid }).then(user => {
     if (!user) {
       return res
         .status(200)
@@ -135,11 +135,11 @@ router.get("/confirm_registration", (req, res) => {
         confirmed: true,
         token: null
       };
-      Auth.updateMany({
+      User.updateMany({
         $set: set
       })
         .then(() => {
-          Auth.findOne({ email: user.email }).then(upUser => {
+          User.findOne({ email: user.email }).then(upUser => {
             //Here Updated and Confirmed User
             res.render("index", {
               data: {
@@ -159,14 +159,14 @@ router.get("/confirm_registration", (req, res) => {
   });
 });
 // // @desc /Login User
-// // @route POST /api/auth/login
+// // @route POST /api/User/login
 // // @access Public
 router.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
   if (!isValid) {
     return res.status(400).json(errors);
   }
-  Auth.findOne({ email: req.body.email }).then(user => {
+  User.findOne({ email: req.body.email }).then(user => {
     if (!user) {
       res.status(400).json({ message: "User with such email does not exist" });
     }

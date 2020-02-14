@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 
 //Create Schema
 
-const AuthSchema = new Schema({
+const UserSchema = new mongoose.Schema({
   name: {
     type: String
   },
@@ -32,4 +31,4 @@ const AuthSchema = new Schema({
   }
 });
 
-module.exports = Auth = mongoose.model("auth", AuthSchema);
+module.exports = User = mongoose.model("users", UserSchema);

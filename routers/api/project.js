@@ -19,7 +19,7 @@ router.post(
 
     //Create New Project
     const newProject = {
-      managerName: req.user.name,
+      // managerName: req.user.name,
       companyName: req.body.companyName,
       location: req.body.location,
       companyCoreFunc: req.body.companyCoreFunc

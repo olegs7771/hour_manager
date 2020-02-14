@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 
-const ProjectSchema = new Schema({
-  managerName: {
-    type: String
-  },
+const ProjectSchema = new mongoose.Schema({
+  user: { type: mongoose.ObjectId, ref: "users" },
   companyName: {
     type: String
   },
