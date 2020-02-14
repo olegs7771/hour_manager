@@ -9,6 +9,7 @@ const app = express();
 //Routes
 const auth = require("./routers/api/auth");
 const project = require("./routers/api/project");
+const employee = require("./routers/api/employee");
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -53,6 +54,7 @@ app.engine("html", require("ejs").renderFile);
 
 app.use("/api/auth", auth);
 app.use("/api/project", project);
+app.use("/api/employee", employee);
 
 const port = process.env.PORT || 5000;
 
