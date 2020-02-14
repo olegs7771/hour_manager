@@ -1,6 +1,6 @@
 const keys = require("./dev_keys").secredOrKey;
 const mongoose = require("mongoose");
-const User = mongoose.model("users");
+const User = mongoose.model("User");
 
 const JwtStrategy = require("passport-jwt").Strategy,
   ExtractJwt = require("passport-jwt").ExtractJwt;

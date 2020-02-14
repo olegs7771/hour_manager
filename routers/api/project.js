@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Project = require("../../models/Project");
+const User = require("../../models/User");
 const passport = require("passport");
 const validateProjectInput = require("../validation/project");
 
@@ -19,7 +20,7 @@ router.post(
 
     //Create New Project
     const newProject = {
-      // managerName: req.user.name,
+      user: req.user.id,
       companyName: req.body.companyName,
       location: req.body.location,
       companyCoreFunc: req.body.companyCoreFunc
@@ -30,6 +31,23 @@ router.post(
     });
   }
 );
+
+//Find project
+router.get("/getById", (req, res) => {
+  Project.findById(req.body.id)
+    .populate("user", ["name", "email"])
+    .then(project => {
+      if (!project) {
+        return res
+          .status(400)
+          .json({ error: "Project not found for this user" });
+      }
+      console.log("project", project);
+    })
+    .catch(err => {
+      console.log("project error :", err);
+    });
+});
 
 //Add New Employee to the Project
 

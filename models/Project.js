@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const ProjectSchema = new mongoose.Schema({
-  user: { type: mongoose.ObjectId, ref: "users" },
+const ProjectSchema = new Schema({
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  },
   companyName: {
     type: String
   },
@@ -13,22 +17,7 @@ const ProjectSchema = new mongoose.Schema({
   },
 
   //List of Employees
-  staff: [
-    {
-      employeeId: {
-        type: String
-      },
-      employeeName: {
-        type: String
-      },
-      function: {
-        type: String
-      },
-      startDate: {
-        type: String
-      }
-    }
-  ],
+  staff: [{ type: Schema.Types.ObjectId, ref: "Employee" }],
 
   date: {
     type: Date,
@@ -36,4 +25,4 @@ const ProjectSchema = new mongoose.Schema({
   }
 });
 
-module.exports = Project = mongoose.model("project", ProjectSchema);
+module.exports = Project = mongoose.model("Project", ProjectSchema);
