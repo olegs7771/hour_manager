@@ -17,7 +17,26 @@ const ProjectSchema = new Schema({
   },
 
   //List of Employees
-  staff: [{ type: Schema.Types.ObjectId, ref: "Employee" }],
+  staff: [
+    {
+      employeeID: {
+        type: String
+      },
+      employeeName: {
+        type: String
+      },
+      email: {
+        type: String
+      },
+      confirmed: {
+        type: Boolean
+      },
+      date: {
+        type: Date,
+        default: Date.now
+      }
+    }
+  ],
 
   date: {
     type: Date,

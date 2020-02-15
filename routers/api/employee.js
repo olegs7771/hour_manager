@@ -3,10 +3,7 @@ const router = express.Router();
 //Models
 const Employee = require("../../models/Employee");
 const Project = require("../../models/Project");
-
 const passport = require("passport");
-const jwt = require("jsonwebtoken");
-const keys = require("../../config/dev_keys").secredOrKey;
 const validateEmployeeInput = require("../validation/employee");
 
 //Create New Employee
@@ -25,16 +22,72 @@ router.post(
         //Find Employee
         Employee.findOne({ email: req.body.email })
           .then(employee => {
-            return console.log("employee found");
+            const { projectID, name, email, address, started, func } = req.body;
+
+            if (employee) {
+              return res
+                .status(400)
+                .json({ error: "Employee with such email exists." });
+            } else {
+              console.log("employee not found");
+              //Create new Employee
+              new Employee({
+                projectID,
+                name,
+                email,
+                address,
+                started,
+                func,
+                confirmed: false
+              })
+                .save()
+                .then(newEmployee => {
+                  //Send Email To Newly Created Employee
+
+                  console.log("newEmployee", newEmployee);
+                  //Update Project.stafF[]
+                  Project.findById(projectID).then(project => {
+                    if (project) {
+                      project.staff.unshift({
+                        _id: newEmployee._id,
+                        employeeName: newEmployee.name,
+                        employeeEmail: newEmployee.email,
+                        confirmed: false
+                      });
+                      project.save().then(upProject => {
+                        res.status(200).json(upProject.staff);
+                      });
+                    }
+                  });
+                });
+            }
           })
-          .catch(() => {
-            return console.log("employee not found");
+          .catch(err => {
+            return console.log("employee not found", err);
           });
       })
       .catch(() => {
         return res
           .status(400)
           .json({ error: "Can not find Project with given ID" });
+      });
+  }
+);
+//Delete Employee by ID
+router.post(
+  "/delete",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Employee.findById(req.body.id)
+      .then(employee => {
+        if (!employee) {
+          return res.status(400).json({ error: "No Employee with such ID" });
+        }
+        console.log("employee", employee);
+        employee.re;
+      })
+      .catch(err => {
+        console.log("err", err);
       });
   }
 );
