@@ -2,21 +2,36 @@ const mongoose = require("mongoose"),
   Schema = mongoose.Schema;
 
 const EmployeeSchema = new Schema({
+  projectID: {
+    type: String,
+    require: true
+  },
   name: {
-    type: String
+    type: String,
+    require: true
   },
   email: {
-    type: String
+    type: String,
+    require: true
+  },
+  address: {
+    type: String,
+    require: true
   },
   started: {
-    type: String
+    type: String,
+    require: true
   },
-  function: {
-    type: String
+  func: {
+    type: String,
+    require: true
   },
   date: {
     type: Date,
     default: Date.now
+  },
+  confirmed: {
+    type: Boolean
   }
 });
 

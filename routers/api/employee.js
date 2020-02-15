@@ -18,15 +18,23 @@ router.post(
     const { errors, isValid } = validateEmployeeInput(req.body);
     if (!isValid) return res.status(400).json(errors);
     //Passed Validation
-    new Employee({
-      name: req.body.name,
-      email: req.body.email,
-      started: req.body.started,
-      function: req.body.function
-    })
-      .save()
-      .then(employee => {
-        res.status(200).json(employee);
+    //Find Project
+    Project.findById(req.body.projectID)
+      .then(project => {
+        console.log("project found");
+        //Find Employee
+        Employee.findOne({ email: req.body.email })
+          .then(employee => {
+            return console.log("employee found");
+          })
+          .catch(() => {
+            return console.log("employee not found");
+          });
+      })
+      .catch(() => {
+        return res
+          .status(400)
+          .json({ error: "Can not find Project with given ID" });
       });
   }
 );

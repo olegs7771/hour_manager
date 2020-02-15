@@ -3,18 +3,21 @@ const isEmpty = require("./isEmpty");
 
 const validateEmployeeInput = data => {
   let errors = {};
-  //companyName Field
+  //projectID Field
+  if (isEmpty(data.projectID)) {
+    errors.projectID = "projectID can not be empty";
+  }
+  // //Name Field
   if (!validator.isLength(data.name, { min: 2, max: 12 })) {
     errors.name = "Name must contain between 2 and 12 characters";
   }
-  //email Field
+  // //email Field
   if (!validator.isEmail(data.email)) {
     errors.email = "Wrong Email Format";
   }
-  //function Field
-  if (!validator.isLength(data.function)) {
-    errors.function =
-      "Employee function must contain between 2 and 12 characters";
+  // //function Field
+  if (!validator.isLength(data.func)) {
+    errors.func = "Employee function must contain between 2 and 12 characters";
   }
   //started Field
   const reg = /^\d{2}\/\d{2}\/\d{4}$/;
