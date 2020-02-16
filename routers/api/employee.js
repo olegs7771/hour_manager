@@ -43,16 +43,33 @@ router.post(
               })
                 .save()
                 .then(newEmployee => {
+                  console.log("newEmployee", newEmployee);
+                  //Create url for new Employee activation
+                  const URL = `http://localhost:5000/api/employee/activate?id=${newEmployee._id}&
+                  projectID=${newEmployee.projectID}&email=${newEmployee.email}`;
+
                   //Send Email To Newly Created Employee
                   const data = {
                     type: "NEW_EMPLOYEE_ADDED",
-                    token: user.token,
-                    name: user.name,
-                    email: user.email,
-                    url: URLString
+                    projectID: newEmployee.projectID,
+                    companyName: project.companyName,
+                    projectName: project.projectName,
+                    employeeID: newEmployee._id,
+                    employeeName: newEmployee.name,
+                    employeeEmail: newEmployee.email,
+                    employeeFunc: newEmployee.func,
+                    employeeStartedJob: newEmployee.started,
+                    employeeDate: newEmployee.date,
+                    url: URL
                   };
+                  sendMail(data, cb => {
+                    if (cb.infoMessageid) {
+                      res.status(200).json({
+                        message: "The Message was send to new Employee's Email "
+                      });
+                    }
+                  });
 
-                  console.log("newEmployee", newEmployee);
                   //Update Project.stafF[]
                   Project.findById(projectID).then(project => {
                     if (project) {
@@ -116,5 +133,7 @@ router.post(
       });
   }
 );
+
+//Activation of New Employee from Mail Link
 
 module.exports = router;

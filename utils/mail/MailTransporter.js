@@ -12,10 +12,26 @@ const sendMail = (data, cb) => {
       case "REGISTER":
         html =
           "<!DOCTYPE html>" +
+          "<html><head><title>New employee welcome email</title>" +
+          "</head><body><div>" +
+          '<img src="http://evokebeautysalon1.herokuapp.com/main/img/logo.png" alt="" width="160">' +
+          `<h2>New employee welcome email</h2>` +
+          `<h3>Welcome to ${data.companyName}</h3>` +
+          `</br>` +
+          ` <p>Dear ${data.name} We are all really excited to welcome you to our team!.</p>` +
+          `<p>As agreed, your start date is ${data.employeeStartedJob}.</p>` +
+          `<p> At ${data.companyName} we use HourManager App for the  convenient and efficient workforce managment   </p>` +
+          `<p> In order to use HourManager App please follow <a href=${data.url}>this</a>  link ` +
+          "<p>See You Soon.</p>";
+        "</div></body></html>";
+        break;
+      case "NEW_EMPLOYEE_ADDED":
+        html =
+          "<!DOCTYPE html>" +
           "<html><head><title>Appointment</title>" +
           "</head><body><div>" +
           '<img src="http://evokebeautysalon1.herokuapp.com/main/img/logo.png" alt="" width="160">' +
-          ` <p>Dear ${data.name} Thank you for your registration on HourManager.</p>` +
+          ` <p>Dear ${employeeName.name} Thank you for your registration on HourManager.</p>` +
           `<p> To complete registration please <a href=${data.url}>click here</a> ` +
           "<p>See You Soon.</p>";
         "</div></body></html>";
