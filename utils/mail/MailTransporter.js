@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-const mailPass = require("../config/keys").mailPass;
+const mailPass = require("../../config/keys").mailPass;
 
 const sendMail = (data, cb) => {
   const main = async () => {

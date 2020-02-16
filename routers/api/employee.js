@@ -5,6 +5,7 @@ const Employee = require("../../models/Employee");
 const Project = require("../../models/Project");
 const passport = require("passport");
 const validateEmployeeInput = require("../validation/employee");
+const sendMail = require("../../utils/mail/MailTransporter");
 
 //Create New Employee
 //Private Route
@@ -43,6 +44,13 @@ router.post(
                 .save()
                 .then(newEmployee => {
                   //Send Email To Newly Created Employee
+                  const data = {
+                    type: "NEW_EMPLOYEE_ADDED",
+                    token: user.token,
+                    name: user.name,
+                    email: user.email,
+                    url: URLString
+                  };
 
                   console.log("newEmployee", newEmployee);
                   //Update Project.stafF[]

@@ -7,7 +7,7 @@ const passport = require("passport");
 const User = require("../../models/User");
 const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
-const sendMail = require("../../utils/MailTransporter");
+const sendMail = require("../../utils/mail/MailTransporter");
 
 router.get("/test", (req, res) => {
   // res.render("index", {
