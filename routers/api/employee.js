@@ -86,7 +86,22 @@ router.post(
           return res.status(400).json({ error: "No Employee with such ID" });
         }
         console.log("employee", employee);
-        employee.re;
+        employee.remove().then(removed => {
+          console.log("removed", removed);
+          //Remove removed employee from project.staff[]
+          Project.findById(removed.projectID).then(project => {
+            console.log("project", project);
+            const upStaff = project.staff.filter(item => {
+              return item.employeeEmail !== removed.email;
+            });
+            project.staff = upStaff;
+            project.save().then(upProject => {
+              res.status(200).json({
+                message: `User ${removed.name} which was registered by  email :${removed.email} was successfully deleted.`
+              });
+            });
+          });
+        });
       })
       .catch(err => {
         console.log("err", err);

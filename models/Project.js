@@ -34,7 +34,7 @@ const ProjectSchema = new Schema({
       employeeName: {
         type: String
       },
-      email: {
+      employeeEmail: {
         type: String
       },
       confirmed: {
