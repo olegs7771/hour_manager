@@ -52,6 +52,8 @@ router.post(
                         _id: newEmployee._id,
                         employeeName: newEmployee.name,
                         employeeEmail: newEmployee.email,
+                        companyName: project.companyName,
+                        projectName: project.projectName,
                         confirmed: false
                       });
                       project.save().then(upProject => {

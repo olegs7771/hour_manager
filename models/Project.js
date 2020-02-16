@@ -9,6 +9,9 @@ const ProjectSchema = new Schema({
   companyName: {
     type: String
   },
+  projectName: {
+    type: String
+  },
   location: {
     type: String
   },
@@ -20,6 +23,12 @@ const ProjectSchema = new Schema({
   staff: [
     {
       employeeID: {
+        type: String
+      },
+      companyName: {
+        type: String
+      },
+      projectName: {
         type: String
       },
       employeeName: {
