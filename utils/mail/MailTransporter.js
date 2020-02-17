@@ -21,8 +21,9 @@ const sendMail = (data, cb) => {
           ` <p>Dear ${data.employeeName} We are all really excited to welcome you to our team!.</p>` +
           `<p>As agreed, your start date is ${data.employeeStartedJob}.</p>` +
           `<p> At ${data.companyName} we use HourManager App for the  convenient and efficient workforce managment   </p>` +
-          `<p> In order to use HourManager App please follow <a href=${data.url}>this</a>  link ` +
-          "<p>See You Soon.</p>";
+          `<p> In order to use HourManager App please  <a href=${data.url}>activate</a>  your account ` +
+          `<p> After successful activation you will receive confirmation as well as further instructions.</p>`;
+        "<p>See You Soon.</p>";
         "</div></body></html>";
         break;
       case "REGISTER":
