@@ -141,7 +141,7 @@ router.get("/confirm_registration", (req, res) => {
         .then(() => {
           User.findOne({ email: user.email }).then(upUser => {
             //Here Updated and Confirmed User
-            res.render("index", {
+            res.render("confirm.ejs", {
               data: {
                 name: upUser.name,
                 email: upUser.email,

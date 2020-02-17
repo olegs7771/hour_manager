@@ -59,5 +59,5 @@ app.use("/api/employee", employee);
 const port = process.env.PORT || 5000;
 
 const server = app.listen(port, () => {
-  console.log(`Hour Manager listening on port  ${port}`);
+  console.log(`HourManager listening on port  ${port}`);
 });

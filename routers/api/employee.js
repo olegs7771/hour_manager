@@ -45,8 +45,7 @@ router.post(
                 .then(newEmployee => {
                   console.log("newEmployee", newEmployee);
                   //Create url for new Employee activation
-                  const URL = `http://localhost:5000/api/employee/activate?id=${newEmployee._id}&
-                  projectID=${newEmployee.projectID}&email=${newEmployee.email}`;
+                  const URL = `http://localhost:5000/api/employee/activate?id=${newEmployee._id}&projectID=${newEmployee.projectID}&email=${newEmployee.email}`;
 
                   //Send Email To Newly Created Employee
                   const data = {
@@ -82,7 +81,7 @@ router.post(
                         confirmed: false
                       });
                       project.save().then(upProject => {
-                        res.status(200).json(upProject.staff);
+                        console.log("upProject", upProject);
                       });
                     }
                   });
@@ -135,5 +134,51 @@ router.post(
 );
 
 //Activation of New Employee from Mail Link
+router.get("/activate", (req, res) => {
+  const employeeID = req.query["id"];
+  const employeeEmail = req.query["email"];
+  const projectID = req.query["projectID"];
+  //Confirm Employee =>  update employee.confirmed=true;
+  Employee.findById(employeeID).then(employee => {
+    console.log("employee", employee);
+    if (!employee) {
+      res
+        .status(400)
+        .json({ message: "No such employee. Please contact administrator" });
+    }
+    employee.confirmed = true;
+    employee.save().then(upEmployee => {
+      console.log("upEmployee", upEmployee);
+      //Update in Project.staff[] employee confirmed:true
+      Project.findById(projectID).then(project => {
+        //Find eployee in project.staff[]
+        const employeeToUpdate = project.staff.find(item => {
+          return item.employeeEmail === upEmployee.email;
+        });
+        console.log("employeeToUpdate", employeeToUpdate);
+        if (employeeToUpdate.confirmed === true) {
+          return res.status(200).json({
+            message: `The user ${employeeToUpdate.employeeName} already has been activated`
+          });
+        }
+        employeeToUpdate.confirmed = true;
+        project.save().then(upProject => {
+          res.render("employeeActivation.ejs", {
+            data: {
+              employeeName: employeeToUpdate.employeeName,
+              employeeEmail: employeeToUpdate.employeeEmail,
+              companyName: employeeToUpdate.companyName,
+              projectName: employeeToUpdate.projectName
+            }
+          });
+        });
+      });
+    });
+  });
+});
+
+router.get("/test", (req, res) => {
+  res.render("employeeActivation.ejs");
+});
 
 module.exports = router;
