@@ -56,8 +56,8 @@ router.post(
                     employeeID: newEmployee._id,
                     employeeName: newEmployee.name,
                     employeeEmail: newEmployee.email,
-                    employeeFunc: newEmployee.func,
-                    employeeStartedJob: newEmployee.started,
+                    func: newEmployee.func,
+                    started: newEmployee.started,
                     employeeDate: newEmployee.date,
                     url: URL
                   };
@@ -171,6 +171,23 @@ router.get("/activate", (req, res) => {
               projectName: employeeToUpdate.projectName
             }
           });
+          //Send Email to New Employee
+          const data = {
+            type: "ACTIVATION",
+            name: employeeToUpdate.employeeName,
+            email: employeeToUpdate.employeeEmail,
+            companyName: employeeToUpdate.companyName,
+            projectID: upEmployee.projectID,
+            id: upEmployee._id
+          };
+          sendMail(data, cb => {
+            if (cb.infoMessageid) {
+              res.status(200).json({
+                message:
+                  "New Employee received instruction after activation thier account "
+              });
+            }
+          });
         });
         //Send New Employee Email with a Link to download HourManager App
         //Data with creds for Regestring In App
@@ -180,10 +197,6 @@ router.get("/activate", (req, res) => {
       });
     });
   });
-});
-
-router.get("/test", (req, res) => {
-  res.render("employeeActivation.ejs");
 });
 
 module.exports = router;

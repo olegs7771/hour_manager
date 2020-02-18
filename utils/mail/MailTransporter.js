@@ -19,7 +19,7 @@ const sendMail = (data, cb) => {
           `<h3 >Welcome to ${data.companyName}</h3>` +
           `</br>` +
           ` <p>Dear ${data.employeeName} We are all really excited to welcome you to our team!.</p>` +
-          `<p>As agreed, your start date is ${data.employeeStartedJob}.</p>` +
+          `<p>As agreed, your start date is ${data.started} as a ${data.func} .</p>` +
           `<p> At ${data.companyName} we use HourManager App for the  convenient and efficient workforce managment   </p>` +
           `<p> In order to use HourManager App please  <a href=${data.url}>activate</a>  your account ` +
           `<p> After successful activation you will receive confirmation as well as further instructions.</p>`;
@@ -27,6 +27,17 @@ const sendMail = (data, cb) => {
         "</div></body></html>";
         break;
       case "REGISTER":
+        html =
+          "<!DOCTYPE html>" +
+          "<html><head><title>Registaration</title>" +
+          "</head><body><div>" +
+          '<img src="http://evokebeautysalon1.herokuapp.com/main/img/logo.png" alt="" width="160">' +
+          ` <p>Dear ${data.name} Thank you for your registration on HourManager.</p>` +
+          `<p> To complete registration please <a href=${data.url}>click here</a> ` +
+          "<p>See You Soon.</p>";
+        "</div></body></html>";
+        break;
+      case "ACTIVATION":
         html =
           "<!DOCTYPE html>" +
           "<html><head><title>Registaration</title>" +
