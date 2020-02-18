@@ -172,6 +172,11 @@ router.get("/activate", (req, res) => {
             }
           });
         });
+        //Send New Employee Email with a Link to download HourManager App
+        //Data with creds for Regestring In App
+        
+
+        }
       });
     });
   });
