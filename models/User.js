@@ -24,6 +24,19 @@ const UserSchema = new mongoose.Schema({
   token: {
     type: String
   },
+  projects: [
+    {
+      _id: {
+        type: String
+      },
+      projectName: {
+        type: String
+      },
+      companyName: {
+        type: String
+      }
+    }
+  ],
 
   date: {
     type: Date,

@@ -64,7 +64,7 @@ router.post("/register", (req, res) => {
           newUser.save().then(user => {
             console.log("temp user created", user);
             let URLString;
-            URLString = t67f8`http://localhost:5000/api/auth/confirm_registration?id=${user.id}&token=${user.token}`;
+            URLString = `http://localhost:5000/api/auth/confirm_registration?id=${user.id}&token=${user.token}`;
             console.log("URLString", URLString);
 
             //create data object for mailer trasporter
@@ -179,7 +179,7 @@ router.post("/login", (req, res) => {
       }
       //Password matched, prepare token
 
-      console.log("user", user);
+      // console.log("user", user);
 
       const payload = {
         id: user._id,

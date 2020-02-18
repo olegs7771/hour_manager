@@ -19,6 +19,9 @@ router.post(
     //Find Project
     Project.findById(req.body.projectID)
       .then(project => {
+        if (!project) {
+          return res.status(200).json({ message: "project not exists" });
+        }
         console.log("project found");
         //Find Employee
         Employee.findOne({ email: req.body.email })
@@ -46,25 +49,27 @@ router.post(
                   console.log("newEmployee", newEmployee);
                   //Create url for new Employee activation
                   const URL = `http://localhost:5000/api/employee/activate?id=${newEmployee._id}&projectID=${newEmployee.projectID}&email=${newEmployee.email}`;
+                  console.log("project", project);
 
                   //Send Email To Newly Created Employee
                   const data = {
                     type: "NEW_EMPLOYEE_ADDED",
                     projectID: newEmployee.projectID,
-                    companyName: project.companyName,
-                    projectName: project.projectName,
                     employeeID: newEmployee._id,
                     employeeName: newEmployee.name,
                     employeeEmail: newEmployee.email,
                     func: newEmployee.func,
                     started: newEmployee.started,
                     employeeDate: newEmployee.date,
+                    companyName: project.companyName,
+                    projectName: project.projectName,
                     url: URL
                   };
                   sendMail(data, cb => {
                     if (cb.infoMessageid) {
                       res.status(200).json({
-                        message: "The Message was send to new Employee's Email "
+                        message:
+                          "The new Employee was added to your project. Message was send to new Employee's Email "
                       });
                     }
                   });
@@ -138,7 +143,7 @@ router.get("/activate", (req, res) => {
   const employeeID = req.query["id"];
   const employeeEmail = req.query["email"];
   const projectID = req.query["projectID"];
-  //Confirm Employee =>  update employee.confirmed=true;
+  // //Confirm Employee =>  update employee.confirmed=true;
   Employee.findById(employeeID).then(employee => {
     console.log("employee", employee);
     if (!employee) {
@@ -149,13 +154,13 @@ router.get("/activate", (req, res) => {
     employee.confirmed = true;
     employee.save().then(upEmployee => {
       console.log("upEmployee", upEmployee);
-      //Update in Project.staff[] employee confirmed:true
+      //     //Update in Project.staff[] employee confirmed:true
       Project.findById(projectID).then(project => {
-        //Find eployee in project.staff[]
+        //       //Find eployee in project.staff[]
         const employeeToUpdate = project.staff.find(item => {
           return item.employeeEmail === upEmployee.email;
         });
-        console.log("employeeToUpdate", employeeToUpdate);
+        //       console.log("employeeToUpdate", employeeToUpdate);
         if (employeeToUpdate.confirmed === true) {
           return res.status(200).json({
             message: `The user ${employeeToUpdate.employeeName} already has been activated`
@@ -171,6 +176,7 @@ router.get("/activate", (req, res) => {
               projectName: employeeToUpdate.projectName
             }
           });
+
           //Send Email to New Employee
           const data = {
             type: "ACTIVATION",
@@ -178,22 +184,17 @@ router.get("/activate", (req, res) => {
             email: employeeToUpdate.employeeEmail,
             companyName: employeeToUpdate.companyName,
             projectID: upEmployee.projectID,
-            id: upEmployee._id
+            id: upEmployee._id,
+            code: "some code"
           };
           sendMail(data, cb => {
             if (cb.infoMessageid) {
-              res.status(200).json({
-                message:
-                  "New Employee received instruction after activation thier account "
-              });
+              console.log(
+                "New Employee received instruction after activation thier account"
+              );
             }
           });
         });
-        //Send New Employee Email with a Link to download HourManager App
-        //Data with creds for Regestring In App
-        
-
-        }
       });
     });
   });

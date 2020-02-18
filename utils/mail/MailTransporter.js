@@ -40,11 +40,12 @@ const sendMail = (data, cb) => {
       case "ACTIVATION":
         html =
           "<!DOCTYPE html>" +
-          "<html><head><title>Registaration</title>" +
+          "<html><head><title>Activation</title>" +
           "</head><body><div>" +
           '<img src="http://evokebeautysalon1.herokuapp.com/main/img/logo.png" alt="" width="160">' +
-          ` <p>Dear ${data.name} Thank you for your registration on HourManager.</p>` +
-          `<p> To complete registration please <a href=${data.url}>click here</a> ` +
+          ` <p>Dear ${data.name} The HourManager App has been activated.</p>` +
+          `<p> In order to log in please use this secret code :[data.code] </p>` +
+          `<p> To complete registration please <a href=[$data.url]>click here</a> ` +
           "<p>See You Soon.</p>";
         "</div></body></html>";
         break;
