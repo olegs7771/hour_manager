@@ -126,7 +126,7 @@ router.post(
             project.staff = upStaff;
             project.save().then(upProject => {
               res.status(200).json({
-                message: `User ${removed.name} which was registered by  email :${removed.email} was successfully deleted.`
+                message: ` An Employee ${removed.name} which was registered by  email :${removed.email} was successfully deleted.`
               });
             });
           });

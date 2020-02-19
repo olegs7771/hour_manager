@@ -100,7 +100,7 @@ router.get("/getById", (req, res) => {
     });
 });
 
-//Delete project
+//Delete project + employess + remove project from user.projects[]
 router.post(
   "/delete",
   passport.authenticate("jwt", { session: false }),
@@ -109,26 +109,58 @@ router.post(
       if (!project) {
         return res.status(400).json({ error: "Project not found" });
       }
-      project.remove().then(() => {
+      console.log("project", project);
+
+      project.remove().then(projectRemoved => {
         //Delete project in User.projects[];
         User.findById(project.user).then(user => {
           const projectsLeft = user.projects.filter(item => {
-            return item.projectName !== project.projectName;
+            return item.projectName !== projectRemoved.projectName;
           });
           user.projects = projectsLeft;
           user.save().then(upUser => {
+            console.log("upUser", upUser);
+
             res.status(200).json(upUser);
           });
         });
         //Delete All Employees within this Project
-        Employee.find().then(employees => {
-          const employeesLeft = employees.filter(item => {
-            return item.projectID !== project._id;
+        Employee.find()
+          .populate("projectID", ["companyName", "projectName"])
+          .then(employees => {
+            console.log("employees ", employees);
+            employees.map(employee => {
+              Employee.findOneAndDelete({
+                projectID: project._id
+              }).then(employeeDeleted => {
+                console.log("employeeDeleted", employeeDeleted);
+                res
+                  .status(200)
+                  .json({ message: "Project was deleted successfully" });
+              });
+            });
           });
-          employeesLeft.save().then(() => {
-            console.log("users been deleted");
-          });
-        });
+      });
+    });
+  }
+);
+
+//Update Project
+router.post(
+  "/update",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Project.findOne({ user: req.user.id }).then(project => {
+      if (!project) {
+        return res.status(400).json({ error: "No such a project" });
+      }
+      console.log("project", project);
+      project.companyName = req.body.companyName;
+      project.location = req.body.location;
+      project.companyCoreFunc = req.body.companyCoreFunc;
+      project.save().then(upProject => {
+        console.log("upProject", upProject);
+        res.status(200).json({ message: "Project was updated" });
       });
     });
   }

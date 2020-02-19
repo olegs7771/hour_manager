@@ -3,8 +3,8 @@ const mongoose = require("mongoose"),
 
 const EmployeeSchema = new Schema({
   projectID: {
-    type: String,
-    require: true
+    type: Schema.Types.ObjectId,
+    ref: "Project"
   },
   name: {
     type: String,
