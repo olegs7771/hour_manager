@@ -30,7 +30,7 @@ router.post("/register", (req, res) => {
     if (user) {
       return res
         .status(400)
-        .json({ message: "User with such email already exists." });
+        .json({ error: "User with such email already exists." });
     }
     //user not exists , we can create new one
     //Create Token to send to newTempUser email .expiration in 12h

@@ -1,49 +1,40 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import TextFormGroup from "../textForms/TextFormGroup";
 
 export class Register extends Component {
-  static propTypes = {
-    prop: PropTypes
+  state = {
+    form: {
+      name: "",
+      email: "",
+      phone: "",
+      password: ""
+    }
   };
 
+  _onChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
   render() {
     return (
-      <form>
-        <div className="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input
-            type="email"
-            className="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
+      <div className="div my-2">
+        <form>
+          <TextFormGroup
+            label="Name"
+            placeholder="John Brown"
+            onChange={this._onChange}
+            value={this.state.form.name}
+            name="name"
           />
-          <small id="emailHelp" className="form-text text-muted">
-            We'll never share your email with anyone else.
-          </small>
-        </div>
-        <div className="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input
-            type="password"
-            className="form-control"
-            id="exampleInputPassword1"
-          />
-        </div>
-        <div className="form-group form-check">
-          <input
-            type="checkbox"
-            className="form-check-input"
-            id="exampleCheck1"
-          />
-          <label className="form-check-label" for="exampleCheck1">
-            Check me out
-          </label>
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
-      </form>
+
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+        </form>
+      </div>
     );
   }
 }

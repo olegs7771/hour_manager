@@ -14,7 +14,7 @@ const validateRegisterInput = data => {
     errors.email = "Wrong email format";
   }
   //Phone
-  if (!validator.isMobilePhone(data.phone)) {
+  if (!validator.isMobilePhone(data.phone, ["he-IL"])) {
     errors.phone = "phone wrong format.";
   }
   // Password
