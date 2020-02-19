@@ -57,31 +57,14 @@ export class Header extends Component {
                 </a>
               </div>
             </li>
-            <li className="nav-item">
-              <a
-                className="nav-link disabled"
-                href="#"
-                tabIndex="-1"
-                aria-disabled="true"
-              >
-                Disabled
+          </ul>
+          <ul className="navbar-nav ml-auto">
+            <li className="nav-item active">
+              <a className="nav-link" href="/register">
+                SignIn
               </a>
             </li>
           </ul>
-          <form className="form-inline my-2 my-lg-0">
-            <input
-              className="form-control mr-sm-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button
-              className="btn btn-outline-success my-2 my-sm-0"
-              type="submit"
-            >
-              Signin
-            </button>
-          </form>
         </div>
       </nav>
     );
