@@ -9,6 +9,8 @@ import Header from "../src/components/layout/header/Header";
 
 import configureStore from "./store/configureStore/configureStore";
 
+import "./App.css";
+
 const store = configureStore();
 class App extends Component {
   render() {

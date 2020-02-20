@@ -60,8 +60,13 @@ export class Header extends Component {
           </ul>
           <ul className="navbar-nav ml-auto">
             <li className="nav-item active">
-              <a className="nav-link" href="/register">
+              <a className="nav-link" href="/login">
                 SignIn
+              </a>
+            </li>
+            <li className="nav-item active">
+              <a className="nav-link" href="/register">
+                SingUp
               </a>
             </li>
           </ul>

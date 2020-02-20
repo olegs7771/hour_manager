@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import TextFormGroup from "../textForms/TextFormGroup";
 import { registerUser } from "../../store/actions/authAction";
 import { DotLoaderSpinner } from "../spinners/DotLoaderSpinner";
+import "../../App.css";
 
 export class Register extends Component {
   state = {
