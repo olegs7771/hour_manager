@@ -6,8 +6,8 @@ const validateRegisterInput = data => {
 
   let errors = {};
   //Name Field
-  if (!validator.isLength(data.name, { min: 2, max: 12 })) {
-    errors.name = "Name must contain between 2 and 12 characters";
+  if (!validator.isLength(data.name.trim(), { min: 2, max: 30 })) {
+    errors.name = "Name must contain between 2 and 30 characters";
   }
   //Email Field
   if (!validator.isEmail(data.email)) {
@@ -17,9 +17,9 @@ const validateRegisterInput = data => {
   if (!validator.isMobilePhone(data.phone, ["he-IL"])) {
     errors.phone = "phone wrong format.";
   }
-  // Password
-  if (!validator.isAlphanumeric(data.password.toUpperCase())) {
-    errors.password = "Password must contain numbers and letters";
+
+  if (data.password.length > 10 || data.password.length < 6) {
+    errors.password = "Password must contain min 6 and max 10 chars";
   }
 
   //check for empty fields

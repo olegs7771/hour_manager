@@ -2,35 +2,93 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import TextFormGroup from "../textForms/TextFormGroup";
+import { registerUser } from "../../store/actions/authAction";
 
 export class Register extends Component {
   state = {
-    form: {
-      name: "",
-      email: "",
-      phone: "",
-      password: ""
-    }
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    errors: {},
+    messages: {},
+    submitDisabled: true
   };
 
   _onChange = e => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value.toLowerCase()
     });
+    const { uname, email, phone, password } = this.state;
+    if (uname !== "" && email !== "" && phone !== "" && password !== "") {
+      this.setState({ submitDisabled: false });
+    }
+    this.setState({ errors: {} });
   };
+
+  _onSubmit = async e => {
+    e.preventDefault();
+    const { name, email, phone, password } = this.state;
+    const data = {
+      name,
+      email,
+      phone,
+      password
+    };
+    await this.props.registerUser(data);
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.errors !== this.props.errors) {
+      this.setState({ errors: this.props.errors });
+    }
+  }
+
   render() {
     return (
       <div className="div my-2">
-        <form>
+        <form onSubmit={this._onSubmit}>
           <TextFormGroup
             label="Name"
             placeholder="John Brown"
             onChange={this._onChange}
-            value={this.state.form.name}
+            value={this.state.name}
             name="name"
+            error={this.state.errors.name}
+          />
+          <TextFormGroup
+            label="Email"
+            placeholder="brown@exemple.com"
+            onChange={this._onChange}
+            value={this.state.email}
+            name="email"
+            error={this.state.errors.email}
+            type="email"
+          />
+          <TextFormGroup
+            label="Phone"
+            placeholder="0501234455"
+            onChange={this._onChange}
+            value={this.state.phone}
+            name="phone"
+            error={this.state.errors.phone}
+            type="phone"
+          />
+          <TextFormGroup
+            label="Password"
+            placeholder="e.g. 6-10 chars"
+            onChange={this._onChange}
+            value={this.state.password}
+            name="password"
+            error={this.state.errors.password}
+            type="password"
           />
 
-          <button type="submit" className="btn btn-primary">
+          <button
+            type="submit"
+            disabled={this.state.submitDisabled}
+            className="btn btn-outline-secondary  "
+          >
             Submit
           </button>
         </form>
@@ -39,8 +97,19 @@ export class Register extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors.errors,
+  messages: state.messages.messages
+});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { registerUser };
+
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+  // messages: PropTypes.object.isRequired
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);
