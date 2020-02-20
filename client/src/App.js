@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 
 //Auth
 import Register from "../src/components/auth/Register";
+import Login from "../src/components/auth/Login";
 //Layout
 import Header from "../src/components/layout/header/Header";
 
@@ -21,6 +22,7 @@ class App extends Component {
             <Header />
             <Switch>
               <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
             </Switch>
           </div>
         </Router>

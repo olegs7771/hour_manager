@@ -22,8 +22,8 @@ export class Register extends Component {
     this.setState({
       [e.target.name]: e.target.value.toLowerCase()
     });
-    const { uname, email, phone, password } = this.state;
-    if (uname !== "" && email !== "" && phone !== "" && password !== "") {
+    const { name, email, phone, password } = this.state;
+    if (name !== "" && email !== "" && phone !== "" && password !== "") {
       this.setState({ submitDisabled: false });
     }
     this.setState({ errors: {} });

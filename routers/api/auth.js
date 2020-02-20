@@ -163,13 +163,17 @@ router.get("/confirm_registration", (req, res) => {
 // // @route POST /api/User/login
 // // @access Public
 router.post("/login", (req, res) => {
+  console.log("req.body", req.body);
+
   const { errors, isValid } = validateLoginInput(req.body);
   if (!isValid) {
     return res.status(400).json(errors);
   }
   User.findOne({ email: req.body.email }).then(user => {
     if (!user) {
-      res.status(400).json({ message: "User with such email does not exist" });
+      return res
+        .status(400)
+        .json({ error: "User with such email does not exist" });
     }
     //User Found
     bcrypt.compare(req.body.password, user.password).then(match => {
