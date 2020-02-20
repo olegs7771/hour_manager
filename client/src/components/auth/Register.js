@@ -13,7 +13,8 @@ export class Register extends Component {
     password: "",
     errors: {},
     messages: {},
-    submitDisabled: true
+    submitDisabled: true,
+    loading: false
   };
 
   _onChange = e => {
@@ -29,6 +30,8 @@ export class Register extends Component {
 
   _onSubmit = async e => {
     e.preventDefault();
+
+    this.setState({ loading: true });
     const { name, email, phone, password } = this.state;
     const data = {
       name,
@@ -41,10 +44,10 @@ export class Register extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.errors !== this.props.errors) {
-      this.setState({ errors: this.props.errors });
+      this.setState({ errors: this.props.errors, loading: false });
     }
     if (prevProps.messages !== this.props.messages) {
-      this.setState({ messages: this.props.messages });
+      this.setState({ messages: this.props.messages, loading: false });
     }
   }
 
@@ -95,7 +98,7 @@ export class Register extends Component {
           {this.state.errors.error ? (
             <div className="text-danger mb-3">{this.state.errors.error}</div>
           ) : null}
-          <DotLoaderSpinner />
+          <DotLoaderSpinner loading={this.state.loading} />
 
           <button
             type="submit"

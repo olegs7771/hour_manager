@@ -11,9 +11,6 @@ const override = css`
 export class DotLoaderSpinner extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      loading: true
-    };
   }
 
   render() {
