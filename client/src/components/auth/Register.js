@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import TextFormGroup from "../textForms/TextFormGroup";
 import { registerUser } from "../../store/actions/authAction";
+import { DotLoaderSpinner } from "../spinners/DotLoaderSpinner";
 
 export class Register extends Component {
   state = {
@@ -41,6 +42,9 @@ export class Register extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.errors !== this.props.errors) {
       this.setState({ errors: this.props.errors });
+    }
+    if (prevProps.messages !== this.props.messages) {
+      this.setState({ messages: this.props.messages });
     }
   }
 
@@ -83,6 +87,15 @@ export class Register extends Component {
             error={this.state.errors.password}
             type="password"
           />
+          {this.state.messages.message ? (
+            <div className="text-success mb-3">
+              {this.state.messages.message}
+            </div>
+          ) : null}
+          {this.state.errors.error ? (
+            <div className="text-danger mb-3">{this.state.errors.error}</div>
+          ) : null}
+          <DotLoaderSpinner />
 
           <button
             type="submit"
@@ -108,8 +121,8 @@ const mapDispatchToProps = { registerUser };
 Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
-  // messages: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  messages: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);
