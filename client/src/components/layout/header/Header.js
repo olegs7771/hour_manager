@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { clearOutUser } from "../../../store/actions/authAction";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 export class Header extends Component {
   state = {
     isAuthenticated: false
@@ -25,6 +26,7 @@ export class Header extends Component {
   _logOut = () => {
     localStorage.removeItem("jwtToken");
     this.props.clearOutUser();
+    this.props.history.push("/login");
   };
 
   render() {
@@ -91,6 +93,13 @@ export class Header extends Component {
                 </a>
               </li>
               <li className="nav-item active">
+                <a className="nav-link" href="/project">
+                  <span className="text-success font-weight-normal">
+                    {this.props.auth.user.name}
+                  </span>
+                </a>
+              </li>
+              <li className="nav-item active">
                 <button
                   className="btn btn-outline-secondary"
                   onClick={this._logOut}
@@ -131,4 +140,4 @@ Header.propTypes = {
   auth: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));

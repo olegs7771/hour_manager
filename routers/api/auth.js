@@ -182,7 +182,7 @@ router.post("/login", (req, res) => {
           .status(400)
           .json({ password: "Password Email invalid pair" });
       }
-      //Password matched, prepare token
+      //Password matched, prepare token 2h exp time
 
       // console.log("user", user);
 
@@ -194,11 +194,11 @@ router.post("/login", (req, res) => {
         password: user.password,
         date: user.date
       };
-      jwt.sign(payload, keys, { expiresIn: 36000 }, (err, token) => {
+      jwt.sign(payload, keys, { expiresIn: 7200 }, (err, token) => {
         if (err) {
           return res.status(400).json({ message: "something wrong" });
         }
-        res.status(200).json({ token });
+        res.status(200).json({ token: `bearer ${token}` });
       });
     });
   });

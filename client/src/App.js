@@ -41,16 +41,23 @@ if (localStorage.jwtToken) {
 
   //check for expiration token
   const currentTime = Date.now() / 1000;
+  // console.log("date now", currentTime);
+  // console.log("decoded.exp", decoded.exp);
+  // console.log(currentTime - decoded.exp);
+
   if (decoded.exp < currentTime) {
+    // console.log("clear user");
+
     //Logout User
     store.dispatch(clearOutUser());
+    localStorage.removeItem("jwtToken");
   }
 }
 
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
 
-const PrivateRoute = ({ children, ...rest }) => {
+export const PrivateRoute = ({ children, ...rest }) => {
   return (
     <Route
       {...rest}

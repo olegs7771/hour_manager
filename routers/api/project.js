@@ -84,21 +84,23 @@ router.post(
 );
 
 //Find project
-router.get("/getById", (req, res) => {
-  Project.findById(req.body.id)
-    .populate("user", ["name", "email"])
-    .then(project => {
-      if (!project) {
-        return res
-          .status(400)
-          .json({ error: "Project not found for this user" });
-      }
-      console.log("project", project);
-    })
-    .catch(err => {
-      console.log("project error :", err);
-    });
-});
+router.get(
+  "/fetch",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Project.findById(req.user.id)
+      .populate("user", ["name", "email"])
+      .then(project => {
+        if (!project) {
+          return res.status(200).json({ project });
+        }
+        console.log("project", project);
+      })
+      .catch(err => {
+        console.log("project error :", err);
+      });
+  }
+);
 
 //Delete project + employess + remove project from user.projects[]
 router.post(

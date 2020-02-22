@@ -55,6 +55,7 @@ export class Login extends Component {
   render() {
     return (
       <div className="div my-2">
+        <div className="my3 text-center h3">SignIn</div>
         <form onSubmit={this._onSubmit}>
           <TextFormGroup
             label="Email"

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 export class Home extends Component {
   render() {
     return (
       <div>
-        <h2>This is Home Unrotected</h2>
+        <h2>This is Home Unprotected</h2>
       </div>
     );
   }
