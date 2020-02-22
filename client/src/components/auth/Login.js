@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+
 import { loginUser } from "../../store/actions/authAction";
 import TextFormGroup from "../textForms/TextFormGroup";
 import { DotLoaderSpinner } from "../spinners/DotLoaderSpinner";
@@ -35,7 +36,7 @@ export class Login extends Component {
       email,
       password
     };
-    await this.props.loginUser(data);
+    await this.props.loginUser(data, this.props.history);
   };
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.errors !== this.props.errors) {
@@ -43,6 +44,11 @@ export class Login extends Component {
     }
     if (prevProps.messages !== this.props.messages) {
       this.setState({ messages: this.props.messages, loading: false });
+    }
+    if (prevProps.auth !== this.props.auth) {
+      if (this.props.auth.isAuthenticated) {
+        this.setState({ loading: false });
+      }
     }
   }
 
@@ -107,4 +113,5 @@ Login.propTypes = {
   messages: PropTypes.object.isRequired
 };
 
+// export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -61,3 +61,18 @@ const port = process.env.PORT || 5000;
 const server = app.listen(port, () => {
   console.log(`HourManager listening on port  ${port}`);
 });
+
+// const mainTime = () => {
+//   return new Promise(resolve => {
+//     setTimeout(() => {
+//       resolve("mainTime");
+//     }, 5000);
+//   });
+// };
+
+// const callTime = async () => {
+//   console.log("waiting..");
+//   const result = await mainTime();
+//   console.log(result);
+// };
+// callTime();
