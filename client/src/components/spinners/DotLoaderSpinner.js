@@ -9,10 +9,6 @@ const override = css`
 `;
 
 export class DotLoaderSpinner extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className="sweet-loading">

@@ -1,7 +1,32 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
+import { clearOutUser } from "../../../store/actions/authAction";
+import PropTypes from "prop-types";
 export class Header extends Component {
+  state = {
+    isAuthenticated: false
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.auth !== this.props.auth) {
+      if (!this.props.auth.isAuthenticated) {
+        this.setState({ isAuthenticated: false });
+      } else {
+        this.setState({ isAuthenticated: true });
+      }
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.setState({ isAuthenticated: true });
+    }
+  }
+  _logOut = () => {
+    localStorage.removeItem("jwtToken");
+    this.props.clearOutUser();
+  };
+
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -58,26 +83,52 @@ export class Header extends Component {
               </div>
             </li>
           </ul>
-          <ul className="navbar-nav ml-auto">
-            <li className="nav-item active">
-              <a className="nav-link" href="/login">
-                SignIn
-              </a>
-            </li>
-            <li className="nav-item active">
-              <a className="nav-link" href="/register">
-                SingUp
-              </a>
-            </li>
-          </ul>
+          {this.state.isAuthenticated ? (
+            <ul className="navbar-nav ml-auto">
+              <li className="nav-item active">
+                <a className="nav-link" href="/project">
+                  Projects
+                </a>
+              </li>
+              <li className="nav-item active">
+                <button
+                  className="btn btn-outline-secondary"
+                  onClick={this._logOut}
+                >
+                  SingOut
+                </button>
+              </li>
+            </ul>
+          ) : (
+            <ul className="navbar-nav ml-auto">
+              <li className="nav-item active">
+                <a className="nav-link" href="/login">
+                  SignIn
+                </a>
+              </li>
+              <li className="nav-item active">
+                <a className="nav-link" href="/register">
+                  SingUp
+                </a>
+              </li>
+            </ul>
+          )}
         </div>
       </nav>
     );
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  clearOutUser
+};
+
+Header.propTypes = {
+  auth: PropTypes.object.isRequired
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

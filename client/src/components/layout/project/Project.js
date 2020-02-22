@@ -2,13 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-export class Home extends Component {
+export class Project extends Component {
   render() {
-    return (
-      <div>
-        <h2>This is Home Unrotected</h2>
-      </div>
-    );
+    return <div>Projects Protected</div>;
   }
 }
 
@@ -16,4 +12,4 @@ const mapStateToProps = state => ({});
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Project);

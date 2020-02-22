@@ -1,8 +1,4 @@
-import {
-  REGISTER_USER,
-  SET_CURRENT_USER,
-  CLEAR_OUT_USER
-} from "../actions/types";
+import { SET_CURRENT_USER, CLEAR_OUT_USER } from "../actions/types";
 const initialState = {
   isAuthenticated: false,
   user: null

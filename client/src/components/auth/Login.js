@@ -20,7 +20,7 @@ export class Login extends Component {
     this.setState({
       [e.target.name]: e.target.value.toLowerCase()
     });
-    const { name, email, password } = this.state;
+    const { email, password } = this.state;
     if (email !== "" && password !== "") {
       this.setState({ submitDisabled: false });
     }

@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
 import { Provider } from "react-redux";
 import setAuthToken from "./utils/setAuthToken";
 
@@ -9,6 +14,9 @@ import Login from "../src/components/auth/Login";
 //Layout
 import Header from "../src/components/layout/header/Header";
 import Home from "../src/components/layout/main/Home";
+//Project
+import Project from "../src/components/layout/project/Project";
+
 import configureStore from "./store/configureStore/configureStore";
 import jwt_decode from "jwt-decode";
 import { setCurrentUser, clearOutUser } from "./store/actions/authAction";
@@ -39,6 +47,29 @@ if (localStorage.jwtToken) {
   }
 }
 
+// A wrapper for <Route> that redirects to the login
+// screen if you're not yet authenticated.
+
+const PrivateRoute = ({ children, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        localStorage.jwtToken ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: location }
+            }}
+          />
+        )
+      }
+    />
+  );
+};
+
 class App extends Component {
   render() {
     return (
@@ -50,6 +81,10 @@ class App extends Component {
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/" component={Home} />
+
+              <PrivateRoute path="/project">
+                <Project />
+              </PrivateRoute>
             </Switch>
           </div>
         </Router>
