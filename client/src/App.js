@@ -16,6 +16,7 @@ import Header from "../src/components/layout/header/Header";
 import Home from "../src/components/layout/main/Home";
 //Project
 import Project from "../src/components/layout/project/Project";
+import ProjectCreate from "../src/components/layout/project/ProjectCreate";
 
 import configureStore from "./store/configureStore/configureStore";
 import jwt_decode from "jwt-decode";
@@ -51,31 +52,13 @@ if (localStorage.jwtToken) {
     //Logout User
     store.dispatch(clearOutUser());
     localStorage.removeItem("jwtToken");
+    //Redirect to Home
   }
 }
+console.log("location", window.location);
 
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
-
-export const PrivateRoute = ({ children, ...rest }) => {
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        localStorage.jwtToken ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location }
-            }}
-          />
-        )
-      }
-    />
-  );
-};
 
 class App extends Component {
   render() {
@@ -85,13 +68,24 @@ class App extends Component {
           <div className="container">
             <Header />
             <Switch>
+              <Route exact path="/project">
+                {!localStorage.jwtToken ? (
+                  <Redirect to="/login" />
+                ) : (
+                  <Project />
+                )}
+              </Route>
+              <Route exact path="/create_project">
+                {!localStorage.jwtToken ? (
+                  <Redirect to="/login" />
+                ) : (
+                  <ProjectCreate />
+                )}
+              </Route>
+
+              <Route exact path="/" component={Home} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
-              <Route exact path="/" component={Home} />
-
-              <PrivateRoute path="/project">
-                <Project />
-              </PrivateRoute>
             </Switch>
           </div>
         </Router>

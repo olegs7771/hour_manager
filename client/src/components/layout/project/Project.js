@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getProjects } from "../../../store/actions/projectAction";
 import { isEmpty } from "../../../utils/isEmpty";
+import { withRouter, Link } from "react-router-dom";
 
 export class Project extends Component {
   state = {
@@ -13,6 +14,9 @@ export class Project extends Component {
     //Fetch Projects
     this.props.getProjects();
   }
+  _createProject = () => {
+    this.props.history.push("/create_project");
+  };
 
   render() {
     if (isEmpty(this.state.projects)) {
@@ -75,4 +79,7 @@ Project.propTypes = {
   auth: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Project);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Project));

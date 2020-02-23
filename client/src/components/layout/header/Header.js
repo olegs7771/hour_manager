@@ -5,7 +5,8 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 export class Header extends Component {
   state = {
-    isAuthenticated: false
+    isAuthenticated: false,
+    name: ""
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -13,7 +14,10 @@ export class Header extends Component {
       if (!this.props.auth.isAuthenticated) {
         this.setState({ isAuthenticated: false });
       } else {
-        this.setState({ isAuthenticated: true });
+        this.setState({
+          isAuthenticated: true,
+          name: this.props.auth.user.name
+        });
       }
     }
   }
@@ -32,7 +36,7 @@ export class Header extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <a className="navbar-brand" href="/home">
+        <a className="navbar-brand" href="/">
           HourManager
         </a>
         <button
@@ -50,7 +54,7 @@ export class Header extends Component {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item active">
-              <a className="nav-link" href="/home">
+              <a className="nav-link" href="/">
                 Home <span className="sr-only">(current)</span>
               </a>
             </li>
@@ -95,7 +99,7 @@ export class Header extends Component {
               <li className="nav-item active">
                 <a className="nav-link" href="/project">
                   <span className="text-success font-weight-normal">
-                    {this.props.auth.user.name}
+                    {this.state.name}
                   </span>
                 </a>
               </li>

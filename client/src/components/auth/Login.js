@@ -94,6 +94,7 @@ export class Login extends Component {
             Submit
           </button>
         </form>
+        Not Registered yet? please press SingUp
       </div>
     );
   }
