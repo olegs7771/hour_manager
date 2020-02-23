@@ -13,18 +13,19 @@ export class ProjectCreate extends Component {
     location: "",
     companyCoreFunc: "",
     errors: {},
-    messages: {}
+    messages: {},
+    loading: false
   };
   _onChange = e => {
     this.setState({
       [e.target.name]: e.target.value.toLowerCase()
     });
-    const { companyName, location, companyCoreFunc } = this.state;
 
     this.setState({ errors: {} });
   };
   _onSubmit = e => {
     e.preventDefault();
+    this.setState({ loading: true });
     const data = {
       companyName: this.state.companyName,
       location: this.state.location,
@@ -35,7 +36,7 @@ export class ProjectCreate extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.errors !== this.props.errors) {
-      this.setState({ errors: this.props.errors });
+      this.setState({ errors: this.props.errors, loading: false });
     }
   }
 
@@ -85,7 +86,7 @@ export class ProjectCreate extends Component {
             onChange={this._onChange}
             error={this.state.errors.companyCoreFunc}
           />
-          <DotLoaderSpinner />
+          <DotLoaderSpinner loading={this.state.loading} />
           <div className="d-block mx-auto ">
             <button
               type="submit"

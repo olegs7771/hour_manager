@@ -1,4 +1,4 @@
-import { GET_PROJECTS, GET_MESSAGE, GET_ERRORS } from "./types";
+import { GET_PROJECTS, CREATE_PROJECT, GET_MESSAGE, GET_ERRORS } from "./types";
 import axios from "axios";
 
 //Get Projects By ID
@@ -7,7 +7,10 @@ export const getProjects = () => dispatch => {
   axios
     .get("/api/project/fetch")
     .then(res => {
-      console.log("project", res.data.project);
+      console.log("res.data", res.data);
+      dispatch({
+        type:
+      })
       // if (res.data.project) {
       //   //If project null
       // }
@@ -24,6 +27,11 @@ export const createProject = data => dispatch => {
     .post("/api/project/create", data)
     .then(res => {
       console.log("res.data", res.data);
+
+      dispatch({
+        type: CREATE_PROJECT,
+        payload: res.data
+      });
     })
     .catch(err => {
       console.log("err :", err.response.data);

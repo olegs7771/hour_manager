@@ -13,6 +13,7 @@ export class Project extends Component {
   componentDidMount() {
     //Fetch Projects
     this.props.getProjects();
+    console.log("fetch projects");
   }
   _createProject = () => {
     this.props.history.push("/create_project");
