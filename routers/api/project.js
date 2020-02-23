@@ -90,7 +90,7 @@ router.get(
   (req, res) => {
     console.log("req.user.id", req.user.id);
 
-    Project.findOne({ user: req.user.id })
+    Project.find({ user: req.user.id })
       .populate("user", ["name", "email"])
       .then(project => {
         if (!project) {

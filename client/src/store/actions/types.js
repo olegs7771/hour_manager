@@ -9,3 +9,4 @@ export const GET_MESSAGE = "GET_MESSAGE";
 //Projects
 export const GET_PROJECTS = "GET_PROJECTS";
 export const CREATE_PROJECT = "CREATE_PROJECT";
+export const LOADING_PROJECT = "LOADING";
