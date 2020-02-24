@@ -44,15 +44,19 @@ router.post(
             });
           });
 
-          return res.status(200).json(project);
+          res.status(200).json(project);
         });
       } else {
         //user already has projects
         console.log("user already has projects");
+
+        console.log("project.projectName ", project.projectName);
+        console.log("req.body.projectName ", req.body.projectName);
+
         if (project.projectName === req.body.projectName) {
           return res
-            .status(200)
-            .json({ message: "Such a project name already exists" });
+            .status(400)
+            .json({ projectName: "Such a project name already exists" });
         }
         //Create New Project
         const newProject = {
@@ -71,12 +75,17 @@ router.post(
               projectName: project.projectName,
               companyName: project.companyName
             });
-            user.save().then(upUser => {
-              console.log("upUser", upUser);
-            });
+            user
+              .save()
+              .then(upUser => {
+                console.log("upUser", upUser);
+              })
+              .catch(err => {
+                console.log("error to update user", err);
+              });
           });
 
-          return res.status(200).json(project);
+          res.status(200).json(project);
         });
       }
     });

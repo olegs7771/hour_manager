@@ -6,10 +6,13 @@ import { isEmpty } from "../../../utils/isEmpty";
 import { withRouter, Link } from "react-router-dom";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 import moment from "moment";
+import ProjectItems from "./ProjectItems";
+import ProjectDetails from "./ProjectItems";
 
 export class Project extends Component {
   state = {
-    projects: []
+    projects: [],
+    projectDetails: {}
   };
 
   componentDidMount() {
@@ -27,8 +30,8 @@ export class Project extends Component {
       this.setState({ projects: this.props.projects });
     }
   }
-  _projectName = () => {
-    console.log("clecked");
+  _projectName = e => {
+    console.log("e", e);
   };
 
   render() {
@@ -76,7 +79,7 @@ export class Project extends Component {
                   <ul className="list-group" key={project._id}>
                     <li
                       className="list-group-item  btn btn-outline-primary my-2"
-                      onClick={this._projectName}
+                      onClick={this._projectName.bind(this, project)}
                     >
                       <div className="row ">
                         <div className="col-md-6">
@@ -92,6 +95,7 @@ export class Project extends Component {
               </div>
               <div className="col-md-6 border">
                 <div className="h6 text-center">Project Details</div>
+                <ProjectItems />
               </div>
             </div>
           </div>
