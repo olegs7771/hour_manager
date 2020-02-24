@@ -8,19 +8,23 @@ import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 import SelectFormGroup from "../../textForms/SelectFormGroup";
 
 export class ProjectCreate extends Component {
-  state = {
-    companyName: "",
-    location: "",
-    companyCoreFunc: "",
-    errors: {},
-    messages: {},
-    loading: false
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      projectName: "",
+      companyName: "",
+      location: "",
+      companyCoreFunc: "",
+      errors: {},
+      messages: {},
+      loading: false
+    };
+  }
   _onChange = e => {
     this.setState({
       [e.target.name]: e.target.value.toLowerCase()
     });
-
     this.setState({ errors: {} });
   };
   _onSubmit = e => {
@@ -28,18 +32,17 @@ export class ProjectCreate extends Component {
     this.setState({ loading: true });
     const data = {
       companyName: this.state.companyName,
+      projectName: this.state.projectName,
       location: this.state.location,
       companyCoreFunc: this.state.companyCoreFunc
     };
     this.props.createProject(data);
   };
-
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.errors !== this.props.errors) {
       this.setState({ errors: this.props.errors, loading: false });
     }
   }
-
   render() {
     // Select options for Business functions;
     const options = [
@@ -53,10 +56,10 @@ export class ProjectCreate extends Component {
       { label: "Marketing", value: "Marketing" },
       { label: "Financial", value: "Financial" }
     ];
-
     return (
       <div className="my-3 border p-2">
         <div className="h4 text-center my-3">Create Project</div>
+
         <form onSubmit={this._onSubmit}>
           <TextFormGroup
             label="Company Name"
@@ -65,6 +68,14 @@ export class ProjectCreate extends Component {
             name="companyName"
             onChange={this._onChange}
             error={this.state.errors.companyName}
+          />
+          <TextFormGroup
+            label="Project Name"
+            // placeholder="Project Name.."
+            value={this.state.projectName}
+            name="projectName"
+            onChange={this._onChange}
+            error={this.state.errors.projectName}
           />
           <TextFormGroup
             label="Company Location"
@@ -78,7 +89,6 @@ export class ProjectCreate extends Component {
             Please Select a Business Function that are carried out by your
             enterprise.
           </div>
-
           <SelectFormGroup
             options={options}
             name="companyCoreFunc"
