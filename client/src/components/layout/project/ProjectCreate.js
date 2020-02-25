@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { createProject } from "../../../store/actions/projectAction";
 import TextFormGroup from "../../textForms/TextFormGroup";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
+import { HashLoaderSpinner } from "../../spinners/HashLoaderSpinner";
 
 import SelectFormGroup from "../../textForms/SelectFormGroup";
 
@@ -42,6 +43,9 @@ export class ProjectCreate extends Component {
     if (prevProps.errors !== this.props.errors) {
       this.setState({ errors: this.props.errors, loading: false });
     }
+    if (prevProps.messages !== this.props.messages) {
+      this.setState({ messages: this.props.messages, loading: false });
+    }
   }
   render() {
     // Select options for Business functions;
@@ -57,7 +61,7 @@ export class ProjectCreate extends Component {
       { label: "Financial", value: "Financial" }
     ];
     return (
-      <div className="my-3 border p-2">
+      <div className="my-3 border p-2 ">
         <div className="h4 text-center my-3">Create Project</div>
 
         <form onSubmit={this._onSubmit}>
@@ -96,8 +100,15 @@ export class ProjectCreate extends Component {
             onChange={this._onChange}
             error={this.state.errors.companyCoreFunc}
           />
-          <DotLoaderSpinner loading={this.state.loading} />
-          <div className="d-block mx-auto ">
+          <HashLoaderSpinner loading={this.state.loading} />
+          {true ? (
+            <div className="my-2 ">
+              <span className="text-success d-block mx-auto pl-4">
+                {this.state.messages.message}
+              </span>
+            </div>
+          ) : null}
+          <div className="my-1 ">
             <button
               type="submit"
               className="btn btn-outline-secondary d-block mx-auto my-3"
@@ -112,12 +123,14 @@ export class ProjectCreate extends Component {
 }
 
 const mapStateToProps = state => ({
-  errors: state.errors.errors
+  errors: state.errors.errors,
+  messages: state.messages.messages
 });
 
 const mapDispatchToProps = { createProject };
 ProjectCreate.propTypes = {
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  messages: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectCreate);

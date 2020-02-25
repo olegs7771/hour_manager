@@ -22,11 +22,11 @@ export default (state = initialState, action) => {
         projects: action.payload,
         loading: false
       };
-    case CREATE_PROJECT:
-      return {
-        ...state,
-        projects: state.unshift(action.payload)
-      };
+    // case CREATE_PROJECT:
+    //   return {
+    //     ...state,
+    //     projects: state.unshift(action.payload)
+    //   };
 
     default:
       return state;

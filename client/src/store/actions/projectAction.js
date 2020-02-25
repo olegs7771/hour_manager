@@ -37,7 +37,7 @@ export const createProject = data => dispatch => {
       console.log("res.data", res.data);
 
       dispatch({
-        type: CREATE_PROJECT,
+        type: GET_MESSAGE,
         payload: res.data
       });
     })
@@ -57,3 +57,4 @@ export const loading = () => {
     type: LOADING_PROJECT
   };
 };
+//ו

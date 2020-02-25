@@ -32,6 +32,16 @@ export class Project extends Component {
   }
   _projectName = e => {
     console.log("e", e);
+    this.setState({
+      projectDetails: {
+        projectManager: e.user.name,
+        projectName: e.projectName,
+        companyName: e.companyName,
+        companyCoreFunc: e.companyCoreFunc,
+        staff: e.staff,
+        date: e.date
+      }
+    });
   };
 
   render() {
@@ -77,8 +87,9 @@ export class Project extends Component {
                 <div className="h5 text-center">Projects</div>
                 {this.props.projects.map(project => (
                   <ul className="list-group" key={project._id}>
+                    {/* Button Project Name + Date */}
                     <li
-                      className="list-group-item  btn btn-outline-primary my-2"
+                      className="list-group-item  btn btn-outline-primary my-1"
                       onClick={this._projectName.bind(this, project)}
                     >
                       <div className="row ">
@@ -95,7 +106,14 @@ export class Project extends Component {
               </div>
               <div className="col-md-6 border">
                 <div className="h6 text-center">Project Details</div>
-                <ProjectItems />
+                <ProjectItems
+                  projectManager={this.state.projectDetails.projectManager}
+                  projectName={this.state.projectDetails.projectName}
+                  companyName={this.state.projectDetails.companyName}
+                  companyCoreFunc={this.state.projectDetails.companyCoreFunc}
+                  staff={this.state.projectDetails.staff}
+                  date={this.state.projectDetails.date}
+                />
               </div>
             </div>
           </div>

@@ -44,7 +44,7 @@ router.post(
             });
           });
 
-          res.status(200).json(project);
+          res.status(200).json({ message: "Project was created" });
         });
       } else {
         //user already has projects
@@ -85,7 +85,7 @@ router.post(
               });
           });
 
-          res.status(200).json(project);
+          res.status(200).json({ message: "Project was created" });
         });
       }
     });
