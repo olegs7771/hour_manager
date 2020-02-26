@@ -17,6 +17,7 @@ import Home from "../src/components/layout/main/Home";
 //Project
 import Project from "../src/components/layout/project/Project";
 import ProjectCreate from "../src/components/layout/project/ProjectCreate";
+import ProjectEdit from "../src/components/layout/project/ProjectEdit";
 
 import configureStore from "./store/configureStore/configureStore";
 import jwt_decode from "jwt-decode";
@@ -80,6 +81,13 @@ class App extends Component {
                   <Redirect to="/login" />
                 ) : (
                   <ProjectCreate />
+                )}
+              </Route>
+              <Route exact path="/edit_project">
+                {!localStorage.jwtToken ? (
+                  <Redirect to="/login" />
+                ) : (
+                  <ProjectEdit />
                 )}
               </Route>
 

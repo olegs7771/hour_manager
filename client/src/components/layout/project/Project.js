@@ -12,6 +12,7 @@ import ProjectDetails from "./ProjectItems";
 export class Project extends Component {
   state = {
     projects: [],
+    showDetails: false,
     projectDetails: {}
   };
 
@@ -40,7 +41,8 @@ export class Project extends Component {
         companyCoreFunc: e.companyCoreFunc,
         staff: e.staff,
         date: e.date
-      }
+      },
+      showDetails: true
     });
   };
 
@@ -82,39 +84,43 @@ export class Project extends Component {
                 Add Project
               </button>
             </div>
-            <div className="row my-3 border">
+            <div className="row my-3 ">
               <div className="col-md-6 border">
-                <div className="h5 text-center">Projects</div>
+                <div className="h5 text-center my-4">Projects</div>
                 {this.props.projects.map(project => (
                   <ul className="list-group" key={project._id}>
                     {/* Button Project Name + Date */}
                     <li
-                      className="list-group-item  btn btn-outline-primary my-1"
+                      className="list-group-item  btn btn-outline-primary mb-1"
                       onClick={this._projectName.bind(this, project)}
                     >
                       <div className="row ">
-                        <div className="col-md-6">
-                          Name: {project.projectName}
+                        <div className="col-md-6  d-flex justify-content-around">
+                          <span className="text-left">Project:</span>
+                          {project.projectName}
                         </div>
-                        <div className="col-md-6">
-                          created: {moment(project.date).format("LL")}
+                        <div className="col-md-6 d-flex justify-content-around">
+                          <span className="text-left">Created:</span>
+                          {moment(project.date).format("LL")}
                         </div>
                       </div>
                     </li>
                   </ul>
                 ))}
               </div>
-              <div className="col-md-6 border">
-                <div className="h6 text-center">Project Details</div>
-                <ProjectItems
-                  projectManager={this.state.projectDetails.projectManager}
-                  projectName={this.state.projectDetails.projectName}
-                  companyName={this.state.projectDetails.companyName}
-                  companyCoreFunc={this.state.projectDetails.companyCoreFunc}
-                  staff={this.state.projectDetails.staff}
-                  date={this.state.projectDetails.date}
-                />
-              </div>
+              {this.state.showDetails ? (
+                <div className="col-md-6 border">
+                  <div className="h5 text-center my-4">Project Details</div>
+                  <ProjectItems
+                    projectManager={this.state.projectDetails.projectManager}
+                    projectName={this.state.projectDetails.projectName}
+                    companyName={this.state.projectDetails.companyName}
+                    companyCoreFunc={this.state.projectDetails.companyCoreFunc}
+                    staff={this.state.projectDetails.staff}
+                    date={this.state.projectDetails.date}
+                  />
+                </div>
+              ) : null}
             </div>
           </div>
         );
