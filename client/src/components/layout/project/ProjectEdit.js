@@ -14,16 +14,41 @@ export class ProjectEdit extends Component {
       companyName: "",
       location: "",
       companyCoreFunc: "",
+      staff: [],
       errors: {},
       messages: {},
       loading: false
     };
   }
+  _onChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value.toLowerCase()
+    });
+    this.setState({ errors: {} });
+  };
 
   componentDidMount() {
     this.props.getSelectedProject({
       id: this.props.match.params.id
     });
+  }
+  componentDidUpdate(prevProps, prevState) {
+    const {
+      projectName,
+      companyName,
+      location,
+      companyCoreFunc,
+      staff
+    } = this.props.selectedProject;
+    if (prevProps.selectedProject !== this.props.selectedProject) {
+      this.setState({
+        projectName,
+        companyName,
+        location,
+        companyCoreFunc,
+        staff
+      });
+    }
   }
 
   render() {
@@ -74,13 +99,31 @@ export class ProjectEdit extends Component {
             Please Select a Business Function that are carried out by your
             enterprise.
           </div>
-          <SelectFormGroup
-            options={options}
-            name="companyCoreFunc"
-            value={this.state.value}
-            onChange={this._onChange}
-            error={this.state.errors.companyCoreFunc}
-          />
+          <div className="row">
+            <div className="col-md-6">
+              <SelectFormGroup
+                options={options}
+                name="companyCoreFunc"
+                value={this.state.value}
+                onChange={this._onChange}
+                error={this.state.errors.companyCoreFunc}
+              />
+            </div>
+            <div className="col-md-6 border">
+              <div className="span text-center mb-2">Staff</div>
+              <div className="row">
+                <div className="col-md-6">
+                  Employees{" "}
+                  <span className="h5">{this.state.staff.length}</span>
+                </div>
+                <div className="col-md-6">
+                  <button className="btn btn-outline-success">
+                    Add Employee
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <HashLoaderSpinner loading={this.state.loading} />
           {true ? (

@@ -130,7 +130,11 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = { createProject };
 ProjectCreate.propTypes = {
   errors: PropTypes.object.isRequired,
-  messages: PropTypes.object.isRequired
+  messages: PropTypes.object.isRequired,
+  companyCoreFunc: PropTypes.string.isRequired,
+  companyName: PropTypes.string.isRequired,
+  location: PropTypes.string.isRequired,
+  projectName: PropTypes.string.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectCreate);
