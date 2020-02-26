@@ -1,12 +1,14 @@
 import {
   GET_PROJECTS,
+  GET_SELECTED_PROJECT,
   CREATE_PROJECT,
   LOADING_PROJECT
 } from "../actions/types";
 
 const initialState = {
   projects: null,
-  loading: false
+  loading: false,
+  selectedProject: null
 };
 
 export default (state = initialState, action) => {
@@ -22,11 +24,11 @@ export default (state = initialState, action) => {
         projects: action.payload,
         loading: false
       };
-    // case CREATE_PROJECT:
-    //   return {
-    //     ...state,
-    //     projects: state.unshift(action.payload)
-    //   };
+    case GET_SELECTED_PROJECT:
+      return {
+        ...state,
+        selectedProject: action.payload
+      };
 
     default:
       return state;

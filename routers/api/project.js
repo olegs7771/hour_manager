@@ -114,6 +114,24 @@ router.get(
   }
 );
 
+//Get Selected Project by ID
+//Private Router
+router.post(
+  "/get_project",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Project.findById(req.body.id)
+      .populate("user", ["name"])
+      .then(project => {
+        if (!project) {
+          return res.status(400).json({ error: "Can not find project" });
+        }
+        res.json(project);
+        console.log("projejct", project);
+      });
+  }
+);
+
 //Delete project + employess + remove project from user.projects[]
 router.post(
   "/delete",
