@@ -36,10 +36,10 @@ export const createProject = data => dispatch => {
     .then(res => {
       console.log("res.data", res.data);
 
-      dispatch({
-        type: CREATE_PROJECT,
-        payload: res.data
-      });
+      // dispatch({
+      //   type: CREATE_PROJECT,
+      //   payload: res.data
+      // });
     })
     .catch(err => {
       console.log("err :", err.response.data);

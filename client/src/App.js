@@ -55,7 +55,7 @@ if (localStorage.jwtToken) {
     //Redirect to Home
   }
 }
-console.log("location", window.location);
+// console.log("location", window.location);
 
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
