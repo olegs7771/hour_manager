@@ -1,20 +1,25 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
+import { getSelectedProject } from "../../../store/actions/projectAction";
+import { withRouter } from "react-router-dom";
 export class ProjectEdit extends Component {
   componentDidMount() {
-    console.log("selected project", this.props.selectedProject);
+    this.props.getSelectedProject({
+      id: this.props.match.params.id
+    });
   }
 
   render() {
+    console.log("this.props", this.props);
     return <div>Edit Project</div>;
   }
 }
 
-const mapStateToProps = state => ({
-  selectedProject: state.projects.selectedProject
-});
+const mapStateToProps = state => ({});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { getSelectedProject };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectEdit);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(ProjectEdit));

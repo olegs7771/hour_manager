@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import moment from "moment";
+import { withRouter, Link } from "react-router-dom";
 
 class ProjectDetails extends Component {
   render() {
     const {
+      id,
       projectManager,
       projectName,
       companyName,
@@ -79,7 +81,13 @@ class ProjectDetails extends Component {
         </li>
 
         <div className="btn-group my-3 mx-auto">
-          <button className="btn btn-outline-info">Edit Project</button>
+          {/* <Link to={`edit_project/${id}`}>Edit Project</Link> */}
+          <button
+            className="btn btn-outline-info"
+            onClick={() => this.props.history.push(`edit_project/${id}`)}
+          >
+            Edit Project
+          </button>
           <button className="btn btn-outline-danger ml-2">
             Delete Project
           </button>
@@ -89,4 +97,4 @@ class ProjectDetails extends Component {
   }
 }
 
-export default ProjectDetails;
+export default withRouter(ProjectDetails);

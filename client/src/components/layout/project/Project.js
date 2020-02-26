@@ -35,6 +35,7 @@ export class Project extends Component {
     console.log("e", e);
     this.setState({
       projectDetails: {
+        id: e._id,
         projectManager: e.user.name,
         projectName: e.projectName,
         companyName: e.companyName,
@@ -112,6 +113,7 @@ export class Project extends Component {
                 <div className="col-md-6 border">
                   <div className="h5 text-center my-4">Project Details</div>
                   <ProjectItems
+                    id={this.state.projectDetails.id}
                     projectManager={this.state.projectDetails.projectManager}
                     projectName={this.state.projectDetails.projectName}
                     companyName={this.state.projectDetails.companyName}

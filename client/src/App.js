@@ -83,7 +83,7 @@ class App extends Component {
                   <ProjectCreate />
                 )}
               </Route>
-              <Route exact path="/edit_project">
+              <Route exact path="/edit_project/:id">
                 {!localStorage.jwtToken ? (
                   <Redirect to="/login" />
                 ) : (

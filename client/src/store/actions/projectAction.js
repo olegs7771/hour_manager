@@ -1,6 +1,6 @@
 import {
   GET_PROJECTS,
-  CREATE_PROJECT,
+  GET_SELECTED_PROJECT,
   GET_MESSAGE,
   GET_ERRORS,
   LOADING_PROJECT
@@ -48,6 +48,10 @@ export const createProject = data => dispatch => {
         payload: err.response.data
       });
     });
+};
+//Get Selected Project by ID
+export const getSelectedProject = data => dispatch => {
+  console.log("data", data);
 };
 
 //Loading
