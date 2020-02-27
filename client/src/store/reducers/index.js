@@ -3,9 +3,11 @@ import authReducer from "./authReducer";
 import errorReducer from "./errorReducer";
 import messageReducer from "./messageReducer";
 import projectReducer from "./projectReducer";
+import employeeReducer from "./employeeReducer";
 export default combineReducers({
   auth: authReducer,
   errors: errorReducer,
   messages: messageReducer,
-  projects: projectReducer
+  projects: projectReducer,
+  employees: employeeReducer
 });

@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import moment from "moment";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 class ProjectDetails extends Component {
   render() {
+    console.log("this.props.staff", this.props.staff.length);
+
     const {
       id,
       projectManager,
@@ -61,9 +63,7 @@ class ProjectDetails extends Component {
               <span className="font-weight-light">Staff</span>{" "}
             </div>
             <div className="col-md-6">
-              <span className="text-muted ">
-                {staff ? staff.legth : 0} persons
-              </span>
+              <span className="text-muted ">{staff.length} </span>
             </div>
           </div>
         </li>

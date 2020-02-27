@@ -12,7 +12,7 @@ export class Login extends Component {
     password: "",
     errors: {},
     messages: {},
-    submitDisabled: true,
+    // submitDisabled: true,
     loading: false
   };
 
@@ -20,10 +20,10 @@ export class Login extends Component {
     this.setState({
       [e.target.name]: e.target.value.toLowerCase()
     });
-    const { email, password } = this.state;
-    if (email !== "" && password !== "") {
-      this.setState({ submitDisabled: false });
-    }
+    // const { email, password } = this.state;
+    // if (email !== "" && password !== "") {
+    //   this.setState({ submitDisabled: false });
+    // }
     this.setState({ errors: {} });
   };
 
@@ -88,7 +88,7 @@ export class Login extends Component {
 
           <button
             type="submit"
-            disabled={this.state.submitDisabled}
+            // disabled={this.state.submitDisabled}
             className="btn btn-outline-secondary  "
           >
             Submit

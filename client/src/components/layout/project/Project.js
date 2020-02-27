@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getProjects } from "../../../store/actions/projectAction";
 import { isEmpty } from "../../../utils/isEmpty";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 import moment from "moment";
 import ProjectItems from "./ProjectItems";
-import ProjectDetails from "./ProjectItems";
+// import ProjectDetails from "./ProjectItems";
 
 export class Project extends Component {
   state = {
@@ -49,7 +49,11 @@ export class Project extends Component {
 
   render() {
     if (this.props.projects === null || this.props.loading) {
-      return <DotLoaderSpinner />;
+      return (
+        <div className="mx-auto" style={{ paddingTop: "30%" }}>
+          <DotLoaderSpinner />
+        </div>
+      );
     } else {
       if (isEmpty(this.props.projects)) {
         return (

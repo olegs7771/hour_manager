@@ -1,7 +1,6 @@
 import {
   GET_PROJECTS,
   GET_SELECTED_PROJECT,
-  CREATE_PROJECT,
   LOADING_PROJECT
 } from "../actions/types";
 
@@ -27,7 +26,8 @@ export default (state = initialState, action) => {
     case GET_SELECTED_PROJECT:
       return {
         ...state,
-        selectedProject: action.payload
+        selectedProject: action.payload,
+        loading: false
       };
 
     default:

@@ -198,4 +198,23 @@ router.post(
   }
 );
 
+//Get All Employess by projectID
+
+router.post(
+  "/get_employees_all",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Project.findById(req.body.id).then(project => {
+      if (!project) {
+        return res
+          .status(400)
+          .json({ error: "Project was deleted or not exist" });
+      }
+
+      console.log("project", project.staff);
+      res.json(project.staff);
+    });
+  }
+);
+
 module.exports = router;

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createProject } from "../../../store/actions/projectAction";
 import TextFormGroup from "../../textForms/TextFormGroup";
-import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
+// import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 import { HashLoaderSpinner } from "../../spinners/HashLoaderSpinner";
 
 import SelectFormGroup from "../../textForms/SelectFormGroup";
