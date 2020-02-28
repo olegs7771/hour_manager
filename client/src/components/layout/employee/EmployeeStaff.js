@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getAllEmployees } from "../../../store/actions/employeeAction";
 import { HashLoaderSpinner } from "../../spinners/HashLoaderSpinner";

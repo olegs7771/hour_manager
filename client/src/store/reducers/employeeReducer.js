@@ -1,4 +1,4 @@
-import { GET_ALL_EMPLOYEES, LOADING_EMPLOYEES } from "../actions/types";
+import { GET_ALL_EMPLOYEES, LOADING } from "../actions/types";
 
 const initialState = {
   employess: [],
@@ -8,7 +8,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case LOADING_EMPLOYEES:
+    case LOADING:
       return {
         ...state,
         loading: true

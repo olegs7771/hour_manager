@@ -1,15 +1,22 @@
-import { GET_MESSAGE } from "../actions/types";
+import { GET_MESSAGE, LOADING } from "../actions/types";
 
 const initialState = {
-  messages: {}
+  messages: {},
+  loading: false
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case LOADING:
+      return {
+        ...state,
+        loading: true
+      };
     case GET_MESSAGE:
       return {
         ...state,
-        messages: action.payload
+        messages: action.payload,
+        loading: false
       };
 
     default:
