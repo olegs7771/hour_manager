@@ -86,7 +86,7 @@ class ProjectDetails extends Component {
             className="btn btn-outline-info"
             onClick={() => this.props.history.push(`edit_project/${id}`)}
           >
-            Edit Project
+            View Project
           </button>
           <button className="btn btn-outline-danger ml-2">
             Delete Project

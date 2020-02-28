@@ -25,7 +25,7 @@ export const createEmployee = data => dispatch => {
     .then(res => {
       console.log("res.data", res.data);
       dispatch({
-        type: GET_ALL_EMPLOYEES,
+        type: GET_MESSAGE,
         payload: res.data
       });
     })

@@ -24,7 +24,7 @@ export class Header extends Component {
 
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
-      this.setState({ isAuthenticated: true });
+      this.setState({ isAuthenticated: true, name: this.props.auth.user.name });
     }
   }
   _logOut = () => {

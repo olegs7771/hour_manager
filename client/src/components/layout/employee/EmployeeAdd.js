@@ -34,6 +34,13 @@ export class EmployeeAdd extends Component {
     if (prevProps.errors !== this.props.errors) {
       this.setState({ errors: this.props.errors, loading: false });
     }
+    if (prevProps.messages !== this.props.messages) {
+      this.setState({
+        messages: this.props.messages,
+        loading: false,
+        openEmployeeForm: false
+      });
+    }
   }
 
   _onChange = e => {
@@ -81,7 +88,7 @@ export class EmployeeAdd extends Component {
         user
       } = this.props.selectedProject;
       return (
-        <div className="my-3 border">
+        <div className="my-3 ">
           <div className="h5 text-center">
             Project
             <span className="font-italic text-success">
@@ -184,6 +191,13 @@ export class EmployeeAdd extends Component {
               </div>
             ) : (
               <div className="my-3 ">
+                {this.state.messages ? (
+                  <div className="my-3 mx-auto">
+                    <span className="text-success">
+                      {this.state.messages.message}
+                    </span>
+                  </div>
+                ) : null}
                 <button
                   className="btn btn-outline-info"
                   onClick={() =>
