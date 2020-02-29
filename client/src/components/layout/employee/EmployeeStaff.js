@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { getAllEmployees } from "../../../store/actions/employeeAction";
 import { HashLoaderSpinner } from "../../spinners/HashLoaderSpinner";
 import { isEmpty } from "../../../utils/isEmpty";
+import EmployeeTable from "./EmployeeTable";
 
 export class EmployeeStaff extends Component {
   state = {
@@ -35,7 +36,32 @@ export class EmployeeStaff extends Component {
 
       return <div className="my-4">No Employees to show</div>;
     } else {
-      return <div>Employes here1</div>;
+      return (
+        <div className="my-4  ">
+          <div className="h5 text-center my-3">Employee Table</div>
+          {/* table */}
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+              </tr>
+            </thead>
+            {this.props.employees.map(employee => (
+              <EmployeeTable
+                key={employee._id}
+                employeeName={employee.employeeName}
+                employeeEmail={employee.employeeEmail}
+                confirmed={employee.confirmed}
+                date={employee.date}
+                projectName={employee.projectName}
+              />
+            ))}
+          </table>
+        </div>
+      );
     }
   }
 }

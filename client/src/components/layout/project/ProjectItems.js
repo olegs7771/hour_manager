@@ -23,7 +23,10 @@ class ProjectDetails extends Component {
               <span className="font-weight-light">Project Manager</span>{" "}
             </div>
             <div className="col-md-6">
-              <span className="text-muted ml-4">{projectManager}</span>
+              <span className="text-muted ml-4">
+                {projectManager[0].toLocaleUpperCase() +
+                  projectManager.slice(1)}
+              </span>
             </div>
           </div>
         </li>
@@ -33,7 +36,9 @@ class ProjectDetails extends Component {
               <span className="font-weight-light">Project Name</span>{" "}
             </div>
             <div className="col-md-6">
-              <span className="text-muted ml-4">{projectName}</span>
+              <span className="text-muted ml-4">
+                {projectName[0].toLocaleUpperCase() + projectName.slice(1)}
+              </span>
             </div>
           </div>
         </li>
@@ -43,7 +48,9 @@ class ProjectDetails extends Component {
               <span className="font-weight-light">Company Name</span>{" "}
             </div>
             <div className="col-md-6">
-              <span className="text-muted ">{companyName}</span>
+              <span className="text-muted ">
+                {companyName[0].toLocaleUpperCase() + companyName.slice(1)}
+              </span>
             </div>
           </div>
         </li>
@@ -53,7 +60,10 @@ class ProjectDetails extends Component {
               <span className="font-weight-light">Business Core Function</span>{" "}
             </div>
             <div className="col-md-6">
-              <span className="text-muted ">{companyCoreFunc}</span>
+              <span className="text-muted ">
+                {companyCoreFunc[0].toLocaleUpperCase() +
+                  companyCoreFunc.slice(1)}
+              </span>
             </div>
           </div>
         </li>

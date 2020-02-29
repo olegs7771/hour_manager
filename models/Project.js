@@ -37,6 +37,12 @@ const ProjectSchema = new Schema({
       employeeEmail: {
         type: String
       },
+      started: {
+        type: String
+      },
+      address: {
+        type: String
+      },
       confirmed: {
         type: Boolean
       },

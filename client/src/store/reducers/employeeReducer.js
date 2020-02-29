@@ -1,7 +1,7 @@
 import { GET_ALL_EMPLOYEES, LOADING } from "../actions/types";
 
 const initialState = {
-  employess: [],
+  employees: [],
   loading: false,
   selectedEmployee: null
 };

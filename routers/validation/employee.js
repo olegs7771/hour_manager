@@ -5,8 +5,8 @@ const validateEmployeeInput = data => {
   let errors = {};
 
   // //Name Field
-  if (!validator.isLength(data.name, { min: 2, max: 12 })) {
-    errors.name = "Name must contain between 2 and 12 characters";
+  if (!validator.isLength(data.name, { min: 2, max: 30 })) {
+    errors.name = "Name must contain between 2 and 30 characters";
   }
   // //email Field
   if (!validator.isEmail(data.email)) {

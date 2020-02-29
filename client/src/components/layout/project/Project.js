@@ -81,7 +81,7 @@ export class Project extends Component {
       } else {
         return (
           <div className="my-4">
-            <div className="my2 border">
+            <div className="my-3 ">
               <button
                 className="btn btn-outline-info"
                 onClick={this._createProject}
@@ -102,11 +102,16 @@ export class Project extends Component {
                       <div className="row ">
                         <div className="col-md-6  d-flex justify-content-around">
                           <span className="text-left">Project:</span>
-                          {project.projectName}
+                          <span className="text-success">
+                            {project.projectName[0].toLocaleUpperCase() +
+                              project.projectName.slice(1)}
+                          </span>
                         </div>
                         <div className="col-md-6 d-flex justify-content-around">
-                          <span className="text-left">Created:</span>
-                          {moment(project.date).format("LL")}
+                          <span className="text-left">Created:</span>{" "}
+                          <span className="text-success">
+                            {moment(project.date).format("LL")}
+                          </span>
                         </div>
                       </div>
                     </li>

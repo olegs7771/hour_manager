@@ -8,6 +8,7 @@ import { HashLoaderSpinner } from "../../spinners/HashLoaderSpinner";
 // import { isEmpty } from "../../../utils/isEmpty";
 import TextFormGroup from "../../textForms/TextFormGroup";
 import moment from "moment";
+import { isEmpty } from "../../../utils/isEmpty";
 
 export class EmployeeAdd extends Component {
   state = {
@@ -41,6 +42,10 @@ export class EmployeeAdd extends Component {
         openEmployeeForm: false
       });
     }
+    //Reload staff.length
+    if (prevState.messages !== this.state.messages) {
+      this.props.getSelectedProject({ id: this.props.match.params.id });
+    }
   }
 
   _onChange = e => {
@@ -63,6 +68,13 @@ export class EmployeeAdd extends Component {
       func: this.state.func
     };
     this.props.createEmployee(newEmployee);
+    // if (!isEmpty(this.state.errors)) {
+    //   setTimeout(() => {
+    //     this.props.history.push(
+    //       `/edit_project/${this.props.selectedProject._id}`
+    //     );
+    //   }, 4000);
+    // }
   };
 
   render() {
@@ -134,6 +146,11 @@ export class EmployeeAdd extends Component {
             {this.state.openEmployeeForm ? (
               <div className="my-3 border">
                 {/* {Form Create New Employee} */}
+                {this.state.errors ? (
+                  <div className="my-3 text-center text-danger">
+                    {this.state.errors.error}
+                  </div>
+                ) : null}
 
                 <form onSubmit={this._onSubmit} className="my-3 px-5">
                   <TextFormGroup
@@ -198,16 +215,42 @@ export class EmployeeAdd extends Component {
                     </span>
                   </div>
                 ) : null}
-                <button
-                  className="btn btn-outline-info"
-                  onClick={() =>
-                    this.setState({
-                      openEmployeeForm: true
-                    })
-                  }
-                >
-                  Add Employee
-                </button>
+
+                {this.state.messages ? (
+                  <div className="btn-group my-3">
+                    <button
+                      className="btn btn-outline-info"
+                      onClick={() =>
+                        this.setState({
+                          openEmployeeForm: true
+                        })
+                      }
+                    >
+                      Add Employee
+                    </button>
+                    <button
+                      className="btn btn-outline-secondary ml-2"
+                      onClick={() =>
+                        this.props.history.push(
+                          `/edit_project/${this.props.selectedProject._id}`
+                        )
+                      }
+                    >
+                      Project Edit
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    className="btn btn-outline-info "
+                    onClick={() =>
+                      this.setState({
+                        openEmployeeForm: true
+                      })
+                    }
+                  >
+                    Add Employee
+                  </button>
+                )}
                 {/* {Form Create New Employee} */}
               </div>
             )}

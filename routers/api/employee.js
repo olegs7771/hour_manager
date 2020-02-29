@@ -83,7 +83,9 @@ router.post(
                         employeeEmail: newEmployee.email,
                         companyName: project.companyName,
                         projectName: project.projectName,
-                        confirmed: false
+                        confirmed: false,
+                        started: newEmployee.started,
+                        address: newEmployee.address
                       });
                       project.save().then(upProject => {
                         console.log("upProject", upProject);

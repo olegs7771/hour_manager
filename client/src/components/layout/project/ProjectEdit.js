@@ -125,31 +125,33 @@ export class ProjectEdit extends Component {
             </div>
             {/* STAFF */}
 
-            <div className="col-md-6 ">
+            <div className="col-md-6  ">
               <div className="my-3 text-center">Staff Manager</div>
+              <div className="d-flex justify-content-between px-5">
+                <button
+                  className="btn btn-outline-info"
+                  onClick={() =>
+                    this.props.history.push(
+                      `/employees/${this.props.selectedProject._id}`
+                    )
+                  }
+                >
+                  {" "}
+                  Employees{" "}
+                  <span className="h5">{this.state.staff.length}</span>
+                </button>
 
-              <button
-                className="btn btn-outline-info "
-                onClick={() =>
-                  this.props.history.push(
-                    `/employees/${this.props.selectedProject._id}`
-                  )
-                }
-              >
-                {" "}
-                Employees <span className="h5">{this.state.staff.length}</span>
-              </button>
-
-              <button
-                className="btn btn-outline-success  "
-                onClick={() =>
-                  this.props.history.push(
-                    `/employee_add/${this.props.selectedProject._id}`
-                  )
-                }
-              >
-                Add Employee
-              </button>
+                <button
+                  className="btn btn-outline-success  "
+                  onClick={() =>
+                    this.props.history.push(
+                      `/employee_add/${this.props.selectedProject._id}`
+                    )
+                  }
+                >
+                  Add Employee
+                </button>
+              </div>
             </div>
           </div>
 
