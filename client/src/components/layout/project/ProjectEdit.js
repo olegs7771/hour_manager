@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import TextFormGroup from "../../textForms/TextFormGroup";
 import SelectFormGroup from "../../textForms/SelectFormGroup";
 import { HashLoaderSpinner } from "../../spinners/HashLoaderSpinner";
+import { UpCase } from "../../../utils/UpperCase";
 export class ProjectEdit extends Component {
   constructor(props) {
     super(props);
@@ -70,7 +71,7 @@ export class ProjectEdit extends Component {
       ];
       return (
         <div className="my-3 border p-3">
-          <div className="my-3 text-center h5">Edit Project</div>
+          <div className="my-3 text-center h5">DashBoard Project</div>
           <p className=" font-weight-light mb-4 text-center">
             Here you can edit project details, add or remove staff members
           </p>
@@ -80,7 +81,11 @@ export class ProjectEdit extends Component {
                 <TextFormGroup
                   label="Company Name"
                   // placeholder="Company Name.."
-                  value={this.state.companyName}
+                  value={
+                    this.state.companyName
+                      ? UpCase(this.state.companyName)
+                      : this.state.companyName
+                  }
                   name="companyName"
                   onChange={this._onChange}
                   error={this.state.errors.companyName}
@@ -88,7 +93,11 @@ export class ProjectEdit extends Component {
                 <TextFormGroup
                   label="Project Name"
                   // placeholder="Project Name.."
-                  value={this.state.projectName}
+                  value={
+                    this.state.projectName
+                      ? UpCase(this.state.companyName)
+                      : this.state.projectName
+                  }
                   name="projectName"
                   onChange={this._onChange}
                   error={this.state.errors.projectName}
@@ -96,7 +105,11 @@ export class ProjectEdit extends Component {
                 <TextFormGroup
                   label="Company Location"
                   // placeholder="Company location.."
-                  value={this.state.location}
+                  value={
+                    this.state.location
+                      ? UpCase(this.state.location)
+                      : this.state.location
+                  }
                   name="location"
                   onChange={this._onChange}
                   error={this.state.errors.location}

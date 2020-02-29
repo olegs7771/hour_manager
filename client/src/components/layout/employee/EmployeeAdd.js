@@ -15,6 +15,7 @@ export class EmployeeAdd extends Component {
     name: "",
     email: "",
     address: "",
+    phone: "",
     func: "",
     started: "",
     employees: [],
@@ -63,6 +64,7 @@ export class EmployeeAdd extends Component {
       projectID: this.props.selectedProject._id,
       name: this.state.name,
       email: this.state.email,
+      phone: this.state.phone,
       address: this.state.address,
       started: this.state.started,
       func: this.state.func
@@ -170,6 +172,14 @@ export class EmployeeAdd extends Component {
                     error={this.state.errors.email}
                   />
                   <TextFormGroup
+                    label="Phone"
+                    placeholder="0520000000"
+                    onChange={this._onChange}
+                    value={this.state.phone}
+                    name="phone"
+                    error={this.state.errors.phone}
+                  />
+                  <TextFormGroup
                     label="Address"
                     placeholder="city,street"
                     onChange={this._onChange}
@@ -240,16 +250,28 @@ export class EmployeeAdd extends Component {
                     </button>
                   </div>
                 ) : (
-                  <button
-                    className="btn btn-outline-info "
-                    onClick={() =>
-                      this.setState({
-                        openEmployeeForm: true
-                      })
-                    }
-                  >
-                    Add Employee
-                  </button>
+                  <div className="btn-group">
+                    <button
+                      className="btn btn-outline-info "
+                      onClick={() =>
+                        this.setState({
+                          openEmployeeForm: true
+                        })
+                      }
+                    >
+                      Add Employee
+                    </button>
+                    <button
+                      className="btn btn-outline-info "
+                      onClick={() =>
+                        this.setState({
+                          openEmployeeForm: true
+                        })
+                      }
+                    >
+                      Add Employee
+                    </button>
+                  </div>
                 )}
                 {/* {Form Create New Employee} */}
               </div>

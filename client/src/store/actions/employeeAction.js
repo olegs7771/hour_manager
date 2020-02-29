@@ -2,6 +2,7 @@ import { GET_ALL_EMPLOYEES, LOADING, GET_MESSAGE, GET_ERRORS } from "./types";
 import axios from "axios";
 //Get All Employees from Selected Project
 export const getAllEmployees = data => dispatch => {
+  dispatch(loading());
   axios
     .post("/api/project/get_employees_all", data)
     .then(res => {

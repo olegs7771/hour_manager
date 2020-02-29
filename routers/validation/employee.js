@@ -12,6 +12,11 @@ const validateEmployeeInput = data => {
   if (!validator.isEmail(data.email)) {
     errors.email = "Wrong Email Format";
   }
+  //Phone
+  if (!validator.isMobilePhone(data.phone, ["he-IL"])) {
+    errors.phone = "phone wrong format.";
+  }
+
   // //function Field
   if (!validator.isLength(data.func)) {
     errors.func = "Employee function must contain between 2 and 12 characters";
@@ -37,6 +42,9 @@ const validateEmployeeInput = data => {
   }
   if (isEmpty(data.started)) {
     errors.started = "Start date can not be empty";
+  }
+  if (isEmpty(data.phone)) {
+    errors.phone = "Phone can not be empty";
   }
 
   return {

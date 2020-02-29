@@ -31,16 +31,19 @@ export class EmployeeStaff extends Component {
           <HashLoaderSpinner loading={true} />
         </div>
       );
-    } else if (isEmpty(this.state.employees)) {
-      console.log("this.state.employees", this.state.employees);
-
-      return <div className="my-4">No Employees to show</div>;
     } else {
+      if (isEmpty(this.props.employees)) {
+        return (
+          <div className="my-3 text-center h5">
+            No Employees in this Project
+          </div>
+        );
+      }
       return (
         <div className="my-4  ">
           <div className="h5 text-center my-3">Employee Table</div>
           {/* table */}
-          <table className="table">
+          <table className="table table-bordered ">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -49,9 +52,11 @@ export class EmployeeStaff extends Component {
                 <th scope="col">Address</th>
                 <th scope="col">Project</th>
                 <th scope="col">Function</th>
+                <th scope="col">Started Job</th>
+                <th scope="col">Emploee Confirmed</th>
               </tr>
             </thead>
-            {this.props.employees.map(employee => (
+            {this.props.employees.map((employee, index) => (
               <EmployeeTable
                 key={employee._id}
                 employeeName={employee.employeeName}
@@ -62,6 +67,7 @@ export class EmployeeStaff extends Component {
                 started={employee.started}
                 address={employee.address}
                 func={employee.func}
+                index={index + 1}
               />
             ))}
           </table>
