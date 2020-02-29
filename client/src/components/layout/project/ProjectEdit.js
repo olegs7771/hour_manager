@@ -6,6 +6,7 @@ import TextFormGroup from "../../textForms/TextFormGroup";
 import SelectFormGroup from "../../textForms/SelectFormGroup";
 import { HashLoaderSpinner } from "../../spinners/HashLoaderSpinner";
 import { UpCase } from "../../../utils/UpperCase";
+
 export class ProjectEdit extends Component {
   constructor(props) {
     super(props);
@@ -75,7 +76,7 @@ export class ProjectEdit extends Component {
           <p className=" font-weight-light mb-4 text-center">
             Here you can edit project details, add or remove staff members
           </p>
-          <div className="row my-3 border mx-4">
+          <div className="row my-3  mx-4">
             <div className="col-md-6">
               <form onSubmit={this._onSubmit}>
                 <TextFormGroup
@@ -95,7 +96,7 @@ export class ProjectEdit extends Component {
                   // placeholder="Project Name.."
                   value={
                     this.state.projectName
-                      ? UpCase(this.state.companyName)
+                      ? UpCase(this.state.projectName)
                       : this.state.projectName
                   }
                   name="projectName"

@@ -12,5 +12,6 @@ export const CREATE_PROJECT = "CREATE_PROJECT";
 export const LOADING_PROJECT = "LOADING_PROJECT";
 //Employess
 export const GET_ALL_EMPLOYEES = "GET_ALL_EMPLOYEES";
+
 //Loading
 export const LOADING = "LOADING";

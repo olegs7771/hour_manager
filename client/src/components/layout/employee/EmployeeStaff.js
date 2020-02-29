@@ -54,11 +54,13 @@ export class EmployeeStaff extends Component {
                 <th scope="col">Function</th>
                 <th scope="col">Started Job</th>
                 <th scope="col">Emploee Confirmed</th>
+                <th scope="col"></th>
               </tr>
             </thead>
             {this.props.employees.map((employee, index) => (
               <EmployeeTable
                 key={employee._id}
+                id={employee._id}
                 employeeName={employee.employeeName}
                 employeeEmail={employee.employeeEmail}
                 confirmed={employee.confirmed}

@@ -262,14 +262,14 @@ export class EmployeeAdd extends Component {
                       Add Employee
                     </button>
                     <button
-                      className="btn btn-outline-info "
+                      className="btn btn-outline-secondary ml-1 "
                       onClick={() =>
-                        this.setState({
-                          openEmployeeForm: true
-                        })
+                        this.props.history.push(
+                          `/edit_project/${this.props.selectedProject._id}`
+                        )
                       }
                     >
-                      Add Employee
+                      Back To DashBoard
                     </button>
                   </div>
                 )}

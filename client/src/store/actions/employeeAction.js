@@ -39,6 +39,11 @@ export const createEmployee = data => dispatch => {
     });
 };
 
+//Delete  Employee by ID
+export const deleteEmployee = data => {
+  console.log("data", data);
+};
+
 //Loading
 
 export const loading = () => {

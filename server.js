@@ -64,5 +64,8 @@ const server = app.listen(port, () => {
 
 //Exercises
 
-// const name = "john";
-// console.log(name[0].toLocaleUpperCase() + name.slice(1));
+// const sum = (x, y) => {
+//   return x * y;
+// };
+
+// console.log(sum(10, 10));
