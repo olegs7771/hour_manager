@@ -5,10 +5,10 @@ import { createEmployee } from "../../../store/actions/employeeAction";
 import { withRouter } from "react-router-dom";
 import { getSelectedProject } from "../../../store/actions/projectAction";
 import { HashLoaderSpinner } from "../../spinners/HashLoaderSpinner";
-// import { isEmpty } from "../../../utils/isEmpty";
+
 import TextFormGroup from "../../textForms/TextFormGroup";
 import moment from "moment";
-import { isEmpty } from "../../../utils/isEmpty";
+// import { isEmpty } from "../../../utils/isEmpty";
 
 export class EmployeeAdd extends Component {
   state = {
@@ -90,7 +90,7 @@ export class EmployeeAdd extends Component {
       );
     } else {
       const {
-        _id,
+        // _id,
         companyCoreFunc,
         companyName,
         date,

@@ -37,6 +37,9 @@ const ProjectSchema = new Schema({
       employeeEmail: {
         type: String
       },
+      func: {
+        type: String
+      },
       started: {
         type: String
       },

@@ -43,10 +43,12 @@ export class EmployeeStaff extends Component {
           <table className="table">
             <thead>
               <tr>
-                <th scope="col"></th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">#</th>
+                <th scope="col"> Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Address</th>
+                <th scope="col">Project</th>
+                <th scope="col">Function</th>
               </tr>
             </thead>
             {this.props.employees.map(employee => (
@@ -57,6 +59,9 @@ export class EmployeeStaff extends Component {
                 confirmed={employee.confirmed}
                 date={employee.date}
                 projectName={employee.projectName}
+                started={employee.started}
+                address={employee.address}
+                func={employee.func}
               />
             ))}
           </table>
