@@ -40,7 +40,7 @@ export const createEmployee = data => dispatch => {
 };
 
 //Delete  Employee by ID
-export const deleteEmployee = data => {
+export const deleteEmployee = data => dispatch => {
   console.log("data", data);
 };
 

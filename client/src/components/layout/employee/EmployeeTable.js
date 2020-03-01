@@ -10,6 +10,7 @@ import {
 import { connect } from "react-redux";
 import { deleteEmployee } from "../../../store/actions/employeeAction";
 import Popup from "../popup/Popup";
+import TextFormGroup from "../../textForms/TextFormGroup";
 
 class EmployeeTable extends Component {
   state = {
@@ -49,15 +50,27 @@ class EmployeeTable extends Component {
             )}
           </td>
 
-          <td
-            className="btn btn-outline-secondary d-block m-1"
-            onClick={this._deleteEmployee.bind(this, this.props.id)}
-          >
-            {this.state.showPopup ? (
-              <Popup togle={this._toggle} />
-            ) : (
-              <FontAwesomeIcon icon={faUserMinus} />
-            )}
+          <td className="btn btn-outline-secondary d-block m-1">
+            <Popup
+              icon={<FontAwesomeIcon icon={faUserMinus} />}
+              container={
+                <div className="text-danger">
+                  If Deleted all Employee Info will be lost Please Provide
+                  Employee Email to Proceed
+                  <TextFormGroup />
+                  <button
+                    className="btn btn-outline-danger"
+                    onClick={this._deleteEmployee.bind(this, this.props.id)}
+                  >
+                    Confirm
+                  </button>
+                </div>
+              }
+              title={
+                <div className="text-danger text-center">Delete Employee</div>
+              }
+              color={{ backgroundColor: "red" }}
+            />
           </td>
         </tr>
       </tbody>

@@ -8,8 +8,8 @@ const Popup = props => {
 
   return (
     <div>
-      <Button id="Popover1" type="button">
-        Launch Popover
+      <Button id="Popover1" type="button" onClick={props.delete}>
+        {props.icon}
       </Button>
       <Popover
         placement="bottom"
@@ -17,11 +17,8 @@ const Popup = props => {
         target="Popover1"
         toggle={toggle}
       >
-        <PopoverHeader>Popover Title</PopoverHeader>
-        <PopoverBody>
-          Sed posuere consectetur est at lobortis. Aenean eu leo quam.
-          Pellentesque ornare sem lacinia quam venenatis vestibulum.
-        </PopoverBody>
+        <PopoverHeader>{props.title}</PopoverHeader>
+        <PopoverBody>{props.container}</PopoverBody>
       </Popover>
     </div>
   );
