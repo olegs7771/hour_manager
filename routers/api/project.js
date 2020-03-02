@@ -211,7 +211,7 @@ router.post(
           .json({ error: "Project was deleted or not exist" });
       }
 
-      console.log("project", project.staff);
+      // console.log("project", project.staff);
       res.json(project.staff);
     });
   }

@@ -10,15 +10,35 @@ import {
 import { connect } from "react-redux";
 import { deleteEmployee } from "../../../store/actions/employeeAction";
 import Popup from "../popup/Popup";
-import TextFormGroup from "../../textForms/TextFormGroup";
+// import TextFormGroup from "../../textForms/TextFormGroup";
 
 class EmployeeTable extends Component {
   state = {
-    showPopup: true
+    showPopup: true,
+    //Email for match up in Popover in Delete Employee
+    email: "",
+    errors: {},
+    isActiveBtn: false
   };
-  _toggle = () => {
-    this.setState({ showPopup: !this.state.showPopup });
+  _onChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+    if (this.state.email === this.props.employeeEmail) {
+      console.log("match");
+
+      this.setState({ isActiveBtn: true });
+    }
+    if (this.state.email !== this.props.employeeEmail) {
+      this.setState({ isActiveBtn: false });
+    }
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.isActiveBtn !== this.state.isActiveBtn) {
+      this.setState({ isActiveBtn: true });
+    }
+  }
 
   _deleteEmployee = e => {
     console.log("e", e);
@@ -28,6 +48,8 @@ class EmployeeTable extends Component {
   };
 
   render() {
+    console.log("this.props", this.props);
+
     return (
       <tbody>
         <tr>
@@ -52,24 +74,14 @@ class EmployeeTable extends Component {
 
           <td className="btn btn-outline-secondary d-block m-1">
             <Popup
+              user={this.props.employeeName}
               icon={<FontAwesomeIcon icon={faUserMinus} />}
-              container={
-                <div className="text-danger">
-                  If Deleted all Employee Info will be lost Please Provide
-                  Employee Email to Proceed
-                  <TextFormGroup />
-                  <button
-                    className="btn btn-outline-danger"
-                    onClick={this._deleteEmployee.bind(this, this.props.id)}
-                  >
-                    Confirm
-                  </button>
-                </div>
-              }
               title={
                 <div className="text-danger text-center">Delete Employee</div>
               }
               color={{ backgroundColor: "red" }}
+              text="If Deleted all Employee Info will be lost Please Provide Employee
+              Email to Proceed"
             />
           </td>
         </tr>
