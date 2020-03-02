@@ -4,7 +4,12 @@ import { connect } from "react-redux";
 import { getEmployee } from "../../../store/actions/employeeAction";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 import { UpCase } from "../../../utils/UpperCase";
-import ReactNbsp from "react-nbsp";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUserMinus,
+  faCheck,
+  faExclamationCircle
+} from "@fortawesome/free-solid-svg-icons";
 
 export class EmployeeDetails extends Component {
   componentDidMount() {
@@ -59,10 +64,35 @@ export class EmployeeDetails extends Component {
                     {UpCase(this.props.selectedEmployee.started)}
                   </span>
                 </li>
+                <li className="list-group-item d-flex justify-content-between">
+                  <span className="font-weight-bolder">Confirmed</span>
+
+                  <span className="">
+                    {this.props.selectedEmployee.confirmed ? (
+                      <span className="text-success">
+                        <FontAwesomeIcon icon={faCheck} />
+                      </span>
+                    ) : (
+                      <span className="text-danger">
+                        {" "}
+                        <FontAwesomeIcon icon={faExclamationCircle} />
+                      </span>
+                    )}
+                  </span>
+                </li>
               </ul>
             </div>
-            <div className="col-md-4 "></div>
-            <div className="col-md-4 "></div>
+            <div className="col-md-8 border">
+              <div className="text-center h5">Statistics</div>
+            </div>
+          </div>
+          <div className="my-3 border d-flex justify-content-center ">
+            <div className="my-3 btn-group">
+              <button className="btn btn-outline-info">Edit Profile</button>
+              <button className="btn btn-outline-danger ml-2">
+                Delete Profile
+              </button>
+            </div>
           </div>
         </div>
       );
