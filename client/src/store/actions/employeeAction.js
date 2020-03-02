@@ -1,4 +1,10 @@
-import { GET_ALL_EMPLOYEES, LOADING, GET_MESSAGE, GET_ERRORS } from "./types";
+import {
+  GET_ALL_EMPLOYEES,
+  LOADING,
+  GET_MESSAGE,
+  GET_ERRORS,
+  GET_SELECTED_EMPLOYEE
+} from "./types";
 import axios from "axios";
 //Get All Employees from Selected Project
 export const getAllEmployees = data => dispatch => {
@@ -37,6 +43,25 @@ export const createEmployee = data => dispatch => {
         payload: err.response.data
       });
     });
+};
+
+//Get Selected Employee
+export const getEmployee = data => dispatch => {
+  dispatch(loading());
+  axios
+    .post("/api/employee/get_employee", data)
+    .then(res => {
+      dispatch({
+        type: GET_SELECTED_EMPLOYEE,
+        payload: res.data
+      });
+      console.log("res.data", res.data);
+    })
+    .catch(err => {
+      console.log("err.response.data", err.response.data);
+    });
+
+  console.log("data");
 };
 
 //Delete  Employee by ID

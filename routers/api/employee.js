@@ -214,4 +214,19 @@ router.get("/activate", (req, res) => {
   });
 });
 
+//Get Selected Employee
+//Private Route
+router.post(
+  "/get_employee",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Employee.findById(req.body.id).then(employee => {
+      if (!employee) {
+        return res.status(400).json({ error: "Employee not found" });
+      }
+      res.json(employee);
+    });
+  }
+);
+
 module.exports = router;

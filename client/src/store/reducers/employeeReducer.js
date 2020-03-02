@@ -1,4 +1,8 @@
-import { GET_ALL_EMPLOYEES, LOADING } from "../actions/types";
+import {
+  GET_ALL_EMPLOYEES,
+  LOADING,
+  GET_SELECTED_EMPLOYEE
+} from "../actions/types";
 
 const initialState = {
   employees: [],
@@ -17,6 +21,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         employees: action.payload,
+        loading: false
+      };
+    case GET_SELECTED_EMPLOYEE:
+      return {
+        ...state,
+        selectedEmployee: action.payload,
         loading: false
       };
     default:

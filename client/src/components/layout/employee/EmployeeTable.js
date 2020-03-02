@@ -49,8 +49,6 @@ class EmployeeTable extends Component {
   };
 
   render() {
-    console.log("this.props", this.props);
-
     return (
       <tbody>
         <tr>
