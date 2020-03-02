@@ -26,7 +26,15 @@ router.post(
         //Find Employee
         Employee.findOne({ email: req.body.email })
           .then(employee => {
-            const { projectID, name, email, address, started, func } = req.body;
+            const {
+              projectID,
+              name,
+              email,
+              phone,
+              address,
+              started,
+              func
+            } = req.body;
 
             if (employee) {
               return res
@@ -40,6 +48,7 @@ router.post(
                 name,
                 email,
                 address,
+                phone,
                 started,
                 func,
                 confirmed: false
@@ -58,6 +67,7 @@ router.post(
                     employeeID: newEmployee._id,
                     employeeName: newEmployee.name,
                     employeeEmail: newEmployee.email,
+                    employeePhone: newEmployee.phone,
                     func: newEmployee.func,
                     started: newEmployee.started,
                     employeeDate: newEmployee.date,
@@ -81,6 +91,7 @@ router.post(
                         _id: newEmployee._id,
                         employeeName: newEmployee.name,
                         employeeEmail: newEmployee.email,
+                        employeePhone: newEmployee.phone,
                         companyName: project.companyName,
                         projectName: project.projectName,
                         confirmed: false,

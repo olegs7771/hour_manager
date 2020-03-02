@@ -6,6 +6,15 @@ import { getAllEmployees } from "../../../store/actions/employeeAction";
 import { HashLoaderSpinner } from "../../spinners/HashLoaderSpinner";
 import { isEmpty } from "../../../utils/isEmpty";
 import EmployeeTable from "./EmployeeTable";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  // faUserMinus,
+  faLongArrowAltRight,
+  faExclamationCircle,
+  faCheck
+} from "@fortawesome/free-solid-svg-icons";
+
+import ReactNbsp from "react-nbsp";
 
 export class EmployeeStaff extends Component {
   state = {
@@ -42,6 +51,38 @@ export class EmployeeStaff extends Component {
       return (
         <div className="my-4  ">
           <div className="h5 text-center my-3">Employee Table</div>
+          <div className="my-5 border pl-4">
+            <span className="font-weight-bolder">Confirmed</span>{" "}
+            <span className="text-danger">
+              {" "}
+              <FontAwesomeIcon icon={faExclamationCircle} />
+            </span>{" "}
+            <ReactNbsp />
+            <ReactNbsp />
+            <ReactNbsp />
+            <FontAwesomeIcon icon={faLongArrowAltRight} />
+            <ReactNbsp />
+            <ReactNbsp />
+            <span className="font-italic">
+              Employee has been notified and not yet confirmed
+            </span>{" "}
+            <br />
+            <span className="font-weight-bolder">Confirmed</span>{" "}
+            <span className="text-success">
+              {" "}
+              <FontAwesomeIcon icon={faCheck} />
+            </span>{" "}
+            <ReactNbsp />
+            <ReactNbsp />
+            <ReactNbsp />
+            <FontAwesomeIcon icon={faLongArrowAltRight} />
+            <ReactNbsp />
+            <ReactNbsp />
+            <span className="font-italic">
+              Employee has been notified and confirmed
+            </span>
+          </div>
+
           {/* table */}
           <table className="table table-bordered ">
             <thead>
@@ -50,11 +91,13 @@ export class EmployeeStaff extends Component {
                 <th scope="col"> Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Address</th>
+                <th scope="col">Phone</th>
                 <th scope="col">Project</th>
                 <th scope="col">Function</th>
                 <th scope="col">Started Job</th>
-                <th scope="col">Emploee Confirmed</th>
-                <th scope="col"></th>
+                <th scope="col">Confirmed</th>
+                <th scope="col">App</th>
+                <th scope="col">View</th>
               </tr>
             </thead>
             {this.props.employees.map((employee, index) => (
@@ -63,6 +106,7 @@ export class EmployeeStaff extends Component {
                 id={employee._id}
                 employeeName={employee.employeeName}
                 employeeEmail={employee.employeeEmail}
+                employeePhone={employee.employeePhone}
                 confirmed={employee.confirmed}
                 date={employee.date}
                 projectName={employee.projectName}

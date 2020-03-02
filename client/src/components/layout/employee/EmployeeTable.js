@@ -1,15 +1,16 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import { UpCase } from "../../../utils/UpperCase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faUserMinus,
+  // faUserMinus,
   faCheck,
   faExclamationCircle
 } from "@fortawesome/free-solid-svg-icons";
 
 import { connect } from "react-redux";
 import { deleteEmployee } from "../../../store/actions/employeeAction";
-import Popup from "../popup/Popup";
+// import Popup from "../popup/Popup";
 // import TextFormGroup from "../../textForms/TextFormGroup";
 
 class EmployeeTable extends Component {
@@ -57,6 +58,7 @@ class EmployeeTable extends Component {
           <td>{UpCase(this.props.employeeName)}</td>
           <td>{this.props.employeeEmail}</td>
           <td>{this.props.address}</td>
+          <td>{this.props.employeePhone}</td>
           <td>{UpCase(this.props.projectName)}</td>
           <td>{UpCase(this.props.func)}</td>
           <td>{this.props.started}</td>
@@ -71,22 +73,18 @@ class EmployeeTable extends Component {
               </span>
             )}
           </td>
-
-          <td className="btn btn-outline-secondary d-block m-1">
-            <Popup
-              user={this.props.employeeName}
-              icon={<FontAwesomeIcon icon={faUserMinus} />}
-              title={
-                <div className="text-danger text-center">Delete Employee</div>
-              }
-              color={{ backgroundColor: "red" }}
-              text="If Deleted all Employee Info will be lost Please Provide Employee
-              Email to Proceed"
-            />
+          <td>app</td>
+          <td
+            className="btn btn-outline-info d-block"
+            onClick={() =>
+              this.props.history.push(`/employee_details/${this.props.id}`)
+            }
+          >
+            View
           </td>
         </tr>
       </tbody>
     );
   }
 }
-export default connect(null, { deleteEmployee })(EmployeeTable);
+export default connect(null, { deleteEmployee })(withRouter(EmployeeTable));
