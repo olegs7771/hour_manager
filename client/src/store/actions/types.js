@@ -13,6 +13,7 @@ export const LOADING_PROJECT = "LOADING_PROJECT";
 //Employess
 export const GET_ALL_EMPLOYEES = "GET_ALL_EMPLOYEES";
 export const GET_SELECTED_EMPLOYEE = "GET_SELECTED_EMPLOYEE";
+export const DELETE_EMPLOYEE = "DELETE_EMPLOYEE";
 
 //Loading
 export const LOADING = "LOADING";

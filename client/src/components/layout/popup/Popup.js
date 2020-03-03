@@ -5,31 +5,23 @@ const Popup = props => {
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   const toggle = () => setPopoverOpen(!popoverOpen);
-
   return (
-    <div>
-      <Button id="Popover1" type="button" onClick={props.delete}>
+    <div style={{ marginLeft: props.margin }}>
+      <Button
+        id="Popover1"
+        type="button"
+        //  onClick={()=>}
+      >
         {props.icon}
       </Button>
       <Popover
-        placement="bottom"
+        placement={props.placement}
         isOpen={popoverOpen}
         target="Popover1"
         toggle={toggle}
       >
         <PopoverHeader>{props.title}</PopoverHeader>
-        <PopoverBody>
-          <div className="text-danger">
-            {props.text}
-
-            <button
-              className="btn btn-outline-danger"
-              onClick={props._deleteEmployee}
-            >
-              Confirm
-            </button>
-          </div>
-        </PopoverBody>
+        <PopoverBody>{props.body}</PopoverBody>
       </Popover>
     </div>
   );

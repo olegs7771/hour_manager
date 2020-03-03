@@ -67,6 +67,14 @@ export const getEmployee = data => dispatch => {
 //Delete  Employee by ID
 export const deleteEmployee = data => dispatch => {
   console.log("data", data);
+  axios
+    .post("/api/employee/delete", data)
+    .then(res => {
+      console.log("res.data", res.data);
+    })
+    .catch(err => {
+      console.log("err", err.response.data);
+    });
 };
 
 //Loading
