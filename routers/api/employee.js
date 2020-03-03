@@ -123,6 +123,8 @@ router.post(
   "/delete",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    console.log("req.body.id", req.body.id);
+
     Employee.findById(req.body.id)
       .then(employee => {
         if (!employee) {

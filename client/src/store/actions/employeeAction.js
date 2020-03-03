@@ -47,10 +47,10 @@ export const createEmployee = data => dispatch => {
 
 //Get Selected Employee
 export const getEmployee = data => dispatch => {
-  dispatch(loading());
   axios
     .post("/api/employee/get_employee", data)
     .then(res => {
+      dispatch(loading());
       dispatch({
         type: GET_SELECTED_EMPLOYEE,
         payload: res.data
@@ -59,6 +59,10 @@ export const getEmployee = data => dispatch => {
     })
     .catch(err => {
       console.log("err.response.data", err.response.data);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
     });
 
   console.log("data");
@@ -70,10 +74,16 @@ export const deleteEmployee = data => dispatch => {
   axios
     .post("/api/employee/delete", data)
     .then(res => {
+      dispatch(loading());
+      dispatch({
+        type: GET_MESSAGE,
+        payload: res.data
+      });
+
       console.log("res.data", res.data);
     })
     .catch(err => {
-      console.log("err", err.response.data);
+      console.log("err:", err.response.data);
     });
 };
 

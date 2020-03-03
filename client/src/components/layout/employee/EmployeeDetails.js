@@ -22,7 +22,8 @@ export class EmployeeDetails extends Component {
     email: "",
     match: false,
     open: false,
-    closePopover: false
+    selectedEmployee: null,
+    loading: null
   };
   _onChange = e => {
     this.setState({
@@ -38,6 +39,29 @@ export class EmployeeDetails extends Component {
         this.setState({ match: false });
       }
     }
+    if (prevProps.selectedEmployee !== this.props.selectedEmployee) {
+      this.setState({
+        selectedEmployee: this.props.selectedEmployee ? true : null
+      });
+    }
+
+    // GET Errors in State
+    if (prevProps.errors !== this.props.errors) {
+      this.setState({ errors: this.props.errors, selectedEmployee: true });
+    }
+
+    // GET Loading in State
+    if (prevProps.loading !== this.props.loading) {
+      this.setState({ loading: this.props.loading ? true : null });
+    }
+    // GET Messages in State
+    if (prevProps.messages !== this.props.messages) {
+      this.setState({
+        messages: this.props.messages,
+        selectedEmployee: true,
+        loading: null
+      });
+    }
   }
 
   componentDidMount() {
@@ -47,17 +71,21 @@ export class EmployeeDetails extends Component {
   _deleteEmployee = e => {
     console.log("e", e);
     this.props.deleteEmployee({
-      data: e
+      id: e
     });
   };
 
   render() {
-    if (this.props.loading || this.props.selectedEmployee === null) {
+    if (this.state.loading || this.state.selectedEmployee === null) {
       return (
         <div className="mx-auto " style={{ paddingTop: "30%" }}>
           <DotLoaderSpinner />
         </div>
       );
+    } else if (this.state.errors) {
+      return <div className="my-4">{this.state.errors.error}</div>;
+    } else if (this.state.messages) {
+      return <div className="my-4">{this.state.messages.message}</div>;
     } else {
       return (
         <div className="my-4 border">
@@ -170,7 +198,10 @@ export class EmployeeDetails extends Component {
 }
 
 const mapStateToProps = state => ({
-  selectedEmployee: state.employees.selectedEmployee
+  selectedEmployee: state.employees.selectedEmployee,
+  errors: state.errors.errors,
+  loading: state.employees.loading,
+  messages: state.messages.messages
 });
 
 const mapDispatchToProps = { getEmployee, deleteEmployee };
