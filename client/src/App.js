@@ -22,6 +22,7 @@ import ProjectEdit from "../src/components/layout/project/ProjectEdit";
 import EmployeeStaff from "../src/components/layout/employee/EmployeeStaff";
 import EmployeeAdd from "../src/components/layout/employee/EmployeeAdd";
 import EmployeeDetails from "../src/components/layout/employee/EmployeeDetails";
+import EmployeeEdit from "../src/components/layout/employee/EmployeeEdit";
 
 import configureStore from "./store/configureStore/configureStore";
 import jwt_decode from "jwt-decode";
@@ -113,6 +114,13 @@ class App extends Component {
                   <Redirect to="/login" />
                 ) : (
                   <EmployeeDetails />
+                )}
+              </Route>
+              <Route exact path="/employee_edit/:id">
+                {!localStorage.jwtToken ? (
+                  <Redirect to="/login" />
+                ) : (
+                  <EmployeeEdit />
                 )}
               </Route>
 

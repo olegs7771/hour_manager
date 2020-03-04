@@ -64,7 +64,7 @@ export class EmployeeStaff extends Component {
             <ReactNbsp />
             <ReactNbsp />
             <span className="font-italic">
-              Employee has been notified and not yet confirmed
+              Employee has been notified by Email and not yet confirmed
             </span>{" "}
             <br />
             <span className="font-weight-bolder">Confirmed</span>{" "}
@@ -79,7 +79,7 @@ export class EmployeeStaff extends Component {
             <ReactNbsp />
             <ReactNbsp />
             <span className="font-italic">
-              Employee has been notified and confirmed
+              Employee has been notified by Email and confirmed
             </span>
           </div>
 

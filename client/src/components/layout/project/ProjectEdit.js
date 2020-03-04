@@ -1,11 +1,17 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getSelectedProject } from "../../../store/actions/projectAction";
-import { withRouter } from "react-router-dom";
+import {
+  getSelectedProject,
+  editProject
+} from "../../../store/actions/projectAction";
+import { withRouter, Link } from "react-router-dom";
 import TextFormGroup from "../../textForms/TextFormGroup";
 import SelectFormGroup from "../../textForms/SelectFormGroup";
 import { HashLoaderSpinner } from "../../spinners/HashLoaderSpinner";
 import { UpCase } from "../../../utils/UpperCase";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLongArrowAltRight } from "@fortawesome/free-solid-svg-icons";
 
 export class ProjectEdit extends Component {
   constructor(props) {
@@ -20,7 +26,8 @@ export class ProjectEdit extends Component {
       staff: [],
       errors: {},
       messages: {},
-      loading: false
+      loading: false,
+      selectedProject: null
     };
   }
   _onChange = e => {
@@ -36,15 +43,16 @@ export class ProjectEdit extends Component {
     });
   }
   componentDidUpdate(prevProps, prevState) {
-    const {
-      _id,
-      projectName,
-      companyName,
-      location,
-      companyCoreFunc,
-      staff
-    } = this.props.selectedProject;
     if (prevProps.selectedProject !== this.props.selectedProject) {
+      const {
+        _id,
+        projectName,
+        companyName,
+        location,
+        companyCoreFunc,
+        staff
+      } = this.props.selectedProject;
+
       this.setState({
         projectID: _id,
         projectName,
@@ -54,10 +62,73 @@ export class ProjectEdit extends Component {
         staff
       });
     }
+    //Get Loading to State
+    if (prevProps.loading !== this.props.loading) {
+      this.setState({ loading: this.props.loading ? true : false });
+    }
+    //Get selectedProject to State
+    if (prevProps.selectedProject !== this.props.selectedProject) {
+      this.setState({
+        selectedProject: this.props.selectedProject
+          ? this.props.selectedProject
+          : null
+      });
+    }
+    //Get Errors to State
+    if (prevProps.errors !== this.props.errors) {
+      this.setState({
+        errors: this.props.errors ? this.props.errors : {}
+      });
+    }
+    //Get Messages to State
+    if (prevProps.messages !== this.props.messages) {
+      this.setState({
+        messages: this.props.messages ? this.props.messages : {},
+        loading: null
+      });
+    }
   }
+  //On Submit edit Project Details
+
+  _onSubmit = e => {
+    e.preventDefault();
+    const upProject = {
+      companyName: this.state.companyName,
+      location: this.state.location,
+      companyCoreFunc: this.state.companyCoreFunc
+    };
+    this.props.editProject(upProject);
+  };
 
   render() {
-    if (this.props.selectedProject) {
+    if (this.state.loading || this.state.selectedProject === null) {
+      return (
+        <div className="h3 text-center " style={{ paddingTop: "30%" }}>
+          <HashLoaderSpinner />
+        </div>
+      );
+    } else if (this.state.messages.message) {
+      return (
+        <div className="my-3 ">
+          <span className="text-success text-center h5">
+            {this.state.messages.message}
+          </span>
+          <div className="my-3" style={{ width: "20%" }}>
+            <Link
+              to={"/project"}
+              className="  d-flex align-items-center  btn btn-primary"
+            >
+              Back to Projects{" "}
+              <FontAwesomeIcon
+                icon={faLongArrowAltRight}
+                size="2x"
+                className="ml-3"
+              />
+            </Link>
+          </div>
+        </div>
+      );
+    } else {
       // Select options for Business functions;
       const options = [
         { label: "* Select The Core Function", value: null },
@@ -81,7 +152,6 @@ export class ProjectEdit extends Component {
               <form onSubmit={this._onSubmit}>
                 <TextFormGroup
                   label="Company Name"
-                  // placeholder="Company Name.."
                   value={
                     this.state.companyName
                       ? UpCase(this.state.companyName)
@@ -92,20 +162,18 @@ export class ProjectEdit extends Component {
                   error={this.state.errors.companyName}
                 />
                 <TextFormGroup
-                  label="Project Name"
-                  // placeholder="Project Name.."
+                  label="Business Function (Select from option below)"
                   value={
-                    this.state.projectName
-                      ? UpCase(this.state.projectName)
-                      : this.state.projectName
+                    this.state.companyCoreFunc
+                      ? UpCase(this.state.companyCoreFunc)
+                      : this.state.companyCoreFunc
                   }
-                  name="projectName"
+                  name="companyCoreFunc"
                   onChange={this._onChange}
-                  error={this.state.errors.projectName}
+                  error={this.state.errors.companyCoreFunc}
                 />
                 <TextFormGroup
                   label="Company Location"
-                  // placeholder="Company location.."
                   value={
                     this.state.location
                       ? UpCase(this.state.location)
@@ -168,21 +236,6 @@ export class ProjectEdit extends Component {
               </div>
             </div>
           </div>
-
-          <HashLoaderSpinner loading={this.state.loading} />
-          {true ? (
-            <div className="my-2 ">
-              <span className="text-success d-block mx-auto pl-4">
-                {this.state.messages.message}
-              </span>
-            </div>
-          ) : null}
-        </div>
-      );
-    } else {
-      return (
-        <div className="h3 text-center " style={{ paddingTop: "30%" }}>
-          <HashLoaderSpinner />
         </div>
       );
     }
@@ -190,10 +243,18 @@ export class ProjectEdit extends Component {
 }
 
 const mapStateToProps = state => ({
-  selectedProject: state.projects.selectedProject
+  selectedProject: state.projects.selectedProject,
+  loading: state.projects.loading,
+  messages: state.messages.messages,
+  errors: state.errors.errors
 });
 
-const mapDispatchToProps = { getSelectedProject };
+const mapDispatchToProps = { getSelectedProject, editProject };
+
+ProjectEdit.propTypes = {
+  selectedProject: PropTypes.object,
+  loading: PropTypes.bool
+};
 
 export default connect(
   mapStateToProps,

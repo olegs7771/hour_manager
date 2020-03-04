@@ -221,12 +221,47 @@ router.get("/activate", (req, res) => {
 router.post(
   "/get_employee",
   passport.authenticate("jwt", { session: false }),
+
   (req, res) => {
+    console.log("req.body.id", req.body.id);
     Employee.findById(req.body.id).then(employee => {
       if (!employee) {
         return res.status(400).json({ error: "Employee not found" });
       }
+
       res.json(employee);
+    });
+  }
+);
+
+//Update Employee Details
+//Private Route
+
+router.post(
+  "/update",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validateEmployeeInput(req.body);
+    if (!isValid) return res.status(400).json(errors);
+    //Passed Validation
+    Employee.findOneAndUpdate(
+      { _id: req.body.id },
+      {
+        name: req.body.name,
+        email: req.body.email,
+        address: req.body.address,
+        phone: req.body.phone,
+        started: req.body.started,
+        name: req.body.name
+      },
+      { new: true }
+    ).then(employee => {
+      if (!employee) {
+        console.log("not found");
+        return res.status(400).json({ error: "User not found" });
+      }
+
+      res.json({ message: "Employee was updated" });
     });
   }
 );

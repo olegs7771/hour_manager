@@ -67,6 +67,23 @@ export const getSelectedProject = data => dispatch => {
     });
 };
 
+//Edit Selected Project
+export const editProject = data => dispatch => {
+  dispatch(loading());
+  axios
+    .post("/api/project/update", data)
+    .then(res => {
+      console.log("res.data", res.data);
+      dispatch({
+        type: GET_MESSAGE,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      console.log("err :", err.response.data);
+    });
+};
+
 //Loading
 
 export const loading = () => {

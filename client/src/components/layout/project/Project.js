@@ -96,24 +96,18 @@ export class Project extends Component {
                   <ul className="list-group" key={project._id}>
                     {/* Button Project Name + Date */}
                     <li
-                      className="list-group-item  btn btn-outline-primary mb-1"
+                      className="list-group-item  btn btn-outline-primary mb-1  d-flex justify-content-between"
                       onClick={this._projectName.bind(this, project)}
                     >
-                      <div className="row ">
-                        <div className="col-md-6  d-flex justify-content-around">
-                          <span className="text-left">Project:</span>
-                          <span className="text-success">
-                            {project.projectName[0].toLocaleUpperCase() +
-                              project.projectName.slice(1)}
-                          </span>
-                        </div>
-                        <div className="col-md-6 d-flex justify-content-around">
-                          <span className="text-left">Created:</span>{" "}
-                          <span className="text-success">
-                            {moment(project.date).format("LL")}
-                          </span>
-                        </div>
-                      </div>
+                      <span className="text-left">Project:</span>
+                      <span className="text-success">
+                        {project.projectName[0].toLocaleUpperCase() +
+                          project.projectName.slice(1)}
+                      </span>
+                      <span className="text-left">Created:</span>
+                      <span className="text-success">
+                        {moment(project.date).format("LL")}
+                      </span>
                     </li>
                   </ul>
                 ))}

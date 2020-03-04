@@ -9,7 +9,7 @@ import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 import { UpCase } from "../../../utils/UpperCase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faUserMinus,
+  // faUserMinus,
   faCheck,
   faExclamationCircle
 } from "@fortawesome/free-solid-svg-icons";
@@ -19,7 +19,13 @@ import TextFormGroup from "../../textForms/TextFormGroup";
 export class EmployeeDetails extends Component {
   //State for popover Email Confirmation for delete btn
   state = {
+    name: "",
     email: "",
+    address: "",
+    phone: "",
+    func: "",
+    started: "",
+
     match: false,
     open: false,
     selectedEmployee: null,
@@ -151,7 +157,16 @@ export class EmployeeDetails extends Component {
           </div>
           <div className="my-3 border d-flex justify-content-center ">
             <div className="my-3 btn-group">
-              <button className="btn btn-outline-info">Edit Profile</button>
+              <button
+                className="btn btn-outline-info"
+                onClick={() =>
+                  this.props.history.push(
+                    `/employee_edit/${this.props.selectedEmployee._id}`
+                  )
+                }
+              >
+                Edit Profile
+              </button>
               <Popup
                 open={this.state.open}
                 icon="Delete Profile"
