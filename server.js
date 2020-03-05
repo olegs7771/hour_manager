@@ -63,9 +63,8 @@ const server = app.listen(port, () => {
 });
 
 //Exercises
+// const array1 = [5, 12, 8, 130, 44];
 
-// const sum = (x, y) => {
-//   return x * y;
-// };
+// const found = array1.find(element => element > 10);
 
-// console.log(sum(10, 10));
+// console.log(found);

@@ -269,14 +269,19 @@ router.post(
       console.log("upEmployee", upEmployee);
 
       //Update Project.stafF[]
-      Project.findOneAndUpdate({ _id: req.body.projectID }, {}).then(
-        project => {
-          if (!project) {
-            return console.log("no project");
-          }
-          console.log("project", project);
+      Project.findById(req.body.projectID).then(project => {
+        if (!project) {
+          return console.log("no project");
         }
-      );
+        console.log("project", project);
+        //Find Employee to Update in project.staff[]
+        console.log("project.staff", project.staff);
+
+        const employeeFound = project.staff.find(
+          employee => employee.id === upEmployee.id
+        );
+        console.log("employeeFound", employeeFound);
+      });
       // Project.findById(req.body.projectID).then(project => {
       //   if (project) {
       //     project.staff.unshift({
