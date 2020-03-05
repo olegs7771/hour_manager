@@ -81,6 +81,7 @@ export class EmployeeEdit extends Component {
 
     const upEmployee = {
       id: this.props.match.params.id,
+      projectID: this.props.selectedEmployee.projectID,
       name,
       email,
       phone,

@@ -259,13 +259,43 @@ router.post(
         name: req.body.name
       },
       { new: true }
-    ).then(employee => {
-      if (!employee) {
+    ).then(upEmployee => {
+      if (!upEmployee) {
         console.log("not found");
         return res.status(400).json({ error: "User not found" });
       }
 
       res.json({ message: "Employee was updated" });
+      console.log("upEmployee", upEmployee);
+
+      //Update Project.stafF[]
+      Project.findOneAndUpdate({ _id: req.body.projectID }, {}).then(
+        project => {
+          if (!project) {
+            return console.log("no project");
+          }
+          console.log("project", project);
+        }
+      );
+      // Project.findById(req.body.projectID).then(project => {
+      //   if (project) {
+      //     project.staff.unshift({
+      //       _id: upEmployee._id,
+      //       employeeName: upEmployee.name,
+      //       employeeEmail: upEmployee.email,
+      //       employeePhone: upEmployee.phone,
+      //       companyName: project.companyName,
+      //       projectName: project.projectName,
+      //       confirmed: false,
+      //       started: upEmployee.started,
+      //       address: upEmployee.address,
+      //       func: upEmployee.func
+      //     });
+      //     project.save().then(upProject => {
+      //       console.log("upProject", upProject);
+      //     });
+      //   }
+      // });
     });
   }
 );
