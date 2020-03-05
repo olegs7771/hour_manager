@@ -6,6 +6,7 @@ import {
   GET_SELECTED_EMPLOYEE
 } from "./types";
 import axios from "axios";
+
 //Get All Employees from Selected Project
 export const getAllEmployees = data => dispatch => {
   dispatch(loading());
@@ -64,8 +65,6 @@ export const getEmployee = data => dispatch => {
         payload: err.response.data
       });
     });
-
-  console.log("data");
 };
 
 //Delete  Employee by ID
@@ -84,6 +83,28 @@ export const deleteEmployee = data => dispatch => {
     })
     .catch(err => {
       console.log("err:", err.response.data);
+    });
+};
+
+//Update Employee Details
+export const updateEmployee = data => dispatch => {
+  dispatch(loading());
+  console.log("data", data);
+  axios
+    .post("/api/employee/update", data)
+    .then(res => {
+      console.log("res.data", res.data);
+      dispatch({
+        type: GET_MESSAGE,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      console.log("err :", err.response.data);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
     });
 };
 

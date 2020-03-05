@@ -25,6 +25,8 @@ export class EmployeeDetails extends Component {
     phone: "",
     func: "",
     started: "",
+    errors: {},
+    messages: {},
 
     match: false,
     open: false,
@@ -88,9 +90,9 @@ export class EmployeeDetails extends Component {
           <DotLoaderSpinner />
         </div>
       );
-    } else if (this.state.errors) {
+    } else if (this.state.errors.error) {
       return <div className="my-4">{this.state.errors.error}</div>;
-    } else if (this.state.messages) {
+    } else if (this.state.messages.message) {
       return <div className="my-4">{this.state.messages.message}</div>;
     } else {
       return (

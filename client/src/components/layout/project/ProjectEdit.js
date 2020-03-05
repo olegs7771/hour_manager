@@ -113,10 +113,10 @@ export class ProjectEdit extends Component {
           <span className="text-success text-center h5">
             {this.state.messages.message}
           </span>
-          <div className="my-3" style={{ width: "20%" }}>
-            <Link
-              to={"/project"}
-              className="  d-flex align-items-center  btn btn-primary"
+          <div className="my-3  ">
+            <button
+              className="d-flex align-items-center btn btn-outline-secondary"
+              onClick={() => this.props.history.push("/project")}
             >
               Back to Projects{" "}
               <FontAwesomeIcon
@@ -124,7 +124,7 @@ export class ProjectEdit extends Component {
                 size="2x"
                 className="ml-3"
               />
-            </Link>
+            </button>
           </div>
         </div>
       );

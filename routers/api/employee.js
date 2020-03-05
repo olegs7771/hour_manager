@@ -241,8 +241,12 @@ router.post(
   "/update",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    console.log("req.body", req.body);
+
     const { errors, isValid } = validateEmployeeInput(req.body);
-    if (!isValid) return res.status(400).json(errors);
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
     //Passed Validation
     Employee.findOneAndUpdate(
       { _id: req.body.id },
