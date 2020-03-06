@@ -63,24 +63,3 @@ const server = app.listen(port, () => {
 });
 
 //Exercises
-// const arr = [
-//   { price: 2000, brand: "Honda" },
-//   { price: 3000, brand: "Tayota" },
-//   { price: 4000, brand: "JMC" },
-//   { price: 7000, brand: "Mazda" },
-//   { price: 1000, brand: "Fiat" }
-// ];
-
-// arr.map((car, index) => {
-//   if (car.price < 2000) {
-//     console.log("car", car);
-//     console.log("index", index);
-
-//     console.log(
-//       "new arr",
-//       immer.produce(arr, draft => {
-//         draft[index] = { price: 1050, brand: "Ford" };
-//       })
-//     );
-//   }
-// });

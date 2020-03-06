@@ -156,6 +156,8 @@ export class EmployeeDetails extends Component {
             </div>
             <div className="col-md-8 border">
               <div className="text-center h5">Statistics</div>
+
+              <BarChartComponent />
             </div>
           </div>
           <div className="my-3 border d-flex justify-content-center ">
