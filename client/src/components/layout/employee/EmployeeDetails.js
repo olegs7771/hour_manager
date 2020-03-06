@@ -15,6 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Popup from "../popup/Popup";
 import TextFormGroup from "../../textForms/TextFormGroup";
+import BarChartComponent from "../charts/BarChartComponent";
 
 export class EmployeeDetails extends Component {
   //State for popover Email Confirmation for delete btn

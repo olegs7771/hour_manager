@@ -265,7 +265,7 @@ router.post(
         return res.status(400).json({ error: "User not found" });
       }
 
-      res.json({ message: "Employee was updated" });
+      // res.json({ message: "Employee was updated" });
       console.log("upEmployee", upEmployee);
 
       //Update Project.stafF[]
@@ -274,33 +274,37 @@ router.post(
           return console.log("no project");
         }
         console.log("project", project);
-        //Find Employee to Update in project.staff[]
-        console.log("project.staff", project.staff);
 
-        const employeeFound = project.staff.find(
-          employee => employee.id === upEmployee.id
-        );
-        console.log("employeeFound", employeeFound);
+        project.staff.map((employee, index) => {
+          if (employee.id === upEmployee.id) {
+            // console.log("employee match", employee);
+            // console.log("index", index);
+
+            const updatedEmployee = {
+              _id: req.body.id,
+              projectID: req.body.projectID,
+              employeeName: req.body.name,
+              employeeEmail: req.body.email,
+              employeePhone: req.body.phone,
+              companyName: employee.companyName,
+              projectName: employee.projectName,
+              confirmed: employee.confirmed,
+              address: req.body.address,
+              func: req.body.func,
+              started: req.body.started
+            };
+
+            const newArr = Object.assign([], project.staff, {
+              [index]: updatedEmployee
+            });
+            project.staff = newArr;
+          }
+        });
+
+        project.save().then(upProject => {
+          res.json({ message: "Employee was updated" });
+        });
       });
-      // Project.findById(req.body.projectID).then(project => {
-      //   if (project) {
-      //     project.staff.unshift({
-      //       _id: upEmployee._id,
-      //       employeeName: upEmployee.name,
-      //       employeeEmail: upEmployee.email,
-      //       employeePhone: upEmployee.phone,
-      //       companyName: project.companyName,
-      //       projectName: project.projectName,
-      //       confirmed: false,
-      //       started: upEmployee.started,
-      //       address: upEmployee.address,
-      //       func: upEmployee.func
-      //     });
-      //     project.save().then(upProject => {
-      //       console.log("upProject", upProject);
-      //     });
-      //   }
-      // });
     });
   }
 );

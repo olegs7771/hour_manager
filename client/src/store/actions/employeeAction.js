@@ -89,7 +89,7 @@ export const deleteEmployee = data => dispatch => {
 //Update Employee Details
 export const updateEmployee = data => dispatch => {
   dispatch(loading());
-  console.log("data", data);
+  console.log("data");
   axios
     .post("/api/employee/update", data)
     .then(res => {
