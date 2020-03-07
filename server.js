@@ -63,3 +63,4 @@ const server = app.listen(port, () => {
 });
 
 //Exercises
+console.log(Date.now());
