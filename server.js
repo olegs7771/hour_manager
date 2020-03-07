@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 require("dotenv").config();
 const app = express();
+const moment = require("moment");
 
 //Routes
 const auth = require("./routers/api/auth");
@@ -63,4 +64,6 @@ const server = app.listen(port, () => {
 });
 
 //Exercises
-console.log(Date.now());
+
+// console.log("in", moment(1583565900000).format("HH:mm LL"));
+// console.log("out", moment(158336867600).format("HH:mm LL"));

@@ -16,45 +16,38 @@ export class BarChartComponent extends Component {
     const data = [
       {
         day: "SUN",
-        John: 1583523574022,
-        Marina: 1583523544022,
-        Oleg: 1583523174022
+
+        Oleg: 1583043755000
       },
       {
         day: "MON",
-        John: 1583523575022,
-        Marina: 1583523554022,
-        Oleg: 1583523274022
+
+        Oleg: 1583130155000
       },
       {
         day: "TUE",
-        John: 1583523576022,
-        Marina: 1583523564022,
-        Oleg: 1583523374022
+
+        Oleg: 1583216555000
       },
       {
         day: "WED",
-        John: 1583523584022,
-        Marina: 1583523577022,
-        Oleg: 1583523544022
+
+        Oleg: 1583302955000
       },
       {
         day: "THU",
-        John: 1583523586022,
-        Marina: 1583523584022,
-        Oleg: 1583523574022
+
+        Oleg: 1583389355000
       },
       {
         day: "FRY",
-        John: 1583523594022,
-        Marina: 1583523594022,
-        Oleg: 1583523674022
+
+        Oleg: 1583479502000
       },
       {
         day: "SAT",
-        John: 1583523594022,
-        Marina: 1583523595022,
-        Oleg: 1583523774022
+
+        Oleg: 1583564180000
       }
     ];
     return (
@@ -65,18 +58,22 @@ export class BarChartComponent extends Component {
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis
-          dataKey="day"
+        <XAxis dataKey="day" />
+        <YAxis
           domain={["auto", "auto"]}
           tickFormatter={unixTime => moment(unixTime).format("HH:mm Do")}
-          // type="number"
+          type="number"
         />
-        <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="John" fill="#8884d8" />
-        <Bar dataKey="Marina" fill="#82ca9d" />
-        <Bar dataKey="Oleg" fill="#888400" />
+        {/* <Bar dataKey="John" fill="#8884d8" />
+        <Bar dataKey="Marina" fill="#82ca9d" /> */}
+        <Bar
+          dataKey="Oleg"
+          fill="#888400"
+          onMouseEnter={this.props.showDate}
+          // name={"test"}
+        />
       </BarChart>
     );
   }

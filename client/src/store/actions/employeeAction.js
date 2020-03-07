@@ -56,7 +56,7 @@ export const getEmployee = data => dispatch => {
         type: GET_SELECTED_EMPLOYEE,
         payload: res.data
       });
-      console.log("res.data", res.data);
+      // console.log("res.data", res.data);
     })
     .catch(err => {
       console.log("err.response.data", err.response.data);

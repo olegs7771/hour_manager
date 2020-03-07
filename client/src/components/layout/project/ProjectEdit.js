@@ -5,7 +5,7 @@ import {
   getSelectedProject,
   editProject
 } from "../../../store/actions/projectAction";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import TextFormGroup from "../../textForms/TextFormGroup";
 import SelectFormGroup from "../../textForms/SelectFormGroup";
 import { HashLoaderSpinner } from "../../spinners/HashLoaderSpinner";

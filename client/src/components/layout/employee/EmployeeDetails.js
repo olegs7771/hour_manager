@@ -15,7 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Popup from "../popup/Popup";
 import TextFormGroup from "../../textForms/TextFormGroup";
-import BarChartComponent from "../charts/BarChartComponent";
+import TimelineComponent from "../calendar/TimelineComponent";
 
 export class EmployeeDetails extends Component {
   //State for popover Email Confirmation for delete btn
@@ -38,6 +38,9 @@ export class EmployeeDetails extends Component {
     this.setState({
       [e.target.name]: e.target.value.toLowerCase()
     });
+  };
+  _showDate = () => {
+    console.log("date");
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -157,7 +160,7 @@ export class EmployeeDetails extends Component {
             <div className="col-md-8 border">
               <div className="text-center h5">Statistics</div>
 
-              <BarChartComponent />
+              <TimelineComponent />
             </div>
           </div>
           <div className="my-3 border d-flex justify-content-center ">

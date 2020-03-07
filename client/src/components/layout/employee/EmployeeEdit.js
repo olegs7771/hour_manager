@@ -5,7 +5,7 @@ import {
   updateEmployee
 } from "../../../store/actions/employeeAction";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
-import { UpCase } from "../../../utils/UpperCase";
+// import { UpCase } from "../../../utils/UpperCase";
 import { withRouter } from "react-router-dom";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TextFormGroup from "../../textForms/TextFormGroup";
