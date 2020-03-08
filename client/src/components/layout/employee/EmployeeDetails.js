@@ -15,7 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Popup from "../popup/Popup";
 import TextFormGroup from "../../textForms/TextFormGroup";
-import TimelineComponent from "../calendar/TimelineComponent";
+import Calendar from "../calendar/Calendar";
 
 export class EmployeeDetails extends Component {
   //State for popover Email Confirmation for delete btn
@@ -160,7 +160,7 @@ export class EmployeeDetails extends Component {
             <div className="col-md-8 border">
               <div className="text-center h5">Statistics</div>
 
-              <TimelineComponent />
+              <Calendar />
             </div>
           </div>
           <div className="my-3 border d-flex justify-content-center ">
