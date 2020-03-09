@@ -50,10 +50,10 @@ export default class Calendar extends React.Component {
   };
   MonthList = props => {
     let months = [];
-    props.data.map((data, index) => {
+    props.data.map((data, i) => {
       months.push(
         <td
-          key={index}
+          key={i}
           className="calendar-month"
           onClick={e => {
             this.setMonth(data);
@@ -67,7 +67,7 @@ export default class Calendar extends React.Component {
     let cells = [];
 
     months.forEach((row, i) => {
-      if (i % 3 !== 0 || i == 0) {
+      if (i % 3 !== 0 || i === 0) {
         cells.push(row);
       } else {
         rows.push(cells);
@@ -169,7 +169,7 @@ export default class Calendar extends React.Component {
     let cells = [];
 
     months.forEach((row, i) => {
-      if (i % 3 !== 0 || i == 0) {
+      if (i % 3 !== 0 || i === 0) {
         cells.push(row);
       } else {
         rows.push(cells);
