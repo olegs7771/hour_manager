@@ -17,3 +17,5 @@ export const DELETE_EMPLOYEE = "DELETE_EMPLOYEE";
 
 //Loading
 export const LOADING = "LOADING";
+//Calendar
+export const SELECT_DAY = "SELECT_DAY";

@@ -59,7 +59,7 @@ export default class Calendar extends React.Component {
             this.setMonth(data);
           }}
         >
-          <span>{data}</span>
+          <span key={props}>{data}</span>
         </td>
       );
     });
@@ -77,7 +77,7 @@ export default class Calendar extends React.Component {
     });
     rows.push(cells);
     let monthlist = rows.map((d, i) => {
-      return <tr>{d}</tr>;
+      return <tr key={i}>{d}</tr>;
     });
 
     return (
