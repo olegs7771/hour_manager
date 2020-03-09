@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { clearOutUser } from "../../../store/actions/authAction";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 export class Header extends Component {
   state = {
     isAuthenticated: false,
@@ -59,9 +59,9 @@ export class Header extends Component {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/#">
-                Link
-              </a>
+              <Link className="nav-link" to={"/sandbox"}>
+                SandBox
+              </Link>
             </li>
             <li className="nav-item dropdown">
               <a

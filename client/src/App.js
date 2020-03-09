@@ -7,6 +7,8 @@ import {
 } from "react-router-dom";
 import { Provider } from "react-redux";
 import setAuthToken from "./utils/setAuthToken";
+//SandBox
+import SandBox from "./SandBox";
 
 //Auth
 import Register from "../src/components/auth/Register";
@@ -124,6 +126,7 @@ class App extends Component {
                 )}
               </Route>
 
+              <Route exact path="/sandbox" component={SandBox} />
               <Route exact path="/" component={Home} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
