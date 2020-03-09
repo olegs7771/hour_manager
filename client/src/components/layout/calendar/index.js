@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import { range } from "moment-range";
+// import { range } from "moment-range";
 import "./calendar.css";
 export default class Calendar extends React.Component {
   weekdayshort = moment.weekdaysShort();
@@ -50,10 +50,10 @@ export default class Calendar extends React.Component {
   };
   MonthList = props => {
     let months = [];
-    props.data.map(data => {
+    props.data.map((data, index) => {
       months.push(
         <td
-          key={data}
+          key={index}
           className="calendar-month"
           onClick={e => {
             this.setMonth(data);
@@ -179,14 +179,14 @@ export default class Calendar extends React.Component {
     });
     rows.push(cells);
     let yearlist = rows.map((d, i) => {
-      return <tr>{d}</tr>;
+      return <tr key={i}>{d}</tr>;
     });
 
     return (
       <table className="calendar-month">
         <thead>
           <tr>
-            <th colSpan="4">Select a Yeah</th>
+            <th colSpan="4">Select a Year</th>
           </tr>
         </thead>
         <tbody>{yearlist}</tbody>
@@ -247,7 +247,7 @@ export default class Calendar extends React.Component {
     });
 
     let daysinmonth = rows.map((d, i) => {
-      return <tr>{d}</tr>;
+      return <tr key={i}>{d}</tr>;
     });
 
     return (
@@ -257,14 +257,14 @@ export default class Calendar extends React.Component {
             onClick={e => {
               this.onPrev();
             }}
-            class="calendar-button button-prev"
+            className="calendar-button button-prev"
           />
           {!this.state.showMonthTable && (
             <span
               onClick={e => {
                 this.showMonth();
               }}
-              class="calendar-label"
+              className="calendar-label"
             >
               {this.month()}
             </span>
