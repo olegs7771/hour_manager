@@ -17,7 +17,6 @@ router.get("/test", (req, res) => {
 
 //Registration
 router.post("/register", (req, res) => {
-  console.log("req.body", req.body);
   //Validation
   const { errors, isValid } = validateRegisterInput(req.body);
   console.log("errors", errors);
@@ -163,8 +162,6 @@ router.get("/confirm_registration", (req, res) => {
 // // @route POST /api/User/login
 // // @access Public
 router.post("/login", (req, res) => {
-  console.log("req.body", req.body);
-
   const { errors, isValid } = validateLoginInput(req.body);
   if (!isValid) {
     return res.status(400).json(errors);

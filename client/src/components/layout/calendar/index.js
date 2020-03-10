@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-// import { range } from "moment-range";
+import { uuid } from "uuidv4";
 import "./calendar.css";
 export default class Calendar extends React.Component {
   weekdayshort = moment.weekdaysShort();
@@ -77,7 +77,7 @@ export default class Calendar extends React.Component {
     });
     rows.push(cells);
     let monthlist = rows.map((d, i) => {
-      return <tr>{d}</tr>;
+      return <tr key={i}>{d}</tr>;
     });
 
     return (
@@ -211,13 +211,17 @@ export default class Calendar extends React.Component {
     });
     let blanks = [];
     for (let i = 0; i < this.firstDayOfMonth(); i++) {
-      blanks.push(<td className="calendar-day empty">{""}</td>);
+      blanks.push(
+        <td key={i} className="calendar-day empty">
+          {""}
+        </td>
+      );
     }
     let daysInMonth = [];
     for (let d = 1; d <= this.daysInMonth(); d++) {
       let currentDay = d == this.currentDay() ? "today" : "";
       daysInMonth.push(
-        <td key={d} className={`calendar-day ${currentDay}`}>
+        <td key={uuid()} className={`calendar-day ${currentDay}`}>
           <span
             onClick={e => {
               this.onDayClick(e, d);

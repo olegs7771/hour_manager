@@ -3,6 +3,7 @@ const router = express.Router();
 //Models
 const Employee = require("../../models/Employee");
 const Project = require("../../models/Project");
+const JobDay = require("../../models/Jobday");
 const passport = require("passport");
 const validateEmployeeInput = require("../validation/employee");
 const sendMail = require("../../utils/mail/MailTransporter");
@@ -223,7 +224,7 @@ router.post(
   passport.authenticate("jwt", { session: false }),
 
   (req, res) => {
-    console.log("req.body.id", req.body.id);
+    // console.log("req.body.id", req.body.id);
     Employee.findById(req.body.id).then(employee => {
       if (!employee) {
         return res.status(400).json({ error: "Employee not found" });

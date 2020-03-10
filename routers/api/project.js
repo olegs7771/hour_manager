@@ -97,7 +97,7 @@ router.get(
   "/fetch",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    console.log("req.user.id", req.user.id);
+    // console.log("req.user.id", req.user.id);
 
     Project.find({ user: req.user.id })
       .populate("user", ["name", "email"])
@@ -105,7 +105,7 @@ router.get(
         if (!project) {
           return res.status(200).json({ project });
         }
-        console.log("project", project);
+        // console.log("project", project);
         res.status(200).json(project);
       })
       .catch(err => {
@@ -127,7 +127,7 @@ router.post(
           return res.status(400).json({ error: "Can not find project" });
         }
         res.json(project);
-        console.log("projejct", project);
+        // console.log("projejct", project);
       });
   }
 );
@@ -141,7 +141,7 @@ router.post(
       if (!project) {
         return res.status(400).json({ error: "Project not found" });
       }
-      console.log("project", project);
+      // console.log("project", project);
 
       project.remove().then(projectRemoved => {
         //Delete project in User.projects[];
