@@ -59,7 +59,7 @@ export default class Calendar extends React.Component {
             this.setMonth(data);
           }}
         >
-          <span>{data}</span>
+          <span key={props}>{data}</span>
         </td>
       );
     });
