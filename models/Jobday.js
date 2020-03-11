@@ -12,6 +12,9 @@ const JobDaySchema = new Schema({
   timeEnd: {
     type: Number
   },
+  weekday: {
+    type: String
+  },
   date: {
     type: Date,
     default: Date.now()

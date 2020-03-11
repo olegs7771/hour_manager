@@ -27,7 +27,8 @@ router.post(
       const newJobday = new JobDay({
         employee: req.body.employeeID,
         timeStart: req.body.timeStart,
-        timeEnd: req.body.timeEnd
+        timeEnd: req.body.timeEnd,
+        weekday: req.body.weekday
       });
       newJobday.save().then(jobday => {
         res.json(jobday);
@@ -73,6 +74,27 @@ router.post(
       })
       .catch(err => {
         console.log("err", err);
+      });
+  }
+);
+
+//Get One Selected Day
+//Private Route
+
+router.post(
+  "/get_day",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    console.log("req.body", req.body);
+
+    JobDay.findOne({ date: { $gte: new Date(req.body.date) } })
+      .then(day => {
+        if (!day) return console.log("no date");
+
+        console.log("day".day);
+      })
+      .catch(err => {
+        console.log("err:", err);
       });
   }
 );
