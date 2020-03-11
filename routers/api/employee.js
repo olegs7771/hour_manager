@@ -3,7 +3,7 @@ const router = express.Router();
 //Models
 const Employee = require("../../models/Employee");
 const Project = require("../../models/Project");
-const JobDay = require("../../models/Jobday");
+
 const passport = require("passport");
 const validateEmployeeInput = require("../validation/employee");
 const sendMail = require("../../utils/mail/MailTransporter");

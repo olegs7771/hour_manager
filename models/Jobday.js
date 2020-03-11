@@ -11,6 +11,10 @@ const JobDaySchema = new Schema({
   },
   timeEnd: {
     type: Number
+  },
+  date: {
+    type: Date,
+    default: Date.now()
   }
 });
 
