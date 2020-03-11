@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 require("dotenv").config();
 const app = express();
-// const moment = require("moment");
+const moment = require("moment");
 
 //Routes
 const auth = require("./routers/api/auth");
@@ -67,5 +67,45 @@ const server = app.listen(port, () => {
 
 //Exercises
 
-// console.log("in", moment(1583565900000).format("HH:mm LL"));
-// console.log("out", moment(158336867600).format("HH:mm LL"));
+console.log(
+  "First day of month ",
+
+  moment()
+    .startOf("month")
+    .format("LL")
+);
+console.log(
+  "First day of month number",
+  parseInt(
+    moment()
+      .startOf("month")
+      .format("X"),
+    10
+  )
+);
+
+console.log(
+  "Previous Month Start",
+  moment("2020-03-11")
+    .subtract(1, "months")
+    .endOf("month")
+    .format("YYYY-MM-DD")
+);
+
+console.log(
+  "Last Day of month",
+
+  moment()
+    .endOf("month")
+    .format("LL")
+);
+
+console.log(
+  "Last Day of month number",
+  parseInt(
+    moment()
+      .endOf("month")
+      .format("X"),
+    10
+  )
+);

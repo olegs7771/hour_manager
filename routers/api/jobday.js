@@ -6,6 +6,7 @@ const Project = require("../../models/Project");
 
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const moment = require("moment");
 
 router.post(
   "/create",
@@ -38,15 +39,41 @@ router.post(
 
 //Find All jobdays for selected employee
 //Private Route
+let selecteddays = [];
 router.post(
   "/get_jobdays",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    JobDay.find({ employee: req.body.employyID }).then(jobdays => {
-      if (!jobdays)
-        return res.status(200).json({ message: "No jobdays to show" });
-      res.json(jobdays);
-    });
+    JobDay.find({ employee: req.body.employeeID })
+      .then(jobdays => {
+        if (!jobdays)
+          return res.status(200).json({ message: "No jobdays to show" });
+        res.json(jobdays);
+        console.log("job days found");
+        //Filter only days of Current Month
+
+        jobdays.forEach(day => {
+          console.log("day.date", day.date);
+
+          // console.log("day.date", parseInt(moment(day.date).format("X"), 10));
+          if (
+            parseInt(moment(day.date).format("X"), 10) >=
+            parseInt(
+              moment()
+                .startOf("month")
+                .format("X"),
+              10
+            )
+          ) {
+            //<= March 7, 2020
+            selecteddays.push(day);
+          }
+        });
+        console.log("selecteddays", selecteddays);
+      })
+      .catch(err => {
+        console.log("err", err);
+      });
   }
 );
 

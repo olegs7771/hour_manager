@@ -16,6 +16,7 @@ import {
 import Popup from "../popup/Popup";
 import TextFormGroup from "../../textForms/TextFormGroup";
 import Calendar from "../calendar";
+import JobHoursMonth from "../jobhours/JobHoursMonth";
 
 export class EmployeeDetails extends Component {
   //State for popover Email Confirmation for delete btn
@@ -157,10 +158,16 @@ export class EmployeeDetails extends Component {
                 </li>
               </ul>
             </div>
-            <div className="col-md-8 border">
+            <div className="col-md-8 border border-danger">
               <div className="text-center h5">Statistics</div>
-
-              <Calendar />
+              <div className="row">
+                <div className="col-md-6 border">
+                  <Calendar />
+                </div>
+                <div className="col-md-6 border">
+                  <JobHoursMonth />
+                </div>
+              </div>
             </div>
           </div>
           <div className="my-3 border d-flex justify-content-center ">
