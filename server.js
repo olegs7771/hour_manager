@@ -5,12 +5,13 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 require("dotenv").config();
 const app = express();
-const moment = require("moment");
+// const moment = require("moment");
 
 //Routes
 const auth = require("./routers/api/auth");
 const project = require("./routers/api/project");
 const employee = require("./routers/api/employee");
+const jobday = require("./routers/api/jobday");
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -56,6 +57,7 @@ app.engine("html", require("ejs").renderFile);
 app.use("/api/auth", auth);
 app.use("/api/project", project);
 app.use("/api/employee", employee);
+app.use("/api/jobday", jobday);
 
 const port = process.env.PORT || 5000;
 
