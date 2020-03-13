@@ -231,6 +231,8 @@ class Calendar extends React.Component {
         <td key={uuid()} className={`calendar-day ${currentDay}`}>
           <span
             onClick={e => {
+              console.log("clicked");
+
               this.onDayClick(e, d, this.monthIndex(), this.yearIndex());
             }}
           >

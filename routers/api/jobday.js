@@ -54,7 +54,7 @@ router.post(
     };
 
     JobDay.findOne({ date: dateFilter }).then(day => {
-      if (!day) return res.json({ error: "No day been found" });
+      if (!day) return res.json({ message: "No day been found" });
 
       if (day.employee.toString() === req.body.employeeID) {
         return res.json(day);

@@ -19,3 +19,4 @@ export const DELETE_EMPLOYEE = "DELETE_EMPLOYEE";
 export const LOADING = "LOADING";
 //Calendar
 export const GET_SELECT_DAY = "GET_SELECT_DAY";
+export const LOADING_JOBDAY = "LOADING_JOBDAY";
