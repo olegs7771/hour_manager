@@ -38,64 +38,25 @@ router.post(
   }
 );
 
-//Find All jobdays for selected employee
-//Private Route
-let selecteddays = [];
-router.post(
-  "/get_jobdays",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    JobDay.find({ employee: req.body.employeeID })
-      .then(jobdays => {
-        if (!jobdays)
-          return res.status(200).json({ message: "No jobdays to show" });
-        res.json(jobdays);
-        console.log("job days found");
-        //Filter only days of Current Month
-
-        jobdays.forEach(day => {
-          console.log("day.date", day.date);
-
-          // console.log("day.date", parseInt(moment(day.date).format("X"), 10));
-          if (
-            parseInt(moment(day.date).format("X"), 10) >=
-            parseInt(
-              moment()
-                .startOf("month")
-                .format("X"),
-              10
-            )
-          ) {
-            //<= March 7, 2020
-            selecteddays.push(day);
-          }
-        });
-        console.log("selecteddays", selecteddays);
-      })
-      .catch(err => {
-        console.log("err", err);
-      });
-  }
-);
-
-//Get One Selected Day
+//Find Selected Job Day
 //Private Route
 
 router.post(
-  "/get_day",
+  "/get_jobday",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    console.log("req.body", req.body);
+    //Get Selected
+    // console.log("test req.body ", req.body.date);
 
-    JobDay.findOne({ date: { $gte: new Date(req.body.date) } })
-      .then(day => {
-        if (!day) return console.log("no date");
+    let dateFilter = {
+      $lt: new Date(req.body.date + "T23:59:59"),
+      $gt: new Date(req.body.date + "T00:00:00")
+    };
 
-        console.log("day".day);
-      })
-      .catch(err => {
-        console.log("err:", err);
-      });
+    JobDay.find({ date: dateFilter }).then(day => {
+      if (!day) return res.json({ error: "No day been found" });
+      res.json(day);
+    });
   }
 );
 

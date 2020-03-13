@@ -66,48 +66,7 @@ const server = app.listen(port, () => {
 });
 
 //Exercises
-
-console.log(
-  "First day of month ",
-
-  moment()
-    .startOf("month")
-    .format("LL")
-);
-console.log(
-  "First day of month number",
-  parseInt(
-    moment()
-      .startOf("month")
-      .format("X"),
-    10
-  )
-);
-
-console.log(
-  "Previous Month Start",
-  moment("2020-03-11")
-    .subtract(1, "months")
-    .endOf("month")
-    .format("YYYY-MM-DD")
-);
-
-console.log(
-  "Last Day of month",
-
-  moment()
-    .endOf("month")
-    .format("LL")
-);
-
-console.log(
-  "Last Day of month number",
-  parseInt(
-    moment()
-      .endOf("month")
-      .format("X"),
-    10
-  )
-);
-//
-// console.log(6 % 2);
+// console.log(new Date());
+// console.log(new Date("2020-03-13"));
+// console.log(new Date(new Date("2020-03-13").setHours(23, 59, 59)));
+// console.log(new Date("2020-03-13" + "T23:59:59"));

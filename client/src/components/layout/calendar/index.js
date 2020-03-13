@@ -19,9 +19,13 @@ export default class Calendar extends React.Component {
   year = () => {
     return this.state.dateObject.format("Y");
   };
+  yearIndex = () => {
+    return this.state.dateObject.format("YYYY");
+  };
   currentDay = () => {
     return this.state.dateObject.format("D");
   };
+
   firstDayOfMonth = () => {
     let dateObject = this.state.dateObject;
     let firstDay = moment(dateObject)
@@ -31,6 +35,9 @@ export default class Calendar extends React.Component {
   };
   month = () => {
     return this.state.dateObject.format("MMMM");
+  };
+  monthIndex = () => {
+    return this.state.dateObject.format("MM");
   };
   showMonth = (e, month) => {
     this.setState({
@@ -195,13 +202,14 @@ export default class Calendar extends React.Component {
   };
 
   //Here Show Day Log
-  onDayClick = (e, d) => {
+  onDayClick = (e, d, m, y) => {
+    const dateToShow = `${y}-${m}-${d}`;
     this.setState(
       {
-        selectedDay: d
+        selectedDay: dateToShow
       },
       () => {
-        console.log("SELECTED DAY: ", this.state.selectedDay);
+        console.log("Selected Date: ", this.state.selectedDay);
       }
     );
   };
@@ -220,11 +228,14 @@ export default class Calendar extends React.Component {
     let daysInMonth = [];
     for (let d = 1; d <= this.daysInMonth(); d++) {
       let currentDay = d == this.currentDay() ? "today" : "";
+
+      console.log("currentDay", currentDay);
+
       daysInMonth.push(
         <td key={uuid()} className={`calendar-day ${currentDay}`}>
           <span
             onClick={e => {
-              this.onDayClick(e, d);
+              this.onDayClick(e, d, this.monthIndex(), this.yearIndex());
             }}
           >
             {d}
