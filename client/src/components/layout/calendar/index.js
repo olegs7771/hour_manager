@@ -205,7 +205,13 @@ class Calendar extends React.Component {
 
   //Dispatch Action to jobdayAction
   onDayClick = (e, d, m, y) => {
-    const dateToShow = `${y}-${m}-${d}`;
+    //fix day if one digit add 0
+    console.log("d", typeof d);
+    //conver to string
+    const dayStr = d.toString();
+
+    const day = dayStr.length < 2 ? `0${d}` : d;
+    const dateToShow = `${y}-${m}-${day}`;
     const EmployeeID = this.props.selectedEmployee._id;
     this.props.selectDay({ date: dateToShow, employeeID: EmployeeID });
   };

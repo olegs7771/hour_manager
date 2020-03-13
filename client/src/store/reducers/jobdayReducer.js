@@ -1,9 +1,14 @@
-import { GET_SELECT_DAY, LOADING_JOBDAY } from "../actions/types";
+import {
+  GET_SELECT_DAY,
+  LOADING_JOBDAY,
+  JOBDAY_MESSAGE
+} from "../actions/types";
 
 const initialState = {
   selectedDay: null,
   workDays: null,
-  loading: false
+  loading: false,
+  messages: {}
 };
 
 export default (state = initialState, action) => {
@@ -17,6 +22,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         selectedDay: action.payload,
+        loading: false
+      };
+    case JOBDAY_MESSAGE:
+      return {
+        ...state,
+        messages: action.payload,
         loading: false
       };
 

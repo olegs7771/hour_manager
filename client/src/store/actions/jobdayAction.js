@@ -1,4 +1,9 @@
-import { GET_SELECT_DAY, GET_MESSAGE, LOADING_JOBDAY } from "./types";
+import {
+  GET_SELECT_DAY,
+  GET_MESSAGE,
+  LOADING_JOBDAY,
+  JOBDAY_MESSAGE
+} from "./types";
 import axios from "axios";
 
 export const selectDay = data => dispatch => {
@@ -8,7 +13,7 @@ export const selectDay = data => dispatch => {
     console.log("res.data", res.data);
     if (res.data.message) {
       dispatch({
-        type: GET_MESSAGE,
+        type: JOBDAY_MESSAGE,
         payload: res.data
       });
     } else {
