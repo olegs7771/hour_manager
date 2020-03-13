@@ -46,16 +46,21 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     //Get Selected
-    // console.log("test req.body ", req.body.date);
+    console.log("test req.body ", req.body);
 
     let dateFilter = {
       $lt: new Date(req.body.date + "T23:59:59"),
       $gt: new Date(req.body.date + "T00:00:00")
     };
 
-    JobDay.find({ date: dateFilter }).then(day => {
+    JobDay.findOne({ date: dateFilter }).then(day => {
       if (!day) return res.json({ error: "No day been found" });
-      res.json(day);
+
+      if (day.employee.toString() === req.body.employeeID) {
+        return res.json(day);
+      } else {
+        res.json({ message: "no jobdays for this employee" });
+      }
     });
   }
 );

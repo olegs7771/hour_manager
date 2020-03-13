@@ -2,7 +2,10 @@ import React from "react";
 import moment from "moment";
 import { uuid } from "uuidv4";
 import "./calendar.css";
-export default class Calendar extends React.Component {
+import { connect } from "react-redux";
+import { selectDay } from "../../../store/actions/jobdayAction";
+
+class Calendar extends React.Component {
   weekdayshort = moment.weekdaysShort();
 
   state = {
@@ -10,8 +13,7 @@ export default class Calendar extends React.Component {
     showMonthTable: false,
     showDateTable: true,
     dateObject: moment(),
-    allmonths: moment.months(),
-    selectedDay: null
+    allmonths: moment.months()
   };
   daysInMonth = () => {
     return this.state.dateObject.daysInMonth();
@@ -201,17 +203,11 @@ export default class Calendar extends React.Component {
     );
   };
 
-  //Here Show Day Log
+  //Dispatch Action to jobdayAction
   onDayClick = (e, d, m, y) => {
     const dateToShow = `${y}-${m}-${d}`;
-    this.setState(
-      {
-        selectedDay: dateToShow
-      },
-      () => {
-        console.log("Selected Date: ", this.state.selectedDay);
-      }
-    );
+    const EmployeeID = this.props.selectedEmployee._id;
+    this.props.selectDay({ date: dateToShow, employeeID: EmployeeID });
   };
   render() {
     let weekdayshortname = this.weekdayshort.map(day => {
@@ -316,3 +312,9 @@ export default class Calendar extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  selectedEmployee: state.employees.selectedEmployee
+});
+
+export default connect(mapStateToProps, { selectDay })(Calendar);
