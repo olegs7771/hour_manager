@@ -1,5 +1,6 @@
 import {
   GET_SELECT_DAY,
+  GET_SELECT_MONTH,
   LOADING_JOBDAY,
   JOBDAY_MESSAGE
 } from "../actions/types";
@@ -22,6 +23,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         selectedDay: action.payload,
+        loading: false
+      };
+    case GET_SELECT_MONTH:
+      return {
+        ...state,
+        workDays: action.payload,
         loading: false
       };
     case JOBDAY_MESSAGE:

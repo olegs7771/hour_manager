@@ -2,7 +2,8 @@ import {
   GET_SELECT_DAY,
   LOADING_JOBDAY,
   JOBDAY_MESSAGE,
-  GET_SELECT_MONTH
+  GET_SELECT_MONTH,
+  GET_ERRORS
 } from "./types";
 import axios from "axios";
 
@@ -28,13 +29,22 @@ export const selectDay = data => dispatch => {
 //Get Selected Month
 export const selectMonth = data => dispatch => {
   console.log("data month", data);
+  dispatch(loading());
   axios
     .post("/api/jobday/jobdays_month", data)
     .then(res => {
       console.log("res.data", res.data);
+      dispatch({
+        type: GET_SELECT_MONTH,
+        payload: res.data
+      });
     })
     .catch(err => {
       console.log("err:", err.response.data);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
     });
 };
 

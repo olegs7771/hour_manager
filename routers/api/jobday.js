@@ -90,7 +90,8 @@ router.post(
 
       JobDay.find({ date: dateFilter }).then(days => {
         if (!days) return res.json({ message: "No days" });
-        console.log("days", days);
+
+        res.json(days);
       });
     });
   }
