@@ -215,6 +215,9 @@ class Calendar extends React.Component {
     const EmployeeID = this.props.selectedEmployee._id;
     this.props.selectDay({ date: dateToShow, employeeID: EmployeeID });
   };
+
+  // Render
+
   render() {
     let weekdayshortname = this.weekdayshort.map(day => {
       return <th key={day}>{day}</th>;
@@ -230,8 +233,6 @@ class Calendar extends React.Component {
     let daysInMonth = [];
     for (let d = 1; d <= this.daysInMonth(); d++) {
       let currentDay = d == this.currentDay() ? "today" : "";
-
-      console.log("currentDay", currentDay);
 
       daysInMonth.push(
         <td key={uuid()} className={`calendar-day ${currentDay}`}>

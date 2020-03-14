@@ -42,7 +42,7 @@ export class Jobday extends Component {
             <div className="my-1 text-center">
               Date : {moment(this.state.selectedDay.date).format("LL")}
             </div>
-            <table class="table">
+            <table className="table">
               <thead>
                 <tr>
                   <th scope="col">Started</th>

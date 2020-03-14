@@ -65,4 +65,35 @@ router.post(
   }
 );
 
+//Find Array of Jobdays for selected Month
+//Private Route
+
+router.post(
+  "/jobdays_month",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    console.log("req.body", req.body);
+
+    //Find Employee
+    Employee.findById(req.body.employeeID).then(employee => {
+      if (!employee)
+        return res.status(400).json({ error: "Employee not exists" });
+      console.log("employee found");
+
+      //$lt= 1 day of month from T00:00:01  (2020-01-01)
+      //$gt = last day of month till T23:59:59
+
+      const dateFilter = {
+        $gt: new Date(req.body.startdate + "T00:00:01"),
+        $lt: new Date(req.body.enddate + "T23:59:59")
+      };
+
+      JobDay.find({ date: dateFilter }).then(days => {
+        if (!days) return res.json({ message: "No days" });
+        console.log("days", days);
+      });
+    });
+  }
+);
+
 module.exports = router;
