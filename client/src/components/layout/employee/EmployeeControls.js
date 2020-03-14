@@ -23,6 +23,15 @@ class EmployeeControls extends Component {
       showDay: this.state.showDay ? false : this.state.showDay
     });
   };
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState !== this.state) {
+      const data = {
+        showDay: this.state.showDay,
+        showMonth: this.state.showMonth
+      };
+      this.props.parentCB(data);
+    }
+  }
 
   render() {
     return (

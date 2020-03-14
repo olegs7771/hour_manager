@@ -1,8 +1,13 @@
-import { GET_SELECT_DAY, LOADING_JOBDAY, JOBDAY_MESSAGE } from "./types";
+import {
+  GET_SELECT_DAY,
+  LOADING_JOBDAY,
+  JOBDAY_MESSAGE,
+  GET_SELECT_MONTH
+} from "./types";
 import axios from "axios";
 
 export const selectDay = data => dispatch => {
-  console.log("data", data);
+  console.log("data day", data);
   dispatch(loading());
   axios.post("/api/jobday/get_jobday", data).then(res => {
     console.log("res.data", res.data);
@@ -18,6 +23,11 @@ export const selectDay = data => dispatch => {
       });
     }
   });
+};
+
+//Get Selected Month
+export const selectMonth = data => dispatch => {
+  console.log("data month", data);
 };
 
 export const loading = () => {

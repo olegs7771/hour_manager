@@ -35,7 +35,9 @@ export class EmployeeDetails extends Component {
     match: false,
     open: false,
     selectedEmployee: null,
-    loading: null
+    loading: null,
+    showDay: false,
+    showMonth: false
   };
   _onChange = e => {
     this.setState({
@@ -43,7 +45,16 @@ export class EmployeeDetails extends Component {
     });
   };
   _showDate = () => {
-    console.log("date");
+    return console.log("date");
+  };
+
+  //Functions listens for change in <EmployeeControls />
+
+  _showDate = childData => {
+    this.setState({
+      showDay: childData.showDay,
+      showMonth: childData.showMonth
+    });
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -162,11 +173,14 @@ export class EmployeeDetails extends Component {
             </div>
             <div className="col-md-8 border border-danger">
               {/* Select To show Day or Month */}
-              <EmployeeControls />
+              <EmployeeControls parentCB={this._showDate} />
 
               <div className="row">
                 <div className="col-md-6 border">
-                  <Calendar />
+                  <Calendar
+                    showDay={this.state.showDay}
+                    showMonth={this.state.showMonth}
+                  />
                 </div>
                 <div className="col-md-6 border">
                   <Jobday />
