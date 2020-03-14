@@ -28,6 +28,14 @@ export const selectDay = data => dispatch => {
 //Get Selected Month
 export const selectMonth = data => dispatch => {
   console.log("data month", data);
+  axios
+    .post("/api/jobday/jobdays_month", data)
+    .then(res => {
+      console.log("res.data", res.data);
+    })
+    .catch(err => {
+      console.log("err:", err.response.data);
+    });
 };
 
 export const loading = () => {

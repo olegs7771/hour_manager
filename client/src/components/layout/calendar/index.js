@@ -221,7 +221,20 @@ class Calendar extends React.Component {
     if (this.props.showDay) {
       this.props.selectDay({ date: dateToShow, employeeID: EmployeeID });
     } else {
-      this.props.selectMonth({ date: dateToShow, employeeID: EmployeeID });
+      //Create data obj {startdate:dateToShow,enddate:dateToShow }
+      //First Day of Month
+      const firstDay = moment(dateToShow) //<------ dateToShow
+        .startOf("month")
+        .format("");
+      const lastDay = moment(dateToShow) //<------ dateToShow
+        .endOf("month")
+        .format("");
+      const data = {
+        startdate: firstDay,
+        enddate: lastDay
+      };
+
+      this.props.selectMonth({ date: data, employeeID: EmployeeID });
     }
   };
 

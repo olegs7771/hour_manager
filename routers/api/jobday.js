@@ -84,8 +84,8 @@ router.post(
       //$gt = last day of month till T23:59:59
 
       const dateFilter = {
-        $gt: new Date(req.body.startdate + "T00:00:01"),
-        $lt: new Date(req.body.enddate + "T23:59:59")
+        $gt: new Date(req.body.date.startdate),
+        $lt: new Date(req.body.date.enddate)
       };
 
       JobDay.find({ date: dateFilter }).then(days => {
