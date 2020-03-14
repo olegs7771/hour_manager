@@ -1,9 +1,4 @@
-import {
-  GET_SELECT_DAY,
-  GET_MESSAGE,
-  LOADING_JOBDAY,
-  JOBDAY_MESSAGE
-} from "./types";
+import { GET_SELECT_DAY, LOADING_JOBDAY, JOBDAY_MESSAGE } from "./types";
 import axios from "axios";
 
 export const selectDay = data => dispatch => {

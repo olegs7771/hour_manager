@@ -8,6 +8,22 @@ class EmployeeControls extends Component {
   _onSubmit = () => {
     console.log("submitted");
   };
+
+  _onChangeDay = e => {
+    console.log("e.target.checked", e.target.checked);
+    this.setState({
+      showDay: e.target.name === "day" ? e.target.checked : true,
+      showMonth: this.state.showMonth ? false : this.state.showMonth
+    });
+  };
+  _onChangeMonth = e => {
+    console.log("e.target.checked", e.target.checked);
+    this.setState({
+      showMonth: e.target.name === "month" ? e.target.checked : true,
+      showDay: this.state.showDay ? false : this.state.showDay
+    });
+  };
+
   render() {
     return (
       <div>
@@ -20,7 +36,7 @@ class EmployeeControls extends Component {
                   name="day"
                   type="checkbox"
                   checked={this.state.showDay}
-                  onChange={this.handleInputChange}
+                  onChange={this._onChangeDay}
                   className="ml-2"
                 />
               </label>
@@ -32,7 +48,7 @@ class EmployeeControls extends Component {
                   name="month"
                   type="checkbox"
                   checked={this.state.showMonth}
-                  onChange={this.handleInputChange}
+                  onChange={this._onChangeMonth}
                   className="ml-2"
                 />
               </label>
