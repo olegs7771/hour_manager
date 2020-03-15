@@ -176,13 +176,13 @@ export class EmployeeDetails extends Component {
               <EmployeeControls parentCB={this._showDate} />
 
               <div className="row">
-                <div className="col-md-6 border">
+                <div className="col-md-5 border">
                   <Calendar
                     showDay={this.state.showDay}
                     showMonth={this.state.showMonth}
                   />
                 </div>
-                <div className="col-md-6 border">
+                <div className="col-md-7 border">
                   <Jobday />
                 </div>
               </div>

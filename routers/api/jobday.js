@@ -54,7 +54,11 @@ router.post(
     };
 
     JobDay.findOne({ date: dateFilter }).then(day => {
-      if (!day) return res.json({ message: "No Data for this date." });
+      if (!day)
+        return res.json({
+          message: "No Data for this date.",
+          date: req.body.date
+        });
 
       if (day.employee.toString() === req.body.employeeID) {
         return res.json(day);
@@ -91,6 +95,7 @@ router.post(
       JobDay.find({ date: dateFilter }).then(days => {
         if (!days) return res.json({ message: "No days" });
         console.log("days", days);
+        res.json(days);
       });
     });
   }

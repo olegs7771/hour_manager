@@ -1,14 +1,16 @@
 import {
   GET_SELECT_DAY,
   LOADING_JOBDAY,
-  JOBDAY_MESSAGE
+  JOBDAY_MESSAGE,
+  GET_SELECT_MONTH
 } from "../actions/types";
 
 const initialState = {
   selectedDay: null,
   workDays: null,
   loading: false,
-  messages: {}
+  message: null,
+  date: null
 };
 
 export default (state = initialState, action) => {
@@ -22,13 +24,25 @@ export default (state = initialState, action) => {
       return {
         ...state,
         selectedDay: action.payload,
-        loading: false
+        loading: false,
+        message: null,
+        workDays: null
+      };
+    case GET_SELECT_MONTH:
+      return {
+        ...state,
+        workDays: action.payload,
+        loading: false,
+        selectedDay: true,
+        message: null
       };
     case JOBDAY_MESSAGE:
       return {
         ...state,
-        messages: action.payload,
-        loading: false
+        message: action.payload.message,
+        date: action.payload.date,
+        loading: false,
+        selectedDay: null
       };
 
     default:

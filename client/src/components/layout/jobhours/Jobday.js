@@ -1,93 +1,111 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
-import { isEmpty } from "../../../utils/isEmpty";
 import moment from "moment";
 
-export class Jobday extends Component {
+class Jobday extends Component {
   state = {
-    loading: false,
-    selectedDay: null,
     messages: {},
-    showPanel: false
+    loading: false,
+    workDays: null,
+    selectedDay: null,
+    showComponent: false,
+    date: null
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.loading !== this.props.loading) {
-      this.setState({ loading: this.props.loading, showPanel: true });
-    }
-    if (prevProps.selectedDay !== this.props.selectedDay) {
-      this.setState({ selectedDay: this.props.selectedDay, messages: {} });
-    }
-    if (prevProps.messages !== this.props.messages) {
+    if (prevProps !== this.props) {
       this.setState({
-        messages: this.props.messages,
-        loading: false,
-        selectedDay: true
+        showComponent: true,
+        selectedDay: this.props.selectedDay,
+        loading: this.props.loading,
+        date: this.props.date,
+        message: this.props.message,
+        workDays: this.props.workDays
       });
+      if (this.props.message) {
+        this.setState({
+          selectedDay: true
+        });
+      }
     }
   }
 
   render() {
-    if (this.state.showPanel) {
+    if (this.state.showComponent) {
       if (this.state.loading || this.state.selectedDay === null) {
         return (
-          <div className="border" style={{ paddingTop: "30%" }}>
+          <div className="my-5">
             <DotLoaderSpinner />
           </div>
         );
-      } else if (isEmpty(this.state.messages)) {
+      } else if (this.state.message) {
         return (
-          <div className=" border my-3">
-            <div className="my-1 text-center">
-              Date : {moment(this.state.selectedDay.date).format("LL")}
-            </div>
-            <table className="table">
+          <div className="my-2 text-center ">
+            <span>
+              {moment(this.state.date).format("LL") +
+                " " +
+                moment(this.state.date).format("dddd")}
+            </span>
+            <br />
+            <br />
+            <span>{this.state.message}</span>
+          </div>
+        );
+      } else if (this.state.workDays) {
+        //Here Whole Month
+
+        return (
+          <div className="my-3 border ">
+            <table className="table table-bordered">
               <thead>
                 <tr>
-                  <th scope="col">Started</th>
-                  <th scope="col">Ended</th>
-                  <th scope="col">Comments</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Start</th>
+                  <th scope="col">End</th>
                 </tr>
               </thead>
+
               <tbody>
-                <tr>
-                  <td>{this.state.selectedDay.timeStart}</td>
-                  <td>{this.state.selectedDay.timeEnd}</td>
-                  <td>some comments</td>
-                </tr>
+                {this.state.workDays.map((day, i) => (
+                  <tr key={i}>
+                    <td>{day.date}</td>
+                    <td>{day.timeStart}</td>
+                    <td>{day.timeEnd}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         );
       } else {
         return (
-          <div className="my-3">
-            <div className="d-flex justify-content-center">
-              <span className="">
-                Date : {moment(this.state.selectedDay.date).format("LL")}
-              </span>
+          <div className="my-3 ">
+            <div className="my-2 text-center">
+              {moment(this.state.selectedDay.date).format("LL") +
+                " " +
+                moment(this.state.selectedDay.date).format("dddd")}
             </div>
-
-            <div className="my-4 border text-success text-center">
-              <div className="my-1 text-center"></div>
-              {this.state.messages.message}
+            <div className="my-2 border p-3">
+              Start : {this.state.selectedDay.timeStart}
+              <hr />
+              End : {this.state.selectedDay.timeEnd}
             </div>
           </div>
         );
       }
     } else {
-      return <div className="my-1">{null}</div>;
+      return null;
     }
   }
 }
 
 const mapStateToProps = state => ({
-  messages: state.jobday.messages,
+  message: state.jobday.message,
+  selectedDay: state.jobday.selectedDay,
   loading: state.jobday.loading,
-  selectedDay: state.jobday.selectedDay
+  workDays: state.jobday.workDays,
+  date: state.jobday.date
 });
 
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Jobday);
+export default connect(mapStateToProps, {})(Jobday);
