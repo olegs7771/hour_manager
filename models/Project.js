@@ -18,6 +18,14 @@ const ProjectSchema = new Schema({
   companyCoreFunc: {
     type: String
   },
+  workDayHours: {
+    start: {
+      type: Date
+    },
+    end: {
+      type: Date
+    }
+  },
 
   //List of Employees
   staff: [

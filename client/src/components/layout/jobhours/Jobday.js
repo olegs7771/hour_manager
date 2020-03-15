@@ -35,12 +35,14 @@ class Jobday extends Component {
     if (this.state.showComponent) {
       if (this.state.loading || this.state.selectedDay === null) {
         return (
+          //Spinner
           <div className="my-5">
             <DotLoaderSpinner />
           </div>
         );
       } else if (this.state.message) {
         return (
+          //Message
           <div className="my-2 text-center ">
             <span>
               {moment(this.state.date).format("LL") +
@@ -53,10 +55,9 @@ class Jobday extends Component {
           </div>
         );
       } else if (this.state.workDays) {
-        //Here Whole Month
-
         return (
-          <div className="my-3 border ">
+          //Here Whole Month
+          <div className="my-3  ">
             <table className="table table-bordered">
               <thead>
                 <tr>
@@ -69,9 +70,13 @@ class Jobday extends Component {
               <tbody>
                 {this.state.workDays.map((day, i) => (
                   <tr key={i}>
-                    <td>{day.date}</td>
-                    <td>{day.timeStart}</td>
-                    <td>{day.timeEnd}</td>
+                    <td>
+                      {moment(day.date).format("MMM Do ") +
+                        " " +
+                        moment(day.date).format("dddd")}
+                    </td>
+                    <td>{moment(day.timeStart).format("hh : mm ")}</td>
+                    <td>{moment(day.timeEnd).format("hh : mm")}</td>
                   </tr>
                 ))}
               </tbody>
@@ -80,6 +85,7 @@ class Jobday extends Component {
         );
       } else {
         return (
+          //Show Single day
           <div className="my-3 ">
             <div className="my-2 text-center">
               {moment(this.state.selectedDay.date).format("LL") +
@@ -87,9 +93,15 @@ class Jobday extends Component {
                 moment(this.state.selectedDay.date).format("dddd")}
             </div>
             <div className="my-2 border p-3">
-              Start : {this.state.selectedDay.timeStart}
+              Start
+              <span className="ml-5">
+                {moment(this.state.selectedDay.timeStart).format("hh : mm")}
+              </span>
               <hr />
-              End : {this.state.selectedDay.timeEnd}
+              End
+              <span className="ml-5">
+                {moment(this.state.selectedDay.timeEnd).format("hh : mm")}
+              </span>
             </div>
           </div>
         );

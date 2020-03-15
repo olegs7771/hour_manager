@@ -19,7 +19,10 @@ export class ProjectCreate extends Component {
       companyCoreFunc: "",
       errors: {},
       messages: {},
-      loading: false
+      loading: false,
+      //Work Day Hours
+      start: "",
+      end: ""
     };
   }
   _onChange = e => {
@@ -63,60 +66,91 @@ export class ProjectCreate extends Component {
     return (
       <div className="my-3 border p-2 ">
         <div className="h4 text-center my-3">Create Project</div>
+        <div className="row">
+          <div className="col-md-8">
+            <form onSubmit={this._onSubmit}>
+              <TextFormGroup
+                label="Company Name"
+                // placeholder="Company Name.."
+                value={this.state.companyName}
+                name="companyName"
+                onChange={this._onChange}
+                error={this.state.errors.companyName}
+              />
+              <TextFormGroup
+                label="Project Name"
+                // placeholder="Project Name.."
+                value={this.state.projectName}
+                name="projectName"
+                onChange={this._onChange}
+                error={this.state.errors.projectName}
+              />
+              <TextFormGroup
+                label="Company Location"
+                // placeholder="Company location.."
+                value={this.state.location}
+                name="location"
+                onChange={this._onChange}
+                error={this.state.errors.location}
+              />
+              <div className="px-3 my-2 ">
+                Please Select a Business Function that are carried out by your
+                enterprise.
+              </div>
+              <SelectFormGroup
+                options={options}
+                name="companyCoreFunc"
+                value={this.state.value}
+                onChange={this._onChange}
+                error={this.state.errors.companyCoreFunc}
+              />
+              <HashLoaderSpinner loading={this.state.loading} />
+              {true ? (
+                <div className="my-2 ">
+                  <span className="text-success d-block mx-auto pl-4">
+                    {this.state.messages.message}
+                  </span>
+                </div>
+              ) : null}
+              <div className="my-1 ">
+                <button
+                  type="submit"
+                  className="btn btn-outline-secondary d-block mx-auto my-3"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+          <div className="col-md-4 border">
+            <div className="my-2 text-center">
+              <p className="text-left">
+                Here You can Choose Start and End Work Day hours.
+                <br />
+                It will help you more convinient trace Employee's job hours.
+              </p>
+              <div className="my-3 mx-auto">
+                <label>
+                  Name:
+                  <input
+                    type="text"
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                  />
+                </label>
 
-        <form onSubmit={this._onSubmit}>
-          <TextFormGroup
-            label="Company Name"
-            // placeholder="Company Name.."
-            value={this.state.companyName}
-            name="companyName"
-            onChange={this._onChange}
-            error={this.state.errors.companyName}
-          />
-          <TextFormGroup
-            label="Project Name"
-            // placeholder="Project Name.."
-            value={this.state.projectName}
-            name="projectName"
-            onChange={this._onChange}
-            error={this.state.errors.projectName}
-          />
-          <TextFormGroup
-            label="Company Location"
-            // placeholder="Company location.."
-            value={this.state.location}
-            name="location"
-            onChange={this._onChange}
-            error={this.state.errors.location}
-          />
-          <div className="px-3 my-2">
-            Please Select a Business Function that are carried out by your
-            enterprise.
-          </div>
-          <SelectFormGroup
-            options={options}
-            name="companyCoreFunc"
-            value={this.state.value}
-            onChange={this._onChange}
-            error={this.state.errors.companyCoreFunc}
-          />
-          <HashLoaderSpinner loading={this.state.loading} />
-          {true ? (
-            <div className="my-2 ">
-              <span className="text-success d-block mx-auto pl-4">
-                {this.state.messages.message}
-              </span>
+                <label>
+                  Name:
+                  <input
+                    type="text"
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                  />
+                </label>
+              </div>
             </div>
-          ) : null}
-          <div className="my-1 ">
-            <button
-              type="submit"
-              className="btn btn-outline-secondary d-block mx-auto my-3"
-            >
-              Submit
-            </button>
           </div>
-        </form>
+        </div>
       </div>
     );
   }

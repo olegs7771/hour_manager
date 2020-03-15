@@ -27,8 +27,7 @@ router.post(
       const newJobday = new JobDay({
         employee: req.body.employeeID,
         timeStart: req.body.timeStart,
-        timeEnd: req.body.timeEnd,
-        weekday: req.body.weekday
+        timeEnd: req.body.timeEnd
       });
       newJobday.save().then(jobday => {
         res.json(jobday);
