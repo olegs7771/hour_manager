@@ -5,6 +5,7 @@ import { createProject } from "../../../store/actions/projectAction";
 import TextFormGroup from "../../textForms/TextFormGroup";
 // import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 import { HashLoaderSpinner } from "../../spinners/HashLoaderSpinner";
+import ProjectHourForm from "./ProjectHourForm";
 
 import SelectFormGroup from "../../textForms/SelectFormGroup";
 
@@ -25,6 +26,13 @@ export class ProjectCreate extends Component {
       end: ""
     };
   }
+  _setHours = data => {
+    this.setState({
+      start: data.start,
+      end: data.end
+    });
+  };
+
   _onChange = e => {
     this.setState({
       [e.target.name]: e.target.value.toLowerCase()
@@ -33,14 +41,26 @@ export class ProjectCreate extends Component {
   };
   _onSubmit = e => {
     e.preventDefault();
-    this.setState({ loading: true });
-    const data = {
-      companyName: this.state.companyName,
-      projectName: this.state.projectName,
-      location: this.state.location,
-      companyCoreFunc: this.state.companyCoreFunc
-    };
-    this.props.createProject(data);
+    //Test for Work Hour form errors(22:00)
+    const reg = /^[0-2][0-9]:[0-5][0-9]$/;
+    if (reg.test(this.state.start) && reg.test(this.state.end)) {
+      this.setState({ loading: true });
+      const data = {
+        companyName: this.state.companyName,
+        projectName: this.state.projectName,
+        location: this.state.location,
+        companyCoreFunc: this.state.companyCoreFunc,
+        start: this.state.start,
+        end: this.state.end
+      };
+      this.props.createProject(data);
+    } else {
+      this.setState({
+        errors: {
+          timeError: "Wrong time format. Use hh:mm"
+        }
+      });
+    }
   };
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.errors !== this.props.errors) {
@@ -94,8 +114,10 @@ export class ProjectCreate extends Component {
                 error={this.state.errors.location}
               />
               <div className="px-3 my-2 ">
-                Please Select a Business Function that are carried out by your
-                enterprise.
+                <span className="font-italic">
+                  Please Select a Business Function that are carried out by your
+                  enterprise.
+                </span>
               </div>
               <SelectFormGroup
                 options={options}
@@ -122,33 +144,14 @@ export class ProjectCreate extends Component {
               </div>
             </form>
           </div>
-          <div className="col-md-4 border">
-            <div className="my-2 text-center">
-              <p className="text-left">
-                Here You can Choose Start and End Work Day hours.
-                <br />
-                It will help you more convinient trace Employee's job hours.
-              </p>
-              <div className="my-3 mx-auto">
-                <label>
-                  Name:
-                  <input
-                    type="text"
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
-                </label>
-
-                <label>
-                  Name:
-                  <input
-                    type="text"
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
-                </label>
-              </div>
-            </div>
+          <div className="col-md-4 pt-3">
+            {/* {From Child Component} */}
+            <ProjectHourForm
+              setHour={value => {
+                this._setHours(value);
+              }}
+              error={this.state.errors.timeError}
+            />
           </div>
         </div>
       </div>

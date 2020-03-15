@@ -11,7 +11,7 @@ router.post(
   "/create",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    // console.log("req.body", req.body);
+    console.log("req.body", req.body);
 
     const { errors, isValid } = validateProjectInput(req.body);
     if (!isValid) {

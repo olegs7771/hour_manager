@@ -70,3 +70,6 @@ const server = app.listen(port, () => {
 // console.log(new Date("2020-03-13"));
 // console.log(new Date(new Date("2020-03-13").setHours(23, 59, 59)));
 // console.log(new Date("2020-03-13" + "T23:59:59"));
+
+// const reg = /^[0-2][0-3]:[0-5][0-9]$/;
+// console.log(reg.test("0:00"));
