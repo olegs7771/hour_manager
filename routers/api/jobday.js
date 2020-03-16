@@ -83,17 +83,23 @@ router.post(
         return res.status(400).json({ error: "Employee not exists" });
       console.log("employee found");
 
-      //$lt= 1 day of month from T00:00:01  (2020-01-01)
-      //$gt = last day of month till T23:59:59
+      //Find workDayHours limits in Project for control
+      Project.findById(req.body.projectID).then(project => {
+        const startHour = project.workDayHours.start;
+        const endHour = project.workDayHours.end;
 
-      const dateFilter = {
-        $gt: new Date(req.body.date.startdate),
-        $lt: new Date(req.body.date.enddate)
-      };
+        //$lt= 1 day of month from T00:00:01  (2020-01-01)
+        //$gt = last day of month till T23:59:59
 
-      JobDay.find({ date: dateFilter }).then(days => {
-        if (!days) return res.json({ message: "No days" });
-        res.json(days);
+        const dateFilter = {
+          $gt: new Date(req.body.date.startdate),
+          $lt: new Date(req.body.date.enddate)
+        };
+
+        JobDay.find({ date: dateFilter }).then(days => {
+          if (!days) return res.json({ message: "No days" });
+          res.json({ days, hours: { startHour, endHour } });
+        });
       });
     });
   }

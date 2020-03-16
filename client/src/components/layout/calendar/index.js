@@ -215,6 +215,7 @@ class Calendar extends React.Component {
     const day = dayStr.length < 2 ? `0${d}` : d;
     const dateToShow = `${y}-${m}-${day}`;
     const EmployeeID = this.props.selectedEmployee._id;
+    const ProjectID = this.props.selectedEmployee.projectID;
 
     //Show Month by default but if this.props.showDay===true
     //then show Day
@@ -234,7 +235,11 @@ class Calendar extends React.Component {
         enddate: lastDay
       };
 
-      this.props.selectMonth({ date: data, employeeID: EmployeeID });
+      this.props.selectMonth({
+        date: data,
+        employeeID: EmployeeID,
+        projectID: ProjectID
+      });
     }
   };
 

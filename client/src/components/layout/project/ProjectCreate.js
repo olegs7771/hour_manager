@@ -50,8 +50,8 @@ export class ProjectCreate extends Component {
         projectName: this.state.projectName,
         location: this.state.location,
         companyCoreFunc: this.state.companyCoreFunc,
-        start: this.state.start,
-        end: this.state.end
+        jobStart: `${this.state.start}:00`,
+        jobEnd: `${this.state.end}:00`
       };
       this.props.createProject(data);
     } else {

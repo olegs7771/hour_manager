@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 import moment from "moment";
+import classnames from "classnames";
 
 class Jobday extends Component {
   state = {
@@ -75,8 +76,19 @@ class Jobday extends Component {
                         " " +
                         moment(day.date).format("dddd")}
                     </td>
-                    <td>{moment(day.timeStart).format("hh : mm ")}</td>
-                    <td>{moment(day.timeEnd).format("hh : mm")}</td>
+                    {/* {Start} */}
+                    <td>
+                      <span
+                        className={classnames("text-success", {
+                          "text-danger": false
+                        })}
+                      >
+                        {moment(day.timeStart).format("HH:mm")}
+                      </span>
+                    </td>
+
+                    {/* {End} */}
+                    <td>{moment(day.timeEnd).format("HH:mm")}</td>
                   </tr>
                 ))}
               </tbody>
@@ -94,7 +106,7 @@ class Jobday extends Component {
             </div>
             <div className="my-2 border p-3">
               Start
-              <span className="ml-5">
+              <span className="ml-5 ">
                 {moment(this.state.selectedDay.timeStart).format("hh : mm")}
               </span>
               <hr />
@@ -117,7 +129,8 @@ const mapStateToProps = state => ({
   selectedDay: state.jobday.selectedDay,
   loading: state.jobday.loading,
   workDays: state.jobday.workDays,
-  date: state.jobday.date
+  date: state.jobday.date,
+  hoursLimit: state.jobday.hoursLimit
 });
 
 export default connect(mapStateToProps, {})(Jobday);

@@ -28,7 +28,11 @@ router.post(
           companyName: req.body.companyName,
           location: req.body.location,
           companyCoreFunc: req.body.companyCoreFunc,
-          projectName: req.body.projectName
+          projectName: req.body.projectName,
+          workDayHours: {
+            start: req.body.jobStart,
+            end: req.body.jobEnd
+          }
         };
 
         new Project(newProject).save().then(project => {
@@ -48,10 +52,10 @@ router.post(
         });
       } else {
         //user already has projects
-        console.log("user already has projects");
+        // console.log("user already has projects");
 
-        console.log("project.projectName ", project.projectName);
-        console.log("req.body.projectName ", req.body.projectName);
+        // console.log("project.projectName ", project.projectName);
+        // console.log("req.body.projectName ", req.body.projectName);
 
         if (project.projectName === req.body.projectName) {
           return res
@@ -64,7 +68,11 @@ router.post(
           companyName: req.body.companyName,
           location: req.body.location,
           companyCoreFunc: req.body.companyCoreFunc,
-          projectName: req.body.projectName
+          projectName: req.body.projectName,
+          workDayHours: {
+            start: req.body.jobStart,
+            end: req.body.jobEnd
+          }
         };
 
         new Project(newProject).save().then(project => {

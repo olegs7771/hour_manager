@@ -66,10 +66,16 @@ const server = app.listen(port, () => {
 });
 
 //Exercises
-// console.log(new Date());
-// console.log(new Date("2020-03-13"));
-// console.log(new Date(new Date("2020-03-13").setHours(23, 59, 59)));
-// console.log(new Date("2020-03-13" + "T23:59:59"));
 
-// const reg = /^[0-2][0-3]:[0-5][0-9]$/;
-// console.log(reg.test("0:00"));
+const jobHour = moment("2020-03-12T05:30:00.000Z").format("HH:mm");
+const hourLimit = "07:29:00";
+console.log(jobHour);
+console.log(hourLimit);
+if (jobHour >= hourLimit) {
+  console.log("true");
+} else {
+  console.log("false");
+}
+
+console.log(parseFloat(hourLimit));
+console.log(parseFloat(jobHour));

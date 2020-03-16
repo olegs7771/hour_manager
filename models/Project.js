@@ -20,10 +20,10 @@ const ProjectSchema = new Schema({
   },
   workDayHours: {
     start: {
-      type: Date
+      type: String
     },
     end: {
-      type: Date
+      type: String
     }
   },
 

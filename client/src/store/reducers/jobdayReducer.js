@@ -10,7 +10,8 @@ const initialState = {
   workDays: null,
   loading: false,
   message: null,
-  date: null
+  date: null,
+  hoursLimit: {}
 };
 
 export default (state = initialState, action) => {
@@ -31,7 +32,8 @@ export default (state = initialState, action) => {
     case GET_SELECT_MONTH:
       return {
         ...state,
-        workDays: action.payload,
+        workDays: action.payload.days,
+        hoursLimit: action.payload.hours,
         loading: false,
         selectedDay: true,
         message: null
