@@ -220,7 +220,11 @@ class Calendar extends React.Component {
     //Show Month by default but if this.props.showDay===true
     //then show Day
     if (this.props.showDay) {
-      this.props.selectDay({ date: dateToShow, employeeID: EmployeeID });
+      this.props.selectDay({
+        date: dateToShow,
+        employeeID: EmployeeID,
+        projectID: ProjectID
+      });
     } else {
       //Create data obj {startdate:dateToShow,enddate:dateToShow }
       //First Day of Month
