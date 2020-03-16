@@ -80,7 +80,9 @@ class Jobday extends Component {
                     <td>
                       <span
                         className={classnames("text-success", {
-                          "text-danger": false
+                          "text-danger":
+                            moment(day.timeStart).format("HH:mm") >
+                            this.props.hoursLimit.startHour
                         })}
                       >
                         {moment(day.timeStart).format("HH:mm")}
@@ -88,7 +90,18 @@ class Jobday extends Component {
                     </td>
 
                     {/* {End} */}
-                    <td>{moment(day.timeEnd).format("HH:mm")}</td>
+
+                    <td>
+                      <span
+                        className={classnames("text-success", {
+                          "text-danger":
+                            moment(day.timeEnd).format("HH:mm") <
+                            this.props.hoursLimit.endHour
+                        })}
+                      >
+                        {moment(day.timeEnd).format("HH:mm")}
+                      </span>
+                    </td>
                   </tr>
                 ))}
               </tbody>
