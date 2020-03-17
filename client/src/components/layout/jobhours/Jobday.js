@@ -119,13 +119,25 @@ class Jobday extends Component {
             </div>
             <div className="my-2 border p-3">
               Start
-              <span className="ml-5 ">
+              <span
+                className={classnames("text-success ml-5", {
+                  "text-danger ml-5":
+                    moment(this.state.selectedDay.timeStart).format("hh : mm") >
+                    this.props.hoursLimit.startHour
+                })}
+              >
                 {moment(this.state.selectedDay.timeStart).format("hh : mm")}
               </span>
               <hr />
               End
-              <span className="ml-5">
-                {moment(this.state.selectedDay.timeEnd).format("hh : mm")}
+              <span
+                className={classnames("text-success ml-5", {
+                  "text-danger ml-5":
+                    moment(this.state.selectedDay.timeEnd).format("HH : mm") <
+                    this.props.hoursLimit.endHour
+                })}
+              >
+                {moment(this.state.selectedDay.timeEnd).format("HH : mm")}
               </span>
             </div>
           </div>

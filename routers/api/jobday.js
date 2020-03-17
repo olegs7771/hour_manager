@@ -46,24 +46,31 @@ router.post(
   (req, res) => {
     //Get Selected
     console.log("test req.body ", req.body);
-
-    let dateFilter = {
-      $lt: new Date(req.body.date + "T23:59:59"),
-      $gt: new Date(req.body.date + "T00:00:00")
-    };
-
-    JobDay.findOne({ date: dateFilter }).then(day => {
-      if (!day)
-        return res.json({
-          message: "No Data for this date.",
-          date: req.body.date
-        });
-
-      if (day.employee.toString() === req.body.employeeID) {
-        return res.json(day);
-      } else {
-        res.json({ message: "no jobdays for this employee" });
+    Project.findById(req.body.projectID).then(project => {
+      if (!project) {
+        return res.status(400).json({ error: "No Project found" });
       }
+      const startHour = project.workDayHours.start;
+      const endHour = project.workDayHours.end;
+
+      let dateFilter = {
+        $lt: new Date(req.body.date + "T23:59:59"),
+        $gt: new Date(req.body.date + "T00:00:00")
+      };
+
+      JobDay.findOne({ date: dateFilter }).then(day => {
+        if (!day)
+          return res.json({
+            message: "No Data for this date.",
+            date: req.body.date
+          });
+
+        if (day.employee.toString() === req.body.employeeID) {
+          return res.json({ day, hours: { startHour, endHour } });
+        } else {
+          res.json({ message: "no jobdays for this employee" });
+        }
+      });
     });
   }
 );

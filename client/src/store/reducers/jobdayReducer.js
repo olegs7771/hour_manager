@@ -24,10 +24,11 @@ export default (state = initialState, action) => {
     case GET_SELECT_DAY:
       return {
         ...state,
-        selectedDay: action.payload,
+        selectedDay: action.payload.day,
         loading: false,
         message: null,
-        workDays: null
+        workDays: null,
+        hoursLimit: action.payload.hours
       };
     case GET_SELECT_MONTH:
       return {

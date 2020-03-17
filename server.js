@@ -66,16 +66,3 @@ const server = app.listen(port, () => {
 });
 
 //Exercises
-
-const jobHour = moment("2020-03-12T05:30:00.000Z").format("HH:mm");
-const hourLimit = "07:29:00";
-console.log(jobHour);
-console.log(hourLimit);
-if (jobHour >= hourLimit) {
-  console.log("true");
-} else {
-  console.log("false");
-}
-
-console.log(parseFloat(hourLimit));
-console.log(parseFloat(jobHour));
