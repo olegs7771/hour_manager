@@ -225,4 +225,8 @@ router.post(
   }
 );
 
+router.post("/test", (req, res) => {
+  res.json({ test: "success!" });
+});
+
 module.exports = router;
