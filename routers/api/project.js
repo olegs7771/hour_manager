@@ -225,8 +225,12 @@ router.post(
   }
 );
 
-router.post("/test", (req, res) => {
-  res.json({ test: "success!" });
-});
+router.post(
+  "/test",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    res.json(req.user);
+  }
+);
 
 module.exports = router;
