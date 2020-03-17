@@ -101,7 +101,7 @@ router.post(
 );
 
 //Find project
-router.get(
+router.post(
   "/fetch",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
