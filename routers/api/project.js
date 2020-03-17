@@ -114,7 +114,7 @@ router.get(
           return res.status(200).json({ project });
         }
         // console.log("project", project);
-        res.status(200).json(project);
+        res.status(200).json({ project });
       })
       .catch(err => {
         console.log("project error :", err);
