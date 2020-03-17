@@ -229,7 +229,9 @@ router.post(
   "/test",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    res.json(req.user);
+    Project.find().then(projects => {
+      res.json(projects);
+    });
   }
 );
 
