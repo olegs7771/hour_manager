@@ -92,9 +92,9 @@ export class Header extends Component {
           {this.state.isAuthenticated ? (
             <ul className="navbar-nav ml-auto">
               <li className="nav-item active">
-                <a className="nav-link" href="/project">
+                <Link className="nav-link" to={"/project"}>
                   Projects
-                </a>
+                </Link>
               </li>
               <li className="nav-item active">
                 <a className="nav-link" href="/project">
