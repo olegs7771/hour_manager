@@ -1,1 +1,3 @@
 /node_modules
+/config/prod_keys.js
+/config/dev_keys.js
