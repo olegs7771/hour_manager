@@ -76,13 +76,13 @@ class App extends Component {
           <div className="container">
             <Header />
             <Switch>
-              {/* <Route exact path="/project">
+              <Route exact path="/project">
                 {!localStorage.jwtToken ? (
                   <Redirect to="/login" />
                 ) : (
                   <Project />
                 )}
-              </Route> */}
+              </Route>
               <Route exact path="/create_project">
                 {!localStorage.jwtToken ? (
                   <Redirect to="/login" />
@@ -130,7 +130,6 @@ class App extends Component {
               <Route exact path="/" component={Home} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
-              <Route exact path="/project" component={Project} />
             </Switch>
           </div>
         </Router>
