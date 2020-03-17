@@ -12,7 +12,7 @@ import axios from "axios";
 export const getProjects = () => dispatch => {
   dispatch(loading());
   axios
-    .get("/api/project/fetch")
+    .post("/api/project/fetch")
     .then(res => {
       console.log("res.data", res.data);
       dispatch({
