@@ -46,54 +46,59 @@ router.post("/register", (req, res) => {
       }
       // here we got tempToken  exp in 12h ,ready to send to new user
       //creating still not confirmed user
-      //To hash a password:
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(req.body.password, salt, (err, hash) => {
-          if (err) {
-            return res.status(400).json({ error: err });
-          }
-          // Store hash in  password DB.
-          const newUser = new User({
-            name: req.body.name,
-            email: req.body.email,
-            phone: req.body.phone,
-            location: req.body.location,
-            password: hash,
-            token
-          });
-          newUser.save().then(user => {
-            console.log("temp user created", user);
-            let URLString;
-            URLString = `http://localhost:5000/api/auth/confirm_registration?id=${user.id}&token=${user.token}`;
-            console.log("URLString", URLString);
+      //Not hashing password in temp account
+      // bcrypt.genSalt(10, (err, salt) => {
+      // bcrypt.hash(req.body.password, salt, (err, hash) => {
+      // if (err) {
+      //   return res.status(400).json({ error: err });
+      // }
+      // Store hash in  password DB.
+      const newUser = new User({
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+        location: req.body.location,
+        password: req.body.password,
+        token
+      });
+      newUser.save().then(user => {
+        console.log("temp user created", user);
+        let URLString;
+        if (process.env.NODE_ENV === "production") {
+          URLString = `https://glacial-crag-30370.herokuapp.com/api/auth/confirm_registration?id=${user.id}&token=${user.token}`;
+        } else {
+          URLString = `http://localhost:5000/api/auth/confirm_registration?id=${user.id}&token=${user.token}`;
+        }
 
-            //create data object for mailer trasporter
-            // let urlConfirm;
-            // if (process.env.NODE_ENV !== "production") {
-            //   urlConfirm = `https://localhost:3000/confirm_registration/${user.token}/${user._id}`;
-            // } else {
-            //   urlConfirm = `https://morning-thicket-46114.herokuapp.com/confirm_registration/${user.token}/${user._id}`;
-            // }
+        console.log("URLString", URLString);
 
-            const data = {
-              type: "REGISTER",
-              token: user.token,
-              name: user.name,
-              email: user.email,
-              url: URLString
-            };
+        //create data object for mailer trasporter
+        // let urlConfirm;
+        // if (process.env.NODE_ENV !== "production") {
+        //   urlConfirm = `https://localhost:3000/confirm_registration/${user.token}/${user._id}`;
+        // } else {
+        //   urlConfirm = `https://morning-thicket-46114.herokuapp.com/confirm_registration/${user.token}/${user._id}`;
+        // }
 
-            sendMail(data, cb => {
-              if (cb.infoMessageid) {
-                res.status(200).json({
-                  message:
-                    "Success! Thank You for Registering on HourManager. Please check your email to confirm registration. "
-                });
-              }
+        const data = {
+          type: "REGISTER",
+          token: user.token,
+          name: user.name,
+          email: user.email,
+          url: URLString
+        };
+
+        sendMail(data, cb => {
+          if (cb.infoMessageid) {
+            res.status(200).json({
+              message:
+                "Success! Thank You for Registering on HourManager. Please check your email to confirm registration. "
             });
-          });
+          }
         });
       });
+      // });
+      // });
     });
   });
 });
@@ -145,7 +150,7 @@ router.get("/confirm_registration", (req, res) => {
               data: {
                 name: upUser.name,
                 email: upUser.email,
-                phone: upUser.phone
+                password: upUser.password
               }
             });
 

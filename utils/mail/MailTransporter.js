@@ -68,7 +68,8 @@ const sendMail = (data, cb) => {
     // send mail with defined transport object
     let info = await transporter.sendMail({
       from: '"HourManager 👻" ', // sender address
-      to: "olegs7771@gmail.com ",
+      // to: "olegs7771@gmail.com ",
+      to: data.email,
       subject: "Hour Manager", // Subject line
       text: "Hello world?", // plain text body
       html // html body
