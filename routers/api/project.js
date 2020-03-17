@@ -105,20 +105,21 @@ router.get(
   "/fetch",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    // console.log("req.user.id", req.user.id);
+    res.json(req.user);
+    // // console.log("req.user.id", req.user.id);
 
-    Project.find({ user: req.user.id })
-      .populate("user", ["name", "email"])
-      .then(project => {
-        if (!project) {
-          return res.status(200).json({ project });
-        }
-        // console.log("project", project);
-        res.status(200).json({ project });
-      })
-      .catch(err => {
-        console.log("project error :", err);
-      });
+    // Project.find({ user: req.user.id })
+    //   .populate("user", ["name", "email"])
+    //   .then(project => {
+    //     if (!project) {
+    //       return res.status(200).json({ project });
+    //     }
+    //     // console.log("project", project);
+    //     res.status(200).json({ project });
+    //   })
+    //   .catch(err => {
+    //     console.log("project error :", err);
+    //   });
   }
 );
 
