@@ -52,9 +52,8 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
   // app.use(express.static(path.join(__dirname, "public")));
-} else {
-  app.use(express.static(path.join(__dirname, "public")));
 }
+app.use(express.static(path.join(__dirname, "public")));
 
 //Views
 app.set("views", path.join(__dirname, "views"));
