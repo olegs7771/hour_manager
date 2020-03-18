@@ -103,7 +103,7 @@ router.post("/register", (req, res) => {
   });
 });
 
-// @desc /Confirmation of New User
+// @desc /Confirmation of New User from Email URL with params
 // @route POST /api/users/confirm_registration/:token
 // @access Public
 
@@ -126,40 +126,39 @@ router.get("/confirm_registration", (req, res) => {
     }
     console.log("user found", user);
 
-    //Create Token for Confirmed user
-    const payload = {
-      id: user._id,
-      email: user.email,
-      phone: user.phone,
-      password: user.password,
-      date: user.date
-    };
-    jwt.sign(payload, keys, { expiresIn: 36000 }, (err, token) => {
-      //Update Temp User to Verified user
-      const set = {
-        confirmed: true,
-        token: null
-      };
-      User.updateMany({
-        $set: set
-      })
-        .then(() => {
-          User.findOne({ email: user.email }).then(upUser => {
-            //Here Updated and Confirmed User
-            res.render("confirm.ejs", {
-              data: {
-                name: upUser.name,
-                email: upUser.email,
-                password: upUser.password
-              }
-            });
-
-            console.log("upUser", upUser);
-          });
+    //Update Temp User to Verified user and hash password
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(user.password, salt, (err, hash) => {
+        if (err) {
+          return res.status(400).json({ error: err });
+        }
+        // Store hash in  password DB.
+        const set = {
+          confirmed: true,
+          token: null,
+          password: hash
+        };
+        User.updateMany({
+          $set: set
         })
-        .catch(err => {
-          console.log("cant update", err);
-        });
+          .then(() => {
+            User.findOne({ email: user.email }).then(upUser => {
+              //Here Updated and Confirmed User
+              res.render("confirm.ejs", {
+                data: {
+                  name: upUser.name,
+                  email: upUser.email,
+                  password: user.password
+                }
+              });
+
+              console.log("upUser", upUser);
+            });
+          })
+          .catch(err => {
+            console.log("cant update", err);
+          });
+      });
     });
   });
 });
