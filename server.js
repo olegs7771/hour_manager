@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("path");
+require("dotenv").config();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
@@ -76,3 +77,4 @@ const server = app.listen(port, () => {
 
 //Exercises
 //test
+console.log("process_env.MAIL_PASS", process.env.MAIL_PASS);
