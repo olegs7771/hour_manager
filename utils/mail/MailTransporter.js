@@ -10,6 +10,18 @@ const sendMail = (data, cb) => {
     let html;
     const type = data.type;
     switch (type) {
+      case "REGISTER":
+        html =
+          "<!DOCTYPE html>" +
+          "<html><head><title>Registaration</title>" +
+          "</head><body><div>" +
+          '<img src="http://evokebeautysalon1.herokuapp.com/main/img/logo.png" alt="" width="160">' +
+          ` <p>Dear ${data.name} Thank you for your registration on HourManager.</p>` +
+          `<p> To complete registration please <a href=${data.url}>click here</a> ` +
+          "<p>See You Soon.</p>";
+        "</div></body></html>";
+        break;
+
       case "NEW_EMPLOYEE_ADDED":
         html =
           "<!DOCTYPE html>" +
@@ -27,17 +39,7 @@ const sendMail = (data, cb) => {
         "<p>See You Soon.</p>";
         "</div></body></html>";
         break;
-      case "REGISTER":
-        html =
-          "<!DOCTYPE html>" +
-          "<html><head><title>Registaration</title>" +
-          "</head><body><div>" +
-          '<img src="http://evokebeautysalon1.herokuapp.com/main/img/logo.png" alt="" width="160">' +
-          ` <p>Dear ${data.name} Thank you for your registration on HourManager.</p>` +
-          `<p> To complete registration please <a href=${data.url}>click here</a> ` +
-          "<p>See You Soon.</p>";
-        "</div></body></html>";
-        break;
+
       case "ACTIVATION":
         html =
           "<!DOCTYPE html>" +
@@ -59,7 +61,7 @@ const sendMail = (data, cb) => {
       secure: true, // true for 465, false for other ports
       auth: {
         user: "olegs7771", // generated ethereal user
-        pass: "hourmanager5168335" // generated ethereal password
+        pass: mailPass // generated ethereal password
       }
       // tls: {
       //   rejectUnauthorized: false
