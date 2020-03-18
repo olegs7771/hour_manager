@@ -59,7 +59,7 @@ const sendMail = (data, cb) => {
       secure: true, // true for 465, false for other ports
       auth: {
         user: "olegs7771", // generated ethereal user
-        pass: mailPass // generated ethereal password
+        pass: "hourmanager5168335" // generated ethereal password
       }
       // tls: {
       //   rejectUnauthorized: false
