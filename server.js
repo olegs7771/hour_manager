@@ -46,20 +46,26 @@ mongoose
 
 //Public Folder
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build", path.join(__dirname, "public")));
+  app.use(express.static("client/build"));
 
   app.get("*", (req, res) => {
     res.setHeader("set-cookie", ["SameSite=Strict;SameSite=Strict"]);
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
-  // app.use(express.static(path.join(__dirname, "public")));
-}
-app.use(express.static(path.join(__dirname, "public")));
+  app.use(express.static(path.join(__dirname, "public")));
 
-//Views
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
-app.engine("html", require("ejs").renderFile);
+  //Views
+  app.set("views", path.join(__dirname, "views"));
+  app.set("view engine", "ejs");
+  app.engine("html", require("ejs").renderFile);
+} else {
+  app.use(express.static(path.join(__dirname, "public")));
+
+  //Views
+  app.set("views", path.join(__dirname, "views"));
+  app.set("view engine", "ejs");
+  app.engine("html", require("ejs").renderFile);
+}
 
 // Use Routes
 
