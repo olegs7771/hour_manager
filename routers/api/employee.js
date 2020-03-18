@@ -84,7 +84,7 @@ router.post(
 
                   sendMail(data, cb => {
                     if (cb.infoMessageid) {
-                      res.status(200).json({
+                      res.json({
                         message:
                           "The new Employee was added to your project. Message was send to new Employee's Email "
                       });
