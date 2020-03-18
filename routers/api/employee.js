@@ -164,6 +164,8 @@ router.post(
 
 //Activation of New Employee from Mail Link with params
 router.get("/activate", (req, res) => {
+  console.log("trigger");
+
   const employeeID = req.query["id"];
   const employeeEmail = req.query["email"];
   const projectID = req.query["projectID"];

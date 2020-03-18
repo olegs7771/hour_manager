@@ -49,6 +49,7 @@ export class Register extends Component {
     }
     if (prevProps.messages !== this.props.messages) {
       this.setState({ messages: this.props.messages, loading: false });
+      console.log("message came success registration!");
     }
   }
 
