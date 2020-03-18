@@ -83,33 +83,34 @@ router.post(
                   };
 
                   sendMail(data, cb => {
-                    if (cb.infoMessageid) {
-                      res.json({
-                        message:
-                          "The new Employee was added to your project. Message was send to new Employee's Email "
-                      });
+                    if (!cb.infoMessageid) {
+                      return res.status(400).json({ error: "Can send Email" });
                     }
-                  });
 
-                  //Update Project.stafF[]
-                  Project.findById(projectID).then(project => {
-                    if (project) {
-                      project.staff.unshift({
-                        _id: newEmployee._id,
-                        employeeName: newEmployee.name,
-                        employeeEmail: newEmployee.email,
-                        employeePhone: newEmployee.phone,
-                        companyName: project.companyName,
-                        projectName: project.projectName,
-                        confirmed: false,
-                        started: newEmployee.started,
-                        address: newEmployee.address,
-                        func: newEmployee.func
-                      });
-                      project.save().then(upProject => {
-                        console.log("upProject", upProject);
-                      });
-                    }
+                    res.json({
+                      message:
+                        "The new Employee was added to your project. Message was send to new Employee's Email "
+                    });
+                    //Update Project.stafF[]
+                    Project.findById(projectID).then(project => {
+                      if (project) {
+                        project.staff.unshift({
+                          _id: newEmployee._id,
+                          employeeName: newEmployee.name,
+                          employeeEmail: newEmployee.email,
+                          employeePhone: newEmployee.phone,
+                          companyName: project.companyName,
+                          projectName: project.projectName,
+                          confirmed: false,
+                          started: newEmployee.started,
+                          address: newEmployee.address,
+                          func: newEmployee.func
+                        });
+                        project.save().then(upProject => {
+                          console.log("upProject", upProject);
+                        });
+                      }
+                    });
                   });
                 });
             }
