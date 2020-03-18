@@ -58,16 +58,21 @@ router.post(
                 .then(newEmployee => {
                   console.log("newEmployee", newEmployee);
                   //Create url for new Employee activation
-                  const URL = `http://localhost:5000/api/employee/activate?id=${newEmployee._id}&projectID=${newEmployee.projectID}&email=${newEmployee.email}`;
-                  console.log("project", project);
+                  let URL;
+                  if (process.env.NODE_ENV === "production") {
+                    URL = `https://glacial-crag-30370.herokuapp.com/api/employee/activate?id=${newEmployee._id}&projectID=${newEmployee.projectID}&email=${newEmployee.email}`;
+                  } else {
+                    URL = `http://localhost:5000/api/employee/activate?id=${newEmployee._id}&projectID=${newEmployee.projectID}&email=${newEmployee.email}`;
+                  }
 
                   //Send Email To Newly Created Employee
+                  console.log("URL", URL);
                   const data = {
                     type: "NEW_EMPLOYEE_ADDED",
                     projectID: newEmployee.projectID,
                     employeeID: newEmployee._id,
                     employeeName: newEmployee.name,
-                    employeeEmail: newEmployee.email,
+                    email: newEmployee.email,
                     employeePhone: newEmployee.phone,
                     func: newEmployee.func,
                     started: newEmployee.started,
@@ -76,6 +81,7 @@ router.post(
                     projectName: project.projectName,
                     url: URL
                   };
+
                   sendMail(data, cb => {
                     if (cb.infoMessageid) {
                       res.status(200).json({
