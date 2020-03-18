@@ -44,15 +44,7 @@ router.post("/register", (req, res) => {
       if (err) {
         throw err;
       }
-      // here we got tempToken  exp in 12h ,ready to send to new user
-      //creating still not confirmed user
-      //Not hashing password in temp account
-      // bcrypt.genSalt(10, (err, salt) => {
-      // bcrypt.hash(req.body.password, salt, (err, hash) => {
-      // if (err) {
-      //   return res.status(400).json({ error: err });
-      // }
-      // Store hash in  password DB.
+
       const newUser = new User({
         name: req.body.name,
         email: req.body.email,
@@ -71,14 +63,6 @@ router.post("/register", (req, res) => {
         }
 
         console.log("URLString", URLString);
-
-        //create data object for mailer trasporter
-        // let urlConfirm;
-        // if (process.env.NODE_ENV !== "production") {
-        //   urlConfirm = `https://localhost:3000/confirm_registration/${user.token}/${user._id}`;
-        // } else {
-        //   urlConfirm = `https://morning-thicket-46114.herokuapp.com/confirm_registration/${user.token}/${user._id}`;
-        // }
 
         const data = {
           type: "REGISTER",

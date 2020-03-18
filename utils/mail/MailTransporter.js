@@ -61,10 +61,10 @@ const sendMail = (data, cb) => {
       auth: {
         user: "olegs7771", // generated ethereal user
         pass: mailPass // generated ethereal password
+      },
+      tls: {
+        rejectUnauthorized: false
       }
-      // tls: {
-      //   rejectUnauthorized: false
-      // }
     });
 
     // send mail with defined transport object
