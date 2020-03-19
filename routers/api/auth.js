@@ -193,8 +193,8 @@ router.post("/login", (req, res) => {
     });
   });
 });
-// router.get("/test", (req, res) => {
-//   res.json({ message: "Success" });
-// });
+router.get("/test", (req, res) => {
+  res.json({ message: "Success" });
+});
 
 module.exports = router;
