@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
-const mailPass = require("../../config/keys").mailPass;
+// const mailPass = require("../../config/keys").mailPass;
 const clientID = require("../../config/keys").clientID;
 const clientSecret = require("../../config/keys").clientSecret;
 const refresh_token = require("../../config/keys").refresh_token;
@@ -19,7 +19,7 @@ const accessToken = oauth2Client.getAccessToken();
 
 const sendMail = (data, cb) => {
   const main = async () => {
-    console.log("data in mailer", data);
+    // console.log("data in mailer", data);
 
     //Create html body for sendMail()
     let html;

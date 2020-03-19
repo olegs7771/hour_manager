@@ -94,6 +94,7 @@ router.post("/register", (req, res) => {
 router.get("/confirm_registration", (req, res) => {
   const uid = req.query["id"];
   const token = req.query["token"];
+  return res.json({ message: "confirmation route works", uid });
   // console.log("uid", uid);
   // console.log("token", token);
   User.findOne({ _id: uid }).then(user => {
@@ -109,6 +110,12 @@ router.get("/confirm_registration", (req, res) => {
         .json({ message: "Account for this email alredy has been confirmed" });
     }
     console.log("user found", user);
+    //Check if token in params match token in temp user
+    if (user.token !== token) {
+      return res
+        .status(400)
+        .json({ error: "Invalid Credentials. Please repeat SignUp precess." });
+    }
 
     //Update Temp User to Verified user and hash password
     bcrypt.genSalt(10, (err, salt) => {
