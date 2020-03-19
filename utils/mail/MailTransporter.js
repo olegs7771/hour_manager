@@ -1,5 +1,21 @@
 const nodemailer = require("nodemailer");
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
 const mailPass = require("../../config/keys").mailPass;
+const clientID = require("../../config/keys").clientID;
+const clientSecret = require("../../config/keys").clientSecret;
+const refresh_token = require("../../config/keys").refresh_token;
+
+const oauth2Client = new OAuth2(
+  clientID,
+  clientSecret,
+  "https://developers.google.com/oauthplayground"
+);
+
+oauth2Client.setCredentials({
+  refresh_token
+});
+const accessToken = oauth2Client.getAccessToken();
 
 const sendMail = (data, cb) => {
   const main = async () => {
@@ -56,11 +72,17 @@ const sendMail = (data, cb) => {
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
       host: "smtp.googlemail.com",
+      service: "gmail",
       port: 465,
       secure: true, // true for 465, false for other ports
       auth: {
-        user: "olegs7771", // generated ethereal user
-        pass: mailPass // generated ethereal password
+        type: "OAuth2",
+        user: "olegs7771@gmail.com", // generated ethereal user
+        clientId: clientID,
+        clientSecret,
+        refreshToken: refresh_token,
+        accessToken
+        // pass: mailPass // generated ethereal password
       },
       tls: {
         rejectUnauthorized: false
@@ -82,7 +104,9 @@ const sendMail = (data, cb) => {
 
     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
   };
-  main().catch(console.error);
+  main().catch(err => {
+    console.log("error to send email:", err);
+  });
 };
 
 module.exports = sendMail;
