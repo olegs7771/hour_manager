@@ -9,12 +9,6 @@ const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
 const sendMail = require("../../utils/mail/MailTransporter");
 
-router.get("/test", (req, res) => {
-  // res.render("index", {
-  //   data: { name: req.query["name"] }
-  // });
-});
-
 //Registration
 router.post("/register", (req, res) => {
   //Validation
@@ -156,6 +150,7 @@ router.get("/confirm_registration", (req, res) => {
     });
   });
 });
+
 // // @desc /Login User
 // // @route POST /api/User/login
 // // @access Public
@@ -198,5 +193,8 @@ router.post("/login", (req, res) => {
     });
   });
 });
+// router.get("/test", (req, res) => {
+//   res.json({ message: "Success" });
+// });
 
 module.exports = router;

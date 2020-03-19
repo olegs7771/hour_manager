@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { clearOutUser } from "../../../store/actions/authAction";
+import { clearOutUser, test } from "../../../store/actions/authAction";
 import PropTypes from "prop-types";
 import { withRouter, Link } from "react-router-dom";
 export class Header extends Component {
@@ -26,6 +26,10 @@ export class Header extends Component {
     if (this.props.auth.isAuthenticated) {
       this.setState({ isAuthenticated: true, name: this.props.auth.user.name });
     }
+    //test
+    console.log("test sent");
+
+    this.props.test();
   }
   _logOut = () => {
     localStorage.removeItem("jwtToken");
@@ -137,7 +141,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  clearOutUser
+  clearOutUser,
+  test
 };
 
 Header.propTypes = {

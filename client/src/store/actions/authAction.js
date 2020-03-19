@@ -85,3 +85,10 @@ export const clearOutUser = () => {
     type: CLEAR_OUT_USER
   };
 };
+
+//test
+export const test = () => dispatch => {
+  axios.post("/api/auth/test").then(res => {
+    console.log("res.data test", res.data);
+  });
+};
