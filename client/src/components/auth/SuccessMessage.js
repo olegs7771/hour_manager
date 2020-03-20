@@ -56,12 +56,13 @@ export class SuccessMessage extends Component {
         <div className="my-3 border rounded">
           <div className="text-center my-3 display-4">Success!</div>
           <div className="my-3 border rounded pl-4">
-            Dear name Thank you for registration <br />
+            Dear {this.state.confirmed_user.name}Thank you for registration{" "}
+            <br />
             Please save your credentials for further Login
             <div className="my-3 border rounded">
-              <span>Email : email</span>
+              <span>Email : {this.state.confirmed_user.email}</span>
               <br />
-              <span>Password: pass</span>
+              <span>Password: {this.state.confirmed_user.password}</span>
             </div>
           </div>
         </div>
