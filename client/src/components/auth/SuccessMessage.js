@@ -7,8 +7,8 @@ import { DotLoaderSpinner } from "../spinners/DotLoaderSpinner";
 export class SuccessMessage extends Component {
   state = {
     loading: false,
-    messages: {},
-    errors: {}
+    errors: {},
+    confirmed_user: null
   };
 
   //After User sends a URL link with id and token
@@ -24,32 +24,39 @@ export class SuccessMessage extends Component {
       this.setState({ loading: this.props.loading });
     }
     if (prevProps.errors !== this.props.errors) {
-      this.setState({ errors: this.props.errors, loading: false });
+      this.setState({
+        errors: this.props.errors,
+        loading: false,
+        confirmed_user: true
+      });
+    }
+    if (prevProps.confirmed_user !== this.props.confirmed_user) {
+      this.setState({
+        confirmed_user: this.props.confirmed_user,
+        loading: false
+      });
     }
   }
 
   render() {
-    if (this.state.loading) {
+    if (this.state.loading || this.state.confirmed_user === null) {
       return (
         <div className="my-5">
           <DotLoaderSpinner />
         </div>
       );
-    }
-
-    if (this.state.errors) {
+    } else if (this.state.errors.error) {
       return (
         <div className="my-3 border rounded p-4">
           <div className="text-center h6">{this.state.errors.error}</div>
         </div>
       );
-    }
-    if (this.state.message) {
+    } else {
       return (
         <div className="my-3 border rounded">
           <div className="text-center my-3 display-4">Success!</div>
           <div className="my-3 border rounded">
-            <p>Dear User {this.props.match.params.id}</p>
+            <p>Dear User {this.state.confirmed_user.name}</p>
           </div>
         </div>
       );
@@ -59,7 +66,8 @@ export class SuccessMessage extends Component {
 
 const mapStateToProps = state => ({
   errors: state.errors.errors,
-  loading: state.auth.loading
+  loading: state.auth.loading,
+  confirmed_user: state.auth.confirmed_user
 });
 
 const mapDispatchToProps = { confirmUser };

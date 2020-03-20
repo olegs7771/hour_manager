@@ -13,8 +13,7 @@ const sendMail = require("../../utils/mail/MailTransporter");
 router.post("/register", (req, res) => {
   //Validation
   const { errors, isValid } = validateRegisterInput(req.body);
-  console.log("errors", errors);
-  console.log("isValid", isValid);
+
   if (!isValid) {
     return res.status(500).json(errors);
   }
@@ -51,9 +50,9 @@ router.post("/register", (req, res) => {
         console.log("temp user created", user);
         let URLString;
         if (process.env.NODE_ENV === "production") {
-          URLString = `https://glacial-crag-30370.herokuapp.com/api/auth/confirm_registration?id=${user.id}&token=${user.token}`;
+          URLString = `https://glacial-crag-30370.herokuapp.com/confirm/${user.id}/${user.token}`;
         } else {
-          URLString = `http://localhost:5000/api/auth/confirm_registration?id=${user.id}&token=${user.token}`;
+          URLString = `http://localhost:3000/confirm/${user.id}/${user.token}`;
         }
 
         console.log("URLString", URLString);
@@ -139,8 +138,6 @@ router.post("/confirm_registration", (req, res) => {
                 email: upUser.email,
                 password: user.password
               });
-
-              console.log("upUser", upUser);
             });
           })
           .catch(err => {

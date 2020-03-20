@@ -3,7 +3,8 @@ import {
   CLEAR_OUT_USER,
   GET_ERRORS,
   GET_MESSAGE,
-  LOADING_USER
+  LOADING_USER,
+  CONFIRMED_USER
 } from "./types";
 import axios from "axios";
 import setAuthToken from "../../utils/setAuthToken";
@@ -41,6 +42,10 @@ export const confirmUser = data => dispatch => {
     .post("/api/auth/confirm_registration", data)
     .then(res => {
       console.log("res.data", res.data);
+      dispatch({
+        type: CONFIRMED_USER,
+        payload: res.data
+      });
     })
     .catch(err => {
       dispatch({

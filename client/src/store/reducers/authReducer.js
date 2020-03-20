@@ -1,12 +1,14 @@
 import {
   SET_CURRENT_USER,
   CLEAR_OUT_USER,
-  LOADING_USER
+  LOADING_USER,
+  CONFIRMED_USER
 } from "../actions/types";
 const initialState = {
   isAuthenticated: false,
   user: null,
-  loading: false
+  loading: false,
+  confirmed_user: null
 };
 
 export default (state = initialState, action) => {
@@ -28,6 +30,12 @@ export default (state = initialState, action) => {
         ...state,
         isAuthenticated: false,
         user: null,
+        loading: false
+      };
+    case CONFIRMED_USER:
+      return {
+        ...state,
+        confirmed_user: action.payload,
         loading: false
       };
     default:
