@@ -85,7 +85,7 @@ router.post("/register", (req, res) => {
 // @route POST /api/users/confirm_registration/:token
 // @access Public
 
-router.get("/confirm_registration", (req, res) => {
+router.post("/confirm_registration", (req, res) => {
   const uid = req.query["id"];
   const token = req.query["token"];
   return res.json({ message: "confirmation route works", uid });
