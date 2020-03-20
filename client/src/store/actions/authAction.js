@@ -2,7 +2,8 @@ import {
   SET_CURRENT_USER,
   CLEAR_OUT_USER,
   GET_ERRORS,
-  GET_MESSAGE
+  GET_MESSAGE,
+  LOADING_USER
 } from "./types";
 import axios from "axios";
 import setAuthToken from "../../utils/setAuthToken";
@@ -28,6 +29,24 @@ export const registerUser = data => dispatch => {
         payload: err.response.data
       });
       console.log("error :", err.response.data);
+    });
+};
+
+//Confirmatin of Temp User via Email URL link
+
+export const confirmUser = data => dispatch => {
+  dispatch(loading());
+  console.log("confirm data", data);
+  axios
+    .post("/api/auth/confirm_registration", data)
+    .then(res => {
+      console.log("res.data", res.data);
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
     });
 };
 
@@ -83,5 +102,11 @@ export const setCurrentUser = decoded => {
 export const clearOutUser = () => {
   return {
     type: CLEAR_OUT_USER
+  };
+};
+//Loading
+export const loading = () => {
+  return {
+    type: LOADING_USER
   };
 };

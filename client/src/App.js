@@ -13,6 +13,8 @@ import SandBox from "./SandBox";
 //Auth
 import Register from "../src/components/auth/Register";
 import Login from "../src/components/auth/Login";
+import SuccessMessage from "../src/components/auth/SuccessMessage";
+
 //Layout
 import Header from "../src/components/layout/header/Header";
 import Home from "../src/components/layout/main/Home";
@@ -130,6 +132,11 @@ class App extends Component {
               <Route exact path="/" component={Home} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+              <Route
+                exact
+                path="/confirm/:id/:token"
+                component={SuccessMessage}
+              />
             </Switch>
           </div>
         </Router>

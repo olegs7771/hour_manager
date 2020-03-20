@@ -1,6 +1,7 @@
 //Auth
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const CLEAR_OUT_USER = "CLEAR_OUT_USER";
+export const LOADING_USER = "LOADING_USER";
 //Errors
 export const GET_ERRORS = "GET_ERRORS";
 //Message

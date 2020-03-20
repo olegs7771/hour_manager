@@ -39,12 +39,7 @@ export default (state = initialState, action) => {
         selectedDay: true,
         message: null
       };
-    case GET_SELECT_MONTH:
-      return {
-        ...state,
-        workDays: action.payload,
-        loading: false
-      };
+
     case JOBDAY_MESSAGE:
       return {
         ...state,

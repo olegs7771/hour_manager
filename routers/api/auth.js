@@ -86,26 +86,21 @@ router.post("/register", (req, res) => {
 // @access Public
 
 router.post("/confirm_registration", (req, res) => {
-  const uid = req.query["id"];
-  const token = req.query["token"];
-  return res.json({ message: "confirmation route works", uid });
-  // console.log("uid", uid);
-  // console.log("token", token);
-  User.findOne({ _id: uid }).then(user => {
+  User.findOne({ _id: req.body.id }).then(user => {
     if (!user) {
       return res
-        .status(200)
-        .json({ message: "No account for this email exists" });
+        .status(400)
+        .json({ error: "No account for this email exists" });
     }
     //confirmed:true
     if (user.confirmed) {
       return res
-        .status(200)
-        .json({ message: "Account for this email alredy has been confirmed" });
+        .status(400)
+        .json({ error: "Account for this email alredy has been confirmed" });
     }
     console.log("user found", user);
     //Check if token in params match token in temp user
-    if (user.token !== token) {
+    if (user.token !== req.body.token) {
       return res
         .status(400)
         .json({ error: "Invalid Credentials. Please repeat SignUp precess." });
@@ -136,8 +131,13 @@ router.post("/confirm_registration", (req, res) => {
               //     password: user.password
               //   }
               // });
+              // res.json({
+              //   message: `Dear ${upUser.name} please save your creds for future login : email : ${upUser.email}, password :${user.password}`
+              // });
               res.json({
-                message: `Dear ${upUser.name} please save your creds for future login : email : ${upUser.email}, password :${user.password}`
+                name: upUser.name,
+                email: upUser.email,
+                password: user.password
               });
 
               console.log("upUser", upUser);
