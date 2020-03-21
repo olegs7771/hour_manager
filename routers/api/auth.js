@@ -123,16 +123,7 @@ router.post("/confirm_registration", (req, res) => {
           .then(() => {
             User.findOne({ email: user.email }).then(upUser => {
               //Here Updated and Confirmed User
-              // res.render("confirm.ejs", {
-              //   data: {
-              //     name: upUser.name,
-              //     email: upUser.email,
-              //     password: user.password
-              //   }
-              // });
-              // res.json({
-              //   message: `Dear ${upUser.name} please save your creds for future login : email : ${upUser.email}, password :${user.password}`
-              // });
+
               res.json({
                 name: upUser.name,
                 email: upUser.email,
