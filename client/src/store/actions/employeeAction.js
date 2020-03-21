@@ -111,6 +111,14 @@ export const updateEmployee = data => dispatch => {
 
 export const activEmp = data => dispatch => {
   console.log("data activ", data);
+  axios
+    .post("/activate", data)
+    .then(res => {
+      console.log("res.data", res.data);
+    })
+    .catch(err => {
+      console.log("error activate :", err.response.data);
+    });
 };
 
 //Loading

@@ -140,7 +140,7 @@ class App extends Component {
               />
               <Route
                 exact
-                path="/emp_activ_msg"
+                path="/emp_activ_msg/:id/:projectID/:email"
                 component={ActivationSuccessMessage}
               />
             </Switch>

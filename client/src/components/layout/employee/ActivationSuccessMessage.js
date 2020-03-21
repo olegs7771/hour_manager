@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 // import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
@@ -14,8 +15,11 @@ export class ActivationSuccessMessage extends Component {
   componentDidMount() {
     // New Employee Received Email and after he clicked activate link
     //URI with params
+    const uid = this.props.match.params.id;
+    const projectID = this.props.match.params.projectID;
+    const email = this.props.match.params.email;
 
-    this.props.activEmp({ data: "test" });
+    this.props.activEmp({ uid, projectID, email });
   }
 
   render() {
@@ -42,4 +46,4 @@ const mapDispatchToProps = { activEmp };
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ActivationSuccessMessage);
+)(withRouter(ActivationSuccessMessage));
