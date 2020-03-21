@@ -107,6 +107,11 @@ export const updateEmployee = data => dispatch => {
       });
     });
 };
+//Activation Component
+
+export const activEmp = data => dispatch => {
+  console.log("data activ", data);
+};
 
 //Loading
 

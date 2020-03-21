@@ -27,6 +27,7 @@ import EmployeeStaff from "../src/components/layout/employee/EmployeeStaff";
 import EmployeeAdd from "../src/components/layout/employee/EmployeeAdd";
 import EmployeeDetails from "../src/components/layout/employee/EmployeeDetails";
 import EmployeeEdit from "../src/components/layout/employee/EmployeeEdit";
+import ActivationSuccessMessage from "../src/components/layout/employee/ActivationSuccessMessage";
 
 import configureStore from "./store/configureStore/configureStore";
 import jwt_decode from "jwt-decode";
@@ -136,6 +137,11 @@ class App extends Component {
                 exact
                 path="/confirm/:id/:token"
                 component={SuccessMessage}
+              />
+              <Route
+                exact
+                path="/emp_activ_msg"
+                component={ActivationSuccessMessage}
               />
             </Switch>
           </div>
