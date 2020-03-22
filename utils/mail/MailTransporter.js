@@ -37,6 +37,26 @@ const sendMail = (data, cb) => {
         "</div></body></html>";
         break;
 
+      case "ADMIN":
+        html =
+          "<!DOCTYPE html>" +
+          "<html><head><title>Notification</title>" +
+          "</head><body><div>" +
+          "<p>New User have been registered as temp user :</p>" +
+          `</br>` +
+          ` <p>Name : ${data.name} .</p>` +
+          `</br>` +
+          ` <p>Email : ${data.email} .</p>` +
+          `</br>` +
+          ` <p>Phone: ${data.phone} .</p>` +
+          `</br>` +
+          ` <p>Location : ${data.address} .</p>` +
+          `</br>` +
+          ` <p>Date : ${data.date} .</p>` +
+          `</br>` +
+          "</div></body></html>";
+        break;
+
       case "NEW_EMPLOYEE_ADDED":
         html =
           "<!DOCTYPE html>" +

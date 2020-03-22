@@ -79,11 +79,6 @@ if (localStorage.jwtToken) {
 // screen if you're not yet authenticated.
 
 class App extends Component {
-  componentDidMount() {
-    setTimeout(() => {
-      localStorage.removeItem("jwtToken");
-    }, 5000);
-  }
   render() {
     return (
       <Provider store={store}>

@@ -9,6 +9,12 @@ const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
 const sendMail = require("../../utils/mail/MailTransporter");
 
+//1 New User Makes Registration
+//2 New temp user created in mongoDB
+//3 Admin receives notification about new user request
+//4 Admin decides to approve or decline
+//5 if approved new user verified account created
+
 //Registration
 router.post("/register", (req, res) => {
   //Validation
@@ -70,6 +76,23 @@ router.post("/register", (req, res) => {
             res.status(200).json({
               message:
                 "Success! Thank You for Registering on HourManager. Please check your email to confirm registration. "
+            });
+            //New user Received Confirmation
+            //Send Notification Email to Admin
+            const dataAdmin = {
+              type: "ADMIN",
+              token: user.token,
+              name: user.name,
+              email: user.email,
+              phone: user.phone,
+              address: user.location,
+              date: user.date
+              // urlPermit:
+            };
+            sendMail(dataAdmin, cb => {
+              if (cb.infoMessageid) {
+                console.log("Sent Message to Admin");
+              }
             });
           }
         });
@@ -160,7 +183,7 @@ router.post("/login", (req, res) => {
           .status(400)
           .json({ password: "Password Email invalid pair" });
       }
-      //Password matched, prepare token 2h exp time
+      //Password matched, prepare token 8h exp time
 
       // console.log("user", user);
 
@@ -172,7 +195,7 @@ router.post("/login", (req, res) => {
         password: user.password,
         date: user.date
       };
-      jwt.sign(payload, keys, { expiresIn: 60 }, (err, token) => {
+      jwt.sign(payload, keys, { expiresIn: 28800 }, (err, token) => {
         if (err) {
           return res.status(400).json({ message: "something wrong" });
         }
