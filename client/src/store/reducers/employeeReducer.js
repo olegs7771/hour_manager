@@ -1,13 +1,15 @@
 import {
   GET_ALL_EMPLOYEES,
   LOADING,
-  GET_SELECTED_EMPLOYEE
+  GET_SELECTED_EMPLOYEE,
+  ACTIVATION_EMPLOYEE
 } from "../actions/types";
 
 const initialState = {
   employees: [],
   loading: false,
-  selectedEmployee: null
+  selectedEmployee: null,
+  activatedEmployee: null
 };
 
 export default (state = initialState, action) => {
@@ -27,6 +29,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         selectedEmployee: action.payload,
+        loading: false
+      };
+    case ACTIVATION_EMPLOYEE:
+      return {
+        ...state,
+        activatedEmployee: action.payload,
         loading: false
       };
     default:

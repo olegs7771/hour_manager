@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 // import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Popup from "../popup/Popup";
 
 export class Home extends Component {
   render() {
     return (
-      <div>
-        <h2>This is Home Unprotected</h2>
-        <Popup />
+      <div className="border rounded p-4 my-4">
+        <h2>Wellcome To HourManager! Protected</h2>
       </div>
     );
   }

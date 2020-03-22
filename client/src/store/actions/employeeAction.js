@@ -3,7 +3,8 @@ import {
   LOADING,
   GET_MESSAGE,
   GET_ERRORS,
-  GET_SELECTED_EMPLOYEE
+  GET_SELECTED_EMPLOYEE,
+  ACTIVATION_EMPLOYEE
 } from "./types";
 import axios from "axios";
 
@@ -111,10 +112,22 @@ export const updateEmployee = data => dispatch => {
 
 export const activEmp = data => dispatch => {
   console.log("data activ", data);
+  dispatch(loading());
   axios
-    .post("/activate", data)
+    .post("/api/employee/activate", data)
     .then(res => {
       console.log("res.data", res.data);
+      if (res.data.message) {
+        console.log("res.data message", res.data.message);
+        dispatch({
+          type: GET_MESSAGE,
+          payload: res.data
+        });
+      }
+      dispatch({
+        type: ACTIVATION_EMPLOYEE,
+        payload: res.data
+      });
     })
     .catch(err => {
       console.log("error activate :", err.response.data);

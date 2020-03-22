@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import moment from "moment";
 import { withRouter } from "react-router-dom";
 
-class ProjectDetails extends Component {
+class ProjectItems extends Component {
   render() {
     console.log("this.props.staff", this.props.staff.length);
 
@@ -94,7 +94,7 @@ class ProjectDetails extends Component {
           {/* <Link to={`edit_project/${id}`}>Edit Project</Link> */}
           <button
             className="btn btn-outline-info"
-            onClick={() => this.props.history.push(`edit_project/${id}`)}
+            onClick={() => this.props.history.push(`/edit_project/${id}`)}
           >
             View Project
           </button>
@@ -107,4 +107,4 @@ class ProjectDetails extends Component {
   }
 }
 
-export default withRouter(ProjectDetails);
+export default withRouter(ProjectItems);

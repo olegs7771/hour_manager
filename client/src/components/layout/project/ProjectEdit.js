@@ -41,6 +41,7 @@ export class ProjectEdit extends Component {
     this.props.getSelectedProject({
       id: this.props.match.params.id
     });
+    console.log("this.props.match.params.id", this.props.match.params.id);
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.selectedProject !== this.props.selectedProject) {
