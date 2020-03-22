@@ -172,7 +172,7 @@ router.post("/login", (req, res) => {
         password: user.password,
         date: user.date
       };
-      jwt.sign(payload, keys, { expiresIn: 7200 }, (err, token) => {
+      jwt.sign(payload, keys, { expiresIn: 60 }, (err, token) => {
         if (err) {
           return res.status(400).json({ message: "something wrong" });
         }

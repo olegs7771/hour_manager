@@ -31,12 +31,19 @@ import ActivationSuccessMessage from "../src/components/layout/employee/Activati
 import configureStore from "./store/configureStore/configureStore";
 import jwt_decode from "jwt-decode";
 import { setCurrentUser, clearOutUser } from "./store/actions/authAction";
+// Redux-Auth-Wrapper
+import {
+  userIsAuthenticated,
+  userIsNotAuthenticated
+} from "./utils/reduxAuthWrapper";
 
 import "./App.css";
 const store = configureStore();
 
 //Check for token in localStorage
 if (localStorage.jwtToken) {
+  console.log("localStorage.jwtToken", localStorage.jwtToken);
+
   //Set token in header request
   setAuthToken(localStorage.jwtToken);
   //decode token and get user info and exp
@@ -57,7 +64,7 @@ if (localStorage.jwtToken) {
   // console.log(currentTime - decoded.exp);
 
   if (decoded.exp < currentTime) {
-    // console.log("clear user");
+    console.log("clear user");
 
     //Logout User
     store.dispatch(clearOutUser());
@@ -65,12 +72,18 @@ if (localStorage.jwtToken) {
     //Redirect to Home
   }
 }
+
 // console.log("location", window.location);
 
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
 
 class App extends Component {
+  componentDidMount() {
+    setTimeout(() => {
+      localStorage.removeItem("jwtToken");
+    }, 5000);
+  }
   render() {
     return (
       <Provider store={store}>
@@ -78,59 +91,49 @@ class App extends Component {
           <div className="container">
             <Header />
             <Switch>
-              <Route exact path="/project">
-                {!localStorage.jwtToken ? (
-                  <Redirect to="/login" />
-                ) : (
-                  <Project />
-                )}
-              </Route>
-              <Route exact path="/create_project">
-                {!localStorage.jwtToken ? (
-                  <Redirect to="/login" />
-                ) : (
-                  <ProjectCreate />
-                )}
-              </Route>
-              <Route exact path="/edit_project/:id">
-                {!localStorage.jwtToken ? (
-                  <Redirect to="/login" />
-                ) : (
-                  <ProjectEdit />
-                )}
-              </Route>
-              <Route exact path="/employees/:id">
-                {!localStorage.jwtToken ? (
-                  <Redirect to="/login" />
-                ) : (
-                  <EmployeeStaff />
-                )}
-              </Route>
-              <Route exact path="/employee_add/:id">
-                {!localStorage.jwtToken ? (
-                  <Redirect to="/login" />
-                ) : (
-                  <EmployeeAdd />
-                )}
-              </Route>
-              <Route exact path="/employee_details/:id">
-                {!localStorage.jwtToken ? (
-                  <Redirect to="/login" />
-                ) : (
-                  <EmployeeDetails />
-                )}
-              </Route>
-              <Route exact path="/employee_edit/:id">
-                {!localStorage.jwtToken ? (
-                  <Redirect to="/login" />
-                ) : (
-                  <EmployeeEdit />
-                )}
-              </Route>
+              <Route exact path="/home" component={userIsAuthenticated(Home)} />
+              <Route
+                exact
+                path="/project"
+                component={userIsAuthenticated(Project)}
+              />
+              <Route
+                exact
+                path="/create_project"
+                component={userIsAuthenticated(ProjectCreate)}
+              />
+              <Route
+                exact
+                path="/edit_project/:id"
+                component={userIsAuthenticated(ProjectEdit)}
+              />
+              <Route
+                exact
+                path="/employees/:id"
+                component={userIsAuthenticated(EmployeeStaff)}
+              />
+              <Route
+                exact
+                path="/employee_add/:id"
+                component={userIsAuthenticated(EmployeeAdd)}
+              />
+              <Route
+                exact
+                path="/employee_details/:id"
+                component={userIsAuthenticated(EmployeeDetails)}
+              />
+              <Route
+                exact
+                path="/employee_edit/:id"
+                component={userIsAuthenticated(EmployeeEdit)}
+              />
 
-              <Route exact path="/home" component={Home} />
               <Route exact path="/register" component={Register} />
-              <Route exact path="/login" component={Login} />
+              <Route
+                exact
+                path="/login"
+                component={userIsNotAuthenticated(Login)}
+              />
               <Route exact path="/" component={Landing} />
               <Route
                 exact
