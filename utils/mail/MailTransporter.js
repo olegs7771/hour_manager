@@ -31,7 +31,9 @@ const sendMail = (data, cb) => {
           "<html><head><title>Registaration</title>" +
           "</head><body><div>" +
           '<img src="http://evokebeautysalon1.herokuapp.com/main/img/logo.png" alt="" width="160">' +
-          ` <p>Dear ${data.name} Thank you for your registration on HourManager.</p>` +
+          ` <p>Dear` +
+          " " +
+          ` ${data.name} Thank you for your registration on HourManager.</p>` +
           `<p> To complete registration please <a href=${data.url}>click here</a> ` +
           "<p>See You Soon.</p>";
         "</div></body></html>";

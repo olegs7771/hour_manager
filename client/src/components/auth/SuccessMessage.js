@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { confirmUser } from "../../store/actions/authAction";
 import { withRouter } from "react-router-dom";
 import { DotLoaderSpinner } from "../spinners/DotLoaderSpinner";
+import { UpCase } from "../../utils/UpperCase";
 
 export class SuccessMessage extends Component {
   state = {
@@ -56,8 +57,11 @@ export class SuccessMessage extends Component {
         <div className="my-3 border rounded">
           <div className="text-center my-3 display-4">Success!</div>
           <div className="my-3 border rounded pl-4">
-            Dear {this.state.confirmed_user.name}Thank you for registration{" "}
-            <br />
+            Dear{" "}
+            <span className="ml-1 font-italic">
+              {UpCase(this.state.confirmed_user.name)}
+            </span>{" "}
+            Thank you for registration <br />
             <p>
               You've now sent your request to the Hourmanager admin. Once the
               admin approves your request, you will be able the to access

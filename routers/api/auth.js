@@ -79,44 +79,6 @@ router.post("/register", (req, res) => {
                 "Success! Thank You for Registering on HourManager. Please check your email to confirm registration. "
             });
             //New user Received Confirmation
-            //Send Notification Email to Admin
-            //Create two URLs for Admin Email html
-            //Use token for  EMAIL URL Admin security
-            const token = user.token;
-            console.log("token", token);
-
-            //Create data obj for Admin URL
-            const access = "true";
-
-            console.log("access", access);
-
-            let URL_Approve_ACCESS;
-
-            if (process.env.NODE_ENV === "production") {
-              URL_Approve_ACCESS = `https://glacial-crag-30370.herokuapp.com/admin/${token}/${{
-                access
-              }}`;
-            } else {
-              URL_Approve_ACCESS = `http://localhost:3000/admin/${token}/${access}`;
-            }
-
-            const dataAdmin = {
-              type: "ADMIN",
-              uname: user.name,
-              uemail: user.email,
-              uphone: user.phone,
-              uaddress: user.location,
-              udate: user.date,
-              URL_Approve_ACCESS,
-
-              //to in MailTransporter
-              email: "olegs7771@gmail.com"
-            };
-            sendMail(dataAdmin, cb => {
-              if (cb.infoMessageid) {
-                console.log("Sent Message to Admin");
-              }
-            });
           }
         });
       });
@@ -160,7 +122,7 @@ router.post("/confirm_registration", (req, res) => {
         // Store hash in  password DB.
         const set = {
           confirmed: true,
-          token: null,
+          // token: null,
           password: hash
         };
         User.updateMany({
@@ -168,6 +130,47 @@ router.post("/confirm_registration", (req, res) => {
         })
           .then(() => {
             User.findOne({ email: user.email }).then(upUser => {
+              //User Confirmed Registration confirmed===true
+
+              //Send Notification Email to Admin
+              //Create two URLs for Admin Email html
+              //Use token for  EMAIL URL Admin security
+              const token = upUser.token;
+              console.log("token", token);
+
+              //Create data obj for Admin URL
+              const access = "true";
+
+              console.log("access", access);
+
+              let URL_Approve_ACCESS;
+
+              if (process.env.NODE_ENV === "production") {
+                URL_Approve_ACCESS = `https://glacial-crag-30370.herokuapp.com/admin/${token}/${{
+                  access
+                }}`;
+              } else {
+                URL_Approve_ACCESS = `http://localhost:3000/admin/${token}/${access}`;
+              }
+
+              const dataAdmin = {
+                type: "ADMIN",
+                uname: upUser.name,
+                uemail: upUser.email,
+                uphone: upUser.phone,
+                uaddress: upUser.location,
+                udate: upUser.date,
+                URL_Approve_ACCESS,
+
+                //to in MailTransporter
+                email: "olegs7771@gmail.com"
+              };
+              sendMail(dataAdmin, cb => {
+                if (cb.infoMessageid) {
+                  console.log("Sent Message to Admin");
+                }
+              });
+
               //Here Updated and Confirmed User
 
               res.json({
@@ -193,6 +196,16 @@ router.post("/admin", (req, res) => {
   //Decode Token
   const decoded = jwt_decode(req.body.token);
   console.log("decoded", decoded);
+  User.findOne({ email: decoded.email }).then(user => {
+    if (!user) return res.status(400).json({ error: "Can not find user" });
+    console.log("user", user);
+    user.approvedByAdmin = true;
+    user.token = null;
+    user.save().then(upUser => {
+      console.log("upUser", upUser);
+      //User Updated --> Send Email to user
+    });
+  });
 });
 
 // // @desc /Login User
@@ -218,6 +231,8 @@ router.post("/login", (req, res) => {
     }
 
     //User Found
+    console.log("req.body.password", req.body.password);
+
     bcrypt.compare(req.body.password, user.password).then(match => {
       if (!match) {
         return res
