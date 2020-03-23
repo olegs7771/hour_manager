@@ -16,8 +16,15 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String
   },
+  location: {
+    type: String
+  },
 
   confirmed: {
+    type: Boolean,
+    default: false
+  },
+  approvedByAdmin: {
     type: Boolean,
     default: false
   },

@@ -79,15 +79,36 @@ router.post("/register", (req, res) => {
             });
             //New user Received Confirmation
             //Send Notification Email to Admin
+            //Create two URLs for Admin Email html
+            //Use token for  EMAIL URL Admin security
+            const token = user.token;
+            //Create data obj for Admin URL
+            const access = "true";
+            const accessStr = access.toString();
+
+            let URL_Approve_ACCESS;
+
+            if (process.env.NODE_ENV === "production") {
+              URL_Approve_ACCESS = `https://glacial-crag-30370.herokuapp.com/admin/${token}/${{
+                access: accessStr
+              }}`;
+            } else {
+              URL_Approve_ACCESS = `http://localhost:3000/admin/${token}/${{
+                access: accessStr
+              }}`;
+            }
+
             const dataAdmin = {
               type: "ADMIN",
-              token: user.token,
-              name: user.name,
-              email: user.email,
-              phone: user.phone,
-              address: user.location,
-              date: user.date
-              // urlPermit:
+              uname: user.name,
+              uemail: user.email,
+              uphone: user.phone,
+              uaddress: user.location,
+              udate: user.date,
+              URL_Approve_ACCESS,
+
+              //to in MailTransporter
+              email: "olegs7771@gmail.com"
             };
             sendMail(dataAdmin, cb => {
               if (cb.infoMessageid) {
@@ -176,6 +197,14 @@ router.post("/login", (req, res) => {
         .status(400)
         .json({ error: "User with such email does not exist" });
     }
+    // Check for approvedByAdmin
+    if (!user.approvedByAdmin) {
+      return res.status(400).json({
+        error:
+          " Pending HourManager Admin Approve. If it takes longer than 24h since the signup , you free to contact us by Email.  Sorry for inconvenience."
+      });
+    }
+
     //User Found
     bcrypt.compare(req.body.password, user.password).then(match => {
       if (!match) {

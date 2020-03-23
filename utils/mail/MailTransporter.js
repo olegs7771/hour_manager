@@ -19,7 +19,7 @@ const accessToken = oauth2Client.getAccessToken();
 
 const sendMail = (data, cb) => {
   const main = async () => {
-    // console.log("data in mailer", data);
+    console.log("data in mailer", data);
 
     //Create html body for sendMail()
     let html;
@@ -42,18 +42,19 @@ const sendMail = (data, cb) => {
           "<!DOCTYPE html>" +
           "<html><head><title>Notification</title>" +
           "</head><body><div>" +
-          "<p>New User have been registered as temp user :</p>" +
+          "<h3>New User have been registered as temp user :</h3>" +
           `</br>` +
-          ` <p>Name : ${data.name} .</p>` +
+          ` <p>Name : ${data.uname} .</p>` +
           `</br>` +
-          ` <p>Email : ${data.email} .</p>` +
+          ` <p>Email : ${data.uemail} .</p>` +
           `</br>` +
-          ` <p>Phone: ${data.phone} .</p>` +
+          ` <p>Phone: ${data.uphone} .</p>` +
           `</br>` +
-          ` <p>Location : ${data.address} .</p>` +
+          ` <p>Location : ${data.uaddress} .</p>` +
           `</br>` +
-          ` <p>Date : ${data.date} .</p>` +
+          ` <p>Date : ${data.udate} .</p>` +
           `</br>` +
+          `<a href=${data.URL_Approve_ACCESS}><h2>Approve</h2</a> ` +
           "</div></body></html>";
         break;
 

@@ -55,7 +55,7 @@ export class Header extends Component {
           <ul className="navbar-nav mr-auto">
             <li className="nav-item active">
               <Link className="nav-link" to="/home">
-                Home
+                Dashboard
               </Link>
             </li>
 

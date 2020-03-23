@@ -32,6 +32,9 @@ const validateRegisterInput = data => {
   if (validator.isEmpty(data.phone)) {
     errors.phone = "Phone can not be empty";
   }
+  if (validator.isEmpty(data.location)) {
+    errors.location = "Location can not be empty";
+  }
   if (validator.isEmpty(data.password)) {
     errors.password = "Password can not be empty";
   }

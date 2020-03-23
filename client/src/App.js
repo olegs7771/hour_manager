@@ -27,6 +27,8 @@ import EmployeeAdd from "../src/components/layout/employee/EmployeeAdd";
 import EmployeeDetails from "../src/components/layout/employee/EmployeeDetails";
 import EmployeeEdit from "../src/components/layout/employee/EmployeeEdit";
 import ActivationSuccessMessage from "../src/components/layout/employee/ActivationSuccessMessage";
+//Admin
+import AdminControl from "./utils/AdminControl";
 
 import configureStore from "./store/configureStore/configureStore";
 import jwt_decode from "jwt-decode";
@@ -72,8 +74,6 @@ if (localStorage.jwtToken) {
     //Redirect to Home
   }
 }
-
-// console.log("location", window.location);
 
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
@@ -139,6 +139,11 @@ class App extends Component {
                 exact
                 path="/emp_activ_msg/:id/:projectID/:email"
                 component={ActivationSuccessMessage}
+              />
+              <Route
+                exact
+                path="/admin/:token/:access"
+                component={AdminControl}
               />
             </Switch>
           </div>

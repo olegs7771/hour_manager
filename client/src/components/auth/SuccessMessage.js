@@ -58,7 +58,11 @@ export class SuccessMessage extends Component {
           <div className="my-3 border rounded pl-4">
             Dear {this.state.confirmed_user.name}Thank you for registration{" "}
             <br />
-            Please save your credentials for further Login
+            <p>
+              You've now sent your request to the Hourmanager admin. Once the
+              admin approves your request, you will be able the to access
+              HourManager. Please save your credentials for further Login
+            </p>
             <div className="my-3 border rounded">
               <span>Email : {this.state.confirmed_user.email}</span>
               <br />

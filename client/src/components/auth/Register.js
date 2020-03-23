@@ -12,6 +12,7 @@ export class Register extends Component {
     email: "",
     phone: "",
     password: "",
+    location: "",
     errors: {},
     messages: {},
     submitDisabled: true,
@@ -33,11 +34,12 @@ export class Register extends Component {
     e.preventDefault();
 
     this.setState({ loading: true });
-    const { name, email, phone, password } = this.state;
+    const { name, email, phone, location, password } = this.state;
     const data = {
       name,
       email,
       phone,
+      location,
       password
     };
     await this.props.registerUser(data);
@@ -48,7 +50,11 @@ export class Register extends Component {
       this.setState({ errors: this.props.errors, loading: false });
     }
     if (prevProps.messages !== this.props.messages) {
-      this.setState({ messages: this.props.messages, loading: false });
+      this.setState({
+        messages: this.props.messages,
+        loading: false,
+        errors: {}
+      });
       console.log("message came success registration!");
     }
   }
@@ -82,6 +88,14 @@ export class Register extends Component {
             name="phone"
             error={this.state.errors.phone}
             type="phone"
+          />
+          <TextFormGroup
+            label="Location"
+            placeholder="city,state"
+            onChange={this._onChange}
+            value={this.state.location}
+            name="location"
+            error={this.state.errors.location}
           />
           <TextFormGroup
             label="Password"

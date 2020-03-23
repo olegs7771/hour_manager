@@ -6,7 +6,7 @@ export class Home extends Component {
   render() {
     return (
       <div className="border rounded p-4 my-4">
-        <h2>Wellcome To HourManager! Protected</h2>
+        <h2>Wellcome To HourManager! Protected Dashboard</h2>
       </div>
     );
   }
