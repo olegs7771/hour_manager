@@ -204,6 +204,14 @@ router.post("/admin", (req, res) => {
     user.save().then(upUser => {
       console.log("upUser", upUser);
       //User Updated --> Send Email to user
+
+      const data = {};
+
+      sendMail(data, cb => {
+        if (cb.infoMessageid) {
+          console.log("Sent Message to User");
+        }
+      });
     });
   });
 });
