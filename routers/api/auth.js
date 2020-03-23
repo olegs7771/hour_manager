@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/dev_keys").secredOrKey;
+const jwt_decode = require("jwt-decode");
 // const passport = require("passport");
 const User = require("../../models/User");
 const validateRegisterInput = require("../validation/register");
@@ -82,20 +83,21 @@ router.post("/register", (req, res) => {
             //Create two URLs for Admin Email html
             //Use token for  EMAIL URL Admin security
             const token = user.token;
+            console.log("token", token);
+
             //Create data obj for Admin URL
             const access = "true";
-            const accessStr = access.toString();
+
+            console.log("access", access);
 
             let URL_Approve_ACCESS;
 
             if (process.env.NODE_ENV === "production") {
               URL_Approve_ACCESS = `https://glacial-crag-30370.herokuapp.com/admin/${token}/${{
-                access: accessStr
+                access
               }}`;
             } else {
-              URL_Approve_ACCESS = `http://localhost:3000/admin/${token}/${{
-                access: accessStr
-              }}`;
+              URL_Approve_ACCESS = `http://localhost:3000/admin/${token}/${access}`;
             }
 
             const dataAdmin = {
@@ -181,6 +183,16 @@ router.post("/confirm_registration", (req, res) => {
       });
     });
   });
+});
+
+//Route from AdminControl.js
+//Params from Admin URL with access true
+//Update Temp User approvedByAdmin:true
+//Send Mail to New User with Notification
+router.post("/admin", (req, res) => {
+  //Decode Token
+  const decoded = jwt_decode(req.body.token);
+  console.log("decoded", decoded);
 });
 
 // // @desc /Login User
