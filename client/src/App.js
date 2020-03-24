@@ -12,6 +12,7 @@ import SuccessMessage from "../src/components/auth/SuccessMessage";
 import Header from "../src/components/layout/header/Header";
 import Home from "../src/components/layout/main/Home";
 import Landing from "../src/components/layout/main/Landing";
+import Footer from "../src/components/layout/footer/Footer";
 //Project
 import Project from "../src/components/layout/project/Project";
 import ProjectCreate from "../src/components/layout/project/ProjectCreate";
@@ -23,7 +24,8 @@ import EmployeeDetails from "../src/components/layout/employee/EmployeeDetails";
 import EmployeeEdit from "../src/components/layout/employee/EmployeeEdit";
 import ActivationSuccessMessage from "../src/components/layout/employee/ActivationSuccessMessage";
 //Admin
-import AdminControl from "./utils/AdminControl";
+import AdminControl from "./components/layout/admin/AdminControl";
+import AdminContactForm from "./components/layout/admin/AdminContactForm";
 
 import configureStore from "./store/configureStore/configureStore";
 import jwt_decode from "jwt-decode";
@@ -125,6 +127,7 @@ class App extends Component {
                 component={userIsNotAuthenticated(Login)}
               />
               <Route exact path="/" component={Landing} />
+              <Route exact path="/admin_contact" component={AdminContactForm} />
               <Route
                 exact
                 path="/confirm/:id/:token"
@@ -141,6 +144,7 @@ class App extends Component {
                 component={AdminControl}
               />
             </Switch>
+            <Footer />
           </div>
         </Router>
       </Provider>

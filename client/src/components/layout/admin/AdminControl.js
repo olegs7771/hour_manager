@@ -2,7 +2,7 @@
 //Admin Can decide wether to approve or deny access to App
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { approveReg } from "../store/actions/adminAction";
+import { approveReg } from "../../../store/actions/adminAction";
 import { withRouter } from "react-router-dom";
 
 class AdminPermit extends Component {

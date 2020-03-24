@@ -71,8 +71,8 @@ const sendMail = (data, cb) => {
           ` <span>Dear ${data.uname[0].toLocaleUpperCase() +
             data.uname.slice(1)} .</span>` +
           ` ` +
-          `We are pleased to inform you than from now you can ` +
-          `<a href=${data.url}><h4>Login</h4></a> 
+          `We are pleased to inform you as from now you can ` +
+          `<a href=${data.url}>Login</a> 
           and use HourManager.` +
           `</br> ` +
           `Happy to see You soon!` +
