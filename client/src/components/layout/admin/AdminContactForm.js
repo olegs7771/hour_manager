@@ -5,7 +5,8 @@ import { Transition } from "react-transition-group";
 const duration = 1000;
 const defaultStyle = {
   transition: `opacity ${duration}ms ease-in-out`,
-  opacity: 0
+  opacity: 0,
+  color: " red"
 };
 
 const transitionStyles = {
@@ -17,6 +18,7 @@ const transitionStyles = {
 
 export class AdminContactForm extends Component {
   state = {
+    name: "",
     email: "",
     text: "",
     in: false
@@ -33,8 +35,15 @@ export class AdminContactForm extends Component {
     e.preventDefault();
     const data = {
       text: this.state.text,
-      email: this.state.email
+      email: this.state.email,
+      name: this.state.name
     };
+    if (this.state.name.length === 0) {
+      this.setState({
+        errors: { name: "Please provide your name" },
+        in: true
+      });
+    }
     if (this.state.email.length === 0) {
       this.setState({
         errors: { email: "Please provide your valid Email address" },
@@ -43,9 +52,11 @@ export class AdminContactForm extends Component {
     }
     if (this.state.text.length === 0) {
       this.setState({
-        errors: { text: "Text can not be emty" }
+        errors: { text: "Text can not be emty" },
+        in: true
       });
     }
+    console.log("data", data);
   };
 
   render() {
@@ -59,6 +70,35 @@ export class AdminContactForm extends Component {
           className="border p-5 d-block mx-auto"
           style={{ width: "60%" }}
         >
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control"
+              placeholder=" Your Name.."
+              name="name"
+              value={this.state.name}
+              onChange={this._onChange}
+            />
+
+            <Transition in={this.state.in} timeout={duration}>
+              {state => (
+                <div
+                  style={{
+                    ...defaultStyle,
+                    ...transitionStyles[state]
+                  }}
+                >
+                  {this.state.errors ? (
+                    <span>{this.state.errors.name}</span>
+                  ) : null}
+                </div>
+              )}
+            </Transition>
+
+            <small id="emailHelp" className="form-text text-muted">
+              We'll never share your email with anyone else.
+            </small>
+          </div>
           <div className="form-group">
             <input
               type="email"
@@ -84,9 +124,9 @@ export class AdminContactForm extends Component {
               )}
             </Transition>
 
-            {/* <small id="emailHelp" className="form-text text-muted">
+            <small id="emailHelp" className="form-text text-muted">
               We'll never share your email with anyone else.
-            </small> */}
+            </small>
           </div>
           <div className="form-group">
             <textarea
@@ -98,10 +138,25 @@ export class AdminContactForm extends Component {
               onChange={this._onChange}
             ></textarea>
           </div>
+          <Transition in={this.state.in} timeout={duration}>
+            {state => (
+              <div
+                style={{
+                  ...defaultStyle,
+                  ...transitionStyles[state]
+                }}
+              >
+                {this.state.errors ? (
+                  <div style={{ marginTop: -10 }}>{this.state.errors.text}</div>
+                ) : null}
+              </div>
+            )}
+          </Transition>
+
           <input
             type="submit"
             value="Submit"
-            className="d-block mx-auto btn btn-outline-secondary"
+            className="d-block mx-auto btn btn-outline-secondary my-3"
           />
         </form>
       </div>

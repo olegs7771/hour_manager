@@ -12,3 +12,10 @@ export const approveReg = data => dispatch => {
       console.log("err.response.data", err.response.data);
     });
 };
+
+//Send Admin contact form
+export const sendEmailToAdmin = data => dispatch => {
+  axios.post("/sendEmailAdmin", data).then(res => {
+    console.log("res.data", res.data);
+  });
+};
