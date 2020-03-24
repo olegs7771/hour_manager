@@ -146,9 +146,7 @@ router.post("/confirm_registration", (req, res) => {
               let URL_Approve_ACCESS;
 
               if (process.env.NODE_ENV === "production") {
-                URL_Approve_ACCESS = `https://glacial-crag-30370.herokuapp.com/admin/${token}/${{
-                  access
-                }}`;
+                URL_Approve_ACCESS = `https://glacial-crag-30370.herokuapp.com/admin/${token}/${access}`;
               } else {
                 URL_Approve_ACCESS = `http://localhost:3000/admin/${token}/${access}`;
               }
@@ -204,13 +202,26 @@ router.post("/admin", (req, res) => {
     user.save().then(upUser => {
       console.log("upUser", upUser);
       //User Updated --> Send Email to user
+      // Create URL ling to Login page
+      let loginURL;
+      if (process.env.NODE_ENV === "production") {
+        loginURL = `https://glacial-crag-30370.herokuapp.com/login`;
+      } else {
+        loginURL = `http://localhost:3000/login`;
+      }
 
-      const data = {};
+      const data = {
+        type: "PERMISSION",
+        uname: upUser.name,
+        email: upUser.email,
+        url: loginURL
+      };
 
       sendMail(data, cb => {
         if (cb.infoMessageid) {
           console.log("Sent Message to User");
         }
+        console.log("sent to user");
       });
     });
   });

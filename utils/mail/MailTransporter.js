@@ -46,7 +46,8 @@ const sendMail = (data, cb) => {
           "</head><body><div>" +
           "<h3>New User have been registered as temp user :</h3>" +
           `</br>` +
-          ` <p>Name : ${data.uname} .</p>` +
+          ` <p>Name : ${data.uname[0].toLocaleUpperCase() +
+            data.uname.slice(1)} .</p>` +
           `</br>` +
           ` <p>Email : ${data.uemail} .</p>` +
           `</br>` +
@@ -60,6 +61,26 @@ const sendMail = (data, cb) => {
           "</div></body></html>";
         break;
 
+      case "PERMISSION":
+        html =
+          "<!DOCTYPE html>" +
+          "<html><head><title>Notification</title>" +
+          "</head><body><div>" +
+          "<h3>Admin Permission has been Granted.</h3>" +
+          `</br>` +
+          ` <span>Dear ${data.uname[0].toLocaleUpperCase() +
+            data.uname.slice(1)} .</span>` +
+          ` ` +
+          `We are pleased to inform you than from now you can ` +
+          `<a href=${data.url}><h4>Login</h4></a> 
+          and use HourManager.` +
+          `</br> ` +
+          `Happy to see You soon!` +
+          `</br>` +
+          `<h3>Admin</h3>`;
+        "</div></body></html>";
+        break;
+
       case "NEW_EMPLOYEE_ADDED":
         html =
           "<!DOCTYPE html>" +
@@ -69,7 +90,10 @@ const sendMail = (data, cb) => {
           `<h2>New employee welcome email</h2>` +
           `<h3 >Welcome to ${data.companyName}</h3>` +
           `</br>` +
-          ` <p>Dear ${data.employeeName} We are all really excited to welcome you to our team!.</p>` +
+          ` <p>Dear ${data.employeeName[0].toLocaleUpperCase() +
+            data.employeeName.slice(
+              1
+            )} We are all really excited to welcome you to our team!.</p>` +
           `<p>As agreed, your start date is ${data.started} as a ${data.func} .</p>` +
           `<p> At ${data.companyName} we use HourManager App for the  convenient and efficient workforce managment   </p>` +
           `<p> In order to use HourManager App please  <a href=${data.url}>activate</a>  your account ` +
