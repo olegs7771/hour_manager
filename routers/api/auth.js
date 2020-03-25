@@ -285,13 +285,14 @@ router.post("/login", (req, res) => {
 router.post("/sendEmailAdmin", (req, res) => {
   const data = {
     type: "CONTACT_ADMIN",
+    email: "olegs7771@gmail.com",
     uname: req.body.name,
     uemail: req.body.email,
     text: req.body.text
   };
   sendMail(data, cb => {
     if (cb.infoMessageid) {
-      res.json({ message: "Message was sent to admin" });
+      res.json({ message: "Your message was sent to Admin. Thank You" });
     }
   });
 });

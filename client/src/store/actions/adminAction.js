@@ -1,4 +1,5 @@
 import axios from "axios";
+import { GET_MESSAGE } from "./types";
 
 //Admin Approves The New User Registration
 export const approveReg = data => dispatch => {
@@ -15,7 +16,11 @@ export const approveReg = data => dispatch => {
 
 //Send Admin contact form
 export const sendEmailToAdmin = data => dispatch => {
-  axios.post("/sendEmailAdmin", data).then(res => {
+  axios.post("/api/auth/sendEmailAdmin", data).then(res => {
     console.log("res.data", res.data);
+    dispatch({
+      type: GET_MESSAGE,
+      payload: res.data
+    });
   });
 };

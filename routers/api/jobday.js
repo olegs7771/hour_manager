@@ -75,7 +75,7 @@ router.post(
   }
 );
 
-//Find Array of Jobdays for selected Month
+//Find Array of Jobdays for selected Month of Selected Employee
 //Private Route
 
 router.post(
@@ -88,7 +88,6 @@ router.post(
     Employee.findById(req.body.employeeID).then(employee => {
       if (!employee)
         return res.status(400).json({ error: "Employee not exists" });
-      console.log("employee found");
 
       //Find workDayHours limits in Project for control
       Project.findById(req.body.projectID).then(project => {
@@ -105,7 +104,19 @@ router.post(
 
         JobDay.find({ date: dateFilter }).then(days => {
           if (!days) return res.json({ message: "No days" });
-          res.json({ days, hours: { startHour, endHour } });
+          //filter days only for selected Employee
+          const selectedDays = days.filter(day => {
+            return day.employee.toString() === req.body.employeeID;
+          });
+          console.log("selectedDays", selectedDays);
+          if (selectedDays.length === 0) {
+            return res.json({
+              message: "No Job Days in this month",
+              hours: { startHour, endHour }
+            });
+          }
+
+          res.json({ selectedDays, hours: { startHour, endHour } });
         });
       });
     });

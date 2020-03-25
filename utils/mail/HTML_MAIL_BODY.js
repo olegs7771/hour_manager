@@ -97,10 +97,11 @@ const htmlBody = data => {
         "<!DOCTYPE html>" +
         "<html><head><title>Message</title>" +
         "</head><body><div>" +
-        ` <p>User  ${data.name} The HourManager App has been activated.</p>` +
-        `<p> In order to log in please use this secret code :[data.code] </p>` +
-        `<p> To complete registration please <a href=[$data.url]>click here</a> ` +
-        "<p>See You Soon.</p>";
+        `   ${data.uname[0].toLocaleUpperCase() + data.uname.slice(1)}` +
+        ` ` +
+        `sent message.` +
+        `<p> ${data.text}</p>` +
+        `<b>Email : ${data.uemail}`;
       "</div></body></html>";
       break;
   }

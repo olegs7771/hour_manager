@@ -41,8 +41,6 @@ const store = configureStore();
 
 //Check for token in localStorage
 if (localStorage.jwtToken) {
-  console.log("localStorage.jwtToken", localStorage.jwtToken);
-
   //Set token in header request
   setAuthToken(localStorage.jwtToken);
   //decode token and get user info and exp

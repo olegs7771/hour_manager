@@ -34,6 +34,12 @@ export const selectMonth = data => dispatch => {
     .post("/api/jobday/jobdays_month", data)
     .then(res => {
       console.log("res.data", res.data);
+      if (res.data.message) {
+        return dispatch({
+          type: JOBDAY_MESSAGE,
+          payload: res.data
+        });
+      }
       dispatch({
         type: GET_SELECT_MONTH,
         payload: res.data

@@ -33,7 +33,7 @@ export default (state = initialState, action) => {
     case GET_SELECT_MONTH:
       return {
         ...state,
-        workDays: action.payload.days,
+        workDays: action.payload.selectedDays,
         hoursLimit: action.payload.hours,
         loading: false,
         selectedDay: true,

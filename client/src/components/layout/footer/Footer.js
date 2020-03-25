@@ -10,7 +10,7 @@ export class Footer extends Component {
         style={{ backgroundColor: "#e0e0eb" }}
       >
         <li className="nav-item">
-          <a className="nav-link border" href="/admin_contact">
+          <a className="nav-link btn border rounded" href="/admin_contact">
             <div className="text-muted "> Contact Admin</div>
           </a>
           {/* <button className="btn btn-outline-secondary">Contact Admin</button> */}

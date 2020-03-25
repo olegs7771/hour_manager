@@ -23,6 +23,7 @@ const sendMail = (data, cb) => {
     console.log("data in mailer", data);
     //Create html body
     htmlBody(data);
+    const html = htmlBody(data);
 
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
