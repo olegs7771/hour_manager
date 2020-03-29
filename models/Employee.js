@@ -36,6 +36,9 @@ const EmployeeSchema = new Schema({
   },
   confirmed: {
     type: Boolean
+  },
+  code: {
+    type: Number
   }
 });
 

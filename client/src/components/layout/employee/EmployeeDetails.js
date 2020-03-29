@@ -169,6 +169,29 @@ export class EmployeeDetails extends Component {
                     )}
                   </span>
                 </li>
+                <li className="list-group-item d-flex justify-content-between">
+                  <span className="font-italic" style={{ fontSize: 12 }}>
+                    Code for login in App
+                    <br />
+                    In Case if lost
+                  </span>
+                  <span className="font-weight-bolder">
+                    {this.props.selectedEmployee.code}
+                  </span>
+
+                  <span className="">
+                    {this.props.selectedEmployee.confirmed ? (
+                      <span className="text-success">
+                        <FontAwesomeIcon icon={faCheck} />
+                      </span>
+                    ) : (
+                      <span className="text-danger">
+                        {" "}
+                        <FontAwesomeIcon icon={faExclamationCircle} />
+                      </span>
+                    )}
+                  </span>
+                </li>
               </ul>
             </div>
             <div className="col-md-8 border border-danger">

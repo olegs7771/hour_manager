@@ -76,5 +76,3 @@ const server = app.listen(port, () => {
 });
 
 //Exercises
-//test
-// console.log("process_env.MAIL_PASS", process.env.MAIL_PASS);

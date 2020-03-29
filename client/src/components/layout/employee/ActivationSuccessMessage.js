@@ -54,8 +54,7 @@ export class ActivationSuccessMessage extends Component {
             <p>
               Dear {this.state.activatedEmployee.employeeName} we are pleased to
               inform you that your HourManager account has been activated.
-              Please download HourManager App, after installation on your
-              cellphone follow further instructions
+              Please check your email for futher instructions.
             </p>
             <p>HourManager Administration</p>
           </div>

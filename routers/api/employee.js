@@ -52,7 +52,8 @@ router.post(
                 phone,
                 started,
                 func,
-                confirmed: false
+                confirmed: false,
+                code: 0
               })
                 .save()
                 .then(newEmployee => {
@@ -166,7 +167,7 @@ router.post(
 router.post("/activate", (req, res) => {
   console.log("req.body", req.body);
 
-  // // //Confirm Employee =>  update employee.confirmed=true;
+  // // //Confirm Employee =>  update employee.confirmed=true,code:random number
   Employee.findById(req.body.uid).then(employee => {
     console.log("employee", employee);
     if (!employee) {
@@ -174,7 +175,11 @@ router.post("/activate", (req, res) => {
         .status(400)
         .json({ message: "No such employee. Please contact administrator" });
     }
+    //Create random code
+    const ranNum = Math.random() * 10000000;
+    employee.code = Math.trunc(ranNum);
     employee.confirmed = true;
+
     employee.save().then(upEmployee => {
       console.log("upEmployee", upEmployee);
       //     //Update in Project.staff[] employee confirmed:true
@@ -192,7 +197,10 @@ router.post("/activate", (req, res) => {
             message: `The user ${employeeToUpdate.employeeName} already has been activated`
           });
         }
+        //Update Activated Employee
+
         employeeToUpdate.confirmed = true;
+
         project.save().then(upProject => {
           res.json({
             employeeName: employeeToUpdate.employeeName,
@@ -202,6 +210,7 @@ router.post("/activate", (req, res) => {
           });
 
           //Send Email to New Employee
+
           const data = {
             type: "ACTIVATION",
             name: employeeToUpdate.employeeName,
@@ -209,7 +218,7 @@ router.post("/activate", (req, res) => {
             companyName: employeeToUpdate.companyName,
             projectID: upEmployee.projectID,
             id: upEmployee._id,
-            code: "some code"
+            code: upEmployee.code
           };
           sendMail(data, cb => {
             if (cb.infoMessageid) {
@@ -317,8 +326,12 @@ router.post(
     });
   }
 );
-router.get("/test", (req, res) => {
-  res.json({ message: "Success" });
+
+//Login Route from Mobile App by Employee
+//req.body (email,code)
+//returns token
+router.post("/employee_login", (req, res) => {
+  Employee.findOne({ email: req.body.email }).then(employee => {});
 });
 
 module.exports = router;
