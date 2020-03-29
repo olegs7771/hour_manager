@@ -331,7 +331,16 @@ router.post(
 //req.body (email,code)
 //returns token
 router.post("/employee_login", (req, res) => {
-  Employee.findOne({ email: req.body.email }).then(employee => {});
+  Employee.findOne({ email: req.body.email }).then(employee => {
+    if (!employee)
+      return res
+        .status(400)
+        .json({ error: "Employee not exists. Please check Email " });
+    //Employee Found
+    if (!employee.code === req.body.code)
+      return res.status(400).json({ error: "Wrong code. Please try again" });
+    res.json({ messages: "Success!" });
+  });
 });
 
 module.exports = router;
