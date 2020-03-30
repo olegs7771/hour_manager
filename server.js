@@ -76,5 +76,15 @@ const server = app.listen(port, () => {
 });
 
 //Exercises
-//test
-// console.log("process_env.MAIL_PASS", process.env.MAIL_PASS);
+
+const str = "230.000";
+const regex = /\.000|00/;
+// console.log(regex.test(str));
+// console.log(str.replace(regex, ""));
+
+const removeLeadingTrailing = value => {
+  const regex = /\.000|00|\s0[\d]/g;
+  return value.replace(regex, "");
+};
+
+console.log(removeLeadingTrailing("03.1400"));
