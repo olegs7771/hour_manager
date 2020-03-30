@@ -3,7 +3,9 @@ const router = express.Router();
 //Models
 const Employee = require("../../models/Employee");
 const Project = require("../../models/Project");
-
+//JWT
+const jwt = require("jsonwebtoken");
+const keys = require("../../config/dev_keys").secredOrKey;
 const passport = require("passport");
 const validateEmployeeInput = require("../validation/employee");
 const sendMail = require("../../utils/mail/MailTransporter");
@@ -337,9 +339,25 @@ router.post("/employee_login", (req, res) => {
         .status(400)
         .json({ error: "Employee not exists. Please check Email " });
     //Employee Found
-    if (!employee.code === req.body.code)
+    console.log("employee", employee);
+
+    if (employee.code !== parseInt(req.body.code))
       return res.status(400).json({ error: "Wrong code. Please try again" });
-    res.json({ messages: "Success!" });
+    //Code valid.Create Token For Logged Employee App
+    const payload = {
+      name: employee.name,
+      email: employee.email,
+      address: employee.address,
+      phone: employee.phone,
+      started: employee.started,
+      func: employee.func
+    };
+    jwt.sign(payload, keys, (err, token) => {
+      if (err) {
+        throw err;
+      }
+      console.log("token", token);
+    });
   });
 });
 
