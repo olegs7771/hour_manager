@@ -86,9 +86,9 @@ const htmlBody = data => {
         "<html><head><title>Activation</title>" +
         "</head><body><div>" +
         '<img src="http://evokebeautysalon1.herokuapp.com/main/img/logo.png" alt="" width="160">' +
-        ` <p>Dear ${data.name} The HourManager App has been activated.</p>` +
-        `<p> In order to log in please use this secret code :[data.code] </p>` +
-        `<p> To complete registration please <a href=[$data.url]>click here</a> ` +
+        ` <p>Dear ${data.name}. The HourManager App has been activated.</p>` +
+        ` <p>Please download HourManager app and login with   this secret code :${data.code} </p>` +
+        `<p> and your Email :${data.email}</p>` +
         "<p>See You Soon.</p>";
       "</div></body></html>";
       break;
