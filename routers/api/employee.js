@@ -356,7 +356,7 @@ router.post("/employee_login", (req, res) => {
       if (err) {
         throw err;
       }
-      res.json({ token });
+      res.json({ token, name: employee.name, email: employee.email });
     });
   });
 });
