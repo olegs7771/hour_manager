@@ -357,11 +357,7 @@ router.post("/employee_login", (req, res) => {
       if (err) {
         throw err;
       }
-      //Update Employee with token for futher Routes
-      employee.token = token;
-      employee.save();
-
-      res.json({ token, email: employee.email, name: employee.name });
+      res.json({ token, name: employee.name, email: employee.email });
     });
   });
 });
