@@ -4,42 +4,45 @@ const mongoose = require("mongoose"),
 const EmployeeSchema = new Schema({
   projectID: {
     type: Schema.Types.ObjectId,
-    ref: "Project"
+    ref: "Project",
   },
   name: {
     type: String,
-    require: true
+    require: true,
   },
   email: {
     type: String,
-    require: true
+    require: true,
   },
   phone: {
     type: String,
-    require: true
+    require: true,
   },
   address: {
     type: String,
-    require: true
+    require: true,
   },
   started: {
     type: String,
-    require: true
+    require: true,
   },
   func: {
     type: String,
-    require: true
+    require: true,
   },
   date: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   confirmed: {
-    type: Boolean
+    type: Boolean,
   },
   code: {
-    type: Number
-  }
+    type: Number,
+  },
+  token: {
+    type: String,
+  },
 });
 
 module.exports = Employee = mongoose.model("Employee", EmployeeSchema);

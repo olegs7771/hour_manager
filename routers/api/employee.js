@@ -21,14 +21,14 @@ router.post(
     //Passed Validation
     //Find Project
     Project.findById(req.body.projectID)
-      .then(project => {
+      .then((project) => {
         if (!project) {
           return res.status(200).json({ message: "project not exists" });
         }
         console.log("project found");
         //Find Employee
         Employee.findOne({ email: req.body.email })
-          .then(employee => {
+          .then((employee) => {
             const {
               projectID,
               name,
@@ -36,7 +36,7 @@ router.post(
               phone,
               address,
               started,
-              func
+              func,
             } = req.body;
 
             if (employee) {
@@ -55,10 +55,11 @@ router.post(
                 started,
                 func,
                 confirmed: false,
-                code: 0
+                code: 0,
+                token: "",
               })
                 .save()
-                .then(newEmployee => {
+                .then((newEmployee) => {
                   console.log("newEmployee", newEmployee);
                   //Create url for new Employee activation
                   let URL;
@@ -82,20 +83,20 @@ router.post(
                     employeeDate: newEmployee.date,
                     companyName: project.companyName,
                     projectName: project.projectName,
-                    url: URL
+                    url: URL,
                   };
 
-                  sendMail(data, cb => {
+                  sendMail(data, (cb) => {
                     if (!cb.infoMessageid) {
                       return res.status(400).json({ error: "Can send Email" });
                     }
 
                     res.json({
                       message:
-                        "The new Employee was added to your project. Message was send to new Employee's Email "
+                        "The new Employee was added to your project. Message was send to new Employee's Email ",
                     });
                     //Update Project.stafF[]
-                    Project.findById(projectID).then(project => {
+                    Project.findById(projectID).then((project) => {
                       if (project) {
                         project.staff.unshift({
                           _id: newEmployee._id,
@@ -107,9 +108,9 @@ router.post(
                           confirmed: false,
                           started: newEmployee.started,
                           address: newEmployee.address,
-                          func: newEmployee.func
+                          func: newEmployee.func,
                         });
-                        project.save().then(upProject => {
+                        project.save().then((upProject) => {
                           console.log("upProject", upProject);
                         });
                       }
@@ -118,7 +119,7 @@ router.post(
                 });
             }
           })
-          .catch(err => {
+          .catch((err) => {
             return console.log("employee not found", err);
           });
       })
@@ -137,29 +138,29 @@ router.post(
     console.log("req.body.id", req.body.id);
 
     Employee.findById(req.body.id)
-      .then(employee => {
+      .then((employee) => {
         if (!employee) {
           return res.status(400).json({ error: "No Employee with such ID" });
         }
         console.log("employee", employee);
-        employee.remove().then(removed => {
+        employee.remove().then((removed) => {
           console.log("removed", removed);
           //Remove removed employee from project.staff[]
-          Project.findById(removed.projectID).then(project => {
+          Project.findById(removed.projectID).then((project) => {
             console.log("project", project);
-            const upStaff = project.staff.filter(item => {
+            const upStaff = project.staff.filter((item) => {
               return item.employeeEmail !== removed.email;
             });
             project.staff = upStaff;
-            project.save().then(upProject => {
+            project.save().then((upProject) => {
               res.status(200).json({
-                message: ` An Employee ${removed.name} which was registered by  email :${removed.email} was successfully deleted.`
+                message: ` An Employee ${removed.name} which was registered by  email :${removed.email} was successfully deleted.`,
               });
             });
           });
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("err", err);
       });
   }
@@ -170,7 +171,7 @@ router.post("/activate", (req, res) => {
   console.log("req.body", req.body);
 
   // // //Confirm Employee =>  update employee.confirmed=true,code:random number
-  Employee.findById(req.body.uid).then(employee => {
+  Employee.findById(req.body.uid).then((employee) => {
     console.log("employee", employee);
     if (!employee) {
       res
@@ -182,33 +183,33 @@ router.post("/activate", (req, res) => {
     employee.code = Math.trunc(ranNum);
     employee.confirmed = true;
 
-    employee.save().then(upEmployee => {
+    employee.save().then((upEmployee) => {
       console.log("upEmployee", upEmployee);
       //     //Update in Project.staff[] employee confirmed:true
-      Project.findById(req.body.projectID).then(project => {
+      Project.findById(req.body.projectID).then((project) => {
         if (!project) {
           return res.status(400).json({ error: "Can not find project" });
         }
         //       //Find eployee in project.staff[]
-        const employeeToUpdate = project.staff.find(item => {
+        const employeeToUpdate = project.staff.find((item) => {
           return item.employeeEmail === upEmployee.email;
         });
         //       console.log("employeeToUpdate", employeeToUpdate);
         if (employeeToUpdate.confirmed === true) {
           return res.status(200).json({
-            message: `The user ${employeeToUpdate.employeeName} already has been activated`
+            message: `The user ${employeeToUpdate.employeeName} already has been activated`,
           });
         }
         //Update Activated Employee
 
         employeeToUpdate.confirmed = true;
 
-        project.save().then(upProject => {
+        project.save().then((upProject) => {
           res.json({
             employeeName: employeeToUpdate.employeeName,
             employeeEmail: employeeToUpdate.employeeEmail,
             companyName: employeeToUpdate.companyName,
-            projectName: employeeToUpdate.projectName
+            projectName: employeeToUpdate.projectName,
           });
 
           //Send Email to New Employee
@@ -220,9 +221,9 @@ router.post("/activate", (req, res) => {
             companyName: employeeToUpdate.companyName,
             projectID: upEmployee.projectID,
             id: upEmployee._id,
-            code: upEmployee.code
+            code: upEmployee.code,
           };
-          sendMail(data, cb => {
+          sendMail(data, (cb) => {
             if (cb.infoMessageid) {
               console.log(
                 "New Employee received instruction after activation thier account"
@@ -244,7 +245,7 @@ router.post(
 
   (req, res) => {
     // console.log("req.body.id", req.body.id);
-    Employee.findById(req.body.id).then(employee => {
+    Employee.findById(req.body.id).then((employee) => {
       if (!employee) {
         return res.status(400).json({ error: "Employee not found" });
       }
@@ -276,10 +277,10 @@ router.post(
         address: req.body.address,
         phone: req.body.phone,
         started: req.body.started,
-        name: req.body.name
+        name: req.body.name,
       },
       { new: true }
-    ).then(upEmployee => {
+    ).then((upEmployee) => {
       if (!upEmployee) {
         console.log("not found");
         return res.status(400).json({ error: "User not found" });
@@ -289,7 +290,7 @@ router.post(
       console.log("upEmployee", upEmployee);
 
       //Update Project.stafF[]
-      Project.findById(req.body.projectID).then(project => {
+      Project.findById(req.body.projectID).then((project) => {
         if (!project) {
           return console.log("no project");
         }
@@ -311,17 +312,17 @@ router.post(
               confirmed: employee.confirmed,
               address: req.body.address,
               func: req.body.func,
-              started: req.body.started
+              started: req.body.started,
             };
 
             const newArr = Object.assign([], project.staff, {
-              [index]: updatedEmployee
+              [index]: updatedEmployee,
             });
             project.staff = newArr;
           }
         });
 
-        project.save().then(upProject => {
+        project.save().then((upProject) => {
           res.json({ message: "Employee was updated" });
         });
       });
@@ -333,7 +334,7 @@ router.post(
 //req.body (email,code)
 //returns token
 router.post("/employee_login", (req, res) => {
-  Employee.findOne({ email: req.body.email }).then(employee => {
+  Employee.findOne({ email: req.body.email }).then((employee) => {
     if (!employee)
       return res
         .status(400)
@@ -350,13 +351,17 @@ router.post("/employee_login", (req, res) => {
       address: employee.address,
       phone: employee.phone,
       started: employee.started,
-      func: employee.func
+      func: employee.func,
     };
     jwt.sign(payload, keys, (err, token) => {
       if (err) {
         throw err;
       }
-      res.json({ token });
+      //Update Employee with token for futher Routes
+      employee.token = token;
+      employee.save();
+
+      res.json({ token, email: employee.email, name: employee.name });
     });
   });
 });
