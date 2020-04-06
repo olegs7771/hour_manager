@@ -357,7 +357,11 @@ router.post("/employee_login", (req, res) => {
       if (err) {
         throw err;
       }
-      res.json({ token, name: employee.name, email: employee.email });
+      employee.token = token;
+      employee.save().then(() => {
+        console.log("token set");
+        res.json({ token, name: employee.name, email: employee.email });
+      });
     });
   });
 });
