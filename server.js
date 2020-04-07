@@ -13,6 +13,7 @@ const employee = require("./routers/api/employee");
 const auth = require("./routers/api/auth");
 const project = require("./routers/api/project");
 const jobday = require("./routers/api/jobday");
+const rnapp = require("./routers/api/rnapp");
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -40,10 +41,10 @@ mongoose
   .connect(db, {
     useNewUrlParser: true,
     useFindAndModify: false,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   })
   .then(() => console.log(`connected to ${db}`))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 //Public Folder
 if (process.env.NODE_ENV === "production") {
@@ -58,9 +59,9 @@ if (process.env.NODE_ENV === "production") {
 app.use(express.static(path.join(__dirname, "public")));
 
 //Views
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
-app.engine("html", require("ejs").renderFile);
+// app.set("views", path.join(__dirname, "views"));
+// app.set("view engine", "ejs");
+// app.engine("html", require("ejs").renderFile);
 
 // Use Routes
 
@@ -68,6 +69,7 @@ app.use("/api/employee", employee);
 app.use("/api/auth", auth);
 app.use("/api/project", project);
 app.use("/api/jobday", jobday);
+app.use("/api/rnapp", rnapp);
 
 const port = process.env.PORT || 5000;
 

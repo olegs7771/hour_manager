@@ -360,7 +360,12 @@ router.post("/employee_login", (req, res) => {
       employee.token = token;
       employee.save().then(() => {
         console.log("token set");
-        res.json({ token, name: employee.name, email: employee.email });
+        res.json({
+          token,
+          name: employee.name,
+          email: employee.email,
+          uid: employee._id,
+        });
       });
     });
   });
