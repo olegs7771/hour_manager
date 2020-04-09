@@ -8,28 +8,29 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const moment = require("moment");
 
+//Create JobDay For Employee By Manager
 router.post(
   "/create",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     console.log("req.body", req.body);
     //Confirm Employee Id
-    Employee.findById(req.body.employeeID).then(employee => {
+    Employee.findById(req.body.employeeID).then((employee) => {
       if (!employee)
         return res.status(400).json({ error: "Employee not found" });
     });
     console.log("employee found");
     //Confirm Project Exist
-    Project.findById(req.body.projectID).then(project => {
+    Project.findById(req.body.projectID).then((project) => {
       if (!project) return res.status(400).json({ error: "Project not found" });
       console.log("Project found");
       //Create New Jobday
       const newJobday = new JobDay({
         employee: req.body.employeeID,
         timeStart: req.body.timeStart,
-        timeEnd: req.body.timeEnd
+        timeEnd: req.body.timeEnd,
       });
-      newJobday.save().then(jobday => {
+      newJobday.save().then((jobday) => {
         res.json(jobday);
         console.log("jobday created");
       });
@@ -46,7 +47,7 @@ router.post(
   (req, res) => {
     //Get Selected
     console.log("test req.body ", req.body);
-    Project.findById(req.body.projectID).then(project => {
+    Project.findById(req.body.projectID).then((project) => {
       if (!project) {
         return res.status(400).json({ error: "No Project found" });
       }
@@ -55,14 +56,14 @@ router.post(
 
       let dateFilter = {
         $lt: new Date(req.body.date + "T23:59:59"),
-        $gt: new Date(req.body.date + "T00:00:00")
+        $gt: new Date(req.body.date + "T00:00:00"),
       };
 
-      JobDay.findOne({ date: dateFilter }).then(day => {
+      JobDay.findOne({ date: dateFilter }).then((day) => {
         if (!day)
           return res.json({
             message: "No Data for this date.",
-            date: req.body.date
+            date: req.body.date,
           });
 
         if (day.employee.toString() === req.body.employeeID) {
@@ -85,12 +86,12 @@ router.post(
     console.log("req.body", req.body);
 
     //Find Employee
-    Employee.findById(req.body.employeeID).then(employee => {
+    Employee.findById(req.body.employeeID).then((employee) => {
       if (!employee)
         return res.status(400).json({ error: "Employee not exists" });
 
       //Find workDayHours limits in Project for control
-      Project.findById(req.body.projectID).then(project => {
+      Project.findById(req.body.projectID).then((project) => {
         const startHour = project.workDayHours.start;
         const endHour = project.workDayHours.end;
 
@@ -99,20 +100,20 @@ router.post(
 
         const dateFilter = {
           $gt: new Date(req.body.date.startdate),
-          $lt: new Date(req.body.date.enddate)
+          $lt: new Date(req.body.date.enddate),
         };
 
-        JobDay.find({ date: dateFilter }).then(days => {
+        JobDay.find({ date: dateFilter }).then((days) => {
           if (!days) return res.json({ message: "No days" });
           //filter days only for selected Employee
-          const selectedDays = days.filter(day => {
+          const selectedDays = days.filter((day) => {
             return day.employee.toString() === req.body.employeeID;
           });
           console.log("selectedDays", selectedDays);
           if (selectedDays.length === 0) {
             return res.json({
               message: "No Job Days in this month",
-              hours: { startHour, endHour }
+              hours: { startHour, endHour },
             });
           }
 
