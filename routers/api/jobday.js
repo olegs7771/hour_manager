@@ -59,7 +59,7 @@ router.post(
         $gt: new Date(req.body.date + "T00:00:00"),
       };
 
-      JobDay.findOne({ date: dateFilter }).then((day) => {
+      JobDay.find({ date: dateFilter }).then((day) => {
         if (!day)
           return res.json({
             message: "No Data for this date.",

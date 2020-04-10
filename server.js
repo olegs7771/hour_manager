@@ -79,4 +79,4 @@ const server = app.listen(port, () => {
 
 //Exercises
 
-console.log(moment("2020-03-12T05:01:00.000Z").format("HH:mm"));
+// console.log(moment("2020-03-12T05:01:00.000Z").format("HH:mm"));
