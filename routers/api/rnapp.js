@@ -31,18 +31,37 @@ router.post("/checkIn_automatic", (req, res) => {
       return res.status(400).json({ error: "Unauthorized!" });
     }
     //validation passed!
+    //Check if JobDay was alredy Created
+    //Create date parameter for dateFilter( 2020-04-10)
+    const dateParam = moment(req.body.timeStart).format("YYYY-MM-D");
 
-    new JobDay({
-      employee: req.body.id,
-      timeStart: req.body.timeStart,
-    })
-      .save()
-      .then((jobday) => {
-        res.json(jobday);
-      })
-      .catch((err) => {
-        res.status(400).json({ error: "Error to create" });
+    //validation passed!
+    // res.json({ message: "Success!" });
+    //Find jobday for particular date
+    const dateFilter = {
+      $lt: new Date(dateParam + "T23:59:59"),
+      $gt: new Date(dateParam + "T00:00:00"),
+    };
+    JobDay.find({ date: dateFilter }).then((days) => {
+      if (!days) return res.json({ message: "No days" });
+      const selectedDay = days.find((day) => {
+        console.log("day", day);
+        return day.employee == req.body.id;
       });
+      res.json(selectedDay);
+    });
+
+    // new JobDay({
+    //   employee: req.body.id,
+    //   timeStart: req.body.timeStart,
+    // })
+    //   .save()
+    //   .then((jobday) => {
+    //     res.json(jobday);
+    //   })
+    //   .catch((err) => {
+    //     res.status(400).json({ error: "Error to create" });
+    //   });
     console.log("Authorized");
   });
 });
@@ -72,7 +91,7 @@ router.post("/checkOut_automatic", (req, res) => {
 
         const selectedDay = days.find((day) => {
           console.log("day", day);
-          return day.employee !== req.body.id;
+          return day.employee == req.body.id;
         });
         selectedDay.timeEnd = req.body.timeEnd;
         selectedDay.save().then((upDay) => {
