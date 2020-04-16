@@ -166,13 +166,34 @@ router.post("/endTime_manually", (req, res) => {
         console.log("no days been found");
       }
       //Days found for this date. filter by Employee Id
-      const dayFiltered = days.filter((day) => {
-        return day.employee === req.body.id;
+      const filtredDays = days.filter((day) => {
+        return day.employee == req.body.id;
       });
-      if (!dayFiltered) {
-        res.json({ message: "No jobdays for this employee" });
+      console.log("filtredDays", filtredDays);
+
+      if (filtredDays.length === 0) {
+        //day not found for this date and employee id
+        //create new Jobday
+        console.log("no day found create one");
+      } else {
+        //day been found for this date and employee id
+        //update jobday with timeEnd(actual time)
+        //update timeEndMan (employee added manually)
+        //create isoDate
+        const dateFormat = new Date(
+          req.body.date + `T${req.body.timeEnd}` + ":00"
+        );
+        console.log("dateFormat", dateFormat);
+
+        filtredDays.map((day) => {
+          console.log("day", day);
+          day.timeEndMan = moment().format();
+          day.timeEnd = dateFormat; //current time
+          day.save().then((upDate) => {
+            console.log("upDate", upDate);
+          });
+        });
       }
-      res.json({ dayFiltered });
     });
   });
 });
