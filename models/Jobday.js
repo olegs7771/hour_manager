@@ -9,7 +9,13 @@ const JobDaySchema = new Schema({
   timeStart: {
     type: Date,
   },
+  timeStartMan: {
+    type: Date,
+  },
   timeEnd: {
+    type: Date,
+  },
+  timeEndMan: {
     type: Date,
   },
   //In Case Employee Manually edit CheckIn or CheckOut

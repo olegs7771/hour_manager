@@ -8,7 +8,7 @@ const moment = require("moment");
 //Route Private
 //Fetch All JobDays of selected Employee ID
 router.post("/fetch_jobdays", (req, res) => {
-  console.log("req.body", req.body);
+  // console.log("req.body", req.body);
   Employee.findOne({ token: req.body.token }).then((emp) => {
     if (!emp) {
       return res.status(400).json({ error: "Unauthorized!" });
@@ -72,7 +72,7 @@ router.post("/checkIn_automatic", (req, res) => {
 });
 //Create Jobday CheckOut Automatic(by start&end buttons)
 router.post("/checkOut_automatic", (req, res) => {
-  console.log("req.body", req.body);
+  // console.log("req.body", req.body);
   Employee.findOne({ token: req.body.token }).then((emp) => {
     if (!emp) {
       return res.status(400).json({ error: "Unauthorized!" });
@@ -112,7 +112,7 @@ router.post("/checkOut_automatic", (req, res) => {
 //Get Todays CheckIn checkOut Time if day exists
 //For showing in JobdayScreen
 router.post("/get_today_time", (req, res) => {
-  console.log("req.body", req.body);
+  // console.log("req.body", req.body);
   Employee.findOne({ token: req.body.token }).then((emp) => {
     if (!emp) {
       return res.status(400).json({ error: "Unauthorized!" });
@@ -140,6 +140,40 @@ router.post("/get_today_time", (req, res) => {
       });
 
     console.log("Authorized");
+  });
+});
+
+//Manually Set timeEnd By Employee
+router.post("/endTime_manually", (req, res) => {
+  console.log("req.body", req.body);
+
+  Employee.findOne({ token: req.body.token }).then((emp) => {
+    if (!emp) {
+      return res.status(400).json({ error: "Unauthorized!" });
+    }
+    console.log("Authorized!");
+
+    //Find if Jobday Exists
+    //Create dateFilter
+
+    const dateFilter = {
+      $lt: new Date(req.body.date + "T23:59:59"),
+      $gt: new Date(req.body.date + "T00:00:00"),
+    };
+    JobDay.find({ date: dateFilter }).then((days) => {
+      if (!days) {
+        //No days found create one
+        console.log("no days been found");
+      }
+      //Days found for this date. filter by Employee Id
+      const dayFiltered = days.filter((day) => {
+        return day.employee === req.body.id;
+      });
+      if (!dayFiltered) {
+        res.json({ message: "No jobdays for this employee" });
+      }
+      res.json({ dayFiltered });
+    });
   });
 });
 
