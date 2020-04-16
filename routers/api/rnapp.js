@@ -198,4 +198,14 @@ router.post("/endTime_manually", (req, res) => {
   });
 });
 
+//Employee Confirmed Jobday Hours Pair
+router.post("/confirmEmployee", (req, res) => {
+  Employee.findOne({ token: req.body.token }).then((emp) => {
+    if (!emp) {
+      return res.status(400).json({ error: "Unauthorized!" });
+    }
+    console.log("Authorized");
+  });
+});
+
 module.exports = router;
