@@ -200,11 +200,46 @@ router.post("/endTime_manually", (req, res) => {
 
 //Employee Confirmed Jobday Hours Pair
 router.post("/confirmEmployee", (req, res) => {
+  console.log("req.body confirm", req.body);
+
   Employee.findOne({ token: req.body.token }).then((emp) => {
     if (!emp) {
       return res.status(400).json({ error: "Unauthorized!" });
     }
-    console.log("Authorized");
+
+    //Find all jobdays
+    //Create dateFilter
+    const dateFilter = {
+      $lt: new Date(req.body.date + "T23:59:59"),
+      $gt: new Date(req.body.date + "T00:00:00"),
+    };
+
+    JobDay.find({ date: dateFilter }).then((days) => {
+      //Filter jobdays for current Employee
+      const filteredDay = days.filter((day) => {
+        return day.employee !== req.body.id;
+      });
+      //update found jobday confirmEmployee=true
+      console.log("filteredDay", filteredDay);
+      filteredDay.map((day) => {
+        //if already confirmed employee can cancel confirmation
+        if (day.confirmEmployee === true) {
+          day.confirmEmployee = false;
+          day.save().then((upDayjob) => {
+            console.log("upDayjob", upDayjob);
+            res.json({ message: "Confirmation was canceled" });
+          });
+        } else {
+          day.confirmEmployee = true;
+          day.save().then((upDayjob) => {
+            console.log("upDayjob", upDayjob);
+            res.json({ message: "Date was confirmed" });
+          });
+        }
+      });
+    });
+
+    //Find if Employee has a day that he want to confirm
   });
 });
 

@@ -23,12 +23,14 @@ const JobDaySchema = new Schema({
   //Menager after Receiving Message confirm too
   confirmEmployee: {
     type: Boolean,
+    default: false,
   },
   message: {
     type: String,
   },
   confirmManager: {
     type: Boolean,
+    default: false,
   },
 
   date: {
