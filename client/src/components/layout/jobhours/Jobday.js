@@ -9,6 +9,7 @@ import {
   // faUserMinus,
   faCheck,
   faExclamationCircle,
+  faCheckDouble,
 } from "@fortawesome/free-solid-svg-icons";
 
 class Jobday extends Component {
@@ -43,6 +44,7 @@ class Jobday extends Component {
     //Create payload
     const payload = {
       selectedDay: this.state.selectedDay,
+      hoursLimit: this.props.hoursLimit.startHour,
     };
 
     this.props.managerConfirm(payload);
@@ -124,9 +126,17 @@ class Jobday extends Component {
                     <td>
                       <span className="">
                         {day.confirmEmployee ? (
-                          <span className="text-success">
-                            <FontAwesomeIcon icon={faCheck} />
-                          </span>
+                          <div>
+                            {day.confirmManager ? (
+                              <span className="text-success">
+                                <FontAwesomeIcon icon={faCheckDouble} />
+                              </span>
+                            ) : (
+                              <span className="text-success">
+                                <FontAwesomeIcon icon={faCheck} />
+                              </span>
+                            )}
+                          </div>
                         ) : (
                           <span className="text-danger">
                             {" "}
@@ -176,15 +186,33 @@ class Jobday extends Component {
               {/* {Here Manager can confirm if Employee Confirmed hours pair} */}
               {this.state.selectedDay.confirmEmployee ? (
                 <div>
-                  <span className="text-success">
-                    Employee Confirmed hours <FontAwesomeIcon icon={faCheck} />
-                  </span>{" "}
-                  <input
-                    type="button"
-                    value="Confirm"
-                    className="btn btn-outline-success"
-                    onClick={this._managerConfirm}
-                  />
+                  {this.state.selectedDay.confirmManager ? (
+                    <div>
+                      <span className="text-success">
+                        Confirmed by Manager{" "}
+                        <FontAwesomeIcon icon={faCheckDouble} />
+                      </span>{" "}
+                      <input
+                        type="button"
+                        value="Cancel"
+                        className="btn btn-outline-secondary"
+                        onClick={this._cancelManConfirm}
+                      />
+                    </div>
+                  ) : (
+                    <div>
+                      <span className="text-success">
+                        Employee Confirmed hours{" "}
+                        <FontAwesomeIcon icon={faCheck} />
+                      </span>{" "}
+                      <input
+                        type="button"
+                        value="Confirm"
+                        className="btn btn-outline-success"
+                        onClick={this._managerConfirm}
+                      />
+                    </div>
+                  )}
                 </div>
               ) : (
                 <span>Pending of Employee confirmation</span>

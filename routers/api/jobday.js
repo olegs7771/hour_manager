@@ -159,7 +159,7 @@ router.post(
       filteredDays.map((day) => {
         day.confirmManager = true;
         day.save().then((upDay) => {
-          res.json(upDay);
+          res.json({ day: upDay, hours: req.body.hoursLimit });
         });
       });
     });

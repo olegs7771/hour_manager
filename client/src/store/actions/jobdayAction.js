@@ -60,6 +60,10 @@ export const managerConfirm = (data) => (dispatch) => {
   dispatch(loading());
   axios.post("/api/jobday/manager_confirm", data).then((res) => {
     console.log("res.data", res.data);
+    dispatch({
+      type: GET_SELECT_DAY,
+      payload: res.data,
+    });
   });
 };
 
