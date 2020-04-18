@@ -1,8 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { managerConfirm } from "../../../store/actions/jobdayAction";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 import moment from "moment";
 import classnames from "classnames";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  // faUserMinus,
+  faCheck,
+  faExclamationCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 class Jobday extends Component {
   state = {
@@ -11,7 +18,7 @@ class Jobday extends Component {
     workDays: null,
     selectedDay: null,
     showComponent: false,
-    date: null
+    date: null,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -22,15 +29,24 @@ class Jobday extends Component {
         loading: this.props.loading,
         date: this.props.date,
         message: this.props.message,
-        workDays: this.props.workDays
+        workDays: this.props.workDays,
       });
       if (this.props.message) {
         this.setState({
-          selectedDay: true
+          selectedDay: true,
         });
       }
     }
   }
+
+  _managerConfirm = () => {
+    //Create payload
+    const payload = {
+      selectedDay: this.state.selectedDay,
+    };
+
+    this.props.managerConfirm(payload);
+  };
 
   render() {
     if (this.state.showComponent) {
@@ -65,6 +81,9 @@ class Jobday extends Component {
                   <th scope="col">Date</th>
                   <th scope="col">Start</th>
                   <th scope="col">End</th>
+                  <th scope="col">
+                    <span className="small">Checked</span>
+                  </th>
                 </tr>
               </thead>
 
@@ -82,7 +101,7 @@ class Jobday extends Component {
                         className={classnames("text-success", {
                           "text-danger":
                             moment(day.timeStart).format("HH:mm") >
-                            this.props.hoursLimit.startHour
+                            this.props.hoursLimit.startHour,
                         })}
                       >
                         {moment(day.timeStart).format("HH:mm")}
@@ -96,10 +115,24 @@ class Jobday extends Component {
                         className={classnames("text-success", {
                           "text-danger":
                             moment(day.timeEnd).format("HH:mm") <
-                            this.props.hoursLimit.endHour
+                            this.props.hoursLimit.endHour,
                         })}
                       >
                         {moment(day.timeEnd).format("HH:mm")}
+                      </span>
+                    </td>
+                    <td>
+                      <span className="">
+                        {day.confirmEmployee ? (
+                          <span className="text-success">
+                            <FontAwesomeIcon icon={faCheck} />
+                          </span>
+                        ) : (
+                          <span className="text-danger">
+                            {" "}
+                            <FontAwesomeIcon icon={faExclamationCircle} />
+                          </span>
+                        )}
                       </span>
                     </td>
                   </tr>
@@ -123,7 +156,7 @@ class Jobday extends Component {
                 className={classnames("text-success ml-5", {
                   "text-danger ml-5":
                     moment(this.state.selectedDay.timeStart).format("hh : mm") >
-                    this.props.hoursLimit.startHour
+                    this.props.hoursLimit.startHour,
                 })}
               >
                 {moment(this.state.selectedDay.timeStart).format("hh : mm")}
@@ -134,11 +167,28 @@ class Jobday extends Component {
                 className={classnames("text-success ml-5", {
                   "text-danger ml-5":
                     moment(this.state.selectedDay.timeEnd).format("HH : mm") <
-                    this.props.hoursLimit.endHour
+                    this.props.hoursLimit.endHour,
                 })}
               >
                 {moment(this.state.selectedDay.timeEnd).format("HH : mm")}
               </span>
+              <hr />
+              {/* {Here Manager can confirm if Employee Confirmed hours pair} */}
+              {this.state.selectedDay.confirmEmployee ? (
+                <div>
+                  <span className="text-success">
+                    Employee Confirmed hours <FontAwesomeIcon icon={faCheck} />
+                  </span>{" "}
+                  <input
+                    type="button"
+                    value="Confirm"
+                    className="btn btn-outline-success"
+                    onClick={this._managerConfirm}
+                  />
+                </div>
+              ) : (
+                <span>Pending of Employee confirmation</span>
+              )}
             </div>
           </div>
         );
@@ -149,13 +199,13 @@ class Jobday extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   message: state.jobday.message,
   selectedDay: state.jobday.selectedDay,
   loading: state.jobday.loading,
   workDays: state.jobday.workDays,
   date: state.jobday.date,
-  hoursLimit: state.jobday.hoursLimit
+  hoursLimit: state.jobday.hoursLimit,
 });
 
-export default connect(mapStateToProps, {})(Jobday);
+export default connect(mapStateToProps, { managerConfirm })(Jobday);

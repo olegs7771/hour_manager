@@ -59,18 +59,21 @@ router.post(
         $gt: new Date(req.body.date + "T00:00:00"),
       };
 
-      JobDay.find({ date: dateFilter }).then((day) => {
-        if (!day)
+      JobDay.find({ date: dateFilter }).then((days) => {
+        if (days.legth === 0) {
           return res.json({
             message: "No Data for this date.",
             date: req.body.date,
           });
-
-        if (day.employee.toString() === req.body.employeeID) {
-          return res.json({ day, hours: { startHour, endHour } });
-        } else {
-          res.json({ message: "no jobdays for this employee" });
         }
+
+        days.map((day) => {
+          if (day.employee.toString() === req.body.employeeID) {
+            return res.json({ day, hours: { startHour, endHour } });
+          } else {
+            res.json({ message: "no jobdays for this employee" });
+          }
+        });
       });
     });
   }
@@ -121,6 +124,53 @@ router.post(
         });
       });
     });
+  }
+);
+
+//Manager Confirms Hours Pair
+//Route Private
+router.post(
+  "/manager_confirm",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //Get Selected
+    console.log("test req.body ", req.body);
+    //create date string (YYYY-MM-DD)
+    const dateStr = moment(req.body.selectedDay.date).format("YYYY-MM-DD");
+
+    let dateFilter = {
+      $lt: new Date(dateStr + "T23:59:59"),
+      $gt: new Date(dateStr + "T00:00:00"),
+    };
+
+    JobDay.find({ date: dateFilter }).then((days) => {
+      if (days.legth === 0) {
+        return res.json({
+          message: "No Data for this date.",
+          date: req.body.date,
+        });
+      }
+      console.log("days", days);
+      //Filter found days by EmployeeID
+      const filteredDays = days.filter((day) => {
+        return day.employee !== req.body.selectedDay.employee;
+      });
+      console.log("filteredDays", filteredDays);
+      filteredDays.map((day) => {
+        day.confirmManager = true;
+        day.save().then((upDay) => {
+          res.json(upDay);
+        });
+      });
+    });
+    //     days.map((day) => {
+    //       if (day.employee.toString() === req.body.employeeID) {
+    //         return res.json({ day, hours: { startHour, endHour } });
+    //       } else {
+    //         res.json({ message: "no jobdays for this employee" });
+    //       }
+    //     });
+    //   });
   }
 );
 

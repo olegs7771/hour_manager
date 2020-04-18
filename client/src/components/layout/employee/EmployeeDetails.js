@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import {
   getEmployee,
-  deleteEmployee
+  deleteEmployee,
 } from "../../../store/actions/employeeAction";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 import { UpCase } from "../../../utils/UpperCase";
@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   // faUserMinus,
   faCheck,
-  faExclamationCircle
+  faExclamationCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import Popup from "../popup/Popup";
 import TextFormGroup from "../../textForms/TextFormGroup";
@@ -37,11 +37,11 @@ export class EmployeeDetails extends Component {
     selectedEmployee: null,
     loading: null,
     showDay: false,
-    showMonth: false
+    showMonth: false,
   };
-  _onChange = e => {
+  _onChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value.toLowerCase()
+      [e.target.name]: e.target.value.toLowerCase(),
     });
   };
   _showDate = () => {
@@ -50,10 +50,10 @@ export class EmployeeDetails extends Component {
 
   //Functions listens for change in <EmployeeControls />
 
-  _showDate = childData => {
+  _showDate = (childData) => {
     this.setState({
       showDay: childData.showDay,
-      showMonth: childData.showMonth
+      showMonth: childData.showMonth,
     });
   };
 
@@ -67,7 +67,7 @@ export class EmployeeDetails extends Component {
     }
     if (prevProps.selectedEmployee !== this.props.selectedEmployee) {
       this.setState({
-        selectedEmployee: this.props.selectedEmployee ? true : null
+        selectedEmployee: this.props.selectedEmployee ? true : null,
       });
     }
 
@@ -85,7 +85,7 @@ export class EmployeeDetails extends Component {
       this.setState({
         messages: this.props.messages,
         selectedEmployee: true,
-        loading: null
+        loading: null,
       });
     }
   }
@@ -94,10 +94,10 @@ export class EmployeeDetails extends Component {
     this.props.getEmployee({ id: this.props.match.params.id });
   }
 
-  _deleteEmployee = e => {
+  _deleteEmployee = (e) => {
     console.log("e", e);
     this.props.deleteEmployee({
-      id: e
+      id: e,
     });
   };
 
@@ -154,7 +154,7 @@ export class EmployeeDetails extends Component {
                   </span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
-                  <span className="font-weight-bolder">Confirmed</span>
+                  <span className="font-weight-bolder">Confirmed by Email</span>
 
                   <span className="">
                     {this.props.selectedEmployee.confirmed ? (
@@ -268,11 +268,11 @@ export class EmployeeDetails extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedEmployee: state.employees.selectedEmployee,
   errors: state.errors.errors,
   loading: state.employees.loading,
-  messages: state.messages.messages
+  messages: state.messages.messages,
 });
 
 const mapDispatchToProps = { getEmployee, deleteEmployee };
