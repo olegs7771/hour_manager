@@ -145,7 +145,7 @@ router.post("/get_today_time", (req, res) => {
 
 //Manually Set timeEnd By Employee
 router.post("/endTime_manually", (req, res) => {
-  console.log("req.body", req.body);
+  console.log("req.body in endtime manually", req.body);
 
   Employee.findOne({ token: req.body.token }).then((emp) => {
     if (!emp) {
@@ -161,38 +161,52 @@ router.post("/endTime_manually", (req, res) => {
       $gt: new Date(req.body.date + "T00:00:00"),
     };
     JobDay.find({ date: dateFilter }).then((days) => {
-      if (!days) {
+      console.log("days", days);
+
+      if (days.length === 0) {
         //No days found create one
         console.log("no days been found");
-      }
-      //Days found for this date. filter by Employee Id
-      const filtredDays = days.filter((day) => {
-        return day.employee == req.body.id;
-      });
-      console.log("filtredDays", filtredDays);
-
-      if (filtredDays.length === 0) {
-        //day not found for this date and employee id
-        //create new Jobday
-        console.log("no day found create one");
-      } else {
-        //day been found for this date and employee id
-        //update jobday with timeEnd(actual time)
-        //update timeEndMan (employee added manually)
-        //create isoDate
         const dateFormat = new Date(
           req.body.date + `T${req.body.timeEnd}` + ":00"
         );
-        console.log("dateFormat", dateFormat);
-
-        filtredDays.map((day) => {
-          console.log("day", day);
-          day.timeEndMan = moment().format();
-          day.timeEnd = dateFormat; //current time
-          day.save().then((upDate) => {
-            console.log("upDate", upDate);
-          });
+        new JobDay({
+          employee: req.body.id,
+          timeEnd: dateFormat,
+          message: req.body.message,
+          timeEndMan: moment().format(), //Current Date
+        }).save(() => {
+          return res.json({ message: "Job day was created with timeEnd" });
         });
+      } else {
+        //Days found for this date. filter by Employee Id
+        const filtredDays = days.filter((day) => {
+          return day.employee == req.body.id;
+        });
+        console.log("filtredDays", filtredDays);
+
+        if (filtredDays.length === 0) {
+          //day not found for this date and employee id
+          //create new Jobday
+          console.log("no day found create one");
+        } else {
+          //day been found for this date and employee id
+          //update jobday with timeEnd(actual time)
+          //update timeEndMan (employee added manually)
+          //create isoDate
+          const dateFormat = new Date(
+            req.body.date + `T${req.body.timeEnd}` + ":00"
+          );
+          console.log("dateFormat", dateFormat);
+
+          filtredDays.map((day) => {
+            console.log("day", day);
+            day.timeEndMan = moment().format(); //current time
+            day.timeEnd = dateFormat;
+            day.save().then((upDate) => {
+              console.log("upDate", upDate);
+            });
+          });
+        }
       }
     });
   });

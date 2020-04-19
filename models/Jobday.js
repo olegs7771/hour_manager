@@ -20,7 +20,7 @@ const JobDaySchema = new Schema({
   },
   //In Case Employee Manually edit CheckIn or CheckOut
   //must add reason message and submit
-  //Menager after Receiving Message confirm too
+  //Menager after Receiving Message confirms too
   confirmEmployee: {
     type: Boolean,
     default: false,
