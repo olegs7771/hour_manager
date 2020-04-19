@@ -31,7 +31,6 @@ export class EmployeeDetails extends Component {
     started: "",
     errors: {},
     messages: {},
-
     match: false,
     open: false,
     selectedEmployee: null,
