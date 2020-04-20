@@ -143,7 +143,93 @@ router.post("/get_today_time", (req, res) => {
   });
 });
 
+//Manually Set timeStart By Employee
+//Protected Route
+router.post("/startTime_manually", (req, res) => {
+  console.log("req.body in endtime manually", req.body);
+
+  Employee.findOne({ token: req.body.token }).then((emp) => {
+    if (!emp) {
+      return res.status(400).json({ error: "Unauthorized!" });
+    }
+    console.log("Authorized!");
+
+    //Find if Jobday Exists
+    //Create dateFilter
+
+    const dateFilter = {
+      $lt: new Date(req.body.date + "T23:59:59"),
+      $gt: new Date(req.body.date + "T00:00:00"),
+    };
+    JobDay.find({ date: dateFilter }).then((days) => {
+      console.log("days", days);
+
+      if (days.length === 0) {
+        //No days found create one
+        console.log("no days been found");
+        const dateFormat = new Date(
+          req.body.date + `T${req.body.timeEnd}` + ":00"
+        );
+        new JobDay({
+          employee: req.body.id,
+          timeStart: dateFormat,
+          message: req.body.message,
+          timeStartMan: moment().format(), //Current Date
+        }).save(() => {
+          return res.json({ message: "Start Hour was created" });
+        });
+      } else {
+        //Days found for this date. filter by Employee Id
+        const filtredDays = days.filter((day) => {
+          return day.employee == req.body.id;
+        });
+        console.log("filtredDays", filtredDays);
+
+        if (filtredDays.length === 0) {
+          //day not found for this date and employee id
+          //create new Jobday
+          console.log("no day found create one");
+          //create isoDate
+          const dateFormat = new Date(
+            req.body.date + `T${req.body.timeStart}` + ":00"
+          );
+          console.log("dateFormat", dateFormat);
+          new JobDay({
+            employee: req.body.id,
+            timeStart: dateFormat,
+            message: req.body.message,
+            timeStartMan: moment().format(), //Current Date
+          }).save(() => {
+            return res.json({ message: "Start Hour was created" });
+          });
+        } else {
+          //day been found for this date and employee id
+          //update jobday with timeEnd(actual time)
+          //update timeEndMan (employee added manually)
+          //create isoDate
+          const dateFormat = new Date(
+            req.body.date + `T${req.body.timeStart}` + ":00"
+          );
+          console.log("dateFormat", dateFormat);
+
+          filtredDays.map((day) => {
+            console.log("day", day);
+            day.timeStartMan = moment().format(); //current time
+            day.timeStart = dateFormat;
+            //overwrite if there is previous message
+            day.message = req.body.message;
+            day.save().then((upDate) => {
+              console.log("upDate", upDate);
+              res.json(upDate);
+            });
+          });
+        }
+      }
+    });
+  });
+});
 //Manually Set timeEnd By Employee
+//Protected Route
 router.post("/endTime_manually", (req, res) => {
   console.log("req.body in endtime manually", req.body);
 
