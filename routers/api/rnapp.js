@@ -179,7 +179,7 @@ router.post("/startTime_manually", (req, res) => {
           .save()
           .then((day) => {
             if (!day) return res.json({ message: "Day was not created" });
-            res.json(day);
+            res.json({ message: "Start time has been succefully set up" });
           });
       } else {
         //Days found for this date. filter by Employee Id
@@ -203,7 +203,9 @@ router.post("/startTime_manually", (req, res) => {
             message: req.body.message,
             timeStartMan: moment().format(), //Current Date
           }).save(() => {
-            return res.json({ message: "Start Hour was created" });
+            return res.json({
+              message: "Start time has been succefully set up",
+            });
           });
         } else {
           //day been found for this date and employee id
@@ -223,7 +225,7 @@ router.post("/startTime_manually", (req, res) => {
             day.message = req.body.message;
             day.save().then((upDate) => {
               console.log("upDate", upDate);
-              res.json(upDate);
+              res.json({ message: "Start time has been succefully changed!" });
             });
           });
         }
