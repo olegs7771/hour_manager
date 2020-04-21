@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { managerConfirm } from "../../../store/actions/jobdayAction";
+import {
+  managerConfirm,
+  selectMonth,
+} from "../../../store/actions/jobdayAction";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 import moment from "moment";
 import classnames from "classnames";
@@ -21,6 +24,40 @@ class Jobday extends Component {
     showComponent: false,
     date: null,
   };
+
+  //Load Current Month on Mount
+  componentDidMount() {
+    //Create payload for Action
+    // req.body {
+    //     date: {
+    //       startdate: '2020-04-01T00:00:00+03:00',
+    //       enddate: '2020-04-30T23:59:59+03:00'
+    //     },
+    //     employeeID: '5e8b0db2a4c3824a18dbb1d8',
+    //     projectID: '5e55696919b26f35046ee999'
+    //   }
+    const currentDateStr = moment().format("YYYY-MM-DD");
+    const firstDay = moment(currentDateStr) //<------ dateToShow
+      .startOf("month")
+      .format("");
+    const lastDay = moment(currentDateStr) //<------ dateToShow
+      .endOf("month")
+      .format("");
+    const date = {
+      startdate: firstDay,
+      enddate: lastDay,
+    };
+    const employeeID = this.props.employee._id;
+    const projectID = this.props.employee.projectID;
+
+    const payload = {
+      date,
+      employeeID,
+      projectID,
+    };
+    console.log("payload to select month", payload);
+    this.props.selectMonth(payload);
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps !== this.props) {
@@ -236,4 +273,6 @@ const mapStateToProps = (state) => ({
   hoursLimit: state.jobday.hoursLimit,
 });
 
-export default connect(mapStateToProps, { managerConfirm })(Jobday);
+export default connect(mapStateToProps, { managerConfirm, selectMonth })(
+  Jobday
+);

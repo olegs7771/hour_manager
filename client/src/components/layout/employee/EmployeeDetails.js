@@ -34,6 +34,7 @@ export class EmployeeDetails extends Component {
     match: false,
     open: false,
     selectedEmployee: null,
+    selectedEmployeeDetails: null,
     loading: null,
     showDay: false,
     showMonth: false,
@@ -67,6 +68,7 @@ export class EmployeeDetails extends Component {
     if (prevProps.selectedEmployee !== this.props.selectedEmployee) {
       this.setState({
         selectedEmployee: this.props.selectedEmployee ? true : null,
+        selectedEmployeeDetails: this.props.selectedEmployee,
       });
     }
 
@@ -205,7 +207,7 @@ export class EmployeeDetails extends Component {
                   />
                 </div>
                 <div className="col-md-7 border">
-                  <Jobday />
+                  <Jobday employee={this.state.selectedEmployeeDetails} />
                 </div>
               </div>
             </div>
