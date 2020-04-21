@@ -146,7 +146,7 @@ router.post("/get_today_time", (req, res) => {
 //Manually Set timeStart By Employee
 //Protected Route
 router.post("/startTime_manually", (req, res) => {
-  console.log("req.body in endtime manually", req.body);
+  console.log("req.body in starttime manually", req.body);
 
   Employee.findOne({ token: req.body.token }).then((emp) => {
     if (!emp) {
@@ -168,16 +168,19 @@ router.post("/startTime_manually", (req, res) => {
         //No days found create one
         console.log("no days been found");
         const dateFormat = new Date(
-          req.body.date + `T${req.body.timeEnd}` + ":00"
+          req.body.date + `T${req.body.timeStart}` + ":00"
         );
         new JobDay({
           employee: req.body.id,
           timeStart: dateFormat,
           message: req.body.message,
           timeStartMan: moment().format(), //Current Date
-        }).save(() => {
-          return res.json({ message: "Start Hour was created" });
-        });
+        })
+          .save()
+          .then((day) => {
+            if (!day) return res.json({ message: "Day was not created" });
+            res.json(day);
+          });
       } else {
         //Days found for this date. filter by Employee Id
         const filtredDays = days.filter((day) => {
