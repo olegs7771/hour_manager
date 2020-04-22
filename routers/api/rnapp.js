@@ -274,7 +274,7 @@ router.post("/endTime_manually", (req, res) => {
           timeEndMan: moment().format(), //Current Date
           date: dateFormat,
         }).save(() => {
-          return res.json({ message: "Job day was created with timeEnd" });
+          return res.json({ message: "End time has been succefully set up" });
         });
       } else {
         //Days found for this date. filter by Employee Id
@@ -294,7 +294,7 @@ router.post("/endTime_manually", (req, res) => {
             timeEndMan: moment().format(), //Current Date
             date: dateFormat,
           }).save(() => {
-            return res.json({ message: "Job day was created with timeEnd" });
+            return res.json({ message: "End time has been succefully set up" });
           });
         } else {
           //day been found for this date and employee id
@@ -312,6 +312,7 @@ router.post("/endTime_manually", (req, res) => {
             day.timeEnd = dateFormat;
             day.save().then((upDate) => {
               console.log("upDate", upDate);
+              res.json({ message: "End time has been succefully set up" });
             });
           });
         }
