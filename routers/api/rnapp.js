@@ -48,6 +48,7 @@ router.post("/checkIn_automatic", (req, res) => {
         new JobDay({
           employee: req.body.id,
           timeStart: req.body.timeStart,
+          date: new Date(moment().format()),
         })
           .save()
           .then((jobday) => {
@@ -63,7 +64,7 @@ router.post("/checkIn_automatic", (req, res) => {
           console.log("day", day);
           return day.employee == req.body.id;
         });
-        res.json({ selectedDay, message: "sselected day" });
+        res.json({ selectedDay, message: "this date  already exists" });
       }
     });
 
@@ -91,6 +92,8 @@ router.post("/checkOut_automatic", (req, res) => {
 
     JobDay.find({ date: dateFilter })
       .then((days) => {
+        //Employee can not End jobday without Start day
+        // Promps to edit manually in Log
         if (!days) return res.json({ message: "No jobday" });
         //Filter found days by Employee Id
 
@@ -98,6 +101,8 @@ router.post("/checkOut_automatic", (req, res) => {
           console.log("day", day);
           return day.employee == req.body.id;
         });
+        console.log("selectedDay", selectedDay);
+
         selectedDay.timeEnd = req.body.timeEnd;
         selectedDay.save().then((upDay) => {
           res.json(upDay);
@@ -175,6 +180,7 @@ router.post("/startTime_manually", (req, res) => {
           timeStart: dateFormat,
           message: req.body.message,
           timeStartMan: moment().format(), //Current Date
+          date: dateFormat, //Selected day
         })
           .save()
           .then((day) => {
@@ -182,14 +188,14 @@ router.post("/startTime_manually", (req, res) => {
             res.json({ message: "Start time has been succefully set up" });
           });
       } else {
-        //Days found for this date. filter by Employee Id
+        //Days found for this date. Filter by Employee Id
         const filtredDays = days.filter((day) => {
           return day.employee == req.body.id;
         });
         console.log("filtredDays", filtredDays);
 
         if (filtredDays.length === 0) {
-          //day not found for this date and employee id
+          //Day not found for this date and employee id
           //create new Jobday
           console.log("no day found create one");
           //create isoDate
@@ -202,6 +208,7 @@ router.post("/startTime_manually", (req, res) => {
             timeStart: dateFormat,
             message: req.body.message,
             timeStartMan: moment().format(), //Current Date
+            date: dateFormat,
           }).save(() => {
             return res.json({
               message: "Start time has been succefully set up",
@@ -265,6 +272,7 @@ router.post("/endTime_manually", (req, res) => {
           timeEnd: dateFormat,
           message: req.body.message,
           timeEndMan: moment().format(), //Current Date
+          date: dateFormat,
         }).save(() => {
           return res.json({ message: "Job day was created with timeEnd" });
         });
@@ -279,6 +287,15 @@ router.post("/endTime_manually", (req, res) => {
           //day not found for this date and employee id
           //create new Jobday
           console.log("no day found create one");
+          new JobDay({
+            employee: req.body.id,
+            timeEnd: dateFormat,
+            message: req.body.message,
+            timeEndMan: moment().format(), //Current Date
+            date: dateFormat,
+          }).save(() => {
+            return res.json({ message: "Job day was created with timeEnd" });
+          });
         } else {
           //day been found for this date and employee id
           //update jobday with timeEnd(actual time)
@@ -343,8 +360,6 @@ router.post("/confirmEmployee", (req, res) => {
         }
       });
     });
-
-    //Find if Employee has a day that he want to confirm
   });
 });
 
