@@ -14,6 +14,7 @@ import {
   faExclamationCircle,
   faCheckDouble,
 } from "@fortawesome/free-solid-svg-icons";
+import Message from "./Message";
 
 class Jobday extends Component {
   state = {
@@ -28,14 +29,7 @@ class Jobday extends Component {
   //Load Current Month on Mount
   componentDidMount() {
     //Create payload for Action
-    // req.body {
-    //     date: {
-    //       startdate: '2020-04-01T00:00:00+03:00',
-    //       enddate: '2020-04-30T23:59:59+03:00'
-    //     },
-    //     employeeID: '5e8b0db2a4c3824a18dbb1d8',
-    //     projectID: '5e55696919b26f35046ee999'
-    //   }
+
     const currentDateStr = moment().format("YYYY-MM-DD");
     const firstDay = moment(currentDateStr) //<------ dateToShow
       .startOf("month")
@@ -130,9 +124,9 @@ class Jobday extends Component {
                 {this.state.workDays.map((day, i) => (
                   <tr key={i}>
                     <td>
-                      {moment(day.date).format("MMM Do ") +
+                      {moment(day.date).format("L ") +
                         " " +
-                        moment(day.date).format("dddd")}
+                        moment(day.date).format("ddd")}
                     </td>
                     {/* {Start} */}
                     <td>
@@ -145,6 +139,9 @@ class Jobday extends Component {
                       >
                         {moment(day.timeStart).format("HH:mm")}
                       </span>
+                      {day.timeStartMan ? (
+                        <span className="text-danger ml-2">!</span>
+                      ) : null}
                     </td>
 
                     {/* {End} */}
@@ -159,6 +156,9 @@ class Jobday extends Component {
                       >
                         {moment(day.timeEnd).format("HH:mm")}
                       </span>
+                      {day.timeEndMan ? (
+                        <span className="text-danger ml-2">!</span>
+                      ) : null}
                     </td>
                     <td>
                       <span className="">
@@ -208,6 +208,15 @@ class Jobday extends Component {
               >
                 {moment(this.state.selectedDay.timeStart).format("hh : mm")}
               </span>
+              <br />
+              {this.state.selectedDay.timeStartMan ? (
+                <div className="bg-danger mt-1 p-2 ">
+                  <span className="text-white">
+                    Added manually at :{" "}
+                    {moment(this.state.selectedDay.timeStartMan).format("LLL")}
+                  </span>
+                </div>
+              ) : null}
               <hr />
               End
               <span
@@ -219,7 +228,20 @@ class Jobday extends Component {
               >
                 {moment(this.state.selectedDay.timeEnd).format("HH : mm")}
               </span>
+              <br />
+              {this.state.selectedDay.timeEndMan ? (
+                <div className="bg-danger mt-1 p-2 ">
+                  <span className="text-white">
+                    Added manually at :{" "}
+                    {moment(this.state.selectedDay.timeStartMan).format("LLL")}
+                  </span>
+                </div>
+              ) : null}
               <hr />
+              {/* {Message from Employee} */}
+              {this.state.selectedDay.message ? (
+                <Message message={this.state.selectedDay.message} />
+              ) : null}
               {/* {Here Manager can confirm if Employee Confirmed hours pair} */}
               {this.state.selectedDay.confirmEmployee ? (
                 <div>
