@@ -13,14 +13,14 @@ class ProjectItems extends Component {
       companyName,
       companyCoreFunc,
       staff,
-      date
+      date,
     } = this.props;
     return (
       <ul className="list-group">
         <li className="list-group-item">
           <div className="row">
             <div className="col-md-6">
-              <span className="font-weight-light">Project Manager</span>{" "}
+              <span className="font-weight-bold">Project Manager</span>{" "}
             </div>
             <div className="col-md-6">
               <span className="text-muted ml-4">
@@ -33,7 +33,7 @@ class ProjectItems extends Component {
         <li className="list-group-item">
           <div className="row">
             <div className="col-md-6">
-              <span className="font-weight-light">Project Name</span>{" "}
+              <span className="font-weight-bold">Project Name</span>{" "}
             </div>
             <div className="col-md-6">
               <span className="text-muted ml-4">
@@ -45,7 +45,7 @@ class ProjectItems extends Component {
         <li className="list-group-item">
           <div className="row">
             <div className="col-md-6">
-              <span className="font-weight-light">Company Name</span>{" "}
+              <span className="font-weight-bold">Company Name</span>{" "}
             </div>
             <div className="col-md-6">
               <span className="text-muted ">
@@ -57,7 +57,7 @@ class ProjectItems extends Component {
         <li className="list-group-item">
           <div className="row">
             <div className="col-md-6">
-              <span className="font-weight-light">Business Core Function</span>{" "}
+              <span className="font-weight-bold">Business Core Function</span>{" "}
             </div>
             <div className="col-md-6">
               <span className="text-muted ">
@@ -70,7 +70,7 @@ class ProjectItems extends Component {
         <li className="list-group-item">
           <div className="row">
             <div className="col-md-6">
-              <span className="font-weight-light">Staff</span>{" "}
+              <span className="font-weight-bold">Staff</span>{" "}
             </div>
             <div className="col-md-6">
               <span className="text-muted ">{staff.length} </span>
@@ -80,7 +80,7 @@ class ProjectItems extends Component {
         <li className="list-group-item">
           <div className="row">
             <div className="col-md-6">
-              <span className="font-weight-light">Project Created </span>{" "}
+              <span className="font-weight-bold">Project Created </span>{" "}
             </div>
             <div className="col-md-6">
               <span className="text-muted text-right">

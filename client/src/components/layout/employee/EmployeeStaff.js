@@ -11,14 +11,14 @@ import {
   // faUserMinus,
   faLongArrowAltRight,
   faExclamationCircle,
-  faCheck
+  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
 import ReactNbsp from "react-nbsp";
 
 export class EmployeeStaff extends Component {
   state = {
-    employees: []
+    employees: [],
   };
 
   componentDidMount() {
@@ -28,7 +28,7 @@ export class EmployeeStaff extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.employees !== this.props.employees) {
       this.setState({
-        employees: this.props.employees
+        employees: this.props.employees,
       });
     }
   }
@@ -36,7 +36,10 @@ export class EmployeeStaff extends Component {
   render() {
     if (this.props.loading || this.props.employees === null) {
       return (
-        <div className="mx-auto" style={{ paddingTop: "30%" }}>
+        <div
+          className="mx-auto"
+          style={{ paddingTop: "20%", paddingBottom: "20%" }}
+        >
           <HashLoaderSpinner loading={true} />
         </div>
       );
@@ -123,9 +126,9 @@ export class EmployeeStaff extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loading: state.employees.loading,
-  employees: state.employees.employees
+  employees: state.employees.employees,
 });
 
 const mapDispatchToProps = { getAllEmployees };

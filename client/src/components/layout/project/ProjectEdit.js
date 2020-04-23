@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
   getSelectedProject,
-  editProject
+  editProject,
 } from "../../../store/actions/projectAction";
 import { withRouter } from "react-router-dom";
 import TextFormGroup from "../../textForms/TextFormGroup";
@@ -27,19 +27,19 @@ export class ProjectEdit extends Component {
       errors: {},
       messages: {},
       loading: false,
-      selectedProject: null
+      selectedProject: null,
     };
   }
-  _onChange = e => {
+  _onChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value.toLowerCase()
+      [e.target.name]: e.target.value.toLowerCase(),
     });
     this.setState({ errors: {} });
   };
 
   componentDidMount() {
     this.props.getSelectedProject({
-      id: this.props.match.params.id
+      id: this.props.match.params.id,
     });
     console.log("this.props.match.params.id", this.props.match.params.id);
   }
@@ -51,7 +51,7 @@ export class ProjectEdit extends Component {
         companyName,
         location,
         companyCoreFunc,
-        staff
+        staff,
       } = this.props.selectedProject;
 
       this.setState({
@@ -60,7 +60,7 @@ export class ProjectEdit extends Component {
         companyName,
         location,
         companyCoreFunc,
-        staff
+        staff,
       });
     }
     //Get Loading to State
@@ -72,31 +72,31 @@ export class ProjectEdit extends Component {
       this.setState({
         selectedProject: this.props.selectedProject
           ? this.props.selectedProject
-          : null
+          : null,
       });
     }
     //Get Errors to State
     if (prevProps.errors !== this.props.errors) {
       this.setState({
-        errors: this.props.errors ? this.props.errors : {}
+        errors: this.props.errors ? this.props.errors : {},
       });
     }
     //Get Messages to State
     if (prevProps.messages !== this.props.messages) {
       this.setState({
         messages: this.props.messages ? this.props.messages : {},
-        loading: null
+        loading: null,
       });
     }
   }
   //On Submit edit Project Details
 
-  _onSubmit = e => {
+  _onSubmit = (e) => {
     e.preventDefault();
     const upProject = {
       companyName: this.state.companyName,
       location: this.state.location,
-      companyCoreFunc: this.state.companyCoreFunc
+      companyCoreFunc: this.state.companyCoreFunc,
     };
     this.props.editProject(upProject);
   };
@@ -104,7 +104,10 @@ export class ProjectEdit extends Component {
   render() {
     if (this.state.loading || this.state.selectedProject === null) {
       return (
-        <div className="h3 text-center " style={{ paddingTop: "30%" }}>
+        <div
+          className="h3 text-center "
+          style={{ paddingTop: "10%", paddingBottom: "10%" }}
+        >
           <HashLoaderSpinner />
         </div>
       );
@@ -140,7 +143,7 @@ export class ProjectEdit extends Component {
         { label: "Production", value: "Production" },
         { label: "Administration", value: "Administration" },
         { label: "Marketing", value: "Marketing" },
-        { label: "Financial", value: "Financial" }
+        { label: "Financial", value: "Financial" },
       ];
       return (
         <div className="my-3 border p-3">
@@ -243,18 +246,18 @@ export class ProjectEdit extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedProject: state.projects.selectedProject,
   loading: state.projects.loading,
   messages: state.messages.messages,
-  errors: state.errors.errors
+  errors: state.errors.errors,
 });
 
 const mapDispatchToProps = { getSelectedProject, editProject };
 
 ProjectEdit.propTypes = {
   selectedProject: PropTypes.object,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
 };
 
 export default connect(

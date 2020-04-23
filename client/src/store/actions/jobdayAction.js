@@ -33,7 +33,7 @@ export const selectMonth = (data) => (dispatch) => {
   axios
     .post("/api/jobday/jobdays_month", data)
     .then((res) => {
-      // console.log("res.data", res.data);
+      console.log("res.data in jobdays_month ", res.data);
       if (res.data.message) {
         return dispatch({
           type: JOBDAY_MESSAGE,

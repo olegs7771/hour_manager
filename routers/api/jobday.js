@@ -119,6 +119,8 @@ router.post(
               hours: { startHour, endHour },
             });
           }
+          //Sort by date
+          // const sortedActivities = selectedDays.sort((a, b) => b.date - a.date)
 
           res.json({ selectedDays, hours: { startHour, endHour } });
         });

@@ -13,7 +13,7 @@ export class Project extends Component {
   state = {
     projects: [],
     showDetails: false,
-    projectDetails: {}
+    projectDetails: {},
   };
 
   componentDidMount() {
@@ -31,7 +31,7 @@ export class Project extends Component {
       this.setState({ projects: this.props.projects });
     }
   }
-  _projectName = e => {
+  _projectName = (e) => {
     console.log("e", e);
     this.setState({
       projectDetails: {
@@ -41,16 +41,19 @@ export class Project extends Component {
         companyName: e.companyName,
         companyCoreFunc: e.companyCoreFunc,
         staff: e.staff,
-        date: e.date
+        date: e.date,
       },
-      showDetails: true
+      showDetails: true,
     });
   };
 
   render() {
     if (this.props.projects === null || this.props.loading) {
       return (
-        <div className="mx-auto" style={{ paddingTop: "30%" }}>
+        <div
+          className="mx-auto"
+          style={{ paddingTop: "10%", paddingBottom: "10%" }}
+        >
           <DotLoaderSpinner />
         </div>
       );
@@ -90,24 +93,32 @@ export class Project extends Component {
               </button>
             </div>
             <div className="row my-3 ">
-              <div className="col-md-6 border">
+              <div className="col-md-6  ">
                 <div className="h5 text-center my-4">Projects</div>
-                {this.props.projects.map(project => (
+                {this.props.projects.map((project) => (
                   <ul className="list-group" key={project._id}>
                     {/* Button Project Name + Date */}
                     <li
                       className="list-group-item  btn btn-outline-primary mb-1  d-flex justify-content-between"
                       onClick={this._projectName.bind(this, project)}
                     >
-                      <span className="text-left">Project:</span>
-                      <span className="text-success">
-                        {project.projectName[0].toLocaleUpperCase() +
-                          project.projectName.slice(1)}
-                      </span>
-                      <span className="text-left">Created:</span>
-                      <span className="text-success">
-                        {moment(project.date).format("LL")}
-                      </span>
+                      <div>
+                        <span className="text-left font-weight-bold">
+                          Project:
+                        </span>
+                        <span className=" ml-2">
+                          {project.projectName[0].toLocaleUpperCase() +
+                            project.projectName.slice(1)}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-left font-weight-bold">
+                          Created:
+                        </span>
+                        <span className=" ml-2">
+                          {moment(project.date).format("LL")}
+                        </span>
+                      </div>
                     </li>
                   </ul>
                 ))}
@@ -134,17 +145,17 @@ export class Project extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
   projects: state.projects.projects,
-  loading: state.projects.loading
+  loading: state.projects.loading,
 });
 
 const mapDispatchToProps = { getProjects };
 
 Project.propTypes = {
   projects: PropTypes.array,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 };
 
 export default connect(

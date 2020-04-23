@@ -16,6 +16,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Message from "./Message";
 
+//Function to sort days
+// const sortedDays=(arr)=>{
+
+//   arr.map(day=>{
+
+//   })
+// }
+
 class Jobday extends Component {
   state = {
     messages: {},

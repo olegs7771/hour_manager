@@ -79,4 +79,11 @@ const server = app.listen(port, () => {
 
 //Exercises
 
-// console.log(moment("2020-03-12T05:01:00.000Z").format("HH:mm"));
+console.log(moment("2020-03-12T05:01:00.000Z").format("HH:mm"));
+const activities = [
+  { title: "Hiking", date: new Date("2020-04-10T15:39:16.457Z") },
+  { title: "Shopping", date: new Date("2020-04-18T15:39:16.457Z") },
+  { title: "Trekking", date: new Date("2020-04-05T15:39:16.457Z") },
+];
+const sortedActivities = activities.slice().sort((a, b) => a.date - b.date);
+console.log("sortedActivities", sortedActivities);

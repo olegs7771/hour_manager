@@ -6,8 +6,8 @@ export class Footer extends Component {
   render() {
     return (
       <ul
-        className="nav justify-content-start  py-5 px-2"
-        style={{ backgroundColor: "#e0e0eb" }}
+        className="nav justify-content-start  py-4 px-2 "
+        style={{ backgroundColor: "#303030" }}
       >
         <li className="nav-item">
           <a className="nav-link btn border rounded" href="/admin_contact">
@@ -30,7 +30,7 @@ export class Footer extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {};
 

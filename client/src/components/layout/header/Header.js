@@ -6,7 +6,7 @@ import { withRouter, Link } from "react-router-dom";
 export class Header extends Component {
   state = {
     isAuthenticated: false,
-    name: ""
+    name: "",
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -16,7 +16,7 @@ export class Header extends Component {
       } else {
         this.setState({
           isAuthenticated: true,
-          name: this.props.auth.user.name
+          name: this.props.auth.user.name,
         });
       }
     }
@@ -35,7 +35,7 @@ export class Header extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light py-4">
         <a className="navbar-brand" href="/">
           HourManager
         </a>
@@ -53,12 +53,6 @@ export class Header extends Component {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
-            <li className="nav-item active">
-              <Link className="nav-link" to="/home">
-                Dashboard
-              </Link>
-            </li>
-
             <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
@@ -128,16 +122,16 @@ export class Header extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
 
 const mapDispatchToProps = {
-  clearOutUser
+  clearOutUser,
 };
 
 Header.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));

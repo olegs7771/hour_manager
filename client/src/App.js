@@ -10,7 +10,7 @@ import SuccessMessage from "../src/components/auth/SuccessMessage";
 
 //Layout
 import Header from "../src/components/layout/header/Header";
-import Home from "../src/components/layout/main/Home";
+
 import Landing from "../src/components/layout/main/Landing";
 import Footer from "../src/components/layout/footer/Footer";
 //Project
@@ -33,7 +33,7 @@ import { setCurrentUser, clearOutUser } from "./store/actions/authAction";
 // Redux-Auth-Wrapper
 import {
   userIsAuthenticated,
-  userIsNotAuthenticated
+  userIsNotAuthenticated,
 } from "./utils/reduxAuthWrapper";
 
 import "./App.css";
@@ -50,7 +50,7 @@ if (localStorage.jwtToken) {
     id: decoded.id,
     email: decoded.email,
     name: decoded.name,
-    phone: decoded.phone
+    phone: decoded.phone,
   };
   store.dispatch(setCurrentUser(dataToRedux));
 
@@ -78,10 +78,9 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <div className="container">
+          <div className="container ">
             <Header />
             <Switch>
-              <Route exact path="/home" component={userIsAuthenticated(Home)} />
               <Route
                 exact
                 path="/project"

@@ -105,7 +105,10 @@ export class EmployeeDetails extends Component {
   render() {
     if (this.state.loading || this.state.selectedEmployee === null) {
       return (
-        <div className="mx-auto " style={{ paddingTop: "30%" }}>
+        <div
+          className="mx-auto "
+          style={{ paddingTop: "20%", paddingBottom: "20%" }}
+        >
           <DotLoaderSpinner />
         </div>
       );
@@ -195,7 +198,7 @@ export class EmployeeDetails extends Component {
                 </li>
               </ul>
             </div>
-            <div className="col-md-8 border border-danger">
+            <div className="col-md-8 ">
               {/* Select To show Day or Month */}
               <EmployeeControls parentCB={this._showDate} />
 
@@ -212,7 +215,7 @@ export class EmployeeDetails extends Component {
               </div>
             </div>
           </div>
-          <div className="my-3 border d-flex justify-content-center ">
+          <div className="my-3  d-flex justify-content-center ">
             <div className="my-3 btn-group">
               <button
                 className="btn btn-outline-info"
