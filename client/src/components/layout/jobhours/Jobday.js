@@ -49,7 +49,7 @@ class Jobday extends Component {
       employeeID,
       projectID,
     };
-    console.log("payload to select month", payload);
+    // console.log("payload to select month", payload);
     this.props.selectMonth(payload);
   }
 

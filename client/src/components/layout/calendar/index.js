@@ -203,7 +203,7 @@ class Calendar extends React.Component {
   //Dispatch Action to jobdayAction
   onDayClick = (e, d, m, y) => {
     //fix day if one digit add 0
-    console.log("d", typeof d);
+    // console.log("d", typeof d);
     //conver to string
     const dayStr = d.toString();
 

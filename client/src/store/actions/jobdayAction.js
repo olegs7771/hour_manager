@@ -8,7 +8,7 @@ import {
 import axios from "axios";
 
 export const selectDay = (data) => (dispatch) => {
-  console.log("data day select day", data);
+  // console.log("data day select day", data);
   dispatch(loading());
   axios.post("/api/jobday/get_jobday", data).then((res) => {
     console.log("res.data", res.data);
@@ -28,12 +28,12 @@ export const selectDay = (data) => (dispatch) => {
 
 //Get Selected Month
 export const selectMonth = (data) => (dispatch) => {
-  console.log("data month", data);
+  // console.log("data month", data);
   dispatch(loading());
   axios
     .post("/api/jobday/jobdays_month", data)
     .then((res) => {
-      console.log("res.data", res.data);
+      // console.log("res.data", res.data);
       if (res.data.message) {
         return dispatch({
           type: JOBDAY_MESSAGE,
@@ -59,7 +59,7 @@ export const selectMonth = (data) => (dispatch) => {
 export const managerConfirm = (data) => (dispatch) => {
   dispatch(loading());
   axios.post("/api/jobday/manager_confirm", data).then((res) => {
-    console.log("res.data", res.data);
+    // console.log("res.data", res.data);
     dispatch({
       type: GET_SELECT_DAY,
       payload: res.data,
