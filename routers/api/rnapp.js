@@ -310,6 +310,7 @@ router.post("/endTime_manually", (req, res) => {
             console.log("day", day);
             day.timeEndMan = moment().format(); //current time
             day.timeEnd = dateFormat;
+            day.message = req.body.message;
             day.save().then((upDate) => {
               console.log("upDate", upDate);
               res.json({ message: "End time has been succefully set up" });
