@@ -32,7 +32,6 @@ export class EmployeeDetails extends Component {
     errors: {},
     messages: {},
     match: false,
-    open: false,
     selectedEmployee: null,
     selectedEmployeeDetails: null,
     loading: null,
@@ -231,7 +230,7 @@ export class EmployeeDetails extends Component {
                 Edit Profile
               </button>
               <Popup
-                open={this.state.open}
+                // open={this.state.open}
                 icon="Delete Profile"
                 margin={10}
                 title={<span className="text-danger pl-5">Delete Warning</span>}

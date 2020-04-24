@@ -1,17 +1,13 @@
 import React, { useState } from "react";
 import { Button, Popover, PopoverHeader, PopoverBody } from "reactstrap";
 
-const Popup = props => {
+const Popup = (props) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   const toggle = () => setPopoverOpen(!popoverOpen);
   return (
     <div style={{ marginLeft: props.margin }}>
-      <Button
-        id="Popover1"
-        type="button"
-        //  onClick={()=>}
-      >
+      <Button id="Popover1" type="button">
         {props.icon}
       </Button>
       <Popover

@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import moment from "moment";
 import { withRouter } from "react-router-dom";
+import Popup from "../popup/Popup";
+import TextFormGroup from "../../textForms/SelectFormGroup";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  // faUserMinus,
+  faCheck,
+  faExclamationCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 class ProjectItems extends Component {
   render() {
@@ -98,9 +106,49 @@ class ProjectItems extends Component {
           >
             View Project
           </button>
-          <button className="btn btn-outline-danger ml-2">
+          {/* <button
+            className="btn btn-outline-danger ml-2"
+            onPress={this._deleteProject}
+          >
             Delete Project
-          </button>
+          </button> */}
+          <Popup
+            open={this.state.open}
+            icon="Delete Project"
+            margin={10}
+            title={<span className="text-danger pl-5">Delete Warning</span>}
+            placement={"top"}
+            body={
+              <div className=" mx-auto ">
+                <span className="text-danger">
+                  All Data will be deleted permanently <br />
+                  To proceed fill Employee's Email
+                </span>
+                <TextFormGroup
+                  placeholder="Employee Email.."
+                  onChange={this._onChange}
+                  value={this.state.email}
+                  name="email"
+                  type="email"
+                />
+                <button
+                  className="btn btn-outline-danger"
+                  disabled={!this.state.match}
+                  onClick={this._deleteEmployee.bind(
+                    this,
+                    this.props.selectedEmployee._id
+                  )}
+                >
+                  Confirm
+                </button>
+                {this.state.match ? (
+                  <span className="text-success ml-5">
+                    <FontAwesomeIcon icon={faCheck} />
+                  </span>
+                ) : null}
+              </div>
+            }
+          />
         </div>
       </ul>
     );

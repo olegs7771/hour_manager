@@ -16,30 +16,30 @@ export class ProjectCreate extends Component {
     this.state = {
       projectName: "",
       companyName: "",
-      location: "",
+      companyLocation: "",
       companyCoreFunc: "",
       errors: {},
       messages: {},
       loading: false,
       //Work Day Hours
       start: "",
-      end: ""
+      end: "",
     };
   }
-  _setHours = data => {
+  _setHours = (data) => {
     this.setState({
       start: data.start,
-      end: data.end
+      end: data.end,
     });
   };
 
-  _onChange = e => {
+  _onChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value.toLowerCase()
+      [e.target.name]: e.target.value.toLowerCase(),
     });
     this.setState({ errors: {} });
   };
-  _onSubmit = e => {
+  _onSubmit = (e) => {
     e.preventDefault();
     //Test for Work Hour form errors(22:00)
     const reg = /^[0-2][0-9]:[0-5][0-9]$/;
@@ -48,17 +48,17 @@ export class ProjectCreate extends Component {
       const data = {
         companyName: this.state.companyName,
         projectName: this.state.projectName,
-        location: this.state.location,
+        location: this.state.companyLocation,
         companyCoreFunc: this.state.companyCoreFunc,
         jobStart: `${this.state.start}:00`,
-        jobEnd: `${this.state.end}:00`
+        jobEnd: `${this.state.end}:00`,
       };
       this.props.createProject(data);
     } else {
       this.setState({
         errors: {
-          timeError: "Wrong time format. Use hh:mm"
-        }
+          timeError: "Wrong time format. Use hh:mm",
+        },
       });
     }
   };
@@ -81,7 +81,7 @@ export class ProjectCreate extends Component {
       { label: "Production", value: "Production" },
       { label: "Administration", value: "Administration" },
       { label: "Marketing", value: "Marketing" },
-      { label: "Financial", value: "Financial" }
+      { label: "Financial", value: "Financial" },
     ];
     return (
       <div className="my-3 border p-2 ">
@@ -108,8 +108,8 @@ export class ProjectCreate extends Component {
               <TextFormGroup
                 label="Company Location"
                 // placeholder="Company location.."
-                value={this.state.location}
-                name="location"
+                value={this.state.companyLocation}
+                name="companyLocation"
                 onChange={this._onChange}
                 error={this.state.errors.location}
               />
@@ -147,7 +147,7 @@ export class ProjectCreate extends Component {
           <div className="col-md-4 pt-3">
             {/* {From Child Component} */}
             <ProjectHourForm
-              setHour={value => {
+              setHour={(value) => {
                 this._setHours(value);
               }}
               error={this.state.errors.timeError}
@@ -159,19 +159,15 @@ export class ProjectCreate extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   errors: state.errors.errors,
-  messages: state.messages.messages
+  messages: state.messages.messages,
 });
 
 const mapDispatchToProps = { createProject };
 ProjectCreate.propTypes = {
   errors: PropTypes.object,
   messages: PropTypes.object,
-  companyCoreFunc: PropTypes.string,
-  companyName: PropTypes.string,
-  location: PropTypes.string,
-  projectName: PropTypes.string
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectCreate);
