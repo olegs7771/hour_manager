@@ -46,7 +46,7 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     //Get Selected
-    console.log("test req.body ", req.body);
+    console.log("test req.body get_jobday ", req.body);
     Project.findById(req.body.projectID).then((project) => {
       if (!project) {
         return res.status(400).json({ error: "No Project found" });
@@ -60,7 +60,9 @@ router.post(
       };
 
       JobDay.find({ date: dateFilter }).then((days) => {
-        if (days.legth === 0) {
+        console.log("days", days);
+
+        if (days.length === 0) {
           return res.json({
             message: "No Data for this date.",
             date: req.body.date,

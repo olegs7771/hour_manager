@@ -152,6 +152,9 @@
 .tail-datetime-calendar .calendar-date table tbody tr > *:hover {
   color: #cd283c;
 }
+.tail-datetime-calendar .calendar-date table tbody tr > *:active {
+  color: #019410;
+}
 .tail-datetime-calendar .calendar-date table tbody tr > *:hover:after {
   border-color: #cd283c;
 }

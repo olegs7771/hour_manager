@@ -118,11 +118,11 @@ export class EmployeeDetails extends Component {
       return <div className="my-4">{this.state.messages.message}</div>;
     } else {
       return (
-        <div className="my-4 border">
+        <div className="my-4 ">
           <div className="my-4 h5 text-center">
             <span className="display-4">Profile Employee Details</span>
           </div>
-          <div className="mx-3 border row">
+          <div className="mx-3 row">
             <div className="col-md-4 ">
               <ul className="list-group list-group-flush">
                 <li className="list-group-item list-group-item d-flex justify-content-between">
@@ -203,14 +203,17 @@ export class EmployeeDetails extends Component {
               <EmployeeControls parentCB={this._showDate} />
 
               <div className="row">
-                <div className="col-md-5 border">
+                <div className="col-md-5 ">
                   <Calendar
                     showDay={this.state.showDay}
                     showMonth={this.state.showMonth}
                   />
                 </div>
-                <div className="col-md-7 border">
-                  <Jobday employee={this.state.selectedEmployeeDetails} />
+                <div className="col-md-7 ">
+                  <Jobday
+                    employee={this.state.selectedEmployeeDetails}
+                    showDay={this.state.showDay}
+                  />
                 </div>
               </div>
             </div>

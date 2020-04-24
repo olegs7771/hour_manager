@@ -8,7 +8,7 @@ import {
 import axios from "axios";
 
 export const selectDay = (data) => (dispatch) => {
-  // console.log("data day select day", data);
+  console.log("data day select day", data);
   dispatch(loading());
   axios.post("/api/jobday/get_jobday", data).then((res) => {
     console.log("res.data", res.data);

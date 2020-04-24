@@ -35,8 +35,8 @@ export class Header extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light py-4">
-        <a className="navbar-brand" href="/">
+      <nav className="navbar navbar-expand-lg navbar-light bg-dark py-4">
+        <a className="navbar-brand text-white" href="/">
           HourManager
         </a>
         <button
@@ -55,7 +55,7 @@ export class Header extends Component {
           <ul className="navbar-nav mr-auto">
             <li className="nav-item dropdown">
               <a
-                className="nav-link dropdown-toggle"
+                className="nav-link dropdown-toggle text-white"
                 href="/#"
                 id="navbarDropdown"
                 role="button"
@@ -82,20 +82,23 @@ export class Header extends Component {
           {this.state.isAuthenticated ? (
             <ul className="navbar-nav ml-auto">
               <li className="nav-item active">
-                <a className="nav-link" href="/project">
+                <a className="nav-link text-white" href="/project">
                   Projects
                 </a>
               </li>
               <li className="nav-item active">
                 <a className="nav-link" href="/">
-                  <span className="text-success font-weight-normal">
+                  <span
+                    className="text-success border rounded p-2"
+                    style={{ fontSize: 18 }}
+                  >
                     {this.state.name}
                   </span>
                 </a>
               </li>
               <li className="nav-item active">
                 <button
-                  className="btn btn-outline-secondary"
+                  className="btn btn-outline-secondary "
                   onClick={this._logOut}
                 >
                   SingOut
@@ -105,12 +108,12 @@ export class Header extends Component {
           ) : (
             <ul className="navbar-nav ml-auto">
               <li className="nav-item active">
-                <a className="nav-link" href="/login">
+                <a className="nav-link text-white" href="/login">
                   SignIn
                 </a>
               </li>
               <li className="nav-item active">
-                <a className="nav-link" href="/register">
+                <a className="nav-link text-white" href="/register">
                   SingUp
                 </a>
               </li>
