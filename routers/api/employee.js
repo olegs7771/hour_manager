@@ -352,6 +352,7 @@ router.post("/employee_login", (req, res) => {
       phone: employee.phone,
       started: employee.started,
       func: employee.func,
+      projectID: employee.projectID,
     };
     jwt.sign(payload, keys, (err, token) => {
       if (err) {
@@ -365,6 +366,7 @@ router.post("/employee_login", (req, res) => {
           name: employee.name,
           email: employee.email,
           uid: employee._id,
+          projectID: employee.projectID,
         });
       });
     });

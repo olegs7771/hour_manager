@@ -5,6 +5,10 @@ const JobDaySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Employee",
   },
+  projectID: {
+    type: Schema.Types.ObjectId,
+    ref: "Project",
+  },
 
   timeStart: {
     type: Date,

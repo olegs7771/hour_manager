@@ -4,7 +4,10 @@ import { Button, Popover, PopoverHeader, PopoverBody } from "reactstrap";
 const Popup = (props) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
 
-  const toggle = () => setPopoverOpen(!popoverOpen);
+  const toggle = () => {
+    setPopoverOpen(!popoverOpen);
+    props.open(!popoverOpen);
+  };
   return (
     <div style={{ marginLeft: props.margin }}>
       <Button id="Popover1" type="button">

@@ -37,6 +37,8 @@ export class EmployeeDetails extends Component {
     loading: null,
     showDay: false,
     showMonth: false,
+    //toggle Button Delete Profile/Cancel. True or false coming from Popup.js
+    switchBtn: false,
   };
   _onChange = (e) => {
     this.setState({
@@ -99,6 +101,10 @@ export class EmployeeDetails extends Component {
     this.props.deleteEmployee({
       id: e,
     });
+  };
+  _changeBtn = (e) => {
+    console.log("e change btn", e);
+    this.setState({ switchBtn: e ? true : false });
   };
 
   render() {
@@ -231,10 +237,13 @@ export class EmployeeDetails extends Component {
               </button>
               <Popup
                 // open={this.state.open}
-                icon="Delete Profile"
+
+                icon={this.state.switchBtn ? "Cancel" : "Delete Profile"}
                 margin={10}
                 title={<span className="text-danger pl-5">Delete Warning</span>}
                 placement={"top"}
+                //toggle Button Delete Profile/Cancel
+                open={this._changeBtn}
                 body={
                   <div className=" mx-auto ">
                     <span className="text-danger">

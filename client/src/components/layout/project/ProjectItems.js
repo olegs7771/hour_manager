@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import moment from "moment";
+import { connect } from "react-redux";
+import { deleteProject } from "../../../store/actions/projectAction";
 import { withRouter } from "react-router-dom";
 import Popup from "../popup/Popup";
-import TextFormGroup from "../../textForms/SelectFormGroup";
+import TextFormGroup from "../../textForms/TextFormGroup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   // faUserMinus,
@@ -11,6 +13,40 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 class ProjectItems extends Component {
+  state = {
+    name: "",
+    match: false,
+    //toggle Button Delete Project/Cancel. True or false coming from Popup.js
+    switchBtn: false,
+  };
+
+  _deleteProject = (e) => {
+    console.log("e test", e);
+    const payload = {
+      id: e,
+    };
+    this.props.deleteProject(payload);
+  };
+  _onChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+  _changeBtn = (e) => {
+    console.log("e change btn", e);
+    this.setState({ switchBtn: e ? true : false });
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.name !== this.state.name) {
+      if (this.state.name === this.props.projectName) {
+        this.setState({ match: true });
+      } else {
+        this.setState({ match: false });
+      }
+    }
+  }
+
   render() {
     console.log("this.props.staff", this.props.staff.length);
 
@@ -113,31 +149,30 @@ class ProjectItems extends Component {
             Delete Project
           </button> */}
           <Popup
-            open={this.state.open}
-            icon="Delete Project"
+            icon={this.state.switchBtn ? "Cancel" : "Delete Project"}
             margin={10}
             title={<span className="text-danger pl-5">Delete Warning</span>}
             placement={"top"}
+            //toggle Button Delete Project/Cancel
+            open={this._changeBtn}
             body={
               <div className=" mx-auto ">
                 <span className="text-danger">
-                  All Data will be deleted permanently <br />
-                  To proceed fill Employee's Email
+                  All Data such as all employees profiles in current project
+                  will be deleted permanently <br />
+                  To proceed fill Project's Name
                 </span>
                 <TextFormGroup
-                  placeholder="Employee Email.."
+                  placeholder="Project Name.."
                   onChange={this._onChange}
-                  value={this.state.email}
-                  name="email"
-                  type="email"
+                  value={this.state.name}
+                  name="name"
+                  // type="name"
                 />
                 <button
                   className="btn btn-outline-danger"
                   disabled={!this.state.match}
-                  onClick={this._deleteEmployee.bind(
-                    this,
-                    this.props.selectedEmployee._id
-                  )}
+                  onClick={this._deleteProject.bind(this, id)}
                 >
                   Confirm
                 </button>
@@ -155,4 +190,4 @@ class ProjectItems extends Component {
   }
 }
 
-export default withRouter(ProjectItems);
+export default connect(null, { deleteProject })(withRouter(ProjectItems));
