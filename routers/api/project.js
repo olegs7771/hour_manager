@@ -173,7 +173,7 @@ router.post(
         });
       });
       //remove all jobdays for this Employee
-      Jobday.find({employee:})
+      // Jobday.find({employee:})
     });
   }
 );
