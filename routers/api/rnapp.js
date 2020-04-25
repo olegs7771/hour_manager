@@ -47,6 +47,7 @@ router.post("/checkIn_automatic", (req, res) => {
         //No job days today yet .Create new one by checkIn Button
         new JobDay({
           employee: req.body.id,
+          projectID: req.body.projectID,
           timeStart: req.body.timeStart,
           date: new Date(moment().format()),
         })
@@ -177,6 +178,7 @@ router.post("/startTime_manually", (req, res) => {
         );
         new JobDay({
           employee: req.body.id,
+          projectID: req.body.projectID,
           timeStart: dateFormat,
           message: req.body.message,
           timeStartMan: moment().format(), //Current Date
@@ -205,6 +207,7 @@ router.post("/startTime_manually", (req, res) => {
           console.log("dateFormat", dateFormat);
           new JobDay({
             employee: req.body.id,
+            projectID: req.body.projectID,
             timeStart: dateFormat,
             message: req.body.message,
             timeStartMan: moment().format(), //Current Date
@@ -269,6 +272,7 @@ router.post("/endTime_manually", (req, res) => {
         );
         new JobDay({
           employee: req.body.id,
+          projectID: req.body.projectID,
           timeEnd: dateFormat,
           message: req.body.message,
           timeEndMan: moment().format(), //Current Date
@@ -289,6 +293,7 @@ router.post("/endTime_manually", (req, res) => {
           console.log("no day found create one");
           new JobDay({
             employee: req.body.id,
+            projectID: req.body.projectID,
             timeEnd: dateFormat,
             message: req.body.message,
             timeEndMan: moment().format(), //Current Date
