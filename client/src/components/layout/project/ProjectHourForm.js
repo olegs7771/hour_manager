@@ -27,12 +27,8 @@ class ProjectHourForm extends Component {
   render() {
     return (
       <div className=" text-center">
-        <p className="text-left font-italic">
-          Here You can Choose Start and End Work Day hours.
-          <br />
-          It will help you more convinient trace Employee's job hours.
-        </p>
-        <div className="my-3 mx-auto">
+        <div className="my-3">{this.props.textTitle}</div>
+        <div className="mx-auto">
           <div className="group-control">
             <div className="form-group">
               <label>Start Hour</label>

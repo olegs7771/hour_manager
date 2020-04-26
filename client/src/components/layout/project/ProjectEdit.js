@@ -12,6 +12,7 @@ import { HashLoaderSpinner } from "../../spinners/HashLoaderSpinner";
 import { UpCase } from "../../../utils/UpperCase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLongArrowAltRight } from "@fortawesome/free-solid-svg-icons";
+import ProjectHourForm from "./ProjectHourForm";
 
 export class ProjectEdit extends Component {
   constructor(props) {
@@ -238,6 +239,7 @@ export class ProjectEdit extends Component {
                   Add Employee
                 </button>
               </div>
+              <ProjectHourForm textTitle="Edit Work Day Hours" />
             </div>
           </div>
         </div>

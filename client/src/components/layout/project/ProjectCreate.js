@@ -169,6 +169,13 @@ export class ProjectCreate extends Component {
               }}
               error={this.state.errors.timeError}
               clearErrors={this._clearError}
+              textTitle={
+                <p className="text-left font-italic">
+                  Here You can Choose Start and End Work Day hours.
+                  <br />
+                  It will help you more convinient trace Employee's job hours.
+                </p>
+              }
             />
           </div>
         </div>
