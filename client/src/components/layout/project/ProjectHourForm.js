@@ -3,13 +3,15 @@ import React, { Component } from "react";
 class ProjectHourForm extends Component {
   state = {
     start: "",
-    end: ""
+    end: "",
   };
 
-  _onChangeHour = e => {
+  _onChangeHour = (e) => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
+    //clear errors in parent
+    this.props.clearErrors();
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -18,7 +20,7 @@ class ProjectHourForm extends Component {
     }
   }
 
-  _parentHour = state => {
+  _parentHour = (state) => {
     this.props.setHour(state);
   };
 

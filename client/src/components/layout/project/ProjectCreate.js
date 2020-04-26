@@ -41,6 +41,14 @@ export class ProjectCreate extends Component {
   };
   _onSubmit = (e) => {
     e.preventDefault();
+    if (this.state.start === "" || this.state.end === "") {
+      return this.setState({
+        errors: {
+          timeError:
+            "Please choose Work Time Hours. For Example: Start 07:00,End 17:00",
+        },
+      });
+    }
     //Test for Work Hour form errors(22:00)
     const reg = /^[0-2][0-9]:[0-5][0-9]$/;
     if (reg.test(this.state.start) && reg.test(this.state.end)) {
@@ -57,7 +65,8 @@ export class ProjectCreate extends Component {
     } else {
       this.setState({
         errors: {
-          timeError: "Wrong time format. Use hh:mm",
+          timeError:
+            "Wrong time format. Please use 2 digits for hours annd 2 digits for minutes. Such as 07:35.",
         },
       });
     }
@@ -74,6 +83,10 @@ export class ProjectCreate extends Component {
       }, 5000);
     }
   }
+  _clearError = () => {
+    this.setState({ errors: {} });
+  };
+
   render() {
     // Select options for Business functions;
     const options = [
@@ -155,6 +168,7 @@ export class ProjectCreate extends Component {
                 this._setHours(value);
               }}
               error={this.state.errors.timeError}
+              clearErrors={this._clearError}
             />
           </div>
         </div>
