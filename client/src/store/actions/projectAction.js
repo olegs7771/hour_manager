@@ -86,12 +86,15 @@ export const editProject = (data) => (dispatch) => {
 
 //Delete Project with All Employees!!!!+remove from user.projects[]
 export const deleteProject = (data) => (dispatch) => {
-  dispatch(loading());
   console.log("data in delete project", data);
   axios
     .post("/api/project/delete", data)
     .then((res) => {
       console.log("res.data", res.data);
+      dispatch({
+        type: GET_MESSAGE,
+        payload: res.data,
+      });
     })
     .catch((err) => {
       console.log("error to delete project", err.response.data);

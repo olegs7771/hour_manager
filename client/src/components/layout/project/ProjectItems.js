@@ -11,22 +11,28 @@ import {
   faCheck,
   faExclamationCircle,
 } from "@fortawesome/free-solid-svg-icons";
+import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 
 class ProjectItems extends Component {
   state = {
+    //Local State
     name: "",
     match: false,
     //toggle Button Delete Project/Cancel. True or false coming from Popup.js
     switchBtn: false,
+    loading: false,
+    //Props from Redux
+    message: null,
   };
 
   _deleteProject = (e) => {
-    console.log("e test", e);
+    this.setState({ loading: true });
     const payload = {
       id: e,
     };
     this.props.deleteProject(payload);
   };
+
   _onChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -45,6 +51,14 @@ class ProjectItems extends Component {
         this.setState({ match: false });
       }
     }
+    //After delete project->this.state.loading->this.state.message
+    if (prevProps.message !== this.props.message) {
+      this.setState({ message: this.props.message, loading: false });
+      setTimeout(() => {
+        //reload Project.js
+        this.props.reloadParent();
+      }, 6000);
+    }
   }
 
   render() {
@@ -59,6 +73,20 @@ class ProjectItems extends Component {
       staff,
       date,
     } = this.props;
+
+    if (this.state.loading) {
+      return <DotLoaderSpinner />;
+    }
+    if (this.state.message)
+      return (
+        <div className="my-3 border mt-5">
+          <div className="my-3">
+            <div className="h6 text-center text-success">Success!</div>
+          </div>
+          <div className="text-center text-success">{this.state.message}</div>
+        </div>
+      );
+
     return (
       <ul className="list-group">
         <li className="list-group-item">
@@ -190,4 +218,10 @@ class ProjectItems extends Component {
   }
 }
 
-export default connect(null, { deleteProject })(withRouter(ProjectItems));
+const mapStateToProps = (state) => ({
+  message: state.messages.messages.message,
+});
+
+export default connect(mapStateToProps, { deleteProject })(
+  withRouter(ProjectItems)
+);

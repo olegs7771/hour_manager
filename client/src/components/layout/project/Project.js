@@ -47,6 +47,11 @@ export class Project extends Component {
     });
   };
 
+  //Reload Component comes from child ProjectItems.js
+  _reloadComponent = () => {
+    this.props.getProjects();
+  };
+
   render() {
     if (this.props.projects === null || this.props.loading) {
       return (
@@ -125,7 +130,6 @@ export class Project extends Component {
               </div>
               {this.state.showDetails ? (
                 <div className="col-md-6 border">
-                  <div className="h5 text-center my-4">Project Details</div>
                   <ProjectItems
                     id={this.state.projectDetails.id}
                     projectManager={this.state.projectDetails.projectManager}
@@ -134,6 +138,8 @@ export class Project extends Component {
                     companyCoreFunc={this.state.projectDetails.companyCoreFunc}
                     staff={this.state.projectDetails.staff}
                     date={this.state.projectDetails.date}
+                    //Props to child to reload Project.js
+                    reloadParent={this._reloadComponent}
                   />
                 </div>
               ) : null}

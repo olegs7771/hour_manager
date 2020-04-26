@@ -153,27 +153,38 @@ router.post(
         return res.status(400).json({ error: "Project not found" });
       }
       console.log("project", project);
-
-      User.findOne({ _id: project.user }).then((user) => {
-        console.log("user", user);
-        const projectsLeft = user.projects.filter((project) => {
-          return project._id !== req.body.id;
-        });
-        console.log("projectsLeft", projectsLeft);
-        user.projects = projectsLeft;
-        user.save().then((upUser) => {
-          console.log("upUser", upUser);
+      project.remove().then((item) => {
+        // console.log("item deleted", item);//call back shows what object been removed
+        User.findOne({ _id: project.user }).then((user) => {
+          console.log("user", user);
+          const projectsLeft = user.projects.filter((project) => {
+            return project._id !== req.body.id;
+          });
+          console.log("projectsLeft", projectsLeft);
+          user.projects = projectsLeft;
+          user.save().then((upUser) => {
+            // console.log("upUser", upUser);
+            //Shows updated user
+            //Remove Employees of Removed Project
+            Employee.find({ projectID: req.body.id }).then((emps) => {
+              console.log("emps", emps);
+              emps.map((emp) => {
+                emp.remove();
+                console.log("emps to delete", emp);
+              });
+              //remove all jobdays for this Employee
+              Jobday.find({ projectID: req.body.id }).then((jobdays) => {
+                jobdays.map((jobday) => {
+                  jobday.remove();
+                });
+                res.json({
+                  message: `Project ${item.projectName} was successfully deleted with all Employees and their jobdays information`,
+                });
+              });
+            });
+          });
         });
       });
-      //Remove Employees of Removed Project
-      Employee.find({ projectID: req.body.id }).then((emps) => {
-        console.log("emps", emps);
-        emps.map((emp) => {
-          emp.remove();
-        });
-      });
-      //remove all jobdays for this Employee
-      // Jobday.find({employee:})
     });
   }
 );
