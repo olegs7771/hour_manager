@@ -75,11 +75,17 @@ class ProjectItems extends Component {
     } = this.props;
 
     if (this.state.loading) {
-      return <DotLoaderSpinner />;
+      return (
+        <div className="my-3  mt-5 mb-5">
+          <div className="my-3">
+            <DotLoaderSpinner />
+          </div>
+        </div>
+      );
     }
     if (this.state.message)
       return (
-        <div className="my-3 border mt-5">
+        <div className="my-3  mt-5 mb-5">
           <div className="my-3">
             <div className="h6 text-center text-success">Success!</div>
           </div>

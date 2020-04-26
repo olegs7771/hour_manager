@@ -68,6 +68,10 @@ export class ProjectCreate extends Component {
     }
     if (prevProps.messages !== this.props.messages) {
       this.setState({ messages: this.props.messages, loading: false });
+      //redirect to Project.js
+      setTimeout(() => {
+        this.props.history.push("/project");
+      }, 5000);
     }
   }
   render() {
