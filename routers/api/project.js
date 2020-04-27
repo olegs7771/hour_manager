@@ -202,6 +202,12 @@ router.post(
       project.companyName = req.body.companyName;
       project.location = req.body.location;
       project.companyCoreFunc = req.body.companyCoreFunc;
+      project.workDayHours.start = req.body.start
+        ? req.body.start
+        : project.workDayHours.start;
+      project.workDayHours.end = req.body.end
+        ? req.body.end
+        : project.workDayHours.end;
       project.save().then((upProject) => {
         console.log("upProject", upProject);
         res.status(200).json({ message: "Project was updated" });

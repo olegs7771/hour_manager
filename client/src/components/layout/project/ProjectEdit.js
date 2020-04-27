@@ -31,6 +31,7 @@ export class ProjectEdit extends Component {
       selectedProject: null,
       start: "",
       end: "",
+      editWorkHours: true,
     };
   }
   _onChange = (e) => {
@@ -99,10 +100,13 @@ export class ProjectEdit extends Component {
 
   _onSubmit = (e) => {
     e.preventDefault();
+
     const upProject = {
       companyName: this.state.companyName,
       location: this.state.location,
       companyCoreFunc: this.state.companyCoreFunc,
+      start: this.state.start,
+      end: this.state.end,
     };
     this.props.editProject(upProject);
   };
@@ -116,6 +120,11 @@ export class ProjectEdit extends Component {
 
   _clearError = () => {
     this.setState({ errors: {} });
+  };
+
+  _editWorkHours = (e) => {
+    console.log("e in edit hours", e);
+    this.setState({ editWorkHours: e });
   };
 
   render() {
@@ -256,11 +265,14 @@ export class ProjectEdit extends Component {
                 </button>
               </div>
               <ProjectHourForm
+                editWorkHours={this._editWorkHours}
                 textTitle="Edit Work Day Hours"
                 clearErrors={this._clearError}
                 setHour={(value) => {
                   this._setHours(value);
                 }}
+                start={this.state.start}
+                end={this.state.end}
               />
             </div>
           </div>

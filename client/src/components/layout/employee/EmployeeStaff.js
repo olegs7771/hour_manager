@@ -38,7 +38,7 @@ export class EmployeeStaff extends Component {
       return (
         <div
           className="mx-auto"
-          style={{ paddingTop: "20%", paddingBottom: "20%" }}
+          style={{ paddingTop: "30%", paddingBottom: "30%" }}
         >
           <HashLoaderSpinner loading={true} />
         </div>
@@ -46,7 +46,10 @@ export class EmployeeStaff extends Component {
     } else {
       if (isEmpty(this.props.employees)) {
         return (
-          <div className="my-3 text-center h5">
+          <div
+            className="my-3 text-center h5 "
+            style={{ paddingTop: "30%", paddingBottom: "30%" }}
+          >
             No Employees in this Project
           </div>
         );

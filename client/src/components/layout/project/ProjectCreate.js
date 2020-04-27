@@ -81,8 +81,8 @@ export class ProjectCreate extends Component {
         projectName: this.state.projectName,
         location: this.state.companyLocation,
         companyCoreFunc: this.state.companyCoreFunc,
-        jobStart: `${this.state.start}:00`,
-        jobEnd: `${this.state.end}:00`,
+        jobStart: "00:00",
+        jobEnd: "00:00",
       };
       this.props.createProject(data);
     }
@@ -106,7 +106,7 @@ export class ProjectCreate extends Component {
     console.log("e in edit hours", e);
     this.setState({ editWorkHours: e });
   };
-  e;
+
   render() {
     // Select options for Business functions;
     const options = [

@@ -21,6 +21,19 @@ class ProjectHourForm extends Component {
     if (prevState !== this.state) {
       this._parentHour(this.state);
     }
+    // if (prevProps !== this.props) {
+    //   this.setState({
+    //     start: this.props.start,
+    //     end: this.props.end,
+    //   });
+    // }
+  }
+
+  componentDidMount() {
+    this.setState({
+      start: this.props.start,
+      end: this.props.end,
+    });
   }
 
   _parentHour = (state) => {

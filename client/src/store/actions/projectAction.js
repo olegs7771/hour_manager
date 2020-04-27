@@ -31,6 +31,8 @@ export const getProjects = () => (dispatch) => {
 //Create Project
 //Private Route
 export const createProject = (data) => (dispatch) => {
+  console.log("data in create project", data);
+
   axios
     .post("/api/project/create", data)
     .then((res) => {

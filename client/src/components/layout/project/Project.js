@@ -129,7 +129,7 @@ export class Project extends Component {
                 ))}
               </div>
               {this.state.showDetails ? (
-                <div className="col-md-6 border">
+                <div className="col-md-6 ">
                   <ProjectItems
                     id={this.state.projectDetails.id}
                     projectManager={this.state.projectDetails.projectManager}
