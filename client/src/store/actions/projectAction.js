@@ -34,7 +34,7 @@ export const createProject = (data) => (dispatch) => {
   axios
     .post("/api/project/create", data)
     .then((res) => {
-      console.log("res.data", res.data);
+      console.log("res.data create project", res.data);
 
       dispatch({
         type: GET_MESSAGE,

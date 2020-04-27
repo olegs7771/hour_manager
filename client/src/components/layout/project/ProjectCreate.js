@@ -22,8 +22,9 @@ export class ProjectCreate extends Component {
       messages: {},
       loading: false,
       //Work Day Hours
-      start: "",
-      end: "",
+      start: "00",
+      end: "00",
+      editWorkHours: true,
     };
   }
   _setHours = (data) => {
@@ -41,17 +42,39 @@ export class ProjectCreate extends Component {
   };
   _onSubmit = (e) => {
     e.preventDefault();
-    if (this.state.start === "" || this.state.end === "") {
-      return this.setState({
-        errors: {
-          timeError:
-            "Please choose Work Time Hours. For Example: Start 07:00,End 17:00",
-        },
-      });
-    }
-    //Test for Work Hour form errors(22:00)
-    const reg = /^[0-2][0-9]:[0-5][0-9]$/;
-    if (reg.test(this.state.start) && reg.test(this.state.end)) {
+    //If User selected Not Now intrested to edit Work Hours
+    if (this.state.editWorkHours) {
+      if (this.state.start === "" || this.state.end === "") {
+        return this.setState({
+          errors: {
+            timeError:
+              "Please choose Work Time Hours. For Example: Start 07:00,End 17:00",
+          },
+        });
+      }
+      //Test for Work Hour form errors(22:00)
+      const reg = /^[0-2][0-9]:[0-5][0-9]$/;
+      if (reg.test(this.state.start) && reg.test(this.state.end)) {
+        this.setState({ loading: true });
+        const data = {
+          companyName: this.state.companyName,
+          projectName: this.state.projectName,
+          location: this.state.companyLocation,
+          companyCoreFunc: this.state.companyCoreFunc,
+          jobStart: `${this.state.start}:00`,
+          jobEnd: `${this.state.end}:00`,
+        };
+        this.props.createProject(data);
+      } else {
+        this.setState({
+          errors: {
+            timeError:
+              "Wrong time format. Please use 2 digits for hours annd 2 digits for minutes. Such as 07:35.",
+          },
+        });
+      }
+    } else {
+      //  User selected Not Now intrested to edit Work Hours
       this.setState({ loading: true });
       const data = {
         companyName: this.state.companyName,
@@ -62,13 +85,6 @@ export class ProjectCreate extends Component {
         jobEnd: `${this.state.end}:00`,
       };
       this.props.createProject(data);
-    } else {
-      this.setState({
-        errors: {
-          timeError:
-            "Wrong time format. Please use 2 digits for hours annd 2 digits for minutes. Such as 07:35.",
-        },
-      });
     }
   };
   componentDidUpdate(prevProps, prevState) {
@@ -86,7 +102,11 @@ export class ProjectCreate extends Component {
   _clearError = () => {
     this.setState({ errors: {} });
   };
-
+  _editWorkHours = (e) => {
+    console.log("e in edit hours", e);
+    this.setState({ editWorkHours: e });
+  };
+  e;
   render() {
     // Select options for Business functions;
     const options = [
@@ -164,6 +184,8 @@ export class ProjectCreate extends Component {
           <div className="col-md-4 pt-3">
             {/* {From Child Component} */}
             <ProjectHourForm
+              //user doesnt want edit Work Hours at project creation
+              editWorkHours={this._editWorkHours}
               setHour={(value) => {
                 this._setHours(value);
               }}

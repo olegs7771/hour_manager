@@ -29,6 +29,8 @@ export class ProjectEdit extends Component {
       messages: {},
       loading: false,
       selectedProject: null,
+      start: "",
+      end: "",
     };
   }
   _onChange = (e) => {
@@ -53,6 +55,7 @@ export class ProjectEdit extends Component {
         location,
         companyCoreFunc,
         staff,
+        workDayHours,
       } = this.props.selectedProject;
 
       this.setState({
@@ -62,6 +65,8 @@ export class ProjectEdit extends Component {
         location,
         companyCoreFunc,
         staff,
+        start: workDayHours.start,
+        end: workDayHours.end,
       });
     }
     //Get Loading to State
@@ -100,6 +105,17 @@ export class ProjectEdit extends Component {
       companyCoreFunc: this.state.companyCoreFunc,
     };
     this.props.editProject(upProject);
+  };
+
+  _setHours = (data) => {
+    this.setState({
+      start: data.start,
+      end: data.end,
+    });
+  };
+
+  _clearError = () => {
+    this.setState({ errors: {} });
   };
 
   render() {
@@ -239,7 +255,13 @@ export class ProjectEdit extends Component {
                   Add Employee
                 </button>
               </div>
-              <ProjectHourForm textTitle="Edit Work Day Hours" />
+              <ProjectHourForm
+                textTitle="Edit Work Day Hours"
+                clearErrors={this._clearError}
+                setHour={(value) => {
+                  this._setHours(value);
+                }}
+              />
             </div>
           </div>
         </div>
