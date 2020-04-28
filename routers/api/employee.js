@@ -64,8 +64,8 @@ router.post(
                   //Create url for new Employee activation
                   let URL;
                   if (process.env.NODE_ENV === "production") {
-                    // URL = `https://glacial-crag-30370.herokuapp.com/api/employee/activate?uid=${newEmployee._id}&projectID=${newEmployee.projectID}`;
-                    URL = `http://localhost:5000/api/employee/activate?uid=${newEmployee._id}&projectID=${newEmployee.projectID}`;
+                    URL = `https://glacial-crag-30370.herokuapp.com/api/employee/activate?uid=${newEmployee._id}&projectID=${newEmployee.projectID}`;
+                    // URL = `http://localhost:5000/api/employee/activate?uid=${newEmployee._id}&projectID=${newEmployee.projectID}`;
                   } else {
                     URL = `http://localhost:5000/api/employee/activate?uid=${newEmployee._id}&projectID=${newEmployee.projectID}`;
                   }
