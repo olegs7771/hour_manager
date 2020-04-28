@@ -10,7 +10,7 @@ export class ActivationSuccessMessage extends Component {
     loading: false,
     errors: {},
     activatedEmployee: null,
-    messages: {}
+    messages: {},
   };
 
   componentDidMount() {
@@ -38,19 +38,27 @@ export class ActivationSuccessMessage extends Component {
   render() {
     if (this.state.loading || this.state.activatedEmployee === null) {
       return (
-        <div className="my-5">
+        <div
+          className="my-5"
+          style={{ paddingBottom: "30%", paddingTop: "30%" }}
+        >
           <DotLoaderSpinner />
         </div>
       );
     } else if (this.state.messages.message) {
       return (
-        <div className="my-4 border p-4">{this.state.messages.message}</div>
+        <div
+          className="my-4 p-4"
+          style={{ paddingBottom: "30%", paddingTop: "30%" }}
+        >
+          {this.state.messages.message}
+        </div>
       );
     } else {
       return (
         <div className="my-4 border rounded">
           <div className="text-center display-4">Success</div>
-          <div className="my-4 border p-4">
+          <div className="my-4  p-4">
             <p>
               Dear {this.state.activatedEmployee.employeeName} we are pleased to
               inform you that your HourManager account has been activated.
@@ -64,9 +72,9 @@ export class ActivationSuccessMessage extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   activatedEmployee: state.employees.activatedEmployee,
-  messages: state.messages.messages
+  messages: state.messages.messages,
 });
 
 const mapDispatchToProps = { activEmp };

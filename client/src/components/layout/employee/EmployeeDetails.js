@@ -112,15 +112,33 @@ export class EmployeeDetails extends Component {
       return (
         <div
           className="mx-auto "
-          style={{ paddingTop: "20%", paddingBottom: "20%" }}
+          style={{ paddingTop: "30%", paddingBottom: "30%" }}
         >
           <DotLoaderSpinner />
         </div>
       );
     } else if (this.state.errors.error) {
-      return <div className="my-4">{this.state.errors.error}</div>;
+      return (
+        <div
+          className="my-4"
+          style={{ paddingTop: "10%", paddingBottom: "50%" }}
+        >
+          <div className="text-center text-danger h6">
+            {this.state.errors.error}
+          </div>
+        </div>
+      );
     } else if (this.state.messages.message) {
-      return <div className="my-4">{this.state.messages.message}</div>;
+      return (
+        <div
+          className="my-4"
+          style={{ paddingTop: "10%", paddingBottom: "50%" }}
+        >
+          <div className="text-center h6 text-success">
+            {this.state.messages.message}
+          </div>
+        </div>
+      );
     } else {
       return (
         <div className="my-4 ">

@@ -373,4 +373,13 @@ router.post("/employee_login", (req, res) => {
   });
 });
 
+//Test ejs response
+router.post("/ejsTest", (req, res) => {
+  res.render("employeeActivation.ejs", {
+    data: {
+      employeeName: "John",
+    },
+  });
+});
+
 module.exports = router;
