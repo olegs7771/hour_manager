@@ -21,7 +21,7 @@ export class EmployeeAdd extends Component {
     employees: [],
     errors: {},
     openEmployeeForm: false,
-    loading: false
+    loading: false,
   };
 
   componentDidMount() {
@@ -40,7 +40,7 @@ export class EmployeeAdd extends Component {
       this.setState({
         messages: this.props.messages,
         loading: false,
-        openEmployeeForm: false
+        openEmployeeForm: false,
       });
     }
     //Reload staff.length
@@ -49,16 +49,16 @@ export class EmployeeAdd extends Component {
     }
   }
 
-  _onChange = e => {
+  _onChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value.toLowerCase()
+      [e.target.name]: e.target.value.toLowerCase(),
     });
 
     this.setState({ errors: {} });
   };
 
   //Add New Employee Form
-  _onSubmit = e => {
+  _onSubmit = (e) => {
     e.preventDefault();
     const newEmployee = {
       projectID: this.props.selectedProject._id,
@@ -67,7 +67,7 @@ export class EmployeeAdd extends Component {
       phone: this.state.phone,
       address: this.state.address,
       started: this.state.started,
-      func: this.state.func
+      func: this.state.func,
     };
     this.props.createEmployee(newEmployee);
     // if (!isEmpty(this.state.errors)) {
@@ -86,7 +86,10 @@ export class EmployeeAdd extends Component {
       this.props.errors === {}
     ) {
       return (
-        <div className="mx-auto" style={{ paddingTop: "30%" }}>
+        <div
+          className="mx-auto"
+          style={{ paddingTop: "30%", paddingBottom: "30%" }}
+        >
           <HashLoaderSpinner loading={true} />
         </div>
       );
@@ -99,7 +102,7 @@ export class EmployeeAdd extends Component {
         location,
         projectName,
         staff,
-        user
+        user,
       } = this.props.selectedProject;
       return (
         <div className="my-3 ">
@@ -232,7 +235,7 @@ export class EmployeeAdd extends Component {
                       className="btn btn-outline-info"
                       onClick={() =>
                         this.setState({
-                          openEmployeeForm: true
+                          openEmployeeForm: true,
                         })
                       }
                     >
@@ -255,7 +258,7 @@ export class EmployeeAdd extends Component {
                       className="btn btn-outline-info "
                       onClick={() =>
                         this.setState({
-                          openEmployeeForm: true
+                          openEmployeeForm: true,
                         })
                       }
                     >
@@ -283,11 +286,11 @@ export class EmployeeAdd extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loading: state.employees.loading,
   selectedProject: state.projects.selectedProject,
   errors: state.errors.errors,
-  messages: state.messages.messages
+  messages: state.messages.messages,
 });
 
 const mapDispatchToProps = { getSelectedProject, createEmployee };
@@ -297,7 +300,7 @@ EmployeeAdd.propTypes = {
   selectedProject: PropTypes.object,
   errors: PropTypes.object,
   messages: PropTypes.object,
-  createEmployee: PropTypes.func
+  createEmployee: PropTypes.func,
 };
 
 export default connect(

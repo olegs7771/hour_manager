@@ -64,9 +64,9 @@ router.post(
                   //Create url for new Employee activation
                   let URL;
                   if (process.env.NODE_ENV === "production") {
-                    URL = `https://glacial-crag-30370.herokuapp.com/emp_activ_msg/${newEmployee._id}/${newEmployee.projectID}/${newEmployee.email}`;
+                    URL = `https://glacial-crag-30370.herokuapp.com/api/employee/activate?uid=${newEmployee._id}&projectID=${newEmployee.projectID}`;
                   } else {
-                    URL = `http://localhost:3000/emp_activ_msg/${newEmployee._id}/${newEmployee.projectID}/${newEmployee.email}`;
+                    URL = `http://localhost:5000/api/employee/activate?uid=${newEmployee._id}&projectID=${newEmployee.projectID}`;
                   }
 
                   //Send Email To Newly Created Employee
@@ -88,7 +88,9 @@ router.post(
 
                   sendMail(data, (cb) => {
                     if (!cb.infoMessageid) {
-                      return res.status(400).json({ error: "Can send Email" });
+                      return res
+                        .status(400)
+                        .json({ error: "Can't send Email" });
                     }
 
                     res.json({
@@ -130,6 +132,7 @@ router.post(
       });
   }
 );
+
 //Delete Employee by ID
 router.post(
   "/delete",
@@ -166,19 +169,20 @@ router.post(
   }
 );
 
-//Activation of New Employee from Mail Link with params
-router.post("/activate", (req, res) => {
-  console.log("req.body", req.body);
+//Activation of New Employee from Mail Link with Params
+router.get("/activate", (req, res) => {
+  console.log("req.query", req.query);
 
-  // // //Confirm Employee =>  update employee.confirmed=true,code:random number
-  Employee.findById(req.body.uid).then((employee) => {
+  // // // //Confirm Employee =>  update employee.confirmed=true,code:random number
+  Employee.findById(req.query.uid).then((employee) => {
     console.log("employee", employee);
+
     if (!employee) {
       res
         .status(400)
         .json({ message: "No such employee. Please contact administrator" });
     }
-    //Create random code
+    // //Create random code
     const ranNum = Math.random() * 10000000;
     employee.code = Math.trunc(ranNum);
     employee.confirmed = true;
@@ -186,7 +190,7 @@ router.post("/activate", (req, res) => {
     employee.save().then((upEmployee) => {
       console.log("upEmployee", upEmployee);
       //     //Update in Project.staff[] employee confirmed:true
-      Project.findById(req.body.projectID).then((project) => {
+      Project.findById(req.query.projectID).then((project) => {
         if (!project) {
           return res.status(400).json({ error: "Can not find project" });
         }
@@ -196,8 +200,10 @@ router.post("/activate", (req, res) => {
         });
         //       console.log("employeeToUpdate", employeeToUpdate);
         if (employeeToUpdate.confirmed === true) {
-          return res.status(200).json({
-            message: `The user ${employeeToUpdate.employeeName} already has been activated`,
+          res.render("employeeExists.ejs", {
+            data: {
+              employeeName: employee.name,
+            },
           });
         }
         //Update Activated Employee
@@ -205,11 +211,11 @@ router.post("/activate", (req, res) => {
         employeeToUpdate.confirmed = true;
 
         project.save().then((upProject) => {
-          res.json({
-            employeeName: employeeToUpdate.employeeName,
-            employeeEmail: employeeToUpdate.employeeEmail,
-            companyName: employeeToUpdate.companyName,
-            projectName: employeeToUpdate.projectName,
+          //Here Render EJS File employeeActivation.ejs
+          res.render("employeeActivation.ejs", {
+            data: {
+              employeeName: employee.name,
+            },
           });
 
           //Send Email to New Employee
@@ -374,12 +380,15 @@ router.post("/employee_login", (req, res) => {
 });
 
 //Test ejs response
-router.post("/ejsTest", (req, res) => {
-  res.render("employeeActivation.ejs", {
-    data: {
-      employeeName: "John",
-    },
-  });
-});
+// router.get("/ejsTest", (req, res) => {
+//   console.log("query", req.query);
+//   const id = req.query.id;
+//   res.render("employeeActivation.ejs", {
+//     data: {
+//       employeeName: "John",
+//       id,
+//     },
+//   });
+// });
 
 module.exports = router;
