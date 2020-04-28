@@ -64,7 +64,8 @@ router.post(
                   //Create url for new Employee activation
                   let URL;
                   if (process.env.NODE_ENV === "production") {
-                    URL = `https://glacial-crag-30370.herokuapp.com/api/employee/activate?uid=${newEmployee._id}&projectID=${newEmployee.projectID}`;
+                    // URL = `https://glacial-crag-30370.herokuapp.com/api/employee/activate?uid=${newEmployee._id}&projectID=${newEmployee.projectID}`;
+                    URL = `http://localhost:5000/api/employee/activate?uid=${newEmployee._id}&projectID=${newEmployee.projectID}`;
                   } else {
                     URL = `http://localhost:5000/api/employee/activate?uid=${newEmployee._id}&projectID=${newEmployee.projectID}`;
                   }
@@ -379,16 +380,16 @@ router.post("/employee_login", (req, res) => {
   });
 });
 
-//Test ejs response
-// router.get("/ejsTest", (req, res) => {
-//   console.log("query", req.query);
-//   const id = req.query.id;
-//   res.render("employeeActivation.ejs", {
-//     data: {
-//       employeeName: "John",
-//       id,
-//     },
-//   });
-// });
+// Test ejs response
+router.get("/ejsTest", (req, res) => {
+  console.log("query", req.query);
+  const uid = req.query.uid;
+  res.render("employeeActivation.ejs", {
+    data: {
+      employeeName: "John",
+      uid,
+    },
+  });
+});
 
 module.exports = router;
