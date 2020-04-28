@@ -22,7 +22,7 @@ import EmployeeStaff from "../src/components/layout/employee/EmployeeStaff";
 import EmployeeAdd from "../src/components/layout/employee/EmployeeAdd";
 import EmployeeDetails from "../src/components/layout/employee/EmployeeDetails";
 import EmployeeEdit from "../src/components/layout/employee/EmployeeEdit";
-// import ActivationSuccessMessage from "../src/components/layout/employee/ActivationSuccessMessage";
+import ActivationConfirmation from "../src/components/layout/employee/ActivationConfirmation";
 //Admin
 import AdminControl from "./components/layout/admin/AdminControl";
 import AdminContactForm from "./components/layout/admin/AdminContactForm";
@@ -130,11 +130,11 @@ class App extends Component {
                 path="/confirm/:id/:token"
                 component={SuccessMessage}
               />
-              {/* <Route
+              <Route
                 exact
-                path="/emp_activ_msg/:id/:projectID/:email"
-                component={ActivationSuccessMessage}
-              /> */}
+                path="/activate/:uid/:projectID/"
+                component={ActivationConfirmation}
+              />
               <Route
                 exact
                 path="/admin/:token/:access"

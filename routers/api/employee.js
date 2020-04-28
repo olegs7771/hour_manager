@@ -171,69 +171,69 @@ router.post(
 );
 
 //Activation of New Employee from Mail Link with Params
-router.get("/activate", (req, res) => {
-  console.log("req.query", req.query);
+// router.get("/activate", (req, res) => {
+//   console.log("req.query", req.query);
 
-  // // // //Confirm Employee =>  update employee.confirmed=true,code:random number
-  Employee.findById(req.query.uid).then((employee) => {
-    console.log("employee", employee);
+//   // // // //Confirm Employee =>  update employee.confirmed=true,code:random number
+//   Employee.findById(req.query.uid).then((employee) => {
+//     console.log("employee", employee);
 
-    if (!employee) {
-      res
-        .status(400)
-        .json({ message: "No such employee. Please contact administrator" });
-    }
-    // //Create random code
-    const ranNum = Math.random() * 10000000;
-    employee.code = Math.trunc(ranNum);
-    employee.confirmed = true;
+//     if (!employee) {
+//       res
+//         .status(400)
+//         .json({ message: "No such employee. Please contact administrator" });
+//     }
+//     // //Create random code
+//     const ranNum = Math.random() * 10000000;
+//     employee.code = Math.trunc(ranNum);
+//     employee.confirmed = true;
 
-    employee.save().then((upEmployee) => {
-      console.log("upEmployee", upEmployee);
-      //     //Update in Project.staff[] employee confirmed:true
-      Project.findById(req.query.projectID).then((project) => {
-        if (!project) {
-          return res.status(400).json({ error: "Can not find project" });
-        }
-        //       //Find eployee in project.staff[]
-        const employeeToUpdate = project.staff.find((item) => {
-          return item.employeeEmail === upEmployee.email;
-        });
-        //       console.log("employeeToUpdate", employeeToUpdate);
-        if (employeeToUpdate.confirmed === true) {
-          // Send Notify Employee then Account alredy Activated
-        }
-        //Update Activated Employee
+//     employee.save().then((upEmployee) => {
+//       console.log("upEmployee", upEmployee);
+//       //     //Update in Project.staff[] employee confirmed:true
+//       Project.findById(req.query.projectID).then((project) => {
+//         if (!project) {
+//           return res.status(400).json({ error: "Can not find project" });
+//         }
+//         //       //Find eployee in project.staff[]
+//         const employeeToUpdate = project.staff.find((item) => {
+//           return item.employeeEmail === upEmployee.email;
+//         });
+//         //       console.log("employeeToUpdate", employeeToUpdate);
+//         if (employeeToUpdate.confirmed === true) {
+//           // Send Notify Employee then Account alredy Activated
+//         }
+//         //Update Activated Employee
 
-        employeeToUpdate.confirmed = true;
+//         employeeToUpdate.confirmed = true;
 
-        project.save().then((upProject) => {
-          //Here Render EJS File employeeActivation.ejs
-          //Notify Employee that Accout been Activated!
-          //Send Email to New Employee
+//         project.save().then((upProject) => {
+//           //Here Render EJS File employeeActivation.ejs
+//           //Notify Employee that Accout been Activated!
+//           //Send Email to New Employee
 
-          const data = {
-            type: "ACTIVATION",
-            name: employeeToUpdate.employeeName,
-            email: employeeToUpdate.employeeEmail,
-            companyName: employeeToUpdate.companyName,
-            projectID: upEmployee.projectID,
-            id: upEmployee._id,
-            code: upEmployee.code,
-          };
-          sendMail(data, (cb) => {
-            if (cb.infoMessageid) {
-              console.log(
-                "New Employee received instruction after activation thier account"
-              );
-              //Send Email to Notify Manager of the Current Project
-            }
-          });
-        });
-      });
-    });
-  });
-});
+//           const data = {
+//             type: "ACTIVATION",
+//             name: employeeToUpdate.employeeName,
+//             email: employeeToUpdate.employeeEmail,
+//             companyName: employeeToUpdate.companyName,
+//             projectID: upEmployee.projectID,
+//             id: upEmployee._id,
+//             code: upEmployee.code,
+//           };
+//           sendMail(data, (cb) => {
+//             if (cb.infoMessageid) {
+//               console.log(
+//                 "New Employee received instruction after activation thier account"
+//               );
+//               //Send Email to Notify Manager of the Current Project
+//             }
+//           });
+//         });
+//       });
+//     });
+//   });
+// });
 
 //Get Selected Employee
 //Private Route
