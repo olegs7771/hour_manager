@@ -235,14 +235,4 @@ router.post(
   }
 );
 
-router.post(
-  "/test",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    Project.find().then((projects) => {
-      res.json(projects);
-    });
-  }
-);
-
 module.exports = router;

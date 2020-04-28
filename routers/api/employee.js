@@ -64,10 +64,9 @@ router.post(
                   //Create url for new Employee activation
                   let URL;
                   if (process.env.NODE_ENV === "production") {
-                    URL = `https://glacial-crag-30370.herokuapp.com/api/employee/activate?uid=${newEmployee._id}&projectID=${newEmployee.projectID}`;
-                    // URL = `http://localhost:5000/api/employee/activate?uid=${newEmployee._id}&projectID=${newEmployee.projectID}`;
+                    URL = `https://glacial-crag-30370.herokuapp.com/activate/${newEmployee._id}/${newEmployee.projectID}`;
                   } else {
-                    URL = `http://localhost:5000/api/employee/activate?uid=${newEmployee._id}&projectID=${newEmployee.projectID}`;
+                    URL = `http://localhost:3000/activate/${newEmployee._id}/${newEmployee.projectID}`;
                   }
 
                   //Send Email To Newly Created Employee
@@ -171,69 +170,68 @@ router.post(
 );
 
 //Activation of New Employee from Mail Link with Params
-// router.get("/activate", (req, res) => {
-//   console.log("req.query", req.query);
+router.post("/activate", (req, res) => {
+  console.log("req.body", req.body);
 
-//   // // // //Confirm Employee =>  update employee.confirmed=true,code:random number
-//   Employee.findById(req.query.uid).then((employee) => {
-//     console.log("employee", employee);
-
-//     if (!employee) {
-//       res
-//         .status(400)
-//         .json({ message: "No such employee. Please contact administrator" });
-//     }
-//     // //Create random code
-//     const ranNum = Math.random() * 10000000;
-//     employee.code = Math.trunc(ranNum);
-//     employee.confirmed = true;
-
-//     employee.save().then((upEmployee) => {
-//       console.log("upEmployee", upEmployee);
-//       //     //Update in Project.staff[] employee confirmed:true
-//       Project.findById(req.query.projectID).then((project) => {
-//         if (!project) {
-//           return res.status(400).json({ error: "Can not find project" });
-//         }
-//         //       //Find eployee in project.staff[]
-//         const employeeToUpdate = project.staff.find((item) => {
-//           return item.employeeEmail === upEmployee.email;
-//         });
-//         //       console.log("employeeToUpdate", employeeToUpdate);
-//         if (employeeToUpdate.confirmed === true) {
-//           // Send Notify Employee then Account alredy Activated
-//         }
-//         //Update Activated Employee
-
-//         employeeToUpdate.confirmed = true;
-
-//         project.save().then((upProject) => {
-//           //Here Render EJS File employeeActivation.ejs
-//           //Notify Employee that Accout been Activated!
-//           //Send Email to New Employee
-
-//           const data = {
-//             type: "ACTIVATION",
-//             name: employeeToUpdate.employeeName,
-//             email: employeeToUpdate.employeeEmail,
-//             companyName: employeeToUpdate.companyName,
-//             projectID: upEmployee.projectID,
-//             id: upEmployee._id,
-//             code: upEmployee.code,
-//           };
-//           sendMail(data, (cb) => {
-//             if (cb.infoMessageid) {
-//               console.log(
-//                 "New Employee received instruction after activation thier account"
-//               );
-//               //Send Email to Notify Manager of the Current Project
-//             }
-//           });
-//         });
-//       });
-//     });
-//   });
-// });
+  //   // // // //Confirm Employee =>  update employee.confirmed=true,code:random number
+  Employee.findById(req.body.uid).then((employee) => {
+    console.log("employee", employee);
+    if (!employee) {
+      res
+        .status(400)
+        .json({ error: "No such employee. Please contact administrator" });
+    }
+    // //Create random code
+    const ranNum = Math.random() * 10000000;
+    employee.code = Math.trunc(ranNum);
+    employee.confirmed = true;
+    employee.save().then((upEmployee) => {
+      console.log("upEmployee", upEmployee);
+      //     //Update in Project.staff[] employee confirmed:true
+      Project.findById(req.body.projectID).then((project) => {
+        if (!project) {
+          return res.status(400).json({ error: "Can not find project" });
+        }
+        //       //Find eployee in project.staff[]
+        const employeeToUpdate = project.staff.find((item) => {
+          return item.employeeEmail === upEmployee.email;
+        });
+        //       console.log("employeeToUpdate", employeeToUpdate);
+        if (employeeToUpdate.confirmed === true) {
+          return res
+            .status(400)
+            .json({ error: "This Account Already been Activated" });
+        }
+        //Update Activated Employee
+        employeeToUpdate.confirmed = true;
+        project.save().then((upProject) => {
+          //Notify Employee that Accout been Activated!
+          res.json({
+            message: `Dear ${employeeToUpdate.employeeName} your account for HourManager App was successfully activated! You will recieve further instructions to your e-mail. See you soon..`,
+          });
+          //Send Email to New Employee
+          const data = {
+            type: "ACTIVATION",
+            name: employeeToUpdate.employeeName,
+            email: employeeToUpdate.employeeEmail,
+            companyName: employeeToUpdate.companyName,
+            projectID: upEmployee.projectID,
+            id: upEmployee._id,
+            code: upEmployee.code,
+          };
+          sendMail(data, (cb) => {
+            if (cb.infoMessageid) {
+              console.log(
+                "New Employee received instruction after activation thier account"
+              );
+              //Send Email to Notify Manager of the Current Project
+            }
+          });
+        });
+      });
+    });
+  });
+});
 
 //Get Selected Employee
 //Private Route

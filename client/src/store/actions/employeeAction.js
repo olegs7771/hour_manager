@@ -130,6 +130,10 @@ export const activEmp = (data) => (dispatch) => {
       });
     })
     .catch((err) => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      });
       console.log("error activate :", err.response.data);
     });
 };
