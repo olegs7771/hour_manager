@@ -57,9 +57,7 @@ if (process.env.NODE_ENV === "production") {
 
   app.get("*", (req, res) => {
     res.setHeader("set-cookie", ["SameSite=Strict;SameSite=Strict"]);
-    res.sendFile(
-      path.resolve(__dirname, "client", "build", "index.html", "views")
-    );
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
   // app.use(express.static(path.join(__dirname, "public")));
 }
