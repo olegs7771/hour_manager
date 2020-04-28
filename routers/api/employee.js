@@ -381,7 +381,7 @@ router.post("/employee_login", (req, res) => {
 });
 
 // Test ejs response
-router.get("/ejsTest", (req, res) => {
+router.get("/ejs", (req, res) => {
   console.log("query", req.query);
   const uid = req.query.uid;
   res.render("employeeActivation.ejs", {
