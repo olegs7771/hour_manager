@@ -201,11 +201,7 @@ router.get("/activate", (req, res) => {
         });
         //       console.log("employeeToUpdate", employeeToUpdate);
         if (employeeToUpdate.confirmed === true) {
-          res.render("employeeExists.ejs", {
-            data: {
-              employeeName: employee.name,
-            },
-          });
+          // Send Notify Employee then Account alredy Activated
         }
         //Update Activated Employee
 
@@ -213,12 +209,7 @@ router.get("/activate", (req, res) => {
 
         project.save().then((upProject) => {
           //Here Render EJS File employeeActivation.ejs
-          res.render("employeeActivation.ejs", {
-            data: {
-              employeeName: employee.name,
-            },
-          });
-
+          //Notify Employee that Accout been Activated!
           //Send Email to New Employee
 
           const data = {
