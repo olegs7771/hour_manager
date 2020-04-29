@@ -1,4 +1,4 @@
-const htmlBody = data => {
+const htmlBody = (data) => {
   const { type } = data;
   let html;
 
@@ -24,8 +24,9 @@ const htmlBody = data => {
         "</head><body><div>" +
         "<h3>New User have been registered as temp user :</h3>" +
         `</br>` +
-        ` <p>Name : ${data.uname[0].toLocaleUpperCase() +
-          data.uname.slice(1)} .</p>` +
+        ` <p>Name : ${
+          data.uname[0].toLocaleUpperCase() + data.uname.slice(1)
+        } .</p>` +
         `</br>` +
         ` <p>Email : ${data.uemail} .</p>` +
         `</br>` +
@@ -46,8 +47,9 @@ const htmlBody = data => {
         "</head><body><div>" +
         "<h3>Admin Permission has been Granted.</h3>" +
         `</br>` +
-        ` <span>Dear ${data.uname[0].toLocaleUpperCase() +
-          data.uname.slice(1)} .</span>` +
+        ` <span>Dear ${
+          data.uname[0].toLocaleUpperCase() + data.uname.slice(1)
+        } .</span>` +
         ` ` +
         `We are pleased to inform you as from now you can ` +
         `<a href=${data.url}>Login</a> 
@@ -68,10 +70,9 @@ const htmlBody = data => {
         `<h2>New employee welcome email</h2>` +
         `<h3 >Welcome to ${data.companyName}</h3>` +
         `</br>` +
-        ` <p>Dear ${data.employeeName[0].toLocaleUpperCase() +
-          data.employeeName.slice(
-            1
-          )} We are all really excited to welcome you to our team!.</p>` +
+        ` <p>Dear ${
+          data.employeeName[0].toLocaleUpperCase() + data.employeeName.slice(1)
+        } We are all really excited to welcome you to our team!.</p>` +
         `<p>As agreed, your start date is ${data.started} as a ${data.func} .</p>` +
         `<p> At ${data.companyName} we use HourManager App for the  convenient and efficient workforce managment   </p>` +
         `<p> In order to use HourManager App please  <a href=${data.url}>activate</a>  your account ` +
@@ -87,8 +88,7 @@ const htmlBody = data => {
         "</head><body><div>" +
         '<img src="http://evokebeautysalon1.herokuapp.com/main/img/logo.png" alt="" width="160">' +
         ` <p>Dear ${data.name}. The HourManager App has been activated.</p>` +
-        ` <p>Please download HourManager app and login with   this secret code :${data.code} </p>` +
-        `<p> and your Email :${data.email}</p>` +
+        ` <p>Please download HourManager app and login with your Email ${data.email}  and secret code :${data.code} </p>` +
         "<p>See You Soon.</p>";
       "</div></body></html>";
       break;

@@ -187,6 +187,22 @@ router.post("/activate", (req, res) => {
     employee.confirmed = true;
     employee.save().then((upEmployee) => {
       console.log("upEmployee", upEmployee);
+      //Send Email to New Employee
+      const data = {
+        type: "ACTIVATION",
+        name: upEmployee.name,
+        email: upEmployee.email,
+        code: upEmployee.code,
+      };
+      sendMail(data, (cb) => {
+        if (cb.infoMessageid) {
+          console.log(
+            "New Employee received instruction after activation his/her account"
+          );
+          //Send Email to Notify Manager of the Current Project
+        }
+      });
+
       //     //Update in Project.staff[] employee confirmed:true
       Project.findById(req.body.projectID).then((project) => {
         if (!project) {
@@ -208,24 +224,6 @@ router.post("/activate", (req, res) => {
           //Notify Employee that Accout been Activated!
           res.json({
             message: `Dear ${employeeToUpdate.employeeName} your account for HourManager App was successfully activated! You will recieve further instructions to your e-mail. See you soon..`,
-          });
-          //Send Email to New Employee
-          const data = {
-            type: "ACTIVATION",
-            name: employeeToUpdate.employeeName,
-            email: employeeToUpdate.employeeEmail,
-            companyName: employeeToUpdate.companyName,
-            projectID: upEmployee.projectID,
-            id: upEmployee._id,
-            code: upEmployee.code,
-          };
-          sendMail(data, (cb) => {
-            if (cb.infoMessageid) {
-              console.log(
-                "New Employee received instruction after activation thier account"
-              );
-              //Send Email to Notify Manager of the Current Project
-            }
           });
         });
       });
