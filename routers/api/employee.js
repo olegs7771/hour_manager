@@ -182,10 +182,10 @@ router.post("/activate", async (req, res) => {
   }
 
   // //Create random code
-  const ranNum = Math.random() * 10000000;
-  employee.code = Math.trunc(ranNum);
+
+  employee.code = Math.trunc(Math.random() * 10000000);
   employee.confirmed = true;
-  employee.save().then(async (upEmployee) => {
+  employee.save().then((upEmployee) => {
     console.log("upEmployee", upEmployee);
     //Send Email to New Employee
     const data = {
@@ -204,20 +204,22 @@ router.post("/activate", async (req, res) => {
     });
 
     //     //Update in Project.staff[] employee confirmed:true
-    const project = await Project.findById(req.body.projectID);
-    if (!project) {
-      return res.status(400).json({ error: "Can not find project" });
-    }
-    //       //Find eployee in project.staff[]
-    const employeeToUpdate = project.staff.find((item) => {
-      return item.employeeEmail === upEmployee.email;
-    });
-    //       console.log("employeeToUpdate", employeeToUpdate);
-    if (employeeToUpdate.confirmed === true) {
-      return res
-        .status(400)
-        .json({ error: "This Account Already been Activated" });
-    }
+    Project.findById(req.body.projectID),
+      then((project) => {
+        if (!project) {
+          return res.status(400).json({ error: "Can not find project" });
+        }
+        //       //Find eployee in project.staff[]
+        const employeeToUpdate = project.staff.find((item) => {
+          return item.employeeEmail === upEmployee.email;
+        });
+        //       console.log("employeeToUpdate", employeeToUpdate);
+        if (employeeToUpdate.confirmed === true) {
+          return res
+            .status(400)
+            .json({ error: "This Account Already been Activated" });
+        }
+      });
     //Update Activated Employee
     employeeToUpdate.confirmed = true;
     project.save().then((upProject) => {
