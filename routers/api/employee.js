@@ -170,11 +170,11 @@ router.post(
 );
 
 //Activation of New Employee from Mail Link with Params
-router.post("/activate", (req, res) => {
+router.post("/activate", async (req, res) => {
   console.log("req.body", req.body);
 
   //   // // // //Confirm Employee =>  update employee.confirmed=true,code:random number
-  Employee.findById(req.body.uid).then((employee) => {
+  await Employee.findById(req.body.uid).then((employee) => {
     console.log("employee", employee);
     if (!employee) {
       res
@@ -220,7 +220,7 @@ router.post("/activate", (req, res) => {
       email: employee.email,
       code: Math.trunc(ranNum),
     };
-    return sendMail(data, (cb) => {
+    sendMail(data, (cb) => {
       if (cb.infoMessageid) {
         console.log(
           "New Employee received instruction after activation his/her account"
