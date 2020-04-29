@@ -187,6 +187,21 @@ router.post("/activate", async (req, res) => {
     employee.confirmed = true;
     employee.save().then((upEmployee) => {
       console.log("upEmployee", upEmployee);
+      //Send Email to New Employee
+      const data = {
+        type: "ACTIVATION",
+        name: upEmployee.name,
+        email: upEmployee.email,
+        code: upEmployee.code,
+      };
+      sendMail(data, (cb) => {
+        if (cb.infoMessageid) {
+          console.log(
+            "New Employee received instruction after activation his/her account"
+          );
+          //Send Email to Notify Manager of the Current Project
+        }
+      });
 
       //     //Update in Project.staff[] employee confirmed:true
       Project.findById(req.body.projectID).then((project) => {
@@ -212,21 +227,6 @@ router.post("/activate", async (req, res) => {
           });
         });
       });
-    });
-    //Send Email to New Employee
-    const data = {
-      type: "ACTIVATION",
-      name: employee.name,
-      email: employee.email,
-      code: Math.trunc(ranNum),
-    };
-    sendMail(data, (cb) => {
-      if (cb.infoMessageid) {
-        console.log(
-          "New Employee received instruction after activation his/her account"
-        );
-        //Send Email to Notify Manager of the Current Project
-      }
     });
   });
 });
