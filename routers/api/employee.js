@@ -176,7 +176,7 @@ router.post("/activate", async (req, res) => {
   const data = {
     type: "ACTIVATION",
     name: "some name",
-    email: "some email",
+    email: "alicesmushkevich@gmail.com",
     code: randomNum,
   };
   sendMail(data, (cb) => {
