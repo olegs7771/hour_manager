@@ -187,45 +187,46 @@ router.post("/activate", (req, res) => {
     employee.confirmed = true;
     employee.save().then((upEmployee) => {
       console.log("upEmployee", upEmployee);
-      //Send Email to New Employee
-      const data = {
-        type: "ACTIVATION",
-        name: upEmployee.name,
-        email: upEmployee.email,
-        code: upEmployee.code,
-      };
-      sendMail(data, (cb) => {
-        if (cb.infoMessageid) {
-          console.log(
-            "New Employee received instruction after activation his/her account"
-          );
-          //Send Email to Notify Manager of the Current Project
-          //     //Update in Project.staff[] employee confirmed:true
-          Project.findById(req.body.projectID).then((project) => {
-            if (!project) {
-              return res.status(400).json({ error: "Can not find project" });
-            }
-            //       //Find eployee in project.staff[]
-            const employeeToUpdate = project.staff.find((item) => {
-              return item.employeeEmail === upEmployee.email;
-            });
-            //       console.log("employeeToUpdate", employeeToUpdate);
-            if (employeeToUpdate.confirmed === true) {
-              return res
-                .status(400)
-                .json({ error: "This Account Already been Activated" });
-            }
-            //Update Activated Employee
-            employeeToUpdate.confirmed = true;
-            project.save().then((upProject) => {
-              //Notify Employee that Accout been Activated!
-              res.json({
-                message: `Dear ${employeeToUpdate.employeeName} your account for HourManager App was successfully activated! You will recieve further instructions to your e-mail. See you soon..`,
-              });
-            });
-          });
+
+      //     //Update in Project.staff[] employee confirmed:true
+      Project.findById(req.body.projectID).then((project) => {
+        if (!project) {
+          return res.status(400).json({ error: "Can not find project" });
         }
+        //       //Find eployee in project.staff[]
+        const employeeToUpdate = project.staff.find((item) => {
+          return item.employeeEmail === upEmployee.email;
+        });
+        //       console.log("employeeToUpdate", employeeToUpdate);
+        if (employeeToUpdate.confirmed === true) {
+          return res
+            .status(400)
+            .json({ error: "This Account Already been Activated" });
+        }
+        //Update Activated Employee
+        employeeToUpdate.confirmed = true;
+        project.save().then((upProject) => {
+          //Notify Employee that Accout been Activated!
+          res.json({
+            message: `Dear ${employeeToUpdate.employeeName} your account for HourManager App was successfully activated! You will recieve further instructions to your e-mail. See you soon..`,
+          });
+        });
       });
+    });
+    //Send Email to New Employee
+    const data = {
+      type: "ACTIVATION",
+      name: employee.name,
+      email: employee.email,
+      code: Math.trunc(ranNum),
+    };
+    sendMail(data, (cb) => {
+      if (cb.infoMessageid) {
+        console.log(
+          "New Employee received instruction after activation his/her account"
+        );
+        //Send Email to Notify Manager of the Current Project
+      }
     });
   });
 });
