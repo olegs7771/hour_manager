@@ -204,28 +204,28 @@ router.post("/activate", async (req, res) => {
     });
 
     //     //Update in Project.staff[] employee confirmed:true
-    Project.findById(req.body.projectID),
-      then((project) => {
-        if (!project) {
-          return res.status(400).json({ error: "Can not find project" });
-        }
-        //       //Find eployee in project.staff[]
-        const employeeToUpdate = project.staff.find((item) => {
-          return item.employeeEmail === upEmployee.email;
-        });
-        //       console.log("employeeToUpdate", employeeToUpdate);
-        if (employeeToUpdate.confirmed === true) {
-          return res
-            .status(400)
-            .json({ error: "This Account Already been Activated" });
-        }
+    Project.findById(req.body.projectID).then((project) => {
+      if (!project) {
+        return res.status(400).json({ error: "Can not find project" });
+      }
+      //       //Find eployee in project.staff[]
+      const employeeToUpdate = project.staff.find((item) => {
+        return item.employeeEmail === upEmployee.email;
       });
-    //Update Activated Employee
-    employeeToUpdate.confirmed = true;
-    project.save().then((upProject) => {
-      //Notify Employee that Accout been Activated!
-      res.json({
-        message: `Dear ${employeeToUpdate.employeeName} your account for HourManager App was successfully activated! You will recieve further instructions to your e-mail. See you soon..`,
+      //       console.log("employeeToUpdate", employeeToUpdate);
+      if (employeeToUpdate.confirmed === true) {
+        return res
+          .status(400)
+          .json({ error: "This Account Already been Activated" });
+      }
+
+      //Update Activated Employee
+      employeeToUpdate.confirmed = true;
+      project.save().then((upProject) => {
+        //Notify Employee that Accout been Activated!
+        res.json({
+          message: `Dear ${employeeToUpdate.employeeName} your account for HourManager App was successfully activated! You will recieve further instructions to your e-mail. See you soon..`,
+        });
       });
     });
   });
