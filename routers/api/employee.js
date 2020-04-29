@@ -220,7 +220,7 @@ router.post("/activate", (req, res) => {
       email: employee.email,
       code: Math.trunc(ranNum),
     };
-    sendMail(data, (cb) => {
+    return sendMail(data, (cb) => {
       if (cb.infoMessageid) {
         console.log(
           "New Employee received instruction after activation his/her account"
