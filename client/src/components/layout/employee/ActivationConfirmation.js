@@ -4,21 +4,16 @@ import { activEmp } from "../../../store/actions/employeeAction";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 
 class ActivationConfirmation extends Component {
-  constructor(props) {
-    super(props);
-    this._activate();
-    this.state = {
-      message: null,
-      error: null,
-      loading: true,
-    };
-  }
-
-  _activate = () => {
-    const { uid, projectID } = this.props.match.params;
-
-    this.props.activEmp({ uid, projectID });
+  state = {
+    message: null,
+    error: null,
+    loading: true,
   };
+
+  componentDidMount() {
+    const { uid, projectID } = this.props.match.params;
+    this.props.activEmp({ uid, projectID });
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.message !== this.props.message) {
