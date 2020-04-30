@@ -175,24 +175,18 @@ router.post("/activate", async (req, res) => {
   const randomNum = Math.trunc(Math.random() * 10000000);
 
   //   // // // //Confirm Employee =>  update employee.confirmed=true,code:random number
-  const employee = await Employee.findById(req.body.uid);
-  if (!employee) {
-    res
-      .status(400)
-      .json({ error: "No such employee. Please contact administrator" });
-  }
-  // //Create random code
-
-  employee.code = randomNum;
-  employee.confirmed = true;
-  employee.save().then(() => {
-    console.log("upEmployee", upEmployee);
+  const filter = { _id: req.body.uid };
+  const update = { confirmed: true, code: randomNum };
+  const employee = await Employee.findOneAndUpdate(filter, update, {
+    new: true,
+  });
+  if (employee) {
     //Send Email to New Employee
     const data = {
       type: "ACTIVATION",
       name: employee.name,
       email: employee.email,
-      code: randomNum,
+      code: employee.code,
     };
     sendMail(data, (cb) => {
       if (cb.infoMessageid) {
@@ -210,7 +204,7 @@ router.post("/activate", async (req, res) => {
       }
       //       //Find eployee in project.staff[]
       const employeeToUpdate = project.staff.find((item) => {
-        return item.employeeEmail === upEmployee.email;
+        return item.employeeEmail === employee.email;
       });
       //       console.log("employeeToUpdate", employeeToUpdate);
       if (employeeToUpdate.confirmed === true) {
@@ -228,7 +222,9 @@ router.post("/activate", async (req, res) => {
         });
       });
     });
-  });
+  } else {
+    res.status(500).json({ error: "No such Employee!" });
+  }
 });
 
 //Get Selected Employee
