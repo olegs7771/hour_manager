@@ -189,36 +189,37 @@ router.post("/activate", async (req, res) => {
       code: employee.code,
     };
     sendMail(data, (cb) => {
-      if (cb.infoMessageid) {
-        console.log(
-          "New Employee received instruction after activation his/her account"
-        );
-        //Send Email to Notify Manager of the Current Project
+      if (!cb.infoMessageid) {
+        return res.status(400).json({ error: "Can't send Email" });
       }
-    });
+      console.log(
+        "New Employee received instruction after activation his/her account"
+      );
+      //Send Email to Notify Manager of the Current Project
 
-    //     //Update in Project.staff[] employee confirmed:true
-    Project.findById(req.body.projectID).then((project) => {
-      if (!project) {
-        return res.status(400).json({ error: "Can not find project" });
-      }
-      //       //Find eployee in project.staff[]
-      const employeeToUpdate = project.staff.find((item) => {
-        return item.employeeEmail === employee.email;
-      });
-      //       console.log("employeeToUpdate", employeeToUpdate);
-      if (employeeToUpdate.confirmed === true) {
-        return res
-          .status(400)
-          .json({ error: "This Account Already been Activated" });
-      }
+      //     //Update in Project.staff[] employee confirmed:true
+      Project.findById(req.body.projectID).then((project) => {
+        if (!project) {
+          return res.status(400).json({ error: "Can not find project" });
+        }
+        //       //Find eployee in project.staff[]
+        const employeeToUpdate = project.staff.find((item) => {
+          return item.employeeEmail === employee.email;
+        });
+        //       console.log("employeeToUpdate", employeeToUpdate);
+        if (employeeToUpdate.confirmed === true) {
+          return res
+            .status(400)
+            .json({ error: "This Account Already been Activated" });
+        }
 
-      //Update Activated Employee
-      employeeToUpdate.confirmed = true;
-      project.save().then((upProject) => {
-        //Notify Employee that Accout been Activated!
-        res.json({
-          message: `Dear ${employeeToUpdate.employeeName} your account for HourManager App was successfully activated! You will recieve further instructions to your e-mail. See you soon..`,
+        //Update Activated Employee
+        employeeToUpdate.confirmed = true;
+        project.save().then((upProject) => {
+          //Notify Employee that Accout been Activated!
+          res.json({
+            message: `Dear ${employeeToUpdate.employeeName} your account for HourManager App was successfully activated! You will recieve further instructions to your e-mail. See you soon..`,
+          });
         });
       });
     });
