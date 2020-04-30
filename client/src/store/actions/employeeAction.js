@@ -114,7 +114,7 @@ export const activEmp = (data) => (dispatch) => {
   console.log("data activ", data);
   dispatch(loading());
   axios
-    .post("/api/employee/activate2", data)
+    .post("/api/employee/activate", data)
     .then((res) => {
       console.log("res.data", res.data);
       if (res.data.message) {

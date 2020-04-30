@@ -130,16 +130,12 @@ class App extends Component {
                 path="/confirm/:id/:token"
                 component={SuccessMessage}
               />
-              {/* <Route
+              <Route
                 exact
                 path="/activate/:uid/:projectID/"
                 component={ActivationConfirmation}
-              /> */}
-              <Route
-                exact
-                path="/activate"
-                component={ActivationConfirmation}
               />
+
               <Route
                 exact
                 path="/admin/:token/:access"
