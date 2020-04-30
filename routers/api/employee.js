@@ -184,75 +184,76 @@ router.post("/activate2", (req, res) => {
       //Send Email to Notify Manager of the Current Project
     }
   });
+  res.json({ message: "Sent email!" });
 });
 
 //Activation of New Employee from Mail Link with Params
-router.post("/activate", async (req, res) => {
-  console.log("req.body", req.body);
-  const randomNum = Math.trunc(Math.random() * 10000000);
-  const data = {
-    type: "ACTIVATION",
-    name: "some name",
-    email: "alicesmushkevich@gmail.com",
-    code: randomNum,
-  };
-  sendMail(data, (cb) => {
-    if (cb.infoMessageid) {
-      console.log(
-        "New Employee received instruction after activation his/her account"
-      );
-      //Send Email to Notify Manager of the Current Project
-    }
-  });
+// router.post("/activate", async (req, res) => {
+//   console.log("req.body", req.body);
+//   const randomNum = Math.trunc(Math.random() * 10000000);
+//   const data = {
+//     type: "ACTIVATION",
+//     name: "some name",
+//     email: "alicesmushkevich@gmail.com",
+//     code: randomNum,
+//   };
+//   sendMail(data, (cb) => {
+//     if (cb.infoMessageid) {
+//       console.log(
+//         "New Employee received instruction after activation his/her account"
+//       );
+//       //Send Email to Notify Manager of the Current Project
+//     }
+//   });
 
-  //   // // // //Confirm Employee =>  update employee.confirmed=true,code:random number
-  // const employee = await Employee.findById(req.body.uid);
-  // if (!employee) {
-  //   res
-  //     .status(400)
-  //     .json({ error: "No such employee. Please contact administrator" });
-  // }
-  // // //Create random code
+//   // // // //Confirm Employee =>  update employee.confirmed=true,code:random number
+// const employee = await Employee.findById(req.body.uid);
+// if (!employee) {
+//   res
+//     .status(400)
+//     .json({ error: "No such employee. Please contact administrator" });
+// }
+// // //Create random code
 
-  // employee.code = randomNum;
-  // employee.confirmed = true;
-  // employee.save().then((upEmployee) => {
-  //   console.log("upEmployee", upEmployee);
-  //   //Send Email to New Employee
-  //   // const data = {
-  //   //   type: "ACTIVATION",
-  //   //   name: upEmployee.name,
-  //   //   email: upEmployee.email,
-  //   //   code: upEmployee.code,
-  //   // };
+// employee.code = randomNum;
+// employee.confirmed = true;
+// employee.save().then((upEmployee) => {
+//   console.log("upEmployee", upEmployee);
+//   //Send Email to New Employee
+//   // const data = {
+//   //   type: "ACTIVATION",
+//   //   name: upEmployee.name,
+//   //   email: upEmployee.email,
+//   //   code: upEmployee.code,
+//   // };
 
-  //   //     //Update in Project.staff[] employee confirmed:true
-  //   Project.findById(req.body.projectID).then((project) => {
-  //     if (!project) {
-  //       return res.status(400).json({ error: "Can not find project" });
-  //     }
-  //     //       //Find eployee in project.staff[]
-  //     const employeeToUpdate = project.staff.find((item) => {
-  //       return item.employeeEmail === upEmployee.email;
-  //     });
-  //     //       console.log("employeeToUpdate", employeeToUpdate);
-  //     if (employeeToUpdate.confirmed === true) {
-  //       return res
-  //         .status(400)
-  //         .json({ error: "This Account Already been Activated" });
-  //     }
+//   //     //Update in Project.staff[] employee confirmed:true
+//   Project.findById(req.body.projectID).then((project) => {
+//     if (!project) {
+//       return res.status(400).json({ error: "Can not find project" });
+//     }
+//     //       //Find eployee in project.staff[]
+//     const employeeToUpdate = project.staff.find((item) => {
+//       return item.employeeEmail === upEmployee.email;
+//     });
+//     //       console.log("employeeToUpdate", employeeToUpdate);
+//     if (employeeToUpdate.confirmed === true) {
+//       return res
+//         .status(400)
+//         .json({ error: "This Account Already been Activated" });
+//     }
 
-  //     //Update Activated Employee
-  //     employeeToUpdate.confirmed = true;
-  //     project.save().then((upProject) => {
-  //       //Notify Employee that Accout been Activated!
-  //       res.json({
-  //         message: `Dear ${employeeToUpdate.employeeName} your account for HourManager App was successfully activated! You will recieve further instructions to your e-mail. See you soon..`,
-  //       });
-  //     });
-  //   });
-  // });
-});
+//     //Update Activated Employee
+//     employeeToUpdate.confirmed = true;
+//     project.save().then((upProject) => {
+//       //Notify Employee that Accout been Activated!
+//       res.json({
+//         message: `Dear ${employeeToUpdate.employeeName} your account for HourManager App was successfully activated! You will recieve further instructions to your e-mail. See you soon..`,
+//       });
+//     });
+//   });
+// });
+// });
 
 //Get Selected Employee
 //Private Route
