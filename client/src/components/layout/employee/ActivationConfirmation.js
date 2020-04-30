@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { activEmp } from "../../../store/actions/employeeAction";
+import { activEmp, sendEmail } from "../../../store/actions/employeeAction";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 
 class ActivationConfirmation extends Component {
@@ -23,6 +23,17 @@ class ActivationConfirmation extends Component {
         message: this.props.message ? this.props.message : null,
         loading: false,
       });
+    }
+    if (prevProps.activatedEmployee !== this.props.activatedEmployee) {
+      if (this.props.activatedEmployee) {
+        const payload = {
+          name: this.props.activatedEmployee.name,
+          code: this.props.activatedEmployee.code,
+          email: this.props.activatedEmployee.email,
+        };
+
+        this.props.sendEmail(payload);
+      }
     }
     if (prevProps.error !== this.props.error) {
       this.setState({
@@ -71,8 +82,11 @@ class ActivationConfirmation extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  message: state.messages.messages.message,
+  message: state.messages.messages,
   error: state.errors.errors.error,
+  activatedEmployee: state.employees.activatedEmployee,
 });
 
-export default connect(mapStateToProps, { activEmp })(ActivationConfirmation);
+export default connect(mapStateToProps, { activEmp, sendEmail })(
+  ActivationConfirmation
+);

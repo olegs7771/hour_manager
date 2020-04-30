@@ -121,12 +121,12 @@ export const activEmp = (data) => (dispatch) => {
         console.log("res.data message", res.data.message);
         dispatch({
           type: GET_MESSAGE,
-          payload: res.data,
+          payload: res.data.message,
         });
       }
       dispatch({
         type: ACTIVATION_EMPLOYEE,
-        payload: res.data,
+        payload: res.data.employee,
       });
     })
     .catch((err) => {
@@ -135,6 +135,19 @@ export const activEmp = (data) => (dispatch) => {
         payload: err.response.data,
       });
       console.log("error activate :", err.response.data);
+    });
+};
+
+//Send Email to Employee with Code And Email after activation
+export const sendEmail = (data) => (dispatch) => {
+  console.log("data in sendEmail", data);
+  axios
+    .post("/api/employee/sendEmail", data)
+    .then((res) => {
+      console.log("res.data", res.data);
+    })
+    .catch((err) => {
+      console.log("err:", err.response.data);
     });
 };
 

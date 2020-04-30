@@ -182,23 +182,6 @@ router.post("/activate", async (req, res) => {
   });
   console.log("upEmployee", upEmployee);
 
-  //Send Email to New upEmployee
-  // const data = {
-  //   type: "ACTIVATION",
-  //   name: upEmployee.name,
-  //   email: upEmployee.email,
-  //   code: upEmployee.code,
-  // };
-  // sendMail(data, (cb) => {
-  //   if (!cb.infoMessageid) {
-  //     return res.status(400).json({ error: "Can't send Email" });
-  //   }
-  //   console.log(
-  //     "New Employee received instruction after activation his/her account"
-  //   );
-  //   //Send Email to Notify Manager of the Current Project
-  // });
-
   //     //Update in Project.staff[] employee confirmed:true
   Project.findById(req.body.projectID).then((project) => {
     if (!project) {
@@ -221,10 +204,36 @@ router.post("/activate", async (req, res) => {
       //Notify Employee that Accout been Activated!
       res.json({
         message: `Dear ${employeeToUpdate.employeeName} your account for HourManager App was successfully activated! Please remember
-        your code [${upEmployee.code}] and E-mail [${upEmployee.email}]. You will need it for SignIn in HourManager App
+        your code [${upEmployee.code}] and E-mail [${upEmployee.email}]. You will need it for SignIn in HourManager App.
+        Please check email 
         `,
+        employee: {
+          name: employeeToUpdate.employeeName,
+          code: upEmployee.code,
+          email: upEmployee.email,
+        },
       });
     });
+  });
+});
+
+//After Activation Send Notification to Employee with Code and Email
+router.post("/sendEmail", (req, res) => {
+  console.log("req.body sendEmail", req.body);
+  //Send Email to New upEmployee
+  const data = {
+    type: "ACTIVATION",
+    name: req.body.name,
+    email: req.body.email,
+    code: req.body.code,
+  };
+  sendMail(data, (cb) => {
+    if (!cb.infoMessageid) {
+      return res.status(400).json({ error: "Can't send Email" });
+    }
+    console.log(
+      "New Employee received instruction after activation his/her account"
+    );
   });
 });
 
