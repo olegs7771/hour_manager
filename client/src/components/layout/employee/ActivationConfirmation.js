@@ -6,6 +6,7 @@ import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 class ActivationConfirmation extends Component {
   state = {
     message: null,
+
     error: null,
     loading: true,
   };
@@ -55,11 +56,13 @@ class ActivationConfirmation extends Component {
     if (this.state.message) {
       return (
         <div
-          className="my-4"
-          style={{ paddingTop: "10%", paddingBottom: "30%" }}
+          style={{
+            paddingTop: "10%",
+            paddingBottom: "30%",
+          }}
         >
-          <div className="text-center text-success h6">
-            {this.state.message}
+          <div className="p-4 rounded" style={{ backgroundColor: "#084f1b" }}>
+            <span className="text-left  text-white">{this.state.message}</span>
           </div>
         </div>
       );
