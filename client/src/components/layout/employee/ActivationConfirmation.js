@@ -10,8 +10,9 @@ class ActivationConfirmation extends Component {
     loading: true,
   };
 
-  componentDidMount() {
-    const { uid, projectID } = this.props.match.params;
+  async componentDidMount() {
+    const uid = await this.props.match.params;
+    const projectID = await this.props.match.params;
     this.props.activEmp({ uid, projectID });
   }
 
