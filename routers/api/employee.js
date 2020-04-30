@@ -177,54 +177,51 @@ router.post("/activate", async (req, res) => {
   //   // // // //Confirm Employee =>  update employee.confirmed=true,code:random number
   const filter = { _id: req.body.uid };
   const update = { confirmed: true, code: randomNum };
-  const employee = await Employee.findOneAndUpdate(filter, update, {
+  const upEmployee = await Employee.findOneAndUpdate(filter, update, {
     new: true,
   });
-  if (employee) {
-    //Send Email to New Employee
+  console.log("upEmployee", upEmployee);
+
+  if (upEmployee.code !== 0) {
+    //Send Email to New upEmployee
     const data = {
       type: "ACTIVATION",
-      name: employee.name,
-      email: employee.email,
-      code: employee.code,
+      name: upEmployee.name,
+      email: upEmployee.email,
+      code: upEmployee.code,
     };
     sendMail(data, (cb) => {
       if (!cb.infoMessageid) {
         return res.status(400).json({ error: "Can't send Email" });
       }
-      //Notify Employee that Accout been Activated!
-      res.json({
-        message: `Dear ${employee.name} your account for HourManager App was successfully activated! You will recieve further instructions to your e-mail. See you soon..`,
-      });
-
       console.log(
         "New Employee received instruction after activation his/her account"
       );
       //Send Email to Notify Manager of the Current Project
+    });
 
-      //     //Update in Project.staff[] employee confirmed:true
-      Project.findById(req.body.projectID).then((project) => {
-        if (!project) {
-          return res.status(400).json({ error: "Can not find project" });
-        }
-        //       //Find eployee in project.staff[]
-        const employeeToUpdate = project.staff.find((item) => {
-          return item.employeeEmail === employee.email;
-        });
-        //       console.log("employeeToUpdate", employeeToUpdate);
-        if (employeeToUpdate.confirmed === true) {
-          return res
-            .status(400)
-            .json({ error: "This Account Already been Activated" });
-        }
+    //     //Update in Project.staff[] employee confirmed:true
+    Project.findById(req.body.projectID).then((project) => {
+      if (!project) {
+        return res.status(400).json({ error: "Can not find project" });
+      }
+      //       //Find eployee in project.staff[]
+      const employeeToUpdate = project.staff.find((item) => {
+        return item.employeeEmail === upEmployee.email;
+      });
+      //       console.log("employeeToUpdate", employeeToUpdate);
+      if (employeeToUpdate.confirmed === true) {
+        return res
+          .status(400)
+          .json({ error: "This Account Already been Activated" });
+      }
 
-        //Update Activated Employee
-        employeeToUpdate.confirmed = true;
-        project.save().then((upProject) => {
-          // //Notify Employee that Accout been Activated!
-          // res.json({
-          //   message: `Dear ${employeeToUpdate.employeeName} your account for HourManager App was successfully activated! You will recieve further instructions to your e-mail. See you soon..`,
-          // });
+      //Update Activated Employee
+      employeeToUpdate.confirmed = true;
+      project.save().then((upProject) => {
+        //Notify Employee that Accout been Activated!
+        res.json({
+          message: `Dear ${employeeToUpdate.employeeName} your account for HourManager App was successfully activated! You will recieve further instructions to your e-mail. See you soon..`,
         });
       });
     });
