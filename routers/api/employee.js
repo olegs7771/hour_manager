@@ -25,10 +25,10 @@ router.post(
         if (!project) {
           return res.status(200).json({ message: "project not exists" });
         }
-        console.log("project found");
-        //Find Employee
-        Employee.findOne({ email: req.body.email })
-          .then((employee) => {
+        console.log("project found staff", project.staff);
+        project.staff.map((emp) => {
+          console.log("emp", emp);
+          if (emp.employeeEmail !== req.body.email) {
             const {
               projectID,
               name,
@@ -39,91 +39,90 @@ router.post(
               func,
             } = req.body;
 
-            if (employee) {
-              return res
-                .status(400)
-                .json({ error: "Employee with such email exists." });
-            } else {
-              console.log("employee not found");
-              //Create new Employee
-              new Employee({
-                projectID,
-                name,
-                email,
-                address,
-                phone,
-                started,
-                func,
-                confirmed: false,
-                code: 0,
-                token: "",
-              })
-                .save()
-                .then((newEmployee) => {
-                  console.log("newEmployee", newEmployee);
-                  //Create url for new Employee activation
-                  let URL;
-                  if (process.env.NODE_ENV === "production") {
-                    URL = `https://glacial-crag-30370.herokuapp.com/activate/${newEmployee._id}/${newEmployee.projectID}`;
-                  } else {
-                    URL = `http://localhost:3000/activate/${newEmployee._id}/${newEmployee.projectID}`;
-                  }
+            new Employee({
+              projectID,
+              name,
+              email,
+              address,
+              phone,
+              started,
+              func,
+              confirmed: false,
+              code: 0,
+              token: "",
+            })
+              .save()
+              .then((newEmployee) => {
+                console.log("newEmployee", newEmployee);
+                //           //Create url for new Employee activation
+                let URL;
+                if (process.env.NODE_ENV === "production") {
+                  URL = `https://glacial-crag-30370.herokuapp.com/activate/${newEmployee._id}/${newEmployee.projectID}`;
+                } else {
+                  URL = `http://localhost:3000/activate/${newEmployee._id}/${newEmployee.projectID}`;
+                }
+                //             //Update Project.stafF[]
+                Project.findById(newEmployee.projectID)
+                  .then((project) => {
+                    if (project) {
+                      project.staff.unshift({
+                        _id: newEmployee._id,
+                        employeeName: newEmployee.name,
+                        employeeEmail: newEmployee.email,
+                        employeePhone: newEmployee.phone,
+                        companyName: project.companyName,
+                        projectName: project.projectName,
+                        confirmed: false,
+                        started: newEmployee.started,
+                        address: newEmployee.address,
+                        func: newEmployee.func,
+                      });
+                      project.save().then((upProject) => {
+                        console.log("upProject", upProject);
 
-                  //Send Email To Newly Created Employee
-                  console.log("URL", URL);
-                  const data = {
-                    type: "NEW_EMPLOYEE_ADDED",
-                    projectID: newEmployee.projectID,
-                    employeeID: newEmployee._id,
-                    employeeName: newEmployee.name,
-                    email: newEmployee.email,
-                    employeePhone: newEmployee.phone,
-                    func: newEmployee.func,
-                    started: newEmployee.started,
-                    employeeDate: newEmployee.date,
-                    companyName: project.companyName,
-                    projectName: project.projectName,
-                    url: URL,
-                  };
-
-                  sendMail(data, (cb) => {
-                    if (!cb.infoMessageid) {
-                      return res
-                        .status(400)
-                        .json({ error: "Can't send Email" });
-                    }
-
-                    res.json({
-                      message:
-                        "The new Employee was added to your project. Message was send to new Employee's Email ",
-                    });
-                    //Update Project.stafF[]
-                    Project.findById(projectID).then((project) => {
-                      if (project) {
-                        project.staff.unshift({
-                          _id: newEmployee._id,
+                        //           //Send Email To Newly Created Employee
+                        //           console.log("URL", URL);
+                        const data = {
+                          type: "NEW_EMPLOYEE_ADDED",
+                          projectID: newEmployee.projectID,
+                          employeeID: newEmployee._id,
                           employeeName: newEmployee.name,
-                          employeeEmail: newEmployee.email,
+                          email: newEmployee.email,
                           employeePhone: newEmployee.phone,
+                          func: newEmployee.func,
+                          started: newEmployee.started,
+                          employeeDate: newEmployee.date,
                           companyName: project.companyName,
                           projectName: project.projectName,
-                          confirmed: false,
-                          started: newEmployee.started,
-                          address: newEmployee.address,
-                          func: newEmployee.func,
+                          url: URL,
+                        };
+
+                        sendMail(data, (cb) => {
+                          if (!cb.infoMessageid) {
+                            return res
+                              .status(400)
+                              .json({ error: "Can't send Email" });
+                          }
+
+                          res.json({
+                            message:
+                              "The new Employee was added to your project. Message was send to new Employee's Email ",
+                          });
                         });
-                        project.save().then((upProject) => {
-                          console.log("upProject", upProject);
-                        });
-                      }
-                    });
+                      });
+                    }
+                  })
+                  .catch((error) => {
+                    console.log("error to find project", error);
                   });
-                });
-            }
-          })
-          .catch((err) => {
-            return console.log("employee not found", err);
-          });
+              });
+          } else {
+            res.status(500).json({
+              error:
+                "Some Employee already have been registered with such an email address in this project",
+            });
+          }
+        });
       })
       .catch(() => {
         return res

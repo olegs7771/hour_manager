@@ -70,13 +70,6 @@ export class EmployeeAdd extends Component {
       func: this.state.func,
     };
     this.props.createEmployee(newEmployee);
-    // if (!isEmpty(this.state.errors)) {
-    //   setTimeout(() => {
-    //     this.props.history.push(
-    //       `/edit_project/${this.props.selectedProject._id}`
-    //     );
-    //   }, 4000);
-    // }
   };
 
   render() {
@@ -207,7 +200,11 @@ export class EmployeeAdd extends Component {
                     error={this.state.errors.started}
                   />
                   <div className="btn-group">
-                    <button type="submit" className="btn btn-outline-info">
+                    <button
+                      type="submit"
+                      className="btn btn-outline-info"
+                      disabled={this.state.messages}
+                    >
                       Save Employee
                     </button>
                     <button
