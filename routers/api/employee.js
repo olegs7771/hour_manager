@@ -185,14 +185,14 @@ router.post("/activate", async (req, res) => {
 
   employee.code = randomNum;
   employee.confirmed = true;
-  employee.save().then((upEmployee) => {
+  employee.save().then(() => {
     console.log("upEmployee", upEmployee);
     //Send Email to New Employee
     const data = {
       type: "ACTIVATION",
-      name: upEmployee.name,
-      email: upEmployee.email,
-      code: upEmployee.code,
+      name: employee.name,
+      email: employee.email,
+      code: randomNum,
     };
     sendMail(data, (cb) => {
       if (cb.infoMessageid) {
