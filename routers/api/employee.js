@@ -182,7 +182,7 @@ router.post("/activate", async (req, res) => {
   });
   console.log("upEmployee", upEmployee);
 
-  if (upEmployee.code !== 0) {
+  if (upEmployee.code > 0) {
     //Send Email to New upEmployee
     const data = {
       type: "ACTIVATION",
