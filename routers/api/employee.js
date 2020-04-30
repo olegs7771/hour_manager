@@ -169,6 +169,23 @@ router.post(
   }
 );
 
+router.post("/activate2", (req, res) => {
+  const data = {
+    type: "ACTIVATION",
+    name: "some name",
+    email: "alicesmushkevich@gmail.com",
+    code: 12345,
+  };
+  sendMail(data, (cb) => {
+    if (cb.infoMessageid) {
+      console.log(
+        "New Employee received instruction after activation his/her account"
+      );
+      //Send Email to Notify Manager of the Current Project
+    }
+  });
+});
+
 //Activation of New Employee from Mail Link with Params
 router.post("/activate", async (req, res) => {
   console.log("req.body", req.body);
