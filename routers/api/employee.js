@@ -192,6 +192,11 @@ router.post("/activate", async (req, res) => {
       if (!cb.infoMessageid) {
         return res.status(400).json({ error: "Can't send Email" });
       }
+      //Notify Employee that Accout been Activated!
+      res.json({
+        message: `Dear ${employee.name} your account for HourManager App was successfully activated! You will recieve further instructions to your e-mail. See you soon..`,
+      });
+
       console.log(
         "New Employee received instruction after activation his/her account"
       );
@@ -216,10 +221,10 @@ router.post("/activate", async (req, res) => {
         //Update Activated Employee
         employeeToUpdate.confirmed = true;
         project.save().then((upProject) => {
-          //Notify Employee that Accout been Activated!
-          res.json({
-            message: `Dear ${employeeToUpdate.employeeName} your account for HourManager App was successfully activated! You will recieve further instructions to your e-mail. See you soon..`,
-          });
+          // //Notify Employee that Accout been Activated!
+          // res.json({
+          //   message: `Dear ${employeeToUpdate.employeeName} your account for HourManager App was successfully activated! You will recieve further instructions to your e-mail. See you soon..`,
+          // });
         });
       });
     });
