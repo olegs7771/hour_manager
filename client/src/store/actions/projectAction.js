@@ -54,11 +54,11 @@ export const createProject = (data) => (dispatch) => {
 //Get Selected Project by ID
 export const getSelectedProject = (data) => (dispatch) => {
   dispatch(loading());
-  console.log("data", data);
+  // console.log("data", data);
   axios
     .post("/api/project/get_project", data)
     .then((res) => {
-      console.log("res.data", res.data);
+      // console.log("res.data", res.data);
       dispatch({
         type: GET_SELECTED_PROJECT,
         payload: res.data,

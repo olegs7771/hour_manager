@@ -17,117 +17,123 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const { errors, isValid } = validateEmployeeInput(req.body);
+    console.log("(req.body", req.body);
+
     if (!isValid) return res.status(400).json(errors);
     //Passed Validation
     //Find Project
-    Project.findById(req.body.projectID)
+    Project.findOne({ _id: req.body.projectID })
       .then((project) => {
         if (!project) {
           return res.status(200).json({ message: "project not exists" });
         }
         console.log("project found staff", project.staff);
-        project.staff.map((emp) => {
-          console.log("emp", emp);
-          if (emp.employeeEmail !== req.body.email) {
-            const {
-              projectID,
-              name,
-              email,
-              phone,
-              address,
-              started,
-              func,
-            } = req.body;
+        //Check if staff array  has  object with  employeeEmail=req.body.email
+        const isFound = project.staff.find((emp) => {
+          return emp.employeeEmail === req.body.email;
+        });
+        console.log("isFound", isFound);
+        if (isFound) {
+          return res.status(400).json({
+            error:
+              "The Employee with such E-Mail already exists in this project!",
+          });
+        }
+        console.log("No such Email!");
 
-            new Employee({
-              projectID,
-              name,
-              email,
-              address,
-              phone,
-              started,
-              func,
-              confirmed: false,
-              code: 0,
-              token: "",
-            })
-              .save()
-              .then((newEmployee) => {
-                console.log("newEmployee", newEmployee);
-                //           //Create url for new Employee activation
-                let URL;
-                if (process.env.NODE_ENV === "production") {
-                  URL = `https://glacial-crag-30370.herokuapp.com/activate/${newEmployee._id}/${newEmployee.projectID}`;
-                } else {
-                  URL = `http://localhost:3000/activate/${newEmployee._id}/${newEmployee.projectID}`;
-                }
-                //             //Update Project.stafF[]
-                Project.findById(newEmployee.projectID)
-                  .then((project) => {
-                    if (project) {
-                      project.staff.unshift({
-                        _id: newEmployee._id,
+        const {
+          projectID,
+          name,
+          email,
+          phone,
+          address,
+          started,
+          func,
+        } = req.body;
+        new Employee({
+          projectID,
+          name,
+          email,
+          address,
+          phone,
+          started,
+          func,
+          confirmed: false,
+          code: 0,
+          token: "",
+        })
+          .save()
+          .then((newEmployee) => {
+            console.log("newEmployee");
+            //           //Create url for new Employee activation
+            let URL;
+            if (process.env.NODE_ENV === "production") {
+              URL = `https://glacial-crag-30370.herokuapp.com/activate/${newEmployee._id}/${newEmployee.projectID}`;
+            } else {
+              URL = `http://localhost:3000/activate/${newEmployee._id}/${newEmployee.projectID}`;
+            }
+            //             //Update Project.stafF[]
+            Project.findById(newEmployee.projectID)
+              .then((project) => {
+                if (project) {
+                  project.staff.unshift({
+                    _id: newEmployee._id,
+                    employeeName: newEmployee.name,
+                    employeeEmail: newEmployee.email,
+                    employeePhone: newEmployee.phone,
+                    companyName: project.companyName,
+                    projectName: project.projectName,
+                    confirmed: false,
+                    started: newEmployee.started,
+                    address: newEmployee.address,
+                    func: newEmployee.func,
+                  });
+                  project
+                    .save()
+                    .then((upProject) => {
+                      console.log("upProject inserted into staff arr");
+                      //           //Send Email To Newly Created Employee
+                      //           console.log("URL", URL);
+                      const data = {
+                        type: "NEW_EMPLOYEE_ADDED",
+                        projectID: newEmployee.projectID,
+                        employeeID: newEmployee._id,
                         employeeName: newEmployee.name,
-                        employeeEmail: newEmployee.email,
+                        email: newEmployee.email,
                         employeePhone: newEmployee.phone,
+                        func: newEmployee.func,
+                        started: newEmployee.started,
+                        employeeDate: newEmployee.date,
                         companyName: project.companyName,
                         projectName: project.projectName,
-                        confirmed: false,
-                        started: newEmployee.started,
-                        address: newEmployee.address,
-                        func: newEmployee.func,
-                      });
-                      project.save().then((upProject) => {
-                        console.log("upProject", upProject);
-
-                        //           //Send Email To Newly Created Employee
-                        //           console.log("URL", URL);
-                        const data = {
-                          type: "NEW_EMPLOYEE_ADDED",
-                          projectID: newEmployee.projectID,
-                          employeeID: newEmployee._id,
-                          employeeName: newEmployee.name,
-                          email: newEmployee.email,
-                          employeePhone: newEmployee.phone,
-                          func: newEmployee.func,
-                          started: newEmployee.started,
-                          employeeDate: newEmployee.date,
-                          companyName: project.companyName,
-                          projectName: project.projectName,
-                          url: URL,
-                        };
-
-                        sendMail(data, (cb) => {
-                          if (!cb.infoMessageid) {
-                            return res
-                              .status(400)
-                              .json({ error: "Can't send Email" });
-                          }
-
-                          res.json({
-                            message:
-                              "The new Employee was added to your project. Message was send to new Employee's Email ",
-                          });
+                        url: URL,
+                      };
+                      sendMail(data, (cb) => {
+                        if (!cb.infoMessageid) {
+                          return res
+                            .status(400)
+                            .json({ error: "Can't send Email" });
+                        }
+                        res.json({
+                          message:
+                            "The new Employee was added to your project. Message was send to new Employee's Email ",
                         });
                       });
-                    }
-                  })
-                  .catch((error) => {
-                    console.log("error to find project", error);
-                  });
+                    })
+                    .catch((err) => {
+                      console.log("error to save upProject", err);
+                    });
+                }
+              })
+              .catch((error) => {
+                console.log("error to find project", error);
               });
-          } else {
-            res.status(500).json({
-              error:
-                "Some Employee already have been registered with such an email address in this project",
-            });
-          }
-        });
+          });
       })
-      .catch(() => {
-        return res
-          .status(400)
-          .json({ error: "Can not find Project with given ID" });
+      .catch((err) => {
+        console.log("err :", err);
+
+        return res.status(400).json({ error: "Error occured to find project" });
       });
   }
 );
@@ -156,7 +162,7 @@ router.post(
             project.staff = upStaff;
             project.save().then((upProject) => {
               res.status(200).json({
-                message: ` An Employee ${removed.name} which was registered by  email :${removed.email} was successfully deleted.`,
+                message: ` An Employee ${removed.name} which was registered by  email [${removed.email}] was successfully deleted.`,
               });
             });
           });

@@ -28,6 +28,8 @@ export const getAllEmployees = (data) => (dispatch) => {
 
 //Create New Employee
 export const createEmployee = (data) => (dispatch) => {
+  console.log("data in create employee", data);
+
   dispatch(loading());
   axios
     .post("/api/employee/create", data)

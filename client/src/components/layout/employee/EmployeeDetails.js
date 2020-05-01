@@ -134,8 +134,10 @@ export class EmployeeDetails extends Component {
           className="my-4"
           style={{ paddingTop: "10%", paddingBottom: "50%" }}
         >
-          <div className="text-center h6 text-success">
-            {this.state.messages.message}
+          <div className="rounded p-4" style={{ backgroundColor: "#023802" }}>
+            <span className="text-white text-center">
+              {this.state.messages.message}
+            </span>
           </div>
         </div>
       );
