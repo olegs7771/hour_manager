@@ -66,7 +66,7 @@ const htmlBody = (data) => {
         "<!DOCTYPE html>" +
         "<html><head><title>New employee welcome email</title>" +
         "</head><body><div>" +
-        '<img src="https://glacial-crag-30370.herokuapp.com/img/hourmanagerLogo.png" alt="" width="160">' +
+        '<img src="http://evokebeautysalon1.herokuapp.com/main/img/logo.png" alt="" width="160">' +
         `<h2>New employee welcome email</h2>` +
         `<h3 >Welcome to ${data.companyName}</h3>` +
         `</br>` +
@@ -86,7 +86,7 @@ const htmlBody = (data) => {
         "<!DOCTYPE html>" +
         "<html><head><title>Activation</title>" +
         "</head><body><div>" +
-        '<img src="https://glacial-crag-30370.herokuapp.com/img/hourmanagerLogo.png" alt="" width="160">' +
+        '<img src="http://evokebeautysalon1.herokuapp.com/main/img/logo.png" alt="" width="160">' +
         ` <p>Dear ${data.name}. The HourManager App has been activated.</p>` +
         ` <p>Please download HourManager app and login with your Email ${data.email}  and secret code :${data.code} </p>` +
         "<p>See You Soon.</p>";
