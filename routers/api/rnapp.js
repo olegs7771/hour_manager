@@ -25,7 +25,7 @@ router.post("/fetch_jobdays", (req, res) => {
 
 //Create Jobday CheckIn Automatic(by start&end buttons)
 router.post("/checkIn_automatic", (req, res) => {
-  console.log("req.body", req.body);
+  console.log("req.body checkIn_automatic", req.body);
   Employee.findOne({ token: req.body.token }).then((emp) => {
     if (!emp) {
       return res.status(400).json({ error: "Unauthorized!" });
@@ -74,14 +74,14 @@ router.post("/checkIn_automatic", (req, res) => {
 });
 //Create Jobday CheckOut Automatic(by start&end buttons)
 router.post("/checkOut_automatic", (req, res) => {
-  // console.log("req.body", req.body);
+  console.log("req.body checkOut_automatic", req.body);
   Employee.findOne({ token: req.body.token }).then((emp) => {
     if (!emp) {
       return res.status(400).json({ error: "Unauthorized!" });
     }
 
     //Create date parameter for dateFilter( 2020-04-10)
-    const dateParam = moment(req.body.timeStart).format("YYYY-MM-D");
+    const dateParam = moment(req.body.timeEnd).format("YYYY-MM-D");
 
     //validation passed!
     // res.json({ message: "Success!" });
