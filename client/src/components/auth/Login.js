@@ -13,25 +13,25 @@ export class Login extends Component {
     errors: {},
     messages: {},
     // submitDisabled: true,
-    loading: false
+    loading: false,
   };
 
-  _onChange = e => {
+  _onChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value.toLowerCase()
+      [e.target.name]: e.target.value.toLowerCase(),
     });
 
     this.setState({ errors: {} });
   };
 
-  _onSubmit = async e => {
+  _onSubmit = async (e) => {
     e.preventDefault();
 
     this.setState({ loading: true });
     const { email, password } = this.state;
     const data = {
       email,
-      password
+      password,
     };
     await this.props.loginUser(data, this.props.history);
   };
@@ -53,54 +53,64 @@ export class Login extends Component {
     return (
       <div className="div my-2">
         <div className="my3 text-center h3">SignIn</div>
-        <form onSubmit={this._onSubmit}>
-          <TextFormGroup
-            label="Email"
-            placeholder="brown@exemple.com"
-            onChange={this._onChange}
-            value={this.state.email}
-            name="email"
-            error={this.state.errors.email}
-            type="email"
-          />
+        <div className="my-3 border rounded p-5">
+          <form onSubmit={this._onSubmit}>
+            <TextFormGroup
+              label={
+                <span className="ml-3" style={{ fontWeight: "bold" }}>
+                  Email
+                </span>
+              }
+              placeholder="brown@exemple.com"
+              onChange={this._onChange}
+              value={this.state.email}
+              name="email"
+              error={this.state.errors.email}
+              type="email"
+            />
 
-          <TextFormGroup
-            label="Password"
-            placeholder="e.g. 6-10 chars"
-            onChange={this._onChange}
-            value={this.state.password}
-            name="password"
-            error={this.state.errors.password}
-            type="password"
-          />
-          {this.state.messages.message ? (
-            <div className="text-success mb-3">
-              {this.state.messages.message}
-            </div>
-          ) : null}
-          {this.state.errors.error ? (
-            <div className="text-danger mb-3">{this.state.errors.error}</div>
-          ) : null}
-          <DotLoaderSpinner loading={this.state.loading} />
+            <TextFormGroup
+              label={
+                <span className="ml-3" style={{ fontWeight: "bold" }}>
+                  Password
+                </span>
+              }
+              placeholder="e.g. 6-10 chars"
+              onChange={this._onChange}
+              value={this.state.password}
+              name="password"
+              error={this.state.errors.password}
+              type="password"
+            />
+            {this.state.messages.message ? (
+              <div className="text-success mb-3">
+                {this.state.messages.message}
+              </div>
+            ) : null}
+            {this.state.errors.error ? (
+              <div className="text-danger mb-3">{this.state.errors.error}</div>
+            ) : null}
+            <DotLoaderSpinner loading={this.state.loading} />
 
-          <button
-            type="submit"
-            // disabled={this.state.submitDisabled}
-            className="btn btn-outline-secondary  "
-          >
-            Submit
-          </button>
-        </form>
-        Not Registered yet? please press SingUp
+            <button
+              type="submit"
+              // disabled={this.state.submitDisabled}
+              className="btn btn-outline-secondary  "
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+        <div className="my-3 pl-4">Not Registered yet? please press SingUp</div>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
   errors: state.errors.errors,
-  messages: state.messages.messages
+  messages: state.messages.messages,
 });
 
 const mapDispatchToProps = { loginUser };
@@ -109,7 +119,7 @@ Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
-  messages: PropTypes.object.isRequired
+  messages: PropTypes.object.isRequired,
 };
 
 // export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));
