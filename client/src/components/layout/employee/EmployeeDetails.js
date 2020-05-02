@@ -57,6 +57,10 @@ export class EmployeeDetails extends Component {
       showMonth: childData.showMonth,
     });
   };
+  //Comes from Jobday.js when user clicks view button
+  _showDateChild = (state) => {
+    this.setState({ showDay: state });
+  };
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.email !== this.state.email) {
@@ -238,6 +242,8 @@ export class EmployeeDetails extends Component {
                   <Jobday
                     employee={this.state.selectedEmployeeDetails}
                     showDay={this.state.showDay}
+                    //Show Day from child
+                    showDayChild={this._showDateChild}
                   />
                 </div>
               </div>

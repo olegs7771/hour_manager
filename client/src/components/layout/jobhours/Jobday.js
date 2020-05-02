@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import {
   managerConfirm,
   selectMonth,
+  selectDay,
 } from "../../../store/actions/jobdayAction";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 import moment from "moment";
@@ -37,7 +38,6 @@ class Jobday extends Component {
     loading: false,
     workDays: null,
     selectedDay: null,
-
     date: null,
     showDay: false,
   };
@@ -107,6 +107,18 @@ class Jobday extends Component {
   _cancelManConfirm = () => {
     console.log("cancel confirmation");
   };
+  //Use selectDay
+  _viewEmp = (e) => {
+    this.props.showDayChild(true);
+    console.log("e", e);
+    const payload = {
+      date: moment(e.date).format("YYYY-MM-DD"),
+      employeeID: e.employee,
+      projectID: e.projectID,
+    };
+    console.log("payload", payload);
+    this.props.selectDay(payload);
+  };
 
   render() {
     if (this.state.loading || this.state.selectedDay === null) {
@@ -134,15 +146,24 @@ class Jobday extends Component {
       return (
         //Here Whole Month
         <div className="my-3  ">
-          <table className="table table-bordered">
-            <thead>
+          <table className="table ">
+            <thead style={{ borderBottom: "none" }}>
               <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Start</th>
-                <th scope="col">End</th>
-                <th scope="col">
-                  <span className="small">Checked</span>
+                <th scope="col" style={{ borderBottom: "none" }}>
+                  Date
                 </th>
+                <th scope="col" style={{ borderBottom: "none" }}>
+                  Start
+                </th>
+                <th scope="col" style={{ borderBottom: "none" }}>
+                  End
+                </th>
+                <th scope="col" style={{ borderBottom: "none" }}>
+                  <span>Checked</span>
+                </th>
+                {/* <th scope="col">
+                  <span className="small">View</span>
+                </th> */}
               </tr>
             </thead>
 
@@ -150,11 +171,14 @@ class Jobday extends Component {
               {this.state.workDays.map((day, i) => (
                 <tr key={i}>
                   {/* {Date} */}
-                  <td className="d-flex justify-content-between">
+                  <td
+                    className="d-flex justify-content-between"
+                    style={{ borderBottom: "none" }}
+                  >
                     <span className="font-weight-bold text-info">
                       {moment(day.date).format("L ")}
                     </span>
-                    <span className="font-weight-bold">
+                    <span className="font-weight-bold ml-1">
                       {moment(day.date).format("ddd")}
                     </span>
                   </td>
@@ -220,6 +244,14 @@ class Jobday extends Component {
                       )}
                     </span>
                   </td>
+                  <td>
+                    <button
+                      className="btn btn-outline-secondary"
+                      onClick={this._viewEmp.bind(this, day)}
+                    >
+                      View
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -229,12 +261,20 @@ class Jobday extends Component {
     } else {
       return (
         //Show Single day
-        <div className="my-3 ">
-          <div className="my-2 text-center">
-            {moment(this.state.selectedDay.date).format("LL") +
-              " " +
-              moment(this.state.selectedDay.date).format("dddd")}
+        <div className="my-3 border">
+          <div className="row">
+            <div className="col-md-10">
+              <div className="my-2 text-center">
+                {moment(this.state.selectedDay.date).format("LL") +
+                  " " +
+                  moment(this.state.selectedDay.date).format("dddd")}
+              </div>
+            </div>
+            <div className="col-md-2">
+              <button className="btn btn-outline-secondary">X</button>
+            </div>
           </div>
+
           <div className="my-2 border p-3">
             <span className="ml-4" style={{ fontWeight: "bold" }}>
               {" "}
@@ -338,6 +378,8 @@ const mapStateToProps = (state) => ({
   hoursLimit: state.jobday.hoursLimit,
 });
 
-export default connect(mapStateToProps, { managerConfirm, selectMonth })(
-  Jobday
-);
+export default connect(mapStateToProps, {
+  managerConfirm,
+  selectMonth,
+  selectDay,
+})(Jobday);
