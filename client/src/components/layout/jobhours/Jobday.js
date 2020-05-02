@@ -104,6 +104,10 @@ class Jobday extends Component {
     this.props.managerConfirm(payload);
   };
 
+  _cancelManConfirm = () => {
+    console.log("cancel confirmation");
+  };
+
   render() {
     if (this.state.loading || this.state.selectedDay === null) {
       return (
@@ -145,6 +149,7 @@ class Jobday extends Component {
             <tbody>
               {this.state.workDays.map((day, i) => (
                 <tr key={i}>
+                  {/* {Date} */}
                   <td className="d-flex justify-content-between">
                     <span className="font-weight-bold text-info">
                       {moment(day.date).format("L ")}
@@ -155,35 +160,43 @@ class Jobday extends Component {
                   </td>
                   {/* {Start} */}
                   <td>
-                    <span
-                      className={classnames("text-success", {
-                        "text-danger":
-                          moment(day.timeStart).format("HH:mm") >
-                          this.props.hoursLimit.startHour,
-                      })}
-                    >
-                      {moment(day.timeStart).format("HH:mm")}
-                    </span>
-                    {day.timeStartMan ? (
-                      <span className="text-danger ml-2">!</span>
-                    ) : null}
+                    {day.timeStart ? (
+                      <span
+                        className={classnames("text-success", {
+                          "text-danger":
+                            moment(day.timeStart).format("HH:mm") >
+                            this.props.hoursLimit.startHour,
+                        })}
+                      >
+                        {moment(day.timeStart).format("HH:mm")}
+                        {day.timeStartMan ? (
+                          <span className="text-danger ml-2">!</span>
+                        ) : null}
+                      </span>
+                    ) : (
+                      <span>Pending..</span>
+                    )}
                   </td>
 
                   {/* {End} */}
 
                   <td>
-                    <span
-                      className={classnames("text-success", {
-                        "text-danger":
-                          moment(day.timeEnd).format("HH:mm") <
-                          this.props.hoursLimit.endHour,
-                      })}
-                    >
-                      {moment(day.timeEnd).format("HH:mm")}
-                    </span>
-                    {day.timeEndMan ? (
-                      <span className="text-danger ml-2">!</span>
-                    ) : null}
+                    {day.timeEnd ? (
+                      <span
+                        className={classnames("text-success", {
+                          "text-danger":
+                            moment(day.timeEnd).format("HH:mm") <
+                            this.props.hoursLimit.endHour,
+                        })}
+                      >
+                        {moment(day.timeEnd).format("HH:mm")}
+                        {day.timeEndMan ? (
+                          <span className="text-danger ml-2">!</span>
+                        ) : null}
+                      </span>
+                    ) : (
+                      <span> Pending..</span>
+                    )}
                   </td>
                   <td>
                     <span className="">
@@ -223,13 +236,17 @@ class Jobday extends Component {
               moment(this.state.selectedDay.date).format("dddd")}
           </div>
           <div className="my-2 border p-3">
-            Start
+            <span className="ml-4" style={{ fontWeight: "bold" }}>
+              {" "}
+              Start Time
+            </span>
             <span
               className={classnames("text-success ml-5", {
                 "text-danger ml-5":
                   moment(this.state.selectedDay.timeStart).format("hh : mm") >
                   this.props.hoursLimit.startHour,
               })}
+              style={{ fontWeight: "bold" }}
             >
               {moment(this.state.selectedDay.timeStart).format("hh : mm")}
             </span>
@@ -243,13 +260,17 @@ class Jobday extends Component {
               </div>
             ) : null}
             <hr />
-            End
+            <span className="ml-4" style={{ fontWeight: "bold" }}>
+              {" "}
+              End Time
+            </span>
             <span
               className={classnames("text-success ml-5", {
                 "text-danger ml-5":
                   moment(this.state.selectedDay.timeEnd).format("HH : mm") <
                   this.props.hoursLimit.endHour,
               })}
+              style={{ fontWeight: "bold" }}
             >
               {moment(this.state.selectedDay.timeEnd).format("HH : mm")}
             </span>
@@ -269,7 +290,7 @@ class Jobday extends Component {
             ) : null}
             {/* {Here Manager can confirm if Employee Confirmed hours pair} */}
             {this.state.selectedDay.confirmEmployee ? (
-              <div>
+              <div className="my-3 border pl-4">
                 {this.state.selectedDay.confirmManager ? (
                   <div>
                     <span className="text-success">
@@ -279,7 +300,7 @@ class Jobday extends Component {
                     <input
                       type="button"
                       value="Cancel"
-                      className="btn btn-outline-secondary"
+                      className="btn btn-outline-secondary ml-4"
                       onClick={this._cancelManConfirm}
                     />
                   </div>
