@@ -33,7 +33,8 @@ router.post("/checkIn_automatic", (req, res) => {
     //validation passed!
     //Check if JobDay was alredy Created
     //Create date parameter for dateFilter( 2020-04-10)
-    const dateParam = moment(req.body.timeStart).format("YYYY-MM-D");
+    const dateParam = moment(req.body.timeStart).format("YYYY-MM-DD");
+    console.log("dateParam", dateParam);
 
     //validation passed!
 
@@ -42,32 +43,36 @@ router.post("/checkIn_automatic", (req, res) => {
       $lt: new Date(dateParam + "T23:59:59"),
       $gt: new Date(dateParam + "T00:00:00"),
     };
-    JobDay.find({ date: dateFilter }).then((days) => {
-      if (days.length === 0) {
-        //No job days today yet .Create new one by checkIn Button
-        new JobDay({
-          employee: req.body.id,
-          projectID: req.body.projectID,
-          timeStart: req.body.timeStart,
-          date: new Date(moment().format()),
-        })
-          .save()
-          .then((jobday) => {
-            res.json(jobday);
+    JobDay.find({ date: dateFilter })
+      .then((days) => {
+        if (days.length === 0) {
+          //No job days today yet .Create new one by checkIn Button
+          new JobDay({
+            employee: req.body.id,
+            projectID: req.body.projectID,
+            timeStart: req.body.timeStart,
+            date: new Date(moment().format()),
           })
-          .catch((err) => {
-            res.status(400).json({ error: "Error to create" });
-          });
-      } else {
-        console.log("day already created");
+            .save()
+            .then((jobday) => {
+              res.json(jobday);
+            })
+            .catch((err) => {
+              res.status(400).json({ error: "Error to create" });
+            });
+        } else {
+          console.log("day already created");
 
-        const selectedDay = days.find((day) => {
-          console.log("day", day);
-          return day.employee == req.body.id;
-        });
-        res.json({ selectedDay, message: "this date  already exists" });
-      }
-    });
+          const selectedDay = days.find((day) => {
+            console.log("day", day);
+            return day.employee == req.body.id;
+          });
+          res.json({ selectedDay, message: "this date  already exists" });
+        }
+      })
+      .catch((err) => {
+        console.log("error to filter date", err);
+      });
 
     console.log("Authorized");
   });
@@ -81,7 +86,7 @@ router.post("/checkOut_automatic", (req, res) => {
     }
 
     //Create date parameter for dateFilter( 2020-04-10)
-    const dateParam = moment(req.body.timeEnd).format("YYYY-MM-D");
+    const dateParam = moment(req.body.timeEnd).format("YYYY-MM-DD");
 
     //validation passed!
     // res.json({ message: "Success!" });
