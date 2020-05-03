@@ -24,6 +24,7 @@
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
+    "react-scrollbars-custom": "^4.0.21",
     "react-spinners": "^0.8.0",
     "react-transition-group": "^4.3.0",
     "reactstrap": "^8.4.1",

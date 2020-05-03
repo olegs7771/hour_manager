@@ -78,7 +78,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <div className="container ">
+          <div className={window.innerWidth < 1700 ? "" : "container"}>
             <Header />
             <Switch>
               <Route

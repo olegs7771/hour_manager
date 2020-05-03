@@ -4,6 +4,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import Scrollbar from "react-scrollbars-custom";
 
 import {
   managerConfirm,
@@ -197,144 +198,146 @@ class Jobday extends Component {
     } else if (this.state.workDays && !this.state.showDay) {
       return (
         //Here Whole Month
-        <div className="my-3  ">
-          <table className="table ">
-            <thead style={{ borderBottom: "none" }}>
-              <tr>
-                <th scope="col" style={{ borderBottom: "none" }}>
-                  Date
-                  {/* {Show List of days Ascend order  or Descend order} */}
-                  {this.state.ascendOrder ? (
-                    <button
-                      className="ml-4 btn btn-sm border rounded"
-                      onClick={() =>
-                        this.setState({
-                          descendOrder: true,
-                          ascendOrder: false,
-                        })
-                      }
-                    >
-                      <FontAwesomeIcon icon={faArrowUp} />
-                    </button>
-                  ) : (
-                    <button
-                      className="ml-4 btn btn-sm border rounded"
-                      onClick={() =>
-                        this.setState({
-                          descendOrder: false,
-                          ascendOrder: true,
-                        })
-                      }
-                    >
-                      <FontAwesomeIcon icon={faArrowDown} />
-                    </button>
-                  )}
-                </th>
-                <th scope="col" style={{ borderBottom: "none" }}>
-                  Start
-                </th>
-                <th scope="col" style={{ borderBottom: "none" }}>
-                  End
-                </th>
-                <th scope="col" style={{ borderBottom: "none" }}>
-                  <span>Checked</span>
-                </th>
-                {/* <th scope="col">
+        <Scrollbar>
+          <div className="my-3  ">
+            <table className="table ">
+              <thead style={{ borderBottom: "none" }}>
+                <tr>
+                  <th scope="col" style={{ borderBottom: "none" }}>
+                    Date
+                    {/* {Show List of days Ascend order  or Descend order} */}
+                    {this.state.ascendOrder ? (
+                      <button
+                        className="ml-4 btn btn-sm border rounded"
+                        onClick={() =>
+                          this.setState({
+                            descendOrder: true,
+                            ascendOrder: false,
+                          })
+                        }
+                      >
+                        <FontAwesomeIcon icon={faArrowUp} />
+                      </button>
+                    ) : (
+                      <button
+                        className="ml-4 btn btn-sm border rounded"
+                        onClick={() =>
+                          this.setState({
+                            descendOrder: false,
+                            ascendOrder: true,
+                          })
+                        }
+                      >
+                        <FontAwesomeIcon icon={faArrowDown} />
+                      </button>
+                    )}
+                  </th>
+                  <th scope="col" style={{ borderBottom: "none" }}>
+                    Start
+                  </th>
+                  <th scope="col" style={{ borderBottom: "none" }}>
+                    End
+                  </th>
+                  <th scope="col" style={{ borderBottom: "none" }}>
+                    <span>Checked</span>
+                  </th>
+                  {/* <th scope="col">
                   <span className="small">View</span>
                 </th> */}
-              </tr>
-            </thead>
-
-            <tbody>
-              {this.state.workDays.map((day, i) => (
-                <tr key={i}>
-                  {/* {Date} */}
-                  <td
-                    className="d-flex justify-content-between"
-                    style={{ borderBottom: "none" }}
-                  >
-                    <span className="font-weight-bold text-info">
-                      {moment(day.date).format("L ")}
-                    </span>
-                    <span className="font-weight-bold ml-1">
-                      {moment(day.date).format("ddd")}
-                    </span>
-                  </td>
-                  {/* {Start} */}
-                  <td>
-                    {day.timeStart ? (
-                      <span
-                        className={classnames("text-success", {
-                          "text-danger":
-                            moment(day.timeStart).format("HH:mm") >
-                            this.props.hoursLimit.startHour,
-                        })}
-                      >
-                        {moment(day.timeStart).format("HH:mm")}
-                        {day.timeStartMan ? (
-                          <span className="text-danger ml-2">!</span>
-                        ) : null}
-                      </span>
-                    ) : (
-                      <span>Pending..</span>
-                    )}
-                  </td>
-
-                  {/* {End} */}
-
-                  <td>
-                    {day.timeEnd ? (
-                      <span
-                        className={classnames("text-success", {
-                          "text-danger":
-                            moment(day.timeEnd).format("HH:mm") <
-                            this.props.hoursLimit.endHour,
-                        })}
-                      >
-                        {moment(day.timeEnd).format("HH:mm")}
-                        {day.timeEndMan ? (
-                          <span className="text-danger ml-2">!</span>
-                        ) : null}
-                      </span>
-                    ) : (
-                      <span> Pending..</span>
-                    )}
-                  </td>
-                  <td>
-                    <span className="">
-                      {day.confirmEmployee ? (
-                        <div>
-                          {day.confirmManager ? (
-                            <span className="text-success">
-                              <FontAwesomeIcon icon={faCheckDouble} />
-                            </span>
-                          ) : (
-                            <span className="text-success">
-                              <FontAwesomeIcon icon={faCheck} />
-                            </span>
-                          )}
-                        </div>
-                      ) : (
-                        <span className="text-danger">
-                          {" "}
-                          <FontAwesomeIcon icon={faExclamationCircle} />
-                        </span>
-                      )}
-                    </span>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-outline-secondary"
-                      onClick={this._viewEmp.bind(this, day)}
-                    >
-                      View
-                    </button>
-                  </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+
+              <tbody>
+                {this.state.workDays.map((day, i) => (
+                  <tr key={i}>
+                    {/* {Date} */}
+                    <td
+                      className="d-flex justify-content-between"
+                      style={{ borderBottom: "none" }}
+                    >
+                      <span className="font-weight-bold text-info">
+                        {moment(day.date).format("L ")}
+                      </span>
+                      <span className="font-weight-bold ml-1">
+                        {moment(day.date).format("ddd")}
+                      </span>
+                    </td>
+                    {/* {Start} */}
+                    <td>
+                      {day.timeStart ? (
+                        <span
+                          className={classnames("text-success", {
+                            "text-danger":
+                              moment(day.timeStart).format("HH:mm") >
+                              this.props.hoursLimit.startHour,
+                          })}
+                        >
+                          {moment(day.timeStart).format("HH:mm")}
+                          {day.timeStartMan ? (
+                            <span className="text-danger ml-2">!</span>
+                          ) : null}
+                        </span>
+                      ) : (
+                        <span>Pending..</span>
+                      )}
+                    </td>
+
+                    {/* {End} */}
+
+                    <td>
+                      {day.timeEnd ? (
+                        <span
+                          className={classnames("text-success", {
+                            "text-danger":
+                              moment(day.timeEnd).format("HH:mm") <
+                              this.props.hoursLimit.endHour,
+                          })}
+                        >
+                          {moment(day.timeEnd).format("HH:mm")}
+                          {day.timeEndMan ? (
+                            <span className="text-danger ml-2">!</span>
+                          ) : null}
+                        </span>
+                      ) : (
+                        <span> Pending..</span>
+                      )}
+                    </td>
+                    <td>
+                      <span className="">
+                        {day.confirmEmployee ? (
+                          <div>
+                            {day.confirmManager ? (
+                              <span className="text-success">
+                                <FontAwesomeIcon icon={faCheckDouble} />
+                              </span>
+                            ) : (
+                              <span className="text-success">
+                                <FontAwesomeIcon icon={faCheck} />
+                              </span>
+                            )}
+                          </div>
+                        ) : (
+                          <span className="text-danger">
+                            {" "}
+                            <FontAwesomeIcon icon={faExclamationCircle} />
+                          </span>
+                        )}
+                      </span>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-outline-secondary"
+                        onClick={this._viewEmp.bind(this, day)}
+                      >
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Scrollbar>
       );
     } else {
       return (

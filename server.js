@@ -73,4 +73,6 @@ const server = app.listen(port, () => {
 console.log("NODE_ENV", process.env.NODE_ENV);
 
 //Exercises
-//test
+// test
+// console.log(moment("2020-05-03T14:37:36.000Z").format("X"));
+// console.log(moment("2020-05-03T14:37:36.000Z").format("X"));

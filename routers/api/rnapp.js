@@ -78,6 +78,8 @@ router.post("/checkIn_automatic", (req, res) => {
   });
 });
 //Create Jobday CheckOut Automatic(by start&end buttons)
+//After checkOut calculate total time spend on job
+
 router.post("/checkOut_automatic", (req, res) => {
   console.log("req.body checkOut_automatic", req.body);
   Employee.findOne({ token: req.body.token }).then((emp) => {
@@ -104,13 +106,26 @@ router.post("/checkOut_automatic", (req, res) => {
         //Filter found days by Employee Id
 
         const selectedDay = days.find((day) => {
-          console.log("day", day);
           return day.employee == req.body.id;
         });
         console.log("selectedDay", selectedDay);
 
+        // const endTimeNum = parseInt(moment(req.body.timeEnd).format("X"));
+        // const startTimeNum = parseInt(
+        //   moment(selectedDay.timeStart).format("X")
+        // );
+
+        // const totalTime = parseInt(
+        //   moment(req.body.timeEnd).format("X") -
+        //     parseInt(moment(selectedDay.timeStart).format("X"))
+        // );
+        console.log("total time ", totalTime);
+
         selectedDay.timeEnd = req.body.timeEnd;
+        // selectedDay.totalTimeOnJob = totalTime;
         selectedDay.save().then((upDay) => {
+          //Found day to make automatic checkOut and calculate total time spend on job
+
           res.json(upDay);
         });
       })
@@ -224,8 +239,8 @@ router.post("/startTime_manually", (req, res) => {
           });
         } else {
           //day been found for this date and employee id
-          //update jobday with timeEnd(actual time)
-          //update timeEndMan (employee added manually)
+          //update jobday with timeStart(time Employee had added manually)
+          //update timeStartMan (actual time )
           //create isoDate
           const dateFormat = new Date(
             req.body.date + `T${req.body.timeStart}` + ":00"
@@ -250,6 +265,7 @@ router.post("/startTime_manually", (req, res) => {
 });
 //Manually Set timeEnd By Employee
 //Protected Route
+
 router.post("/endTime_manually", (req, res) => {
   console.log("req.body in endtime manually", req.body);
 
