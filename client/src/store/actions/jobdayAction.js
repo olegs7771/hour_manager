@@ -55,11 +55,25 @@ export const selectMonth = (data) => (dispatch) => {
 };
 
 //Manager Confirms after Employee confirmation
-
 export const managerConfirm = (data) => (dispatch) => {
+  console.log("data managerConfirm", data);
+
   dispatch(loading());
   axios.post("/api/jobday/manager_confirm", data).then((res) => {
-    // console.log("res.data", res.data);
+    console.log("res.data manager_confirm", res.data);
+    dispatch({
+      type: GET_SELECT_DAY,
+      payload: res.data,
+    });
+  });
+};
+//Manager Decided to Cancel Confirmation
+export const managerCancelConfirm = (data) => (dispatch) => {
+  console.log("data managerConfirm cancel", data);
+
+  dispatch(loading());
+  axios.post("/api/jobday/manager_confirm_cancel", data).then((res) => {
+    console.log("res.data manager_confirm_cancel", res.data);
     dispatch({
       type: GET_SELECT_DAY,
       payload: res.data,

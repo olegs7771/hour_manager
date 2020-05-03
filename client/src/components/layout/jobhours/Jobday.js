@@ -1,7 +1,13 @@
+//This Component is a Child of EmployeeDetails.js
+// Shows Table of selectedMonth or single selectedDay
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
 import {
   managerConfirm,
+  managerCancelConfirm,
   selectMonth,
   selectDay,
 } from "../../../store/actions/jobdayAction";
@@ -14,11 +20,13 @@ import {
   faCheck,
   faExclamationCircle,
   faCheckDouble,
+  faArrowUp,
+  faArrowDown,
 } from "@fortawesome/free-solid-svg-icons";
 import Message from "./Message";
 
 // Function to sort this.props.jobDays
-const sortArr = (arr) => {
+const sortArrAsc = (arr) => {
   let date;
   let upObj = {};
   let newArr = [];
@@ -31,6 +39,19 @@ const sortArr = (arr) => {
   sortedArr = newArr.slice().sort((a, b) => a.date - b.date);
   return sortedArr;
 };
+const sortArrDesc = (arr) => {
+  let date;
+  let upObj = {};
+  let newArr = [];
+  let sortedArr;
+  arr.map((day) => {
+    date = new Date(day.date);
+    upObj = { ...day, date };
+    newArr.push(upObj);
+  });
+  sortedArr = newArr.slice().sort((a, b) => b.date - a.date);
+  return sortedArr;
+};
 
 class Jobday extends Component {
   state = {
@@ -40,6 +61,9 @@ class Jobday extends Component {
     selectedDay: null,
     date: null,
     showDay: false,
+    //Order how to show Month list
+    ascendOrder: true,
+    descendOrder: false,
   };
 
   //Load Current Month on Mount
@@ -88,9 +112,19 @@ class Jobday extends Component {
     if (prevProps.workDays !== this.props.workDays) {
       if (this.props.workDays) {
         this.setState({
-          workDays: sortArr(this.props.workDays),
+          workDays: this.state.descendOrder
+            ? sortArrDesc(this.props.workDays)
+            : sortArrAsc(this.props.workDays),
         });
       }
+    }
+    //If State changer ascendOrder descendOrder
+    if (prevState.descendOrder !== this.state.descendOrder) {
+      this.setState({
+        workDays: this.state.descendOrder
+          ? sortArrDesc(this.props.workDays)
+          : sortArrAsc(this.props.workDays),
+      });
     }
   }
 
@@ -98,14 +132,27 @@ class Jobday extends Component {
     //Create payload
     const payload = {
       selectedDay: this.state.selectedDay,
-      hoursLimit: this.props.hoursLimit.startHour,
+      hoursLimit: this.props.hoursLimit,
     };
 
     this.props.managerConfirm(payload);
   };
 
   _cancelManConfirm = () => {
-    console.log("cancel confirmation");
+    //Create payload
+    const payload = {
+      selectedDay: this.state.selectedDay,
+      hoursLimit: this.props.hoursLimit,
+    };
+    this.props.managerCancelConfirm(payload);
+    //Select Day
+    const payloadDay = {
+      date: moment(this.state.selectedDay.date).format("YYYY-MM-DD"),
+      employeeID: this.state.selectedDay.employee,
+      projectID: this.state.selectedDay.projectID,
+    };
+
+    this.props.selectDay(payloadDay);
   };
   //Use selectDay
   _viewEmp = (e) => {
@@ -119,8 +166,13 @@ class Jobday extends Component {
     console.log("payload", payload);
     this.props.selectDay(payload);
   };
+  _cancelShowDay = () => {
+    this.props.showDayChild(false);
+  };
 
   render() {
+    console.log("this.props", this.props);
+
     if (this.state.loading || this.state.selectedDay === null) {
       return (
         //Spinner
@@ -151,6 +203,32 @@ class Jobday extends Component {
               <tr>
                 <th scope="col" style={{ borderBottom: "none" }}>
                   Date
+                  {/* {Show List of days Ascend order  or Descend order} */}
+                  {this.state.ascendOrder ? (
+                    <button
+                      className="ml-4 btn btn-sm border rounded"
+                      onClick={() =>
+                        this.setState({
+                          descendOrder: true,
+                          ascendOrder: false,
+                        })
+                      }
+                    >
+                      <FontAwesomeIcon icon={faArrowUp} />
+                    </button>
+                  ) : (
+                    <button
+                      className="ml-4 btn btn-sm border rounded"
+                      onClick={() =>
+                        this.setState({
+                          descendOrder: false,
+                          ascendOrder: true,
+                        })
+                      }
+                    >
+                      <FontAwesomeIcon icon={faArrowDown} />
+                    </button>
+                  )}
                 </th>
                 <th scope="col" style={{ borderBottom: "none" }}>
                   Start
@@ -262,20 +340,30 @@ class Jobday extends Component {
       return (
         //Show Single day
         <div className="my-3 border">
-          <div className="row">
-            <div className="col-md-10">
-              <div className="my-2 text-center">
-                {moment(this.state.selectedDay.date).format("LL") +
-                  " " +
-                  moment(this.state.selectedDay.date).format("dddd")}
+          <div
+            className="row   border mx-auto pb-2 bg-dark"
+            style={{ width: "100%" }}
+          >
+            <div className="col-md-10  ">
+              <div className="my-2 ml-5 mt-3">
+                <span className="text-white " style={{ fontWeight: "bold" }}>
+                  {moment(this.state.selectedDay.date).format("LL") +
+                    " " +
+                    moment(this.state.selectedDay.date).format("dddd")}
+                </span>
               </div>
             </div>
             <div className="col-md-2">
-              <button className="btn btn-outline-secondary">X</button>
+              <button
+                className="btn btn-outline-secondary mt-2 "
+                onClick={this._cancelShowDay}
+              >
+                X
+              </button>
             </div>
           </div>
 
-          <div className="my-2 border p-3">
+          <div className="my-2  p-3">
             <span className="ml-4" style={{ fontWeight: "bold" }}>
               {" "}
               Start Time
@@ -294,7 +382,7 @@ class Jobday extends Component {
             {this.state.selectedDay.timeStartMan ? (
               <div className="bg-danger mt-1 p-2 ">
                 <span className="text-white">
-                  Added manually at :{" "}
+                  Added manually on{" "}
                   {moment(this.state.selectedDay.timeStartMan).format("LLL")}
                 </span>
               </div>
@@ -318,7 +406,7 @@ class Jobday extends Component {
             {this.state.selectedDay.timeEndMan ? (
               <div className="bg-danger mt-1 p-2 ">
                 <span className="text-white">
-                  Added manually at :{" "}
+                  Added manually on{" "}
                   {moment(this.state.selectedDay.timeStartMan).format("LLL")}
                 </span>
               </div>
@@ -330,7 +418,7 @@ class Jobday extends Component {
             ) : null}
             {/* {Here Manager can confirm if Employee Confirmed hours pair} */}
             {this.state.selectedDay.confirmEmployee ? (
-              <div className="my-3 border pl-4">
+              <div className="my-3 pl-4">
                 {this.state.selectedDay.confirmManager ? (
                   <div>
                     <span className="text-success">
@@ -369,6 +457,23 @@ class Jobday extends Component {
   }
 }
 
+//PropsTypes
+
+Jobday.propsTypes = {
+  date: PropTypes.string, //if selected day exists -> date=null
+  employee: PropTypes.object,
+  hoursLimit: PropTypes.object,
+  loading: PropTypes.bool,
+  managerCancelConfirm: PropTypes.func,
+  selectDay: PropTypes.func,
+  selectMonthy: PropTypes.func,
+  managerConfirm: PropTypes.func,
+  message: PropTypes.string,
+  showDay: PropTypes.bool,
+  showDayChild: PropTypes.obj,
+  workDays: PropTypes.array,
+};
+
 const mapStateToProps = (state) => ({
   message: state.jobday.message,
   selectedDay: state.jobday.selectedDay,
@@ -380,6 +485,7 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   managerConfirm,
+  managerCancelConfirm,
   selectMonth,
   selectDay,
 })(Jobday);

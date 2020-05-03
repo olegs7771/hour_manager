@@ -17,6 +17,7 @@ import Popup from "../popup/Popup";
 import TextFormGroup from "../../textForms/TextFormGroup";
 import Calendar from "../calendar";
 import Jobday from "../jobhours/Jobday";
+import TotalJobHours from "../jobhours/TotalJobHours";
 //Control Options
 import EmployeeControls from "./EmployeeControls";
 
@@ -245,6 +246,7 @@ export class EmployeeDetails extends Component {
                     //Show Day from child
                     showDayChild={this._showDateChild}
                   />
+                  <TotalJobHours />
                 </div>
               </div>
             </div>
