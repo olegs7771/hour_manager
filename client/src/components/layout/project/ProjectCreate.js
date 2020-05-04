@@ -22,8 +22,8 @@ export class ProjectCreate extends Component {
       messages: {},
       loading: false,
       //Work Day Hours
-      start: "00",
-      end: "00",
+      start: "00:00",
+      end: "00:00",
       editWorkHours: true,
     };
   }
@@ -44,7 +44,7 @@ export class ProjectCreate extends Component {
     e.preventDefault();
     //If User selected Not Now intrested to edit Work Hours
     if (this.state.editWorkHours) {
-      if (this.state.start === "" || this.state.end === "") {
+      if (this.state.start === "00:00" || this.state.end === "00:00") {
         return this.setState({
           errors: {
             timeError:
@@ -61,8 +61,8 @@ export class ProjectCreate extends Component {
           projectName: this.state.projectName,
           location: this.state.companyLocation,
           companyCoreFunc: this.state.companyCoreFunc,
-          jobStart: `${this.state.start}:00`,
-          jobEnd: `${this.state.end}:00`,
+          jobStart: `${this.state.start}`,
+          jobEnd: `${this.state.end}`,
         };
         this.props.createProject(data);
       } else {
@@ -121,7 +121,7 @@ export class ProjectCreate extends Component {
       { label: "Financial", value: "Financial" },
     ];
     return (
-      <div className="my-3 border p-2 ">
+      <div className="my-3 border p-2 " style={{ height: 800 }}>
         <div className="h4 text-center my-3">Create Project</div>
         <div className="row">
           <div className="col-md-8">
@@ -198,6 +198,8 @@ export class ProjectCreate extends Component {
                   It will help you more convinient trace Employee's job hours.
                 </p>
               }
+              start={this.state.start}
+              end={this.state.end}
             />
           </div>
         </div>

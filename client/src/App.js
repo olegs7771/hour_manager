@@ -71,14 +71,16 @@ if (localStorage.jwtToken) {
 }
 
 // A wrapper for <Route> that redirects to the login
-// screen if you're not yet authenticated.
+// screen if you're not yet authenticate
 
 class App extends Component {
   render() {
+    console.log("window.innerHeight", window.innerHeight);
+
     return (
       <Provider store={store}>
         <Router>
-          <div className={window.innerWidth < 1700 ? "" : "container"}>
+          <div className={window.innerWidth < 1500 ? "" : "container"}>
             <Header />
             <Switch>
               <Route

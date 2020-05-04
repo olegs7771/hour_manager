@@ -50,6 +50,10 @@ export class Project extends Component {
   //Reload Component comes from child ProjectItems.js
   _reloadComponent = () => {
     this.props.getProjects();
+    //clear local State to clear deleted projects details
+    this.setState({
+      showDetails: false,
+    });
   };
 
   render() {
@@ -57,7 +61,7 @@ export class Project extends Component {
       return (
         <div
           className="mx-auto"
-          style={{ paddingTop: "10%", paddingBottom: "10%" }}
+          style={{ paddingTop: "10%", paddingBottom: "10%", height: 800 }}
         >
           <DotLoaderSpinner />
         </div>
@@ -65,7 +69,7 @@ export class Project extends Component {
     } else {
       if (isEmpty(this.props.projects)) {
         return (
-          <div className="my-4 ">
+          <div className="my-4 " style={{ height: 800 }}>
             <h4 className="text-center">Projects</h4>
             <div className="row my-3 mx-auto border">
               <div className="col-md-6 ">
@@ -88,7 +92,15 @@ export class Project extends Component {
         );
       } else {
         return (
-          <div className="my-4">
+          //BreadCrumbs
+          <div className="my-4" style={{ height: 800 }}>
+            <div className="my-3 border ml-auto">breadcrumbs</div>
+            <div className="my-3 border">
+              <p className="text-left">
+                In this section you can view or create the new project. To
+                create a new project click on the Add Project button.
+              </p>
+            </div>
             <div className="my-3 ">
               <button
                 className="btn btn-outline-info"

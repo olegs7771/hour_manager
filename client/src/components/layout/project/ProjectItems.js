@@ -57,7 +57,7 @@ class ProjectItems extends Component {
       setTimeout(() => {
         //reload Project.js
         this.props.reloadParent();
-      }, 6000);
+      }, 4000);
     }
   }
 

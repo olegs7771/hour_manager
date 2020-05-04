@@ -39,6 +39,8 @@ class ProjectHourForm extends Component {
   _parentHour = (state) => {
     this.props.setHour(state);
   };
+
+  //Toggle Disable Hours pair Editing
   _editHours = () => {
     this.setState({ disableEditHours: !this.state.disableEditHours });
     this.props.editWorkHours(this.state.disableEditHours);
@@ -46,7 +48,7 @@ class ProjectHourForm extends Component {
 
   render() {
     return (
-      <div className=" text-center">
+      <div className=" text-center border rounded mt-3 px-5">
         <div className="my-3">{this.props.textTitle}</div>
         <div className="mx-auto">
           <div className="group-control">
