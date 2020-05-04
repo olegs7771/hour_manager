@@ -14,6 +14,8 @@ export class Project extends Component {
     projects: [],
     showDetails: false,
     projectDetails: {},
+    //Change backgroundColor onMouseEnter
+    hover: false,
   };
 
   componentDidMount() {
@@ -69,7 +71,7 @@ export class Project extends Component {
     } else {
       if (isEmpty(this.props.projects)) {
         return (
-          <div className="my-4 " style={{ height: 800 }}>
+          <div className=" ">
             <h4 className="text-center">Projects</h4>
             <div className="row my-3 mx-auto border">
               <div className="col-md-6 ">
@@ -92,16 +94,17 @@ export class Project extends Component {
         );
       } else {
         return (
-          //BreadCrumbs
-          <div className="my-4" style={{ height: 800 }}>
-            <div className="my-3 border ml-auto">breadcrumbs</div>
-            <div className="my-3 border">
-              <p className="text-left">
-                In this section you can view or create the new project. To
-                create a new project click on the Add Project button.
-              </p>
+          <div className="" style={{ height: 900 }}>
+            <div className=" p-3 ">
+              <span className=" text-white">
+                In this section you can view or create the new project.
+              </span>
+              <br />
+              <span className=" text-white">
+                To create a new project click on the Add Project button.
+              </span>
             </div>
-            <div className="my-3 ">
+            <div className="my-3 p-3 ">
               <button
                 className="btn btn-outline-info"
                 onClick={this._createProject}
@@ -109,30 +112,43 @@ export class Project extends Component {
                 Add Project
               </button>
             </div>
-            <div className="row my-3 ">
-              <div className="col-md-6  ">
-                <div className="h5 text-center my-4">Projects</div>
+            <div className="row  d-flex justify-content-around">
+              <div className="col-md-4 ">
+                <div className="h5 text-center text-white my-4">Projects</div>
                 {this.props.projects.map((project) => (
                   <ul className="list-group" key={project._id}>
                     {/* Button Project Name + Date */}
                     <li
-                      className="list-group-item  btn btn-outline-primary mb-1  d-flex justify-content-between"
+                      className="list-group-item  btn btn-sm  mb-1  d-flex justify-content-between "
                       onClick={this._projectName.bind(this, project)}
+                      style={{
+                        backgroundColor: this.state.hover
+                          ? "#3081c2"
+                          : "#2a70a8",
+                      }}
+                      onMouseEnter={() => this.setState({ hover: true })}
+                      onMouseLeave={() => this.setState({ hover: false })}
                     >
                       <div>
-                        <span className="text-left font-weight-bold">
+                        <span className="text-left font-weight-bold text-white">
                           Project:
                         </span>
-                        <span className=" ml-2">
+                        <span
+                          className=" ml-2 font-weight-bold "
+                          style={{ color: "#f6f78b" }}
+                        >
                           {project.projectName[0].toLocaleUpperCase() +
                             project.projectName.slice(1)}
                         </span>
                       </div>
                       <div>
-                        <span className="text-left font-weight-bold">
+                        <span className="text-left font-weight-bold text-white">
                           Created:
                         </span>
-                        <span className=" ml-2">
+                        <span
+                          className=" ml-2 font-weight-bold"
+                          style={{ color: "#f6f78b" }}
+                        >
                           {moment(project.date).format("LL")}
                         </span>
                       </div>

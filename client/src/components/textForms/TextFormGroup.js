@@ -14,7 +14,7 @@ const TextFormGroup = ({
   message,
   style,
   maxLength,
-  minLength
+  minLength,
 }) => {
   return (
     <div className="form-group ">
@@ -32,7 +32,7 @@ const TextFormGroup = ({
         value={value}
         name={name}
         onChange={onChange}
-        style={style}
+        style={{ backgroundColor: "#bfe1f5", borderStyle: "none" }}
         // style={{ marginTop: "-2rem" }}
       />
       {error && <div className="invalid-feedback">{error}</div>}
@@ -44,11 +44,11 @@ const TextFormGroup = ({
 };
 
 TextFormGroup.defaultProps = {
-  type: "text"
+  type: "text",
 };
 TextFormGroup.propTypes = {
   placeholder: PropTypes.string,
-  info: PropTypes.string
+  info: PropTypes.string,
 };
 
 export default TextFormGroup;

@@ -121,13 +121,13 @@ export class ProjectCreate extends Component {
       { label: "Financial", value: "Financial" },
     ];
     return (
-      <div className="my-3 border p-2 " style={{ height: 800 }}>
-        <div className="h4 text-center my-3">Create Project</div>
+      <div className="  p-4 ">
+        <div className="h4 text-center text-white my-3">Create Project</div>
         <div className="row">
-          <div className="col-md-8">
+          <div className="col-md-6">
             <form onSubmit={this._onSubmit}>
               <TextFormGroup
-                label="Company Name"
+                label={<span className="text-white">Company Name</span>}
                 // placeholder="Company Name.."
                 value={this.state.companyName}
                 name="companyName"
@@ -135,7 +135,7 @@ export class ProjectCreate extends Component {
                 error={this.state.errors.companyName}
               />
               <TextFormGroup
-                label="Project Name"
+                label={<span className="text-white">Project Name</span>}
                 // placeholder="Project Name.."
                 value={this.state.projectName}
                 name="projectName"
@@ -143,7 +143,7 @@ export class ProjectCreate extends Component {
                 error={this.state.errors.projectName}
               />
               <TextFormGroup
-                label="Company Location"
+                label={<span className="text-white">Company Location</span>}
                 // placeholder="Company location.."
                 value={this.state.companyLocation}
                 name="companyLocation"
@@ -151,7 +151,7 @@ export class ProjectCreate extends Component {
                 error={this.state.errors.location}
               />
               <div className="px-3 my-2 ">
-                <span className="font-italic">
+                <span className="font-italic text-muted">
                   Please Select a Business Function that are carried out by your
                   enterprise.
                 </span>
@@ -176,12 +176,12 @@ export class ProjectCreate extends Component {
                   type="submit"
                   className="btn btn-outline-secondary d-block mx-auto my-3"
                 >
-                  Submit
+                  <span className="text-white">Submit</span>
                 </button>
               </div>
             </form>
           </div>
-          <div className="col-md-4 pt-3">
+          <div className="col-md-6 pt-3">
             {/* {From Child Component} */}
             <ProjectHourForm
               //user doesnt want edit Work Hours at project creation

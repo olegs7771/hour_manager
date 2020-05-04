@@ -94,74 +94,82 @@ class ProjectItems extends Component {
       );
 
     return (
-      <ul className="list-group">
-        <li className="list-group-item">
+      <ul className="list-group ">
+        <li className="list-group-item " style={{ backgroundColor: "#2a70a8" }}>
           <div className="row">
             <div className="col-md-6">
-              <span className="font-weight-bold">Project Manager</span>{" "}
+              <span className="font-weight-bold text-white">
+                Project Manager
+              </span>{" "}
             </div>
             <div className="col-md-6">
-              <span className="text-muted ml-4">
+              <span className=" " style={{ color: "#fafc6a" }}>
                 {projectManager[0].toLocaleUpperCase() +
                   projectManager.slice(1)}
               </span>
             </div>
           </div>
         </li>
-        <li className="list-group-item">
+        <li className="list-group-item" style={{ backgroundColor: "#2a70a8" }}>
           <div className="row">
             <div className="col-md-6">
-              <span className="font-weight-bold">Project Name</span>{" "}
+              <span className="font-weight-bold text-white">Project Name</span>{" "}
             </div>
             <div className="col-md-6">
-              <span className="text-muted ml-4">
+              <span className=" " style={{ color: "#fafc6a" }}>
                 {projectName[0].toLocaleUpperCase() + projectName.slice(1)}
               </span>
             </div>
           </div>
         </li>
-        <li className="list-group-item">
+        <li className="list-group-item" style={{ backgroundColor: "#2a70a8" }}>
           <div className="row">
             <div className="col-md-6">
-              <span className="font-weight-bold">Company Name</span>{" "}
+              <span className="font-weight-bold text-white">Company Name</span>{" "}
             </div>
             <div className="col-md-6">
-              <span className="text-muted ">
+              <span className=" " style={{ color: "#fafc6a" }}>
                 {companyName[0].toLocaleUpperCase() + companyName.slice(1)}
               </span>
             </div>
           </div>
         </li>
-        <li className="list-group-item">
+        <li className="list-group-item" style={{ backgroundColor: "#2a70a8" }}>
           <div className="row">
             <div className="col-md-6">
-              <span className="font-weight-bold">Business Core Function</span>{" "}
+              <span className="font-weight-bold text-white">
+                Business Core Function
+              </span>{" "}
             </div>
             <div className="col-md-6">
-              <span className="text-muted ">
+              <span className=" " style={{ color: "#fafc6a" }}>
                 {companyCoreFunc[0].toLocaleUpperCase() +
                   companyCoreFunc.slice(1)}
               </span>
             </div>
           </div>
         </li>
-        <li className="list-group-item">
+        <li className="list-group-item" style={{ backgroundColor: "#2a70a8" }}>
           <div className="row">
             <div className="col-md-6">
-              <span className="font-weight-bold">Staff</span>{" "}
+              <span className="font-weight-bold text-white">Staff</span>{" "}
             </div>
             <div className="col-md-6">
-              <span className="text-muted ">{staff.length} </span>
+              <span className=" " style={{ color: "#fafc6a" }}>
+                {staff.length}{" "}
+              </span>
             </div>
           </div>
         </li>
-        <li className="list-group-item">
+        <li className="list-group-item" style={{ backgroundColor: "#2a70a8" }}>
           <div className="row">
             <div className="col-md-6">
-              <span className="font-weight-bold">Project Created </span>{" "}
+              <span className="font-weight-bold text-white">
+                Project Created{" "}
+              </span>{" "}
             </div>
             <div className="col-md-6">
-              <span className="text-muted text-right">
+              <span className=" text-right" style={{ color: "#fafc6a" }}>
                 {moment(date).format("LL")}
               </span>
             </div>

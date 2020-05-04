@@ -48,12 +48,19 @@ class ProjectHourForm extends Component {
 
   render() {
     return (
-      <div className=" text-center border rounded mt-3 px-5">
-        <div className="my-3">{this.props.textTitle}</div>
+      <div
+        className=" text-center  rounded mt-3 px-5 py-2"
+        style={{ backgroundColor: "#2a70a8" }}
+      >
+        <div className="my-3">
+          <span className="text-white">{this.props.textTitle}</span>
+        </div>
         <div className="mx-auto">
           <div className="group-control">
             <div className="form-group">
-              <label>Start Hour</label>
+              <label style={{ fontWeight: "bold", color: "#f6f78b" }}>
+                Start Hour
+              </label>
               <input
                 placeholder="07:00"
                 name="start"
@@ -62,10 +69,13 @@ class ProjectHourForm extends Component {
                 onChange={this._onChangeHour}
                 value={this.state.start}
                 disabled={this.state.disableEditHours}
+                style={{ backgroundColor: "#bfe1f5", borderStyle: "none" }}
               />
             </div>
             <div className="form-group">
-              <label>End Hour</label>
+              <label style={{ fontWeight: "bold", color: "#e3c996" }}>
+                End Hour
+              </label>
               <input
                 placeholder="17:30"
                 name="end"
@@ -74,13 +84,14 @@ class ProjectHourForm extends Component {
                 value={this.state.end}
                 onChange={this._onChangeHour}
                 disabled={this.state.disableEditHours}
+                style={{ backgroundColor: "#bfe1f5", borderStyle: "none" }}
               />
             </div>
             <small className="text-danger">{this.props.error}</small>
           </div>
           <div className="my-2">
             <label>
-              Not Now
+              <span className="text-white">Not Now</span>
               <input
                 name="hours"
                 type="checkbox"

@@ -132,14 +132,14 @@ export class ProjectEdit extends Component {
       return (
         <div
           className="h3 text-center "
-          style={{ paddingTop: "10%", paddingBottom: "10%" }}
+          style={{ paddingTop: "30%", paddingBottom: "20%", height: 800 }}
         >
           <HashLoaderSpinner />
         </div>
       );
     } else if (this.state.messages.message) {
       return (
-        <div className="my-3 ">
+        <div>
           <span className="text-success text-center h5">
             {this.state.messages.message}
           </span>
@@ -172,16 +172,42 @@ export class ProjectEdit extends Component {
         { label: "Financial", value: "Financial" },
       ];
       return (
-        <div className="my-3 border p-3">
-          <div className="my-3 text-center h5">DashBoard Project</div>
-          <p className=" font-weight-light mb-4 text-center">
-            Here you can edit project details, add or remove staff members
-          </p>
+        <div className=" p-3">
+          <div className="my-3 text-center h5 text-white">
+            DashBoard Project
+          </div>
+          <div className="my-3  text-center">
+            <span className=" font-weight-light mb-4 text-center text-white pl-5">
+              Here you can edit project details, add or remove staff members aka
+              Employees.
+            </span>
+            <br />
+            <span className=" font-weight-light mb-4 text-center text-white pl-5">
+              You can edit Work Day hours as well. It will greatly assist in
+              calculating total On Job hours.
+            </span>
+            <br />
+            <span className=" font-weight-light mb-4 text-center text-white pl-5">
+              The Check In and Check Out that are not consist with setted hours
+              , will be shown in red.
+            </span>
+          </div>
+
           <div className="row my-3  mx-4">
-            <div className="col-md-6">
+            <div className="col-md-6 ">
               <form onSubmit={this._onSubmit}>
                 <TextFormGroup
-                  label="Company Name"
+                  label={
+                    <span
+                      style={{
+                        fontWeight: "bold",
+                        color: "#FFF",
+                        marginLeft: 20,
+                      }}
+                    >
+                      Company Name
+                    </span>
+                  }
                   value={
                     this.state.companyName
                       ? UpCase(this.state.companyName)
@@ -191,19 +217,19 @@ export class ProjectEdit extends Component {
                   onChange={this._onChange}
                   error={this.state.errors.companyName}
                 />
+
                 <TextFormGroup
-                  label="Business Function (Select from option below)"
-                  value={
-                    this.state.companyCoreFunc
-                      ? UpCase(this.state.companyCoreFunc)
-                      : this.state.companyCoreFunc
+                  label={
+                    <span
+                      style={{
+                        fontWeight: "bold",
+                        color: "#FFF",
+                        marginLeft: 20,
+                      }}
+                    >
+                      Company Location
+                    </span>
                   }
-                  name="companyCoreFunc"
-                  onChange={this._onChange}
-                  error={this.state.errors.companyCoreFunc}
-                />
-                <TextFormGroup
-                  label="Company Location"
                   value={
                     this.state.location
                       ? UpCase(this.state.location)
@@ -213,24 +239,33 @@ export class ProjectEdit extends Component {
                   onChange={this._onChange}
                   error={this.state.errors.location}
                 />
-                <div className="px-3 my-2">
+
+                <span
+                  style={{
+                    fontWeight: "bold",
+                    color: "#FFF",
+                    marginLeft: 20,
+                  }}
+                >
                   Please Select a Business Function that are carried out by your
                   enterprise.
+                </span>
+                <div>
+                  <SelectFormGroup
+                    options={options}
+                    name="companyCoreFunc"
+                    value={this.state.value}
+                    onChange={this._onChange}
+                    error={this.state.errors.companyCoreFunc}
+                  />
                 </div>
-                <SelectFormGroup
-                  options={options}
-                  name="companyCoreFunc"
-                  value={this.state.value}
-                  onChange={this._onChange}
-                  error={this.state.errors.companyCoreFunc}
-                />
 
                 <div className="my-1 ">
                   <button
                     type="submit"
                     className="btn btn-outline-secondary d-block mx-auto my-3"
                   >
-                    Submit
+                    <span style={{ color: "#FFF" }}>Submit</span>
                   </button>
                 </div>
               </form>
@@ -238,31 +273,38 @@ export class ProjectEdit extends Component {
             {/* STAFF */}
 
             <div className="col-md-6  ">
-              <div className="my-3 text-center">Staff Manager</div>
-              <div className="d-flex justify-content-between px-5">
-                <button
-                  className="btn btn-outline-info"
-                  onClick={() =>
-                    this.props.history.push(
-                      `/employees/${this.props.selectedProject._id}`
-                    )
-                  }
-                >
-                  {" "}
-                  Employees{" "}
-                  <span className="h5">{this.state.staff.length}</span>
-                </button>
+              <div
+                className=" rounded pb-5 pt-3"
+                style={{ backgroundColor: "#3081c2" }}
+              >
+                <div className=" text-center text-white">Staff Manager</div>
+                <div className="d-flex justify-content-between px-5">
+                  <button
+                    className="btn btn-outline-info"
+                    onClick={() =>
+                      this.props.history.push(
+                        `/employees/${this.props.selectedProject._id}`
+                      )
+                    }
+                  >
+                    {" "}
+                    <span style={{ color: "#FFF" }}>Employees</span>{" "}
+                    <span className="h5 text-white ml-2 border rounded px-2 ">
+                      {this.state.staff.length}
+                    </span>
+                  </button>
 
-                <button
-                  className="btn btn-outline-success  "
-                  onClick={() =>
-                    this.props.history.push(
-                      `/employee_add/${this.props.selectedProject._id}`
-                    )
-                  }
-                >
-                  Add Employee
-                </button>
+                  <button
+                    className="btn btn-outline-success  "
+                    onClick={() =>
+                      this.props.history.push(
+                        `/employee_add/${this.props.selectedProject._id}`
+                      )
+                    }
+                  >
+                    <span style={{ color: "#FFF" }}>Add Employee</span>
+                  </button>
+                </div>
               </div>
               <ProjectHourForm
                 editWorkHours={this._editWorkHours}

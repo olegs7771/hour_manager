@@ -9,9 +9,9 @@ const SelectFormGroup = ({
   options,
   error,
   type,
-  placeholder
+  placeholder,
 }) => {
-  const selectOptions = options.map(option => (
+  const selectOptions = options.map((option) => (
     <option key={option.label} value={option.value} defaultValue={option.value}>
       {option.label}
     </option>
@@ -25,12 +25,13 @@ const SelectFormGroup = ({
         <select
           type={type}
           className={classnames("form-control form-control-lg", {
-            "is-invalid": error
+            "is-invalid": error,
           })}
           name={name}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
+          style={{ backgroundColor: "#bfe1f5", borderStyle: "none" }}
         >
           {selectOptions}
         </select>

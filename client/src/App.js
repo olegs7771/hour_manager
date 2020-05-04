@@ -80,8 +80,13 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <div className={window.innerWidth < 1500 ? "" : "container"}>
-            <Header />
+          <Header />
+          <div
+            className={window.innerWidth < 1500 ? "" : "container"}
+            style={{
+              backgroundColor: "#2a5578",
+            }}
+          >
             <Switch>
               <Route
                 exact
@@ -144,8 +149,8 @@ class App extends Component {
                 component={AdminControl}
               />
             </Switch>
-            <Footer />
           </div>
+          <Footer />
         </Router>
       </Provider>
     );
