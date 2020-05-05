@@ -56,9 +56,11 @@ export class EmployeeStaff extends Component {
       }
       return (
         <div className="my-4  ">
-          <div className="h5 text-center my-3">Employee Table</div>
-          <div className="my-5 border pl-4">
-            <span className="font-weight-bolder">Confirmed</span>{" "}
+          <div className="h5 text-center my-3 text-white">Employee Table</div>
+          <div className="my-5  pl-4">
+            <span className="font-weight-bolder text-white">
+              Pending Confirmation
+            </span>{" "}
             <span className="text-danger">
               {" "}
               <FontAwesomeIcon icon={faExclamationCircle} />
@@ -66,14 +68,19 @@ export class EmployeeStaff extends Component {
             <ReactNbsp />
             <ReactNbsp />
             <ReactNbsp />
-            <FontAwesomeIcon icon={faLongArrowAltRight} />
+            <FontAwesomeIcon
+              icon={faLongArrowAltRight}
+              style={{ color: "#fff" }}
+            />
             <ReactNbsp />
             <ReactNbsp />
-            <span className="font-italic">
+            <span className="font-italic text-white">
               Employee has been notified by Email and not yet confirmed
             </span>{" "}
             <br />
-            <span className="font-weight-bolder">Confirmed</span>{" "}
+            <span className="font-weight-bolder text-white">
+              Confirmed
+            </span>{" "}
             <span className="text-success">
               {" "}
               <FontAwesomeIcon icon={faCheck} />
@@ -81,10 +88,13 @@ export class EmployeeStaff extends Component {
             <ReactNbsp />
             <ReactNbsp />
             <ReactNbsp />
-            <FontAwesomeIcon icon={faLongArrowAltRight} />
+            <FontAwesomeIcon
+              icon={faLongArrowAltRight}
+              style={{ color: "#fff" }}
+            />
             <ReactNbsp />
             <ReactNbsp />
-            <span className="font-italic">
+            <span className="font-italic text-white">
               Employee has been notified by Email and confirmed
             </span>
           </div>
@@ -93,17 +103,39 @@ export class EmployeeStaff extends Component {
           <table className="table table-bordered ">
             <thead>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col"> Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Address</th>
-                <th scope="col">Phone</th>
-                <th scope="col">Project</th>
-                <th scope="col">Function</th>
-                <th scope="col">Started Job</th>
-                <th scope="col">Confirmed</th>
-                <th scope="col">App</th>
-                <th scope="col">View</th>
+                <th scope="col">
+                  <span className="text-white"> #</span>
+                </th>
+                <th scope="col ">
+                  <span className="text-white">Name</span>
+                </th>
+                <th scope="col ">
+                  <span className="text-white">Email</span>
+                </th>
+                <th scope="col ">
+                  <span className="text-white">Address</span>
+                </th>
+                <th scope="col ">
+                  <span className="text-white">Phone</span>
+                </th>
+                <th scope="col ">
+                  <span className="text-white">Project</span>
+                </th>
+                <th scope="col ">
+                  <span className="text-white">Function</span>
+                </th>
+                <th scope="col ">
+                  <span className="text-white">Started Job</span>
+                </th>
+                <th scope="col ">
+                  <span className="text-white">Confirmed</span>
+                </th>
+                <th scope="col ">
+                  <span className="text-white">App</span>
+                </th>
+                <th scope="col ">
+                  <span className="text-white">View</span>
+                </th>
               </tr>
             </thead>
             {this.props.employees.map((employee, index) => (

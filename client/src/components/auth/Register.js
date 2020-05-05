@@ -16,12 +16,12 @@ export class Register extends Component {
     errors: {},
     messages: {},
     submitDisabled: true,
-    loading: false
+    loading: false,
   };
 
-  _onChange = e => {
+  _onChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value.toLowerCase()
+      [e.target.name]: e.target.value.toLowerCase(),
     });
     const { name, email, phone, password } = this.state;
     if (name !== "" && email !== "" && phone !== "" && password !== "") {
@@ -30,7 +30,7 @@ export class Register extends Component {
     this.setState({ errors: {} });
   };
 
-  _onSubmit = async e => {
+  _onSubmit = async (e) => {
     e.preventDefault();
 
     this.setState({ loading: true });
@@ -40,7 +40,7 @@ export class Register extends Component {
       email,
       phone,
       location,
-      password
+      password,
     };
     await this.props.registerUser(data);
   };
@@ -53,7 +53,7 @@ export class Register extends Component {
       this.setState({
         messages: this.props.messages,
         loading: false,
-        errors: {}
+        errors: {},
       });
       console.log("message came success registration!");
     }
@@ -61,78 +61,125 @@ export class Register extends Component {
 
   render() {
     return (
-      <div className="div my-2">
-        <form onSubmit={this._onSubmit}>
-          <TextFormGroup
-            label="Name"
-            placeholder="John Brown"
-            onChange={this._onChange}
-            value={this.state.name}
-            name="name"
-            error={this.state.errors.name}
-          />
-          <TextFormGroup
-            label="Email"
-            placeholder="brown@exemple.com"
-            onChange={this._onChange}
-            value={this.state.email}
-            name="email"
-            error={this.state.errors.email}
-            type="email"
-          />
-          <TextFormGroup
-            label="Phone"
-            placeholder="0501234455"
-            onChange={this._onChange}
-            value={this.state.phone}
-            name="phone"
-            error={this.state.errors.phone}
-            type="phone"
-          />
-          <TextFormGroup
-            label="Location"
-            placeholder="city,state"
-            onChange={this._onChange}
-            value={this.state.location}
-            name="location"
-            error={this.state.errors.location}
-          />
-          <TextFormGroup
-            label="Password"
-            placeholder="e.g. 6-10 chars"
-            onChange={this._onChange}
-            value={this.state.password}
-            name="password"
-            error={this.state.errors.password}
-            type="password"
-          />
-          {this.state.messages.message ? (
-            <div className="text-success mb-3">
-              {this.state.messages.message}
-            </div>
-          ) : null}
-          {this.state.errors.error ? (
-            <div className="text-danger mb-3">{this.state.errors.error}</div>
-          ) : null}
-          <DotLoaderSpinner loading={this.state.loading} />
+      <div className="py-3" style={{ height: 700 }}>
+        <div className="my3 text-center h3 text-white">SignIn</div>
+        <div className="div row">
+          <div className="col-md-6 d-block mx-auto my-3">
+            <div className="my-3 border rounded p-5">
+              <form onSubmit={this._onSubmit}>
+                <TextFormGroup
+                  label={
+                    <span
+                      className="ml-3"
+                      style={{ fontWeight: "bold", color: "#FFF" }}
+                    >
+                      Name
+                    </span>
+                  }
+                  placeholder="John Brown"
+                  onChange={this._onChange}
+                  value={this.state.name}
+                  name="name"
+                  error={this.state.errors.name}
+                />
+                <TextFormGroup
+                  label={
+                    <span
+                      className="ml-3"
+                      style={{ fontWeight: "bold", color: "#FFF" }}
+                    >
+                      Email
+                    </span>
+                  }
+                  placeholder="brown@exemple.com"
+                  onChange={this._onChange}
+                  value={this.state.email}
+                  name="email"
+                  error={this.state.errors.email}
+                  type="email"
+                />
+                <TextFormGroup
+                  label={
+                    <span
+                      className="ml-3"
+                      style={{ fontWeight: "bold", color: "#FFF" }}
+                    >
+                      Phone
+                    </span>
+                  }
+                  label="Phone"
+                  placeholder="0501234455"
+                  onChange={this._onChange}
+                  value={this.state.phone}
+                  name="phone"
+                  error={this.state.errors.phone}
+                  type="phone"
+                />
+                <TextFormGroup
+                  label={
+                    <span
+                      className="ml-3"
+                      style={{ fontWeight: "bold", color: "#FFF" }}
+                    >
+                      Location
+                    </span>
+                  }
+                  label="Location"
+                  placeholder="city,state"
+                  onChange={this._onChange}
+                  value={this.state.location}
+                  name="location"
+                  error={this.state.errors.location}
+                />
+                <TextFormGroup
+                  label={
+                    <span
+                      className="ml-3"
+                      style={{ fontWeight: "bold", color: "#FFF" }}
+                    >
+                      Password
+                    </span>
+                  }
+                  placeholder="e.g. 6-10 chars"
+                  onChange={this._onChange}
+                  value={this.state.password}
+                  name="password"
+                  error={this.state.errors.password}
+                  type="password"
+                />
+                {this.state.messages.message ? (
+                  <div className="text-success mb-3">
+                    {this.state.messages.message}
+                  </div>
+                ) : null}
+                {this.state.errors.error ? (
+                  <div className="text-danger mb-3">
+                    {this.state.errors.error}
+                  </div>
+                ) : null}
+                <DotLoaderSpinner loading={this.state.loading} />
 
-          <button
-            type="submit"
-            disabled={this.state.submitDisabled}
-            className="btn btn-outline-secondary  "
-          >
-            Submit
-          </button>
-        </form>
+                <button
+                  type="submit"
+                  disabled={this.state.submitDisabled}
+                  className="btn btn-outline-secondary  "
+                >
+                  Submit
+                </button>
+              </form>
+              <span className="text-white small">Please fill all fields.</span>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
   errors: state.errors.errors,
-  messages: state.messages.messages
+  messages: state.messages.messages,
 });
 
 const mapDispatchToProps = { registerUser };
@@ -141,7 +188,7 @@ Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
-  messages: PropTypes.object.isRequired
+  messages: PropTypes.object.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

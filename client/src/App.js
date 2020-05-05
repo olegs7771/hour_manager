@@ -84,17 +84,13 @@ class App extends Component {
 
   componentDidMount() {
     window.addEventListener("resize", () => {
-      this._changeWidth();
-    });
-  }
-  componentWillUnmount() {
-    window.removeEventListener("resize", () => {
+      console.log("event added");
+
       this._changeWidth();
     });
   }
 
   _changeWidth = () => {
-    console.log("width", window.innerWidth);
     this.setState({ width: window.innerWidth });
   };
 
@@ -111,8 +107,8 @@ class App extends Component {
             }}
           >
             <Header />
-            <Switch>
-              <div style={{ backgroundColor: "#2a5578" }}>
+            <div style={{ backgroundColor: "#2a5578" }}>
+              <Switch>
                 <Route
                   exact
                   path="/project"
@@ -177,8 +173,8 @@ class App extends Component {
                   path="/admin/:token/:access"
                   component={AdminControl}
                 />
-              </div>
-            </Switch>
+              </Switch>
+            </div>
             <Footer />
           </div>
         </Router>

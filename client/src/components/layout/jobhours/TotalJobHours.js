@@ -16,7 +16,7 @@ const totalSum = (arr) => {
 class TotalJobHours extends Component {
   state = {
     workDays: null,
-    showTotal: true,
+    showTotal: false,
   };
 
   componentDidUpdate(prevProps, prevState) {

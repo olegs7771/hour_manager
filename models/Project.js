@@ -4,73 +4,78 @@ const Schema = mongoose.Schema;
 const ProjectSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: "User"
+    ref: "User",
   },
   companyName: {
-    type: String
+    type: String,
   },
   projectName: {
-    type: String
+    type: String,
   },
   location: {
-    type: String
+    type: String,
   },
   companyCoreFunc: {
-    type: String
+    type: String,
   },
   workDayHours: {
     start: {
-      type: String
+      type: String,
     },
     end: {
-      type: String
-    }
+      type: String,
+    },
   },
 
   //List of Employees
   staff: [
     {
       employeeID: {
-        type: String
+        type: String,
       },
       companyName: {
-        type: String
+        type: String,
       },
       projectName: {
-        type: String
+        type: String,
       },
       employeeName: {
-        type: String
+        type: String,
       },
       employeeEmail: {
-        type: String
+        type: String,
       },
       employeePhone: {
-        type: String
+        type: String,
       },
       func: {
-        type: String
+        type: String,
       },
       started: {
-        type: String
+        type: String,
       },
       address: {
-        type: String
+        type: String,
       },
       confirmed: {
-        type: Boolean
+        type: Boolean,
+        default: false,
+      },
+      app: {
+        type: Boolean, // Employee was prompted to download app and logged in by using provided Email and Code
+        default: false,
       },
       date: {
         type: Date,
-        default: Date.now
-      }
-    }
+        default: Date.now,
+      },
+    },
   ],
 
   date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 module.exports = Project = mongoose.model("Project", ProjectSchema);

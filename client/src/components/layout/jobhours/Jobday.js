@@ -185,26 +185,28 @@ class Jobday extends Component {
       return (
         //Message
         <div className="my-2 text-center ">
-          <span>
+          <span className="text-white">
             {moment(this.state.date).format("LL") +
               " " +
               moment(this.state.date).format("dddd")}
           </span>
           <br />
           <br />
-          <span>{this.state.message}</span>
+          <span className="text-white">{this.state.message}</span>
         </div>
       );
     } else if (this.state.workDays && !this.state.showDay) {
       return (
         //Here Whole Month
-        <Scrollbar>
+        <Scrollbar
+          style={{ width: "100%", height: 350, backgroundColor: "#2e6585" }}
+        >
           <div className="my-3  ">
             <table className="table ">
               <thead style={{ borderBottom: "none" }}>
                 <tr>
                   <th scope="col" style={{ borderBottom: "none" }}>
-                    Date
+                    <span className="text-white">Date</span>
                     {/* {Show List of days Ascend order  or Descend order} */}
                     {this.state.ascendOrder ? (
                       <button
@@ -216,7 +218,10 @@ class Jobday extends Component {
                           })
                         }
                       >
-                        <FontAwesomeIcon icon={faArrowUp} />
+                        <FontAwesomeIcon
+                          icon={faArrowUp}
+                          style={{ color: "#fff" }}
+                        />
                       </button>
                     ) : (
                       <button
@@ -228,18 +233,21 @@ class Jobday extends Component {
                           })
                         }
                       >
-                        <FontAwesomeIcon icon={faArrowDown} />
+                        <FontAwesomeIcon
+                          icon={faArrowDown}
+                          style={{ color: "#fff" }}
+                        />
                       </button>
                     )}
                   </th>
                   <th scope="col" style={{ borderBottom: "none" }}>
-                    Start
+                    <span className="text-white">Start</span>
                   </th>
                   <th scope="col" style={{ borderBottom: "none" }}>
-                    End
+                    <span className="text-white">End</span>
                   </th>
                   <th scope="col" style={{ borderBottom: "none" }}>
-                    <span>Checked</span>
+                    <span className="text-white">Checked</span>
                   </th>
                   {/* <th scope="col">
                   <span className="small">View</span>
@@ -258,7 +266,7 @@ class Jobday extends Component {
                       <span className="font-weight-bold text-info">
                         {moment(day.date).format("L ")}
                       </span>
-                      <span className="font-weight-bold ml-1">
+                      <span className="font-weight-bold ml-1 text-white">
                         {moment(day.date).format("ddd")}
                       </span>
                     </td>
@@ -329,7 +337,7 @@ class Jobday extends Component {
                         className="btn btn-outline-secondary"
                         onClick={this._viewEmp.bind(this, day)}
                       >
-                        View
+                        <span className="text-white">View</span>
                       </button>
                     </td>
                   </tr>

@@ -83,7 +83,8 @@ router.post(
                     employeePhone: newEmployee.phone,
                     companyName: project.companyName,
                     projectName: project.projectName,
-                    confirmed: false,
+                    // confirmed: false,
+                    // app: false,
                     started: newEmployee.started,
                     address: newEmployee.address,
                     func: newEmployee.func,
@@ -372,6 +373,18 @@ router.post("/employee_login", (req, res) => {
           email: employee.email,
           uid: employee._id,
           projectID: employee.projectID,
+        });
+        //Update in Project current employee app=true;
+        Project.findById(employee.projectID).then((project) => {
+          console.log("project", project);
+          const employeeToUpdate = project.staff.find((emp) => {
+            return emp.employeeEmail === req.body.email;
+          });
+          console.log("employeeToUpdate", employeeToUpdate);
+          employeeToUpdate.app = true;
+          employeeToUpdate.save().then((upEmp) => {
+            console.log("upEmp", upEmp);
+          });
         });
       });
     });

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   // faUserMinus,
   faCheck,
-  faExclamationCircle
+  faExclamationCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { connect } from "react-redux";
@@ -19,11 +19,11 @@ class EmployeeTable extends Component {
     //Email for match up in Popover in Delete Employee
     email: "",
     errors: {},
-    isActiveBtn: false
+    isActiveBtn: false,
   };
-  _onChange = e => {
+  _onChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
     if (this.state.email === this.props.employeeEmail) {
       console.log("match");
@@ -41,10 +41,10 @@ class EmployeeTable extends Component {
     }
   }
 
-  _deleteEmployee = e => {
+  _deleteEmployee = (e) => {
     console.log("e", e);
     this.props.deleteEmployee({
-      id: e
+      id: e,
     });
   };
 
@@ -52,14 +52,38 @@ class EmployeeTable extends Component {
     return (
       <tbody>
         <tr>
-          <th scope="row">{this.props.index}</th>
-          <td>{UpCase(this.props.employeeName)}</td>
-          <td>{this.props.employeeEmail}</td>
-          <td>{this.props.address}</td>
-          <td>{this.props.employeePhone}</td>
-          <td>{UpCase(this.props.projectName)}</td>
-          <td>{UpCase(this.props.func)}</td>
-          <td>{this.props.started}</td>
+          <th scope="row">
+            <span style={{ color: "#f6f78b" }}>{this.props.index}</span>
+          </th>
+          <td>
+            <span style={{ color: "#f6f78b" }}>
+              {UpCase(this.props.employeeName)}
+            </span>
+          </td>
+          <td>
+            <span style={{ color: "#f6f78b" }}>{this.props.employeeEmail}</span>
+          </td>
+          <td>
+            <span style={{ color: "#f6f78b" }}>{this.props.address}</span>
+          </td>
+          <td>
+            <span style={{ color: "#f6f78b" }}>
+              {" "}
+              {this.props.employeePhone}
+            </span>
+          </td>
+          <td>
+            <span style={{ color: "#f6f78b" }}>
+              {" "}
+              {UpCase(this.props.projectName)}
+            </span>
+          </td>
+          <td>
+            <span style={{ color: "#f6f78b" }}> {UpCase(this.props.func)}</span>
+          </td>
+          <td>
+            <span style={{ color: "#f6f78b" }}> {this.props.started}</span>
+          </td>
           <td>
             {this.props.confirmed ? (
               <span className="text-success d-flex justify-content-center">

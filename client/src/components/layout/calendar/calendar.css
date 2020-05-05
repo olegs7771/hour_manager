@@ -11,9 +11,9 @@
 
 /* @start tail.DateTime */
 .tail-datetime-calendar {
-  width: 245px;
+  width: "100%";
   height: auto;
-  margin: 15px;
+  /* margin: 15px; */
   padding: 0;
   display: block;
   overflow: hidden;
