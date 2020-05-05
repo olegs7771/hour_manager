@@ -109,7 +109,7 @@ export class Project extends Component {
                 className="btn btn-outline-info"
                 onClick={this._createProject}
               >
-                Add Project
+                <span className="text-white">Add Project</span>
               </button>
             </div>
             <div className="row  d-flex justify-content-around">

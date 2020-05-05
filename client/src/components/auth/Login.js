@@ -51,57 +51,71 @@ export class Login extends Component {
 
   render() {
     return (
-      <div className="div my-2">
-        <div className="my3 text-center h3">SignIn</div>
-        <div className="my-3 border rounded p-5">
-          <form onSubmit={this._onSubmit}>
-            <TextFormGroup
-              label={
-                <span className="ml-3" style={{ fontWeight: "bold" }}>
-                  Email
-                </span>
-              }
-              placeholder="brown@exemple.com"
-              onChange={this._onChange}
-              value={this.state.email}
-              name="email"
-              error={this.state.errors.email}
-              type="email"
-            />
+      <div className="py-3" style={{ height: 700 }}>
+        <div className="my3 text-center h3 text-white">SignIn</div>
+        <div className="div row">
+          <div className="col-md-6 d-block mx-auto my-3">
+            <div className="my-3 border rounded p-5">
+              <form onSubmit={this._onSubmit}>
+                <TextFormGroup
+                  label={
+                    <span
+                      className="ml-3"
+                      style={{ fontWeight: "bold", color: "#FFF" }}
+                    >
+                      Email
+                    </span>
+                  }
+                  placeholder="brown@exemple.com"
+                  onChange={this._onChange}
+                  value={this.state.email}
+                  name="email"
+                  error={this.state.errors.email}
+                  type="email"
+                />
 
-            <TextFormGroup
-              label={
-                <span className="ml-3" style={{ fontWeight: "bold" }}>
-                  Password
-                </span>
-              }
-              placeholder="e.g. 6-10 chars"
-              onChange={this._onChange}
-              value={this.state.password}
-              name="password"
-              error={this.state.errors.password}
-              type="password"
-            />
-            {this.state.messages.message ? (
-              <div className="text-success mb-3">
-                {this.state.messages.message}
-              </div>
-            ) : null}
-            {this.state.errors.error ? (
-              <div className="text-danger mb-3">{this.state.errors.error}</div>
-            ) : null}
-            <DotLoaderSpinner loading={this.state.loading} />
+                <TextFormGroup
+                  label={
+                    <span
+                      className="ml-3"
+                      style={{ fontWeight: "bold", color: "#FFF" }}
+                    >
+                      Password
+                    </span>
+                  }
+                  placeholder="e.g. 6-10 chars"
+                  onChange={this._onChange}
+                  value={this.state.password}
+                  name="password"
+                  error={this.state.errors.password}
+                  type="password"
+                />
+                {this.state.messages.message ? (
+                  <div className="text-success mb-3">
+                    {this.state.messages.message}
+                  </div>
+                ) : null}
+                {this.state.errors.error ? (
+                  <div className="text-danger mb-3">
+                    {this.state.errors.error}
+                  </div>
+                ) : null}
+                <DotLoaderSpinner loading={this.state.loading} />
 
-            <button
-              type="submit"
-              // disabled={this.state.submitDisabled}
-              className="btn btn-outline-secondary  "
-            >
-              Submit
-            </button>
-          </form>
+                <button
+                  type="submit"
+                  // disabled={this.state.submitDisabled}
+                  className="btn btn-outline-secondary  "
+                >
+                  <span className="text-white">Submit</span>
+                </button>
+              </form>
+            </div>
+            <span className="text-white">
+              Not Registered yet? please press SingUp
+            </span>
+          </div>
         </div>
-        <div className="my-3 pl-4">Not Registered yet? please press SingUp</div>
       </div>
     );
   }

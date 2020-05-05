@@ -74,83 +74,113 @@ if (localStorage.jwtToken) {
 // screen if you're not yet authenticate
 
 class App extends Component {
-  render() {
-    console.log("window.innerHeight", window.innerHeight);
+  constructor(props) {
+    super(props);
+    this.state = {
+      width: 0,
+    };
+    this._changeWidth = this._changeWidth.bind(this);
+  }
 
+  componentDidMount() {
+    window.addEventListener("resize", () => {
+      this._changeWidth();
+    });
+  }
+  componentWillUnmount() {
+    window.removeEventListener("resize", () => {
+      this._changeWidth();
+    });
+  }
+
+  _changeWidth = () => {
+    console.log("width", window.innerWidth);
+    this.setState({ width: window.innerWidth });
+  };
+
+  render() {
     return (
       <Provider store={store}>
         <Router>
-          <Header />
           <div
-            className={window.innerWidth < 1500 ? "" : "container"}
+            // className="container1"
             style={{
               backgroundColor: "#2a5578",
+              width:
+                this.state.width === 0 ? window.innerWidth : this.state.width,
             }}
           >
+            <Header />
             <Switch>
-              <Route
-                exact
-                path="/project"
-                component={userIsAuthenticated(Project)}
-              />
-              <Route
-                exact
-                path="/create_project"
-                component={userIsAuthenticated(ProjectCreate)}
-              />
-              <Route
-                exact
-                path="/edit_project/:id"
-                component={userIsAuthenticated(ProjectEdit)}
-              />
-              <Route
-                exact
-                path="/employees/:id"
-                component={userIsAuthenticated(EmployeeStaff)}
-              />
-              <Route
-                exact
-                path="/employee_add/:id"
-                component={userIsAuthenticated(EmployeeAdd)}
-              />
-              <Route
-                exact
-                path="/employee_details/:id"
-                component={userIsAuthenticated(EmployeeDetails)}
-              />
-              <Route
-                exact
-                path="/employee_edit/:id"
-                component={userIsAuthenticated(EmployeeEdit)}
-              />
+              <div style={{ backgroundColor: "#2a5578" }}>
+                <Route
+                  exact
+                  path="/project"
+                  component={userIsAuthenticated(Project)}
+                />
+                <Route
+                  exact
+                  path="/create_project"
+                  component={userIsAuthenticated(ProjectCreate)}
+                />
+                <Route
+                  exact
+                  path="/edit_project/:id"
+                  component={userIsAuthenticated(ProjectEdit)}
+                />
+                <Route
+                  exact
+                  path="/employees/:id"
+                  component={userIsAuthenticated(EmployeeStaff)}
+                />
+                <Route
+                  exact
+                  path="/employee_add/:id"
+                  component={userIsAuthenticated(EmployeeAdd)}
+                />
+                <Route
+                  exact
+                  path="/employee_details/:id"
+                  component={userIsAuthenticated(EmployeeDetails)}
+                />
+                <Route
+                  exact
+                  path="/employee_edit/:id"
+                  component={userIsAuthenticated(EmployeeEdit)}
+                />
 
-              <Route exact path="/register" component={Register} />
-              <Route
-                exact
-                path="/login"
-                component={userIsNotAuthenticated(Login)}
-              />
-              <Route exact path="/" component={Landing} />
-              <Route exact path="/admin_contact" component={AdminContactForm} />
-              <Route
-                exact
-                path="/confirm/:id/:token"
-                component={SuccessMessage}
-              />
-              <Route
-                exact
-                path="/activate/:uid/:projectID/"
-                component={ActivationConfirmation}
-              />
+                <Route exact path="/register" component={Register} />
+                <Route
+                  exact
+                  path="/login"
+                  component={userIsNotAuthenticated(Login)}
+                />
+                <Route exact path="/" component={Landing} />
+                <Route
+                  exact
+                  path="/admin_contact"
+                  component={AdminContactForm}
+                />
+                <Route
+                  exact
+                  path="/confirm/:id/:token"
+                  component={SuccessMessage}
+                />
+                <Route
+                  exact
+                  path="/activate/:uid/:projectID/"
+                  component={ActivationConfirmation}
+                />
 
-              <Route
-                exact
-                path="/admin/:token/:access"
-                component={AdminControl}
-              />
+                <Route
+                  exact
+                  path="/admin/:token/:access"
+                  component={AdminControl}
+                />
+              </div>
             </Switch>
+            <Footer />
           </div>
-          <Footer />
         </Router>
       </Provider>
     );

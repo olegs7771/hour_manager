@@ -132,14 +132,14 @@ export class ProjectEdit extends Component {
       return (
         <div
           className="h3 text-center "
-          style={{ paddingTop: "30%", paddingBottom: "20%", height: 800 }}
+          style={{ paddingTop: "30%", paddingBottom: "20%", height: 700 }}
         >
           <HashLoaderSpinner />
         </div>
       );
     } else if (this.state.messages.message) {
       return (
-        <div>
+        <div style={{ height: 700 }}>
           <span className="text-success text-center h5">
             {this.state.messages.message}
           </span>
@@ -172,7 +172,7 @@ export class ProjectEdit extends Component {
         { label: "Financial", value: "Financial" },
       ];
       return (
-        <div className=" p-3">
+        <div className=" p-3" style={{ height: 700 }}>
           <div className="my-3 text-center h5 text-white">
             DashBoard Project
           </div>

@@ -9,8 +9,9 @@ class Landing extends Component {
       <div
         style={{
           backgroundImage: `url(${image})`,
+          backgroundSize: "cover",
+          overflow: "hidden",
           height: 700,
-          width: "100%"
         }}
       >
         <div className="display-4 text-white pt-5 pl-5">HourManger</div>
@@ -19,7 +20,7 @@ class Landing extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {};
 
