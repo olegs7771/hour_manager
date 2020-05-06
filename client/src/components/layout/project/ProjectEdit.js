@@ -172,9 +172,9 @@ export class ProjectEdit extends Component {
         { label: "Financial", value: "Financial" },
       ];
       return (
-        <div className=" p-3" style={{ height: 700 }}>
+        <div className=" p-3 py-5" style={{ height: "auto" }}>
           <div className="my-3 text-center h5 text-white">
-            DashBoard Project
+            Project DashBoard
           </div>
           <div className="my-3  text-center">
             <span className=" font-weight-light mb-4 text-center text-white pl-5">
@@ -272,7 +272,7 @@ export class ProjectEdit extends Component {
             </div>
             {/* STAFF */}
 
-            <div className="col-md-6  ">
+            <div className="col-md-6 mt-4  ">
               <div
                 className=" rounded pb-5 pt-3"
                 style={{ backgroundColor: "#3081c2" }}
