@@ -85,31 +85,46 @@ class EmployeeTable extends Component {
             <span style={{ color: "#f6f78b" }}> {this.props.started}</span>
           </td>
           <td>
-            <ToolTip
-              text={
-                this.props.confirmed ? (
+            {this.props.confirmed ? (
+              <ToolTip
+                text={
                   <span className="text-success d-flex justify-content-center">
                     <FontAwesomeIcon icon={faCheck} />
                   </span>
-                ) : (
+                }
+                message="Show Status wether Employee had activated App or Not"
+              />
+            ) : (
+              <ToolTip
+                text={
                   <span className="text-danger d-flex justify-content-center">
                     <FontAwesomeIcon icon={faExclamationCircle} />
                   </span>
-                )
-              }
-              message={this.props.confirmed ? "true" : "false"}
-            />
+                }
+                message="Show Status wether Employee had activated App or Not"
+              />
+            )}
           </td>
 
           <td>
             {this.props.app ? (
-              <span className="text-success d-flex justify-content-center">
-                <FontAwesomeIcon icon={faCheck} />
-              </span>
+              <ToolTip
+                text={
+                  <span className="text-success d-flex justify-content-center">
+                    <FontAwesomeIcon icon={faCheck} />
+                  </span>
+                }
+                message="Show Status wether Employee had signed into the  App or Not using provided code"
+              />
             ) : (
-              <span className="text-danger d-flex justify-content-center">
-                <FontAwesomeIcon icon={faExclamationCircle} />
-              </span>
+              <ToolTip
+                text={
+                  <span className="text-danger d-flex justify-content-center">
+                    <FontAwesomeIcon icon={faExclamationCircle} />
+                  </span>
+                }
+                message="Show Status wether Employee had signed into the  App or Not using provided code"
+              />
             )}
           </td>
           <td

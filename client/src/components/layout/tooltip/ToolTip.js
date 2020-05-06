@@ -1,41 +1,25 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Tooltip } from "reactstrap";
 
-class ToolTip extends Component {
-  state = {
-    tooltipOpen: false,
-    message: "",
-  };
+const ToolTip = (props) => {
+  const [tooltipOpen, setTooltipOpen] = useState(false);
 
-  _toggle = () => {
-    this.setState({
-      tooltipOpen: !this.state.tooltipOpen,
-    });
-  };
-  componentDidMount() {
-    this.setState({ message: this.props.message });
-  }
+  const toggle = () => setTooltipOpen(!tooltipOpen);
+  return (
+    <div>
+      <span id="TooltipExample">{props.text}</span>
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevProps.message !== this.props.message)
-  //     this.setState({ message: this.props.message });
-  // }
-
-  render() {
-    return (
-      <div>
-        <span id="TooltipExample">{this.props.text}</span>
-
-        <Tooltip
-          placement="top"
-          isOpen={this.state.tooltipOpen}
-          target="TooltipExample"
-          toggle={this._toggle}
-        >
-          {this.state.message}
-        </Tooltip>
-      </div>
-    );
-  }
-}
+      <Tooltip
+        placement="top"
+        isOpen={tooltipOpen}
+        target="TooltipExample"
+        toggle={toggle}
+      >
+        <div>
+          <span className="text-white">{props.message}</span>
+        </div>
+      </Tooltip>
+    </div>
+  );
+};
 export default ToolTip;
