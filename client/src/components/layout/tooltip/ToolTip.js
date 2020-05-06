@@ -15,9 +15,7 @@ const ToolTip = (props) => {
         target="TooltipExample"
         toggle={toggle}
       >
-        <div>
-          <span className="text-white">{props.message}</span>
-        </div>
+        {props.message}
       </Tooltip>
     </div>
   );

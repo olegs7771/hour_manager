@@ -92,7 +92,6 @@ class EmployeeTable extends Component {
                     <FontAwesomeIcon icon={faCheck} />
                   </span>
                 }
-                message="Show Status wether Employee had activated App or Not"
               />
             ) : (
               <ToolTip
@@ -101,7 +100,6 @@ class EmployeeTable extends Component {
                     <FontAwesomeIcon icon={faExclamationCircle} />
                   </span>
                 }
-                message="Show Status wether Employee had activated App or Not"
               />
             )}
           </td>
@@ -114,7 +112,7 @@ class EmployeeTable extends Component {
                     <FontAwesomeIcon icon={faCheck} />
                   </span>
                 }
-                message="Show Status wether Employee had signed into the  App or Not using provided code"
+                message="true"
               />
             ) : (
               <ToolTip
@@ -123,7 +121,7 @@ class EmployeeTable extends Component {
                     <FontAwesomeIcon icon={faExclamationCircle} />
                   </span>
                 }
-                message="Show Status wether Employee had signed into the  App or Not using provided code"
+                message="false"
               />
             )}
           </td>
