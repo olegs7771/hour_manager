@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { UpCase } from "../../../utils/UpperCase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
   // faUserMinus,
   faCheck,
@@ -10,7 +11,7 @@ import {
 
 import { connect } from "react-redux";
 import { deleteEmployee } from "../../../store/actions/employeeAction";
-import ToolTip from "../tooltip/ToolTip";
+// import ToolTip from "../tooltip/ToolTip";
 // import TextFormGroup from "../../textForms/TextFormGroup";
 
 class EmployeeTable extends Component {
@@ -86,43 +87,25 @@ class EmployeeTable extends Component {
           </td>
           <td>
             {this.props.confirmed ? (
-              <ToolTip
-                text={
-                  <span className="text-success d-flex justify-content-center">
-                    <FontAwesomeIcon icon={faCheck} />
-                  </span>
-                }
-              />
+              <span className="text-success d-flex justify-content-center ">
+                <FontAwesomeIcon icon={faCheck} />
+              </span>
             ) : (
-              <ToolTip
-                text={
-                  <span className="text-danger d-flex justify-content-center">
-                    <FontAwesomeIcon icon={faExclamationCircle} />
-                  </span>
-                }
-              />
+              <span className="text-danger d-flex justify-content-center">
+                <FontAwesomeIcon icon={faExclamationCircle} />
+              </span>
             )}
           </td>
 
           <td>
             {this.props.app ? (
-              <ToolTip
-                text={
-                  <span className="text-success d-flex justify-content-center">
-                    <FontAwesomeIcon icon={faCheck} />
-                  </span>
-                }
-                message="true"
-              />
+              <span className="text-success d-flex justify-content-center">
+                <FontAwesomeIcon icon={faCheck} />
+              </span>
             ) : (
-              <ToolTip
-                text={
-                  <span className="text-danger d-flex justify-content-center">
-                    <FontAwesomeIcon icon={faExclamationCircle} />
-                  </span>
-                }
-                message="false"
-              />
+              <span className="text-danger d-flex justify-content-center">
+                <FontAwesomeIcon icon={faExclamationCircle} />
+              </span>
             )}
           </td>
           <td

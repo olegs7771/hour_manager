@@ -26,6 +26,7 @@
     "react-scripts": "3.4.0",
     "react-scrollbars-custom": "^4.0.21",
     "react-spinners": "^0.8.0",
+    "react-tooltip": "^4.2.6",
     "react-transition-group": "^4.3.0",
     "reactstrap": "^8.4.1",
     "recharts": "^2.0.0-beta.1",

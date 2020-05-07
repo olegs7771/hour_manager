@@ -1,23 +1,18 @@
-import React, { useState } from "react";
-import { Tooltip } from "reactstrap";
+import React, { Component } from "react";
+import ReactTooltip from "react-tooltip";
 
-const ToolTip = (props) => {
-  const [tooltipOpen, setTooltipOpen] = useState(false);
-
-  const toggle = () => setTooltipOpen(!tooltipOpen);
-  return (
-    <div>
-      <span id="TooltipExample">{props.text}</span>
-
-      <Tooltip
-        placement="top"
-        isOpen={tooltipOpen}
-        target="TooltipExample"
-        toggle={toggle}
-      >
-        {props.message}
-      </Tooltip>
-    </div>
-  );
-};
-export default ToolTip;
+export default class ToolTip extends Component {
+  render() {
+    return (
+      <div>
+        <a data-tip data-for="happyFace">
+          {" "}
+          d(`･∀･)b{" "}
+        </a>
+        <ReactTooltip id="happyFace" type="error">
+          <span>Show happy face</span>
+        </ReactTooltip>
+      </div>
+    );
+  }
+}
