@@ -40,8 +40,8 @@ export class EmployeeDetails extends Component {
     showMonth: false,
     //toggle Button Delete Profile/Cancel. True or false coming from Popup.js
     switchBtn: false,
-    //for changing layout if viewport changed to mobile
-    isMobile: false,
+    //Hide EmployeeControls.js if No days to show
+    showControls: false,
   };
   _onChange = (e) => {
     this.setState({
@@ -102,9 +102,6 @@ export class EmployeeDetails extends Component {
 
   componentDidMount() {
     this.props.getEmployee({ id: this.props.match.params.id });
-    window.addEventListener("resize", () => {
-      this._changeWidth();
-    });
   }
 
   _deleteEmployee = (e) => {
@@ -117,10 +114,10 @@ export class EmployeeDetails extends Component {
     console.log("e change btn", e);
     this.setState({ switchBtn: e ? true : false });
   };
+  _showControls = (state) => {
+    console.log("state", state);
 
-  //Change padding if mobile view
-  _changeWidth = () => {
-    this.setState({ isMobile: window.innerWidth < 700 ? true : false });
+    this.setState({ showControls: state });
   };
 
   render() {
@@ -159,52 +156,65 @@ export class EmployeeDetails extends Component {
       );
     } else {
       return (
-        <div style={{ height: "auto" }}>
-          <div className="my-4 h5 text-center">
-            <span className="h5 text-white">Employee Dashboard</span>
-          </div>
-          <div className=" row  d-flex justify-content-between">
-            <div className="col-md-3 border ">
-              <ul className="list-group list-group-flush">
+        <div className={window.innerWidth < 500 ? "py-1 " : "py-5 pl-5"}>
+          {window.innerWidth < 500 ? (
+            <div className=" text-center ">
+              <span className=" text-white">Employee Dashboard Mobile</span>
+            </div>
+          ) : (
+            <div className="my-4 text-center">
+              <span className="h5 text-white">Employee Dashboard</span>
+            </div>
+          )}
+
+          <div
+            className={
+              window.innerWidth < 500
+                ? " row  d-flex justify-content-between "
+                : "row  d-flex justify-content-between my-5"
+            }
+          >
+            <div className="col-md-3  ">
+              <ul className="list-group list-group-flush  border rounded">
                 <li className="list-group-item list-group-item d-flex justify-content-between ">
                   <span className="font-weight-bolder small">Name</span>
 
-                  <span class="small">
+                  <span className="small pr-3">
                     {UpCase(this.props.selectedEmployee.name)}
                   </span>
                 </li>
                 <li className="list-group-item list-group-item d-flex justify-content-between">
                   <span className="font-weight-bolder small">Email</span>
 
-                  <span className="small">
+                  <span className="small pr-3">
                     {this.props.selectedEmployee.email}
                   </span>
                 </li>
                 <li className="list-group-item list-group-item d-flex justify-content-between">
                   <span className="font-weight-bolder small">Address</span>
 
-                  <span className="small">
+                  <span className="small pr-3">
                     {UpCase(this.props.selectedEmployee.address)}
                   </span>
                 </li>
                 <li className="list-group-item list-group-item d-flex justify-content-between">
                   <span className="font-weight-bolder small">Phone</span>
 
-                  <span className="small">
+                  <span className="small pr-3">
                     {UpCase(this.props.selectedEmployee.phone)}
                   </span>
                 </li>
                 <li className="list-group-item list-group-item d-flex justify-content-between">
                   <span className="font-weight-bolder small">Function</span>
 
-                  <span className="small">
+                  <span className="small pr-3">
                     {UpCase(this.props.selectedEmployee.func)}
                   </span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
                   <span className="font-weight-bolder small">Started Job</span>
 
-                  <span className="small">
+                  <span className="small pr-3">
                     {UpCase(this.props.selectedEmployee.started)}
                   </span>
                 </li>
@@ -252,20 +262,28 @@ export class EmployeeDetails extends Component {
               </ul>
             </div>
 
-            <div className="col-md-3 border">
+            <div
+              className={
+                window.innerWidth < 500 ? "col-md-3  " : "col-md-3 pl-3 "
+              }
+            >
               <Calendar
                 showDay={this.state.showDay}
                 showMonth={this.state.showMonth}
               />
             </div>
-            <div className="col-md-6 border">
+            <div className="col-md-6 ">
               {/* Select To show Day or Month */}
-              <EmployeeControls parentCB={this._showDate} />
+              {this.state.showControls && (
+                <EmployeeControls parentCB={this._showDate} />
+              )}
               <Jobday
                 employee={this.state.selectedEmployeeDetails}
                 showDay={this.state.showDay}
                 //Show Day from child
                 showDayChild={this._showDateChild}
+                //hide controls if Jobsday got message
+                showControls={this._showControls}
               />
               <TotalJobHours />
             </div>

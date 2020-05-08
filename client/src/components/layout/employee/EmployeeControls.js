@@ -37,7 +37,7 @@ class EmployeeControls extends Component {
     return (
       <div>
         <form onSubmit={this._onSubmit}>
-          <div className="row  border mx-auto mt-2" style={{ width: "60%" }}>
+          <div className="row   mx-auto mt-2" style={{ width: "60%" }}>
             <div className="col-md-6  ">
               <label>
                 <span className="text-white">Show Day</span>

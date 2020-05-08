@@ -51,14 +51,15 @@ class TotalJobHours extends Component {
     if (this.state.showTotal) {
       return (
         <div className=" my-3 p-1">
-          <p className="text-left">
+          <p className="text-left text-white">
             The total amount of work hours for current month based on the data
             in the data base.
           </p>
-          <span style={{ fontWeight: "bold", marginLeft: 10 }}>
+          <span style={{ fontWeight: "bold", marginLeft: 10, color: "#FFF" }}>
             Total Hours
           </span>{" "}
-          {total} hours
+          <span style={{ color: "#ebde34", fontWeight: "bold" }}>{total}</span>{" "}
+          <span className="text-white">Hours</span>
         </div>
       );
     } else {

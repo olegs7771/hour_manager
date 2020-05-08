@@ -5,13 +5,18 @@ export default class ToolTip extends Component {
   render() {
     return (
       <div>
-        <a data-tip data-for="happyFace">
-          {" "}
-          d(`･∀･)b{" "}
+        <a data-tip={this.props.tip} data-for="happyFace">
+          {this.props.text}
         </a>
-        <ReactTooltip id="happyFace" type="error">
-          <span>Show happy face</span>
-        </ReactTooltip>
+
+        <ReactTooltip
+          id="happyFace"
+          getContent={[
+            (dataTip) => {
+              return <span>{dataTip}</span>;
+            },
+          ]}
+        />
       </div>
     );
   }

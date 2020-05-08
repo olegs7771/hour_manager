@@ -25,6 +25,7 @@ import {
   faArrowDown,
 } from "@fortawesome/free-solid-svg-icons";
 import Message from "./Message";
+import ToolTip from "../tooltip/ToolTip";
 
 // Function to sort this.props.jobDays
 const sortArrAsc = (arr) => {
@@ -108,6 +109,10 @@ class Jobday extends Component {
         this.setState({
           selectedDay: true,
         });
+        //hide controls in EmployeeControls
+        this.props.showControls(false);
+      } else {
+        this.props.showControls(true);
       }
     }
     if (prevProps.workDays !== this.props.workDays) {
@@ -172,8 +177,6 @@ class Jobday extends Component {
   };
 
   render() {
-    console.log("this.props", this.props);
-
     if (this.state.loading || this.state.selectedDay === null) {
       return (
         //Spinner
@@ -205,7 +208,10 @@ class Jobday extends Component {
             <table className="table ">
               <thead style={{ borderBottom: "none" }}>
                 <tr>
-                  <th scope="col" style={{ borderBottom: "none" }}>
+                  <th
+                    scope="col"
+                    style={{ borderBottom: "none", borderTop: "none" }}
+                  >
                     <span className="text-white">Date</span>
                     {/* {Show List of days Ascend order  or Descend order} */}
                     {this.state.ascendOrder ? (
@@ -240,18 +246,28 @@ class Jobday extends Component {
                       </button>
                     )}
                   </th>
-                  <th scope="col" style={{ borderBottom: "none" }}>
+                  <th
+                    scope="col"
+                    style={{
+                      borderBottom: "none",
+                      borderTop: "none",
+                      borderTop: "none",
+                    }}
+                  >
                     <span className="text-white">Start</span>
                   </th>
-                  <th scope="col" style={{ borderBottom: "none" }}>
+                  <th
+                    scope="col"
+                    style={{ borderBottom: "none", borderTop: "none" }}
+                  >
                     <span className="text-white">End</span>
                   </th>
-                  <th scope="col" style={{ borderBottom: "none" }}>
+                  <th
+                    scope="col"
+                    style={{ borderBottom: "none", borderTop: "none" }}
+                  >
                     <span className="text-white">Checked</span>
                   </th>
-                  {/* <th scope="col">
-                  <span className="small">View</span>
-                </th> */}
                 </tr>
               </thead>
 
@@ -263,7 +279,7 @@ class Jobday extends Component {
                       className="d-flex justify-content-between"
                       style={{ borderBottom: "none" }}
                     >
-                      <span className="font-weight-bold text-info">
+                      <span className="font-weight-bold text-white">
                         {moment(day.date).format("L ")}
                       </span>
                       <span className="font-weight-bold ml-1 text-white">
@@ -310,27 +326,35 @@ class Jobday extends Component {
                         <span> Pending..</span>
                       )}
                     </td>
+                    {/* {Checked} */}
                     <td>
-                      <span className="">
-                        {day.confirmEmployee ? (
-                          <div>
-                            {day.confirmManager ? (
-                              <span className="text-success">
-                                <FontAwesomeIcon icon={faCheckDouble} />
-                              </span>
-                            ) : (
-                              <span className="text-success">
-                                <FontAwesomeIcon icon={faCheck} />
-                              </span>
-                            )}
-                          </div>
-                        ) : (
-                          <span className="text-danger">
-                            {" "}
-                            <FontAwesomeIcon icon={faExclamationCircle} />
-                          </span>
-                        )}
-                      </span>
+                      <ToolTip
+                        text={
+                          day.confirmEmployee ? (
+                            <div>
+                              {day.confirmManager ? (
+                                <span className="text-success">
+                                  <FontAwesomeIcon icon={faCheckDouble} />
+                                </span>
+                              ) : (
+                                <span className="text-success">
+                                  <FontAwesomeIcon icon={faCheck} />
+                                </span>
+                              )}
+                            </div>
+                          ) : (
+                            <span className="text-danger">
+                              {" "}
+                              <FontAwesomeIcon icon={faExclamationCircle} />
+                            </span>
+                          )
+                        }
+                        tip={
+                          day.confirmEmployee
+                            ? "Employee has confirmed the hours pair"
+                            : "Pending confirmation.."
+                        }
+                      />
                     </td>
                     <td>
                       <button
@@ -479,6 +503,7 @@ Jobday.propsTypes = {
   selectDay: PropTypes.func,
   selectMonthy: PropTypes.func,
   managerConfirm: PropTypes.func,
+  showControls: PropTypes.func,
   message: PropTypes.string,
   showDay: PropTypes.bool,
   showDayChild: PropTypes.obj,

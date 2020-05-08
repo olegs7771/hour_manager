@@ -11,6 +11,7 @@ import {
 
 import { connect } from "react-redux";
 import { deleteEmployee } from "../../../store/actions/employeeAction";
+import ToolTip from "../tooltip/ToolTip";
 // import ToolTip from "../tooltip/ToolTip";
 // import TextFormGroup from "../../textForms/TextFormGroup";
 
@@ -86,27 +87,45 @@ class EmployeeTable extends Component {
             <span style={{ color: "#f6f78b" }}> {this.props.started}</span>
           </td>
           <td>
-            {this.props.confirmed ? (
-              <span className="text-success d-flex justify-content-center ">
-                <FontAwesomeIcon icon={faCheck} />
-              </span>
-            ) : (
-              <span className="text-danger d-flex justify-content-center">
-                <FontAwesomeIcon icon={faExclamationCircle} />
-              </span>
-            )}
+            <ToolTip
+              text={
+                this.props.confirmed ? (
+                  <span className="text-success d-flex justify-content-center ">
+                    <FontAwesomeIcon icon={faCheck} />
+                  </span>
+                ) : (
+                  <span className="text-danger d-flex justify-content-center">
+                    <FontAwesomeIcon icon={faExclamationCircle} />
+                  </span>
+                )
+              }
+              tip={
+                this.props.confirmed
+                  ? "Employee has activated  the App "
+                  : "Employee has not activated the App "
+              }
+            />
           </td>
 
           <td>
-            {this.props.app ? (
-              <span className="text-success d-flex justify-content-center">
-                <FontAwesomeIcon icon={faCheck} />
-              </span>
-            ) : (
-              <span className="text-danger d-flex justify-content-center">
-                <FontAwesomeIcon icon={faExclamationCircle} />
-              </span>
-            )}
+            <ToolTip
+              text={
+                this.props.app ? (
+                  <span className="text-success d-flex justify-content-center ">
+                    <FontAwesomeIcon icon={faCheck} />
+                  </span>
+                ) : (
+                  <span className="text-danger d-flex justify-content-center">
+                    <FontAwesomeIcon icon={faExclamationCircle} />
+                  </span>
+                )
+              }
+              tip={
+                this.props.app
+                  ? "Employee has  Signed into the app using provided code "
+                  : "Employee has not Signed into the App yet. "
+              }
+            />
           </td>
           <td
             className="btn btn-outline-info  d-flex justify-content-center"
