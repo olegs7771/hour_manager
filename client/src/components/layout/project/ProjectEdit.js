@@ -260,6 +260,10 @@ export class ProjectEdit extends Component {
                   />
                 </div>
 
+                <div className="my-3 border">
+                  <a href="/map">Select Location</a>
+                </div>
+
                 <div className="my-1 ">
                   <button
                     type="submit"
