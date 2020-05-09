@@ -86,8 +86,6 @@ class App extends Component {
 
   componentDidMount() {
     window.addEventListener("resize", () => {
-      console.log("event added");
-
       this._changeWidth();
     });
   }

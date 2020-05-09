@@ -1,36 +1,56 @@
-import React, { Component } from "react";
-import GoogleMapReact from "google-map-react";
+import React, { useEffect, useRef } from "react";
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+// Variables
+const GOOGLE_MAP_API_KEY = "AIzaSyASLLZYTv8JDeXhU4ASMK4U_lyn4gD7vY0";
 
-class Map extends Component {
-  static defaultProps = {
-    center: {
-      lat: 59.95,
-      lng: 30.33,
-    },
-    zoom: 11,
-  };
+const myLocation = {
+  // CN Tower Landmark
+  lat: 43.642567,
+  lng: -79.387054,
+};
+// styles
+const mapStyles = {
+  width: "100%",
+  height: "400px",
+};
 
-  render() {
-    return (
-      <div className="border p-4">
-        <div style={{ height: "100vh", width: "100%" }}>
-          <GoogleMapReact
-            // bootstrapURLKeys={{ key: /* YOUR KEY HERE */ }}
-            defaultCenter={this.props.center}
-            defaultZoom={this.props.zoom}
-          >
-            <AnyReactComponent
-              lat={59.955413}
-              lng={30.337844}
-              text="My Marker"
-            />
-          </GoogleMapReact>
-        </div>
-      </div>
-    );
-  }
+function Map(props) {
+  // refs
+  const googleMapRef = React.createRef();
+  const googleMap = useRef(null);
+  const marker = useRef(null);
+
+  // helper functions
+  const createGoogleMap = () =>
+    new window.google.maps.Map(googleMapRef.current, {
+      zoom: 5,
+      center: {
+        lat: myLocation.lat,
+        lng: myLocation.lng,
+      },
+    });
+
+  const createMarker = () =>
+    new window.google.maps.Marker({
+      position: { lat: myLocation.lat, lng: myLocation.lng },
+      map: googleMap.current,
+      draggable: true,
+      animation: window.google.maps.Animation.DROP,
+    });
+
+  // useEffect Hook
+  useEffect(() => {
+    const googleMapScript = document.createElement("script");
+    googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAP_API_KEY}&libraries=places`;
+    window.document.body.appendChild(googleMapScript);
+
+    googleMapScript.addEventListener("load", () => {
+      googleMap.current = createGoogleMap();
+      marker.current = createMarker();
+    });
+  });
+
+  return <div id="google-map" ref={googleMapRef} style={mapStyles} />;
 }
 
 export default Map;

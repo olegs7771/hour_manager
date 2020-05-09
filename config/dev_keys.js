@@ -7,5 +7,5 @@ module.exports = {
     "647486022475-7g90e61uqn1oauvf4eagc7lgm80p56b6.apps.googleusercontent.com",
   clientSecret: "h2VQ_UAYu0DeOfUCAe8-_lXa",
   refresh_token:
-    "1//04uw1UliAuP39CgYIARAAGAQSNwF-L9IrnqOnpGhAtijJphoNSkubq1GgW1yX2XGZDVswJ4yhRz101GW_3igKTLmLOWtHon4mAmg"
+    "1//04uw1UliAuP39CgYIARAAGAQSNwF-L9IrnqOnpGhAtijJphoNSkubq1GgW1yX2XGZDVswJ4yhRz101GW_3igKTLmLOWtHon4mAmg",
 };

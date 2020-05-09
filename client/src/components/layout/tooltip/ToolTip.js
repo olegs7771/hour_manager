@@ -5,9 +5,9 @@ export default class ToolTip extends Component {
   render() {
     return (
       <div>
-        <a data-tip={this.props.tip} data-for="happyFace">
+        <span data-tip={this.props.tip} data-for="happyFace">
           {this.props.text}
-        </a>
+        </span>
 
         <ReactTooltip
           id="happyFace"
