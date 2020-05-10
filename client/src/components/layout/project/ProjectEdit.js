@@ -263,6 +263,9 @@ export class ProjectEdit extends Component {
                 <div className="my-3 border">
                   <a href="/map">Select Location</a>
                 </div>
+                <div className="my-3 border">
+                  <a href="/sandbox">SandBox</a>
+                </div>
 
                 <div className="my-1 ">
                   <button

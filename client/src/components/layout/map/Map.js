@@ -1,13 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import GeoLocation from "./GeoLocation";
+import { connect } from "react-redux";
 
 // Variables
 const GOOGLE_MAP_API_KEY = "AIzaSyASLLZYTv8JDeXhU4ASMK4U_lyn4gD7vY0";
 
-const myLocation = {
-  // CN Tower Landmark
-  lat: 43.642567,
-  lng: -79.387054,
-};
 // styles
 const mapStyles = {
   width: "100%",
@@ -15,24 +12,25 @@ const mapStyles = {
 };
 
 function Map(props) {
+  const [coords, setCoords] = useState(null);
   // refs
   const googleMapRef = React.createRef();
   const googleMap = useRef(null);
   const marker = useRef(null);
 
   // helper functions
-  const createGoogleMap = () =>
+  const createGoogleMap = (data) =>
     new window.google.maps.Map(googleMapRef.current, {
       zoom: 5,
       center: {
-        lat: myLocation.lat,
-        lng: myLocation.lng,
+        lat: data.lat,
+        lng: data.lng,
       },
     });
 
-  const createMarker = () =>
+  const createMarker = (data) =>
     new window.google.maps.Marker({
-      position: { lat: myLocation.lat, lng: myLocation.lng },
+      position: { lat: data.lat, lng: data.lng },
       map: googleMap.current,
       draggable: true,
       animation: window.google.maps.Animation.DROP,
@@ -45,12 +43,27 @@ function Map(props) {
     window.document.body.appendChild(googleMapScript);
 
     googleMapScript.addEventListener("load", () => {
-      googleMap.current = createGoogleMap();
-      marker.current = createMarker();
+      if (props.coords) {
+        googleMap.current = createGoogleMap(props.coords);
+        marker.current = createMarker(props.coords);
+      }
+    });
+    googleMapScript.addEventListener("center_changed", () => {
+      window.setTimeout(() => {
+        console.log("reposition");
+      }, 3000);
     });
   });
 
-  return <div id="google-map" ref={googleMapRef} style={mapStyles} />;
+  return (
+    <div>
+      <GeoLocation />
+      <div id="google-map" ref={googleMapRef} style={mapStyles} />;
+    </div>
+  );
 }
+const mapStateToProps = (state) => ({
+  coords: state.projects.coords,
+});
 
-export default Map;
+export default connect(mapStateToProps)(Map);

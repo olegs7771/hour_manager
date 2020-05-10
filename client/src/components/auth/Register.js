@@ -107,7 +107,6 @@ export class Register extends Component {
                       Phone
                     </span>
                   }
-                  label="Phone"
                   placeholder="0501234455"
                   onChange={this._onChange}
                   value={this.state.phone}
@@ -124,7 +123,6 @@ export class Register extends Component {
                       Location
                     </span>
                   }
-                  label="Location"
                   placeholder="city,state"
                   onChange={this._onChange}
                   value={this.state.location}
