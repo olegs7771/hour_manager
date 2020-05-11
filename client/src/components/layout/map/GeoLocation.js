@@ -24,7 +24,18 @@ class GeoLocation extends React.Component {
     if (!this.state.coords) {
       return <div>Loading</div>;
     } else {
-      return <MapContainer coords={this.state.coords} />;
+      return (
+        <div className="border pt-2">
+          <div className="mx-auto">
+            <span className="text-center h6 text-white d-block my-4">
+              Pick Location On Map
+            </span>
+          </div>
+          <div style={{ height: 800 }}>
+            <MapContainer coords={this.state.coords} />;
+          </div>
+        </div>
+      );
     }
   }
 }

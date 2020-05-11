@@ -11,6 +11,10 @@ class MapContainer extends Component {
     },
   };
 
+  _onMapClick = (e) => {
+    console.log("e", e);
+  };
+
   render() {
     return (
       <Map
@@ -18,6 +22,7 @@ class MapContainer extends Component {
         zoom={10}
         style={style}
         initialCenter={this.props.coords}
+        onClick={this._onMapClick}
       >
         <Marker onClick={this.onMarkerClick} name={"Current location"} />
 
@@ -37,5 +42,5 @@ export default GoogleApiWrapper({
 
 const style = {
   width: "100%",
-  height: "100%",
+  height: 500,
 };
