@@ -13,7 +13,8 @@ import SuccessMessage from "../src/components/auth/SuccessMessage";
 //Layout
 import Header from "../src/components/layout/header/Header";
 //Map
-import Map from "../src/components/layout/map/Map";
+import MapContainer from "./components/layout/map/MapContainer";
+import GeoLocation from "../src/components/layout/map/GeoLocation";
 
 import Landing from "../src/components/layout/main/Landing";
 import Footer from "../src/components/layout/footer/Footer";
@@ -146,7 +147,11 @@ class App extends Component {
                   path="/employee_edit/:id"
                   component={userIsAuthenticated(EmployeeEdit)}
                 />
-                <Route exact path="/map" component={userIsAuthenticated(Map)} />
+                <Route
+                  exact
+                  path="/map"
+                  component={userIsAuthenticated(GeoLocation)}
+                />
                 <Route
                   exact
                   path="/sandbox"

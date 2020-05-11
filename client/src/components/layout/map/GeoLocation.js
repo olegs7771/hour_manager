@@ -1,29 +1,36 @@
 import React from "react";
-import { connect } from "react-redux";
-import { getGeoCoords } from "../../../store/actions/projectAction";
+
+import MapContainer from "./MapContainer";
 import { geolocated } from "react-geolocated";
+
 class GeoLocation extends React.Component {
+  state = {
+    coords: {},
+  };
   componentDidUpdate(prevProps, prevState) {
     if (prevProps !== this.props) {
-      if (this.props.isGeolocationAvailable) {
-        let data = {
-          lat: this.props.coords.latitude,
-          lng: this.props.coords.longitude,
-        };
-        this.props.getGeoCoords(data);
+      if (this.props.coords) {
+        this.setState({
+          coords: {
+            lat: this.props.coords.latitude,
+            lng: this.props.coords.longitude,
+          },
+        });
       }
     }
   }
 
   render() {
-    return null;
+    if (!this.state.coords) {
+      return <div>Loading</div>;
+    } else {
+      return <MapContainer coords={this.state.coords} />;
+    }
   }
 }
-export default connect(null, { getGeoCoords })(
-  geolocated({
-    positionOptions: {
-      enableHighAccuracy: false,
-    },
-    userDecisionTimeout: 5000,
-  })(GeoLocation)
-);
+export default geolocated({
+  positionOptions: {
+    enableHighAccuracy: false,
+  },
+  userDecisionTimeout: 5000,
+})(GeoLocation);
