@@ -25,5 +25,3 @@ export const GET_SELECT_DAY = "GET_SELECT_DAY";
 export const GET_SELECT_MONTH = "GET_SELECT_MONTH";
 export const LOADING_JOBDAY = "LOADING_JOBDAY";
 export const JOBDAY_MESSAGE = "JOBDAY_MESSAGE";
-//Coords for Google API Map
-export const GET_COORDS = "GET_COORDS";

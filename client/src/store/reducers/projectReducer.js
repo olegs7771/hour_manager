@@ -9,7 +9,6 @@ const initialState = {
   projects: null,
   loading: false,
   selectedProject: null,
-  coords: null,
 };
 
 export default (state = initialState, action) => {
@@ -30,11 +29,6 @@ export default (state = initialState, action) => {
         ...state,
         selectedProject: action.payload,
         loading: false,
-      };
-    case GET_COORDS:
-      return {
-        ...state,
-        coords: action.payload,
       };
 
     default:

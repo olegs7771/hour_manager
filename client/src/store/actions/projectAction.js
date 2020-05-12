@@ -4,7 +4,6 @@ import {
   GET_MESSAGE,
   GET_ERRORS,
   LOADING_PROJECT,
-  GET_COORDS,
 } from "./types";
 import axios from "axios";
 
@@ -102,15 +101,6 @@ export const deleteProject = (data) => (dispatch) => {
     .catch((err) => {
       console.log("error to delete project", err.response.data);
     });
-};
-
-//Get Coords from GeoLocation.js to state
-export const getGeoCoords = (data) => (dispatch) => {
-  console.log("data coords", data);
-  dispatch({
-    type: GET_COORDS,
-    payload: data,
-  });
 };
 
 //Loading
