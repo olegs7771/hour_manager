@@ -31,6 +31,9 @@ class GeoLocation extends React.Component {
       });
     }
   }
+  _setNewCoords = (data) => {
+    this.setState({ coords: data });
+  };
 
   render() {
     if (Object.keys(this.state.coords).length === 0) {
@@ -44,7 +47,12 @@ class GeoLocation extends React.Component {
             </span>
           </div>
           <div style={{ height: 800 }}>
-            <MapContainer coords={this.state.coords} />;
+            <MapContainer
+              coords={this.state.coords}
+              //if marker moved .take new cords from marker.
+              setNewCoords={this._setNewCoords}
+            />
+            ;
           </div>
         </div>
       );

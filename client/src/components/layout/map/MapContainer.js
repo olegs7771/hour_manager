@@ -24,10 +24,13 @@ class MapContainer extends Component {
   };
 
   _positionChanged = (e) => {
-    console.log(
-      "e position",
-      this.markerRef.current.marker.getPosition().toString()
-    );
+    const position = this.markerRef.current.marker.getPosition();
+    const newCoordsObj = {
+      lat: position.lat(),
+      lng: position.lng(),
+    };
+    console.log("newCoordsObj", newCoordsObj);
+    // this.props.setNewCoords(newCoordsObj);
   };
 
   render() {
