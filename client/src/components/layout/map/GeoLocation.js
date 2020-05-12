@@ -18,6 +18,9 @@ class GeoLocation extends React.Component {
         });
       }
     }
+    if (prevState.coords !== this.state.coords) {
+      this.setState({ coords: this.state.coords });
+    }
   }
   componentDidMount() {
     console.log("geo cdm ");

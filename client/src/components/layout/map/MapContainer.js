@@ -8,17 +8,15 @@ class MapContainer extends Component {
   constructor(props) {
     super(props);
     this.markerRef = React.createRef();
+    this.mapRef = React.createRef();
 
     this.state = {
-      selectedPlace: {
-        name: "some place",
-      },
+      showingInfoWindow: false,
+      activeMarker: {},
+      selectedPlace: {},
     };
   }
 
-  _onMapClick = (e) => {
-    console.log("e clicked", e);
-  };
   _centerMoved = (mapProps, map) => {
     console.log("e moved", mapProps, map);
   };
@@ -29,8 +27,18 @@ class MapContainer extends Component {
       lat: position.lat(),
       lng: position.lng(),
     };
-    console.log("newCoordsObj", newCoordsObj);
+    // console.log("newCoordsObj", newCoordsObj);
     // this.props.setNewCoords(newCoordsObj);
+    this.setState((prevState) => {
+      return {
+        ...prevState,
+        newCoords: newCoordsObj,
+      };
+    });
+  };
+  _markerDragged = () => {
+    console.log("dragged");
+    this.props.setNewCoords(this.state.newCoords);
   };
 
   render() {
@@ -49,21 +57,17 @@ class MapContainer extends Component {
           onClick={this._onMapClick}
           onDragend={this._centerMoved}
           gestureHandling="greedy"
+          ref={this.mapRef}
         >
           <Marker
             ref={this.markerRef}
-            onClick={this.onMarkerClick}
-            name={"Current location"}
+            onClick={this._onMarkerClick}
+            // name={"Current location"}
             position={this.props.coords}
             draggable={true}
             position_changed={this._positionChanged}
+            onDragend={this._markerDragged}
           />
-
-          <InfoWindow onClose={this.onInfoWindowClose}>
-            <div>
-              <h1>{this.state.selectedPlace.name}</h1>
-            </div>
-          </InfoWindow>
         </Map>
       );
     }
