@@ -21,7 +21,18 @@ class MapContainer extends Component {
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {},
+      coords: {},
     };
+  }
+  componentDidMount() {
+    window.navigator.geolocation.getCurrentPosition((position) => {
+      this.setState({
+        coords: {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        },
+      });
+    });
   }
 
   _centerMoved = (mapProps, map) => {
@@ -44,15 +55,10 @@ class MapContainer extends Component {
     });
   };
   _markerDragged = () => {
-    console.log("dragged");
-    this.props.setNewCoords(this.state.newCoords);
-  };
-
-  _markerDragged = () => {
     this.setState({
       coords: this.state.newCoords,
+      choosenLocation: this.state.newCoords,
     });
-    this.props.setLocation(this.state.newCoords);
   };
 
   _selectedPlace = (data) => {
@@ -61,37 +67,51 @@ class MapContainer extends Component {
   };
 
   render() {
-    if (Object.keys(this.state.coords).length === 0) {
-      return (
-        <Map
-          google={this.props.google}
-          zoom={10}
-          style={style}
-          initialCenter={this.props.coords}
-          onClick={this._onMapClick}
-          onDragend={this._centerMoved}
-          gestureHandling="greedy"
-          ref={this.mapRef}
-        >
-          <Marker
-            ref={this.markerRef}
-            onClick={this._onMarkerClick}
-            // name={"Current location"}
-            position={this.props.coords}
-            draggable={true}
-            position_changed={this._positionChanged}
-            onDragend={this._markerDragged}
-          />
-        </Map>
-      );
-    }
-
     return (
-      <div>
-        <div className="text-center h6">Pick Location</div>
+      <div className="pt-3">
+        <div className="text-center h6 text-white ">Pick Location</div>
         <div className="row py-4" style={{ height: "100vh" }}>
-          <div className="col-md-4">pick location</div>
-          <div className="col-md-8 ">
+          <div className="col-md-4 border px-4">
+            {" "}
+            <div className="py-3 ">
+              <span className="text-white">
+                In order to choose the area where your employees be able to get
+                access to the app geolocation features position the marker on
+                the desirable location and submit.
+              </span>
+              {/* Choosen Location */}
+              {this.state.choosenLocation && (
+                <div className="my-3  text-center">
+                  <span className="text-center text-white h6 d-block">
+                    Choosen Location
+                  </span>
+                  {/* Coords To Show */}
+                  <div className="text-center border p-4">
+                    <span className="text-white font-weight-bold ">
+                      Latitude
+                    </span>{" "}
+                    <span style={{ color: "#dede04" }}>
+                      {this.state.choosenLocation.lat}
+                    </span>
+                    <br />
+                    <span className="text-white font-weight-bold">
+                      Longitude
+                    </span>{" "}
+                    <span style={{ color: "#dede04" }}>
+                      {this.state.choosenLocation.lng}
+                    </span>
+                  </div>
+
+                  <input
+                    className="btn btn-primary my-3"
+                    type="button"
+                    value="Submit"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="col-md-8 border ">
             <Map
               google={this.props.google}
               zoom={10}
@@ -127,7 +147,7 @@ export default GoogleApiWrapper({
 })(MapContainer);
 
 const style = {
-  width: "100%",
-  height: 500,
+  width: window.innerWidth < 1000 ? "100%" : "80%",
+  height: 300,
   position: "relative",
 };
