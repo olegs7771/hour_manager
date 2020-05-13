@@ -33,6 +33,10 @@ class MapContainer extends Component {
         },
       });
     });
+    //For Resize Window
+    // window.addEventListener("resize", () => {
+    //   this._changeWidth();
+    // });
   }
 
   _centerMoved = (mapProps, map) => {
