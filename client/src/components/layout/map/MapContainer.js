@@ -10,6 +10,10 @@ import {
   Circle,
 } from "google-maps-react";
 const GOOGLE_MAP_API_KEY = "AIzaSyASLLZYTv8JDeXhU4ASMK4U_lyn4gD7vY0";
+const coords = {
+  lat: 32.86284450000001,
+  lng: 35.0718397,
+};
 
 class MapContainer extends Component {
   constructor(props) {
@@ -25,7 +29,11 @@ class MapContainer extends Component {
     };
   }
   componentDidMount() {
+    console.log("cdm");
+
     window.navigator.geolocation.getCurrentPosition((position) => {
+      console.log("this.mapRef.current", this.mapRef.current);
+
       this.setState({
         coords: {
           lat: position.coords.latitude,
@@ -49,6 +57,7 @@ class MapContainer extends Component {
       lat: position.lat(),
       lng: position.lng(),
     };
+
     // console.log("newCoordsObj", newCoordsObj);
     // this.props.setNewCoords(newCoordsObj);
     this.setState((prevState) => {
@@ -71,7 +80,7 @@ class MapContainer extends Component {
   };
 
   render() {
-    return (
+    return Object.keys(this.state.coords).length > 0 ? (
       <div className="pt-3">
         <div className="text-center h6 text-white ">Pick Location</div>
         <div className="row py-4" style={{ height: "100vh" }}>
@@ -115,8 +124,10 @@ class MapContainer extends Component {
               )}
             </div>
           </div>
+
           <div className="col-md-8 border ">
             <Map
+              ref={this.mapRef}
               google={this.props.google}
               zoom={10}
               style={style}
@@ -142,6 +153,8 @@ class MapContainer extends Component {
           </div>
         </div>
       </div>
+    ) : (
+      <div>Loading..</div>
     );
   }
 }
@@ -152,6 +165,6 @@ export default GoogleApiWrapper({
 
 const style = {
   width: window.innerWidth < 1000 ? "100%" : "80%",
-  height: 300,
+  height: 500,
   position: "relative",
 };
