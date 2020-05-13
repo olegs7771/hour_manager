@@ -2,7 +2,6 @@ import {
   GET_PROJECTS,
   GET_SELECTED_PROJECT,
   LOADING_PROJECT,
-  GET_COORDS,
 } from "../actions/types";
 
 const initialState = {

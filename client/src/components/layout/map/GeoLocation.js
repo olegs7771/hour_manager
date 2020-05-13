@@ -7,6 +7,23 @@ class GeoLocation extends React.Component {
   state = {
     choosenLocation: null,
   };
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps !== this.props) {
+      if (this.props.coords) {
+        this.setState({
+          coords: {
+            lat: this.props.coords.latitude,
+            lng: this.props.coords.longitude,
+          },
+        });
+      }
+    }
+    if (prevState.coords !== this.state.coords) {
+      this.setState({ coords: this.state.coords });
+    }
+  }
+  componentDidMount() {
+    console.log("geo cdm ");
 
   _setLocation = (data) => {
     this.setState({ choosenLocation: data });

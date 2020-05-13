@@ -15,36 +15,18 @@ class MapContainer extends Component {
   constructor(props) {
     super(props);
     this.markerRef = React.createRef();
+    this.mapRef = React.createRef();
 
     this.state = {
-      coords: {},
-      newCoords: {},
-      info: false,
+      showingInfoWindow: false,
+      activeMarker: {},
       selectedPlace: {},
     };
   }
 
-  componentDidMount() {
-    console.log("cdm");
-
-    //Get Geolocation position
-    window.navigator.geolocation.getCurrentPosition((position) => {
-      this.setState({
-        coords: {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        },
-      });
-    });
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.coords !== prevState.coords) {
-      this.setState({
-        coords: this.state.coords,
-      });
-    }
-  }
+  _centerMoved = (mapProps, map) => {
+    console.log("e moved", mapProps, map);
+  };
 
   _positionChanged = (e) => {
     const position = this.markerRef.current.marker.getPosition();
@@ -52,14 +34,18 @@ class MapContainer extends Component {
       lat: position.lat(),
       lng: position.lng(),
     };
-    console.log("newCoordsObj", newCoordsObj);
+    // console.log("newCoordsObj", newCoordsObj);
+    // this.props.setNewCoords(newCoordsObj);
     this.setState((prevState) => {
       return {
         ...prevState,
         newCoords: newCoordsObj,
       };
     });
-    // this.props.setNewCoords(newCoordsObj);
+  };
+  _markerDragged = () => {
+    console.log("dragged");
+    this.props.setNewCoords(this.state.newCoords);
   };
 
   _markerDragged = () => {
@@ -77,12 +63,26 @@ class MapContainer extends Component {
   render() {
     if (Object.keys(this.state.coords).length === 0) {
       return (
-        <div
-          className="text-center"
-          style={{ paddingTop: "20%", paddingTop: "20%" }}
+        <Map
+          google={this.props.google}
+          zoom={10}
+          style={style}
+          initialCenter={this.props.coords}
+          onClick={this._onMapClick}
+          onDragend={this._centerMoved}
+          gestureHandling="greedy"
+          ref={this.mapRef}
         >
-          <DotLoaderSpinner />
-        </div>
+          <Marker
+            ref={this.markerRef}
+            onClick={this._onMarkerClick}
+            // name={"Current location"}
+            position={this.props.coords}
+            draggable={true}
+            position_changed={this._positionChanged}
+            onDragend={this._markerDragged}
+          />
+        </Map>
       );
     }
 
