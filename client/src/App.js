@@ -14,7 +14,7 @@ import SuccessMessage from "../src/components/auth/SuccessMessage";
 import Header from "../src/components/layout/header/Header";
 //Map
 import MapContainer from "./components/layout/map/MapContainer";
-import GeoLocation from "../src/components/layout/map/GeoLocation";
+// import GeoLocation from "../src/components/layout/map/GeoLocation";
 
 import Landing from "../src/components/layout/main/Landing";
 import Footer from "../src/components/layout/footer/Footer";
@@ -150,7 +150,7 @@ class App extends Component {
                 <Route
                   exact
                   path="/map"
-                  component={userIsAuthenticated(GeoLocation)}
+                  component={userIsAuthenticated(MapContainer)}
                 />
                 <Route
                   exact

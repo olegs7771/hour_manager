@@ -10,6 +10,12 @@ const SandBox = (props) => {
 
   useEffect(() => {
     console.log("textInput", textInput);
+    window.navigator.geolocation.getCurrentPosition((position) => {
+      console.log("pos", {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      });
+    });
   });
 
   return (

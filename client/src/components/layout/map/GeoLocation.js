@@ -5,58 +5,67 @@ import { geolocated } from "react-geolocated";
 
 class GeoLocation extends React.Component {
   state = {
-    coords: {},
+    choosenLocation: null,
   };
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps !== this.props) {
-      if (this.props.coords) {
-        this.setState({
-          coords: {
-            lat: this.props.coords.latitude,
-            lng: this.props.coords.longitude,
-          },
-        });
-      }
-    }
-  }
-  componentDidMount() {
-    console.log("geo cdm ");
 
-    if (this.props.coords) {
-      this.setState({
-        coords: {
-          lat: this.props.coords.latitude,
-          lng: this.props.coords.longitude,
-        },
-      });
-    }
-  }
-  _setNewCoords = (data) => {
-    this.setState({ coords: data });
+  _setLocation = (data) => {
+    this.setState({ choosenLocation: data });
   };
 
   render() {
-    if (Object.keys(this.state.coords).length === 0) {
-      return <div>Loading</div>;
-    } else {
-      return (
-        <div className="border pt-2">
-          <div className="mx-auto">
-            <span className="text-center h6 text-white d-block my-4">
-              Pick Location On Map
-            </span>
+    return !this.props.isGeolocationAvailable ? (
+      <div>Your browser does not support Geolocation</div>
+    ) : !this.props.isGeolocationEnabled ? (
+      <div>Geolocation is not enabled</div>
+    ) : this.props.coords ? (
+      <div className="border pt-2" style={{ height: "100vh" }}>
+        <div className="mx-auto">
+          <span className="text-center h6 text-white d-block my-4">
+            Pick Location On Map
+          </span>
+        </div>
+        <div className={window.innerWidth > 1000 ? "row px-5" : "row"}>
+          <div className="col-md-4 ">
+            <div className="py-3 ">
+              <span className="text-white">
+                In order to choose the area where your employees be able to get
+                access to the app geolocation features position the marker on
+                the desirable location and submit.
+              </span>
+              {/* Choosen Location */}
+              {this.state.choosenLocation && (
+                <div className="my-3  text-center">
+                  <span className="text-center text-white h6 d-block">
+                    Chossen Location
+                  </span>
+                  <span className="text-white font-weight-bold">Latitude</span>{" "}
+                  <span style={{ color: "#dede04" }}>
+                    {this.state.choosenLocation.lat}
+                  </span>
+                  <br />
+                  <span className="text-white font-weight-bold">
+                    Longitude
+                  </span>{" "}
+                  <span style={{ color: "#dede04" }}>
+                    {this.state.choosenLocation.lng}
+                  </span>
+                  <input
+                    className="btn btn-primary my-3"
+                    type="button"
+                    value="Submit"
+                  />
+                </div>
+              )}
+            </div>
           </div>
-          <div style={{ height: 800 }}>
-            <MapContainer
-              coords={this.state.coords}
-              //if marker moved .take new cords from marker.
-              setNewCoords={this._setNewCoords}
-            />
-            ;
+          <div className="col-md-8 ">
+            <MapContainer setLocation={this._setLocation} />
           </div>
         </div>
-      );
-    }
+      </div>
+    ) : (
+      <div>Getting the location data&hellip; </div>
+    );
   }
 }
 export default geolocated({
