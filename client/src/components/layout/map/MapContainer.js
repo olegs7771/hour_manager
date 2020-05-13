@@ -29,10 +29,8 @@ class MapContainer extends Component {
     };
   }
   componentDidMount() {
-    console.log("cdm");
-
     window.navigator.geolocation.getCurrentPosition((position) => {
-      console.log("this.mapRef.current", this.mapRef.current);
+      console.log("window.navigator", window.navigator);
 
       this.setState({
         coords: {
