@@ -126,6 +126,9 @@ export class ProjectEdit extends Component {
     console.log("e in edit hours", e);
     this.setState({ editWorkHours: e });
   };
+  _selectProject = () => {
+    this.props.history.push("/map", { projectId: this.props.match.params.id });
+  };
 
   render() {
     if (this.state.loading || this.state.selectedProject === null) {
@@ -261,7 +264,11 @@ export class ProjectEdit extends Component {
                 </div>
 
                 <div className="my-3 border">
-                  <a href="/map">Select Location</a>
+                  <input
+                    type="button"
+                    value="Add Coordenates"
+                    onClick={this._selectProject}
+                  />
                 </div>
                 <div className="my-3 border">
                   <a href="/sandbox">SandBox</a>

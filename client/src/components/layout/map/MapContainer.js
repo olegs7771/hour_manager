@@ -1,6 +1,8 @@
 ///
 import React, { Component } from "react";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
+import { connect } from "react-redux";
+import { addCoords } from "../../../store/actions/projectAction";
 
 import {
   Map,
@@ -10,10 +12,8 @@ import {
   Circle,
 } from "google-maps-react";
 const GOOGLE_MAP_API_KEY = "AIzaSyASLLZYTv8JDeXhU4ASMK4U_lyn4gD7vY0";
-const coords = {
-  lat: 32.86284450000001,
-  lng: 35.0718397,
-};
+
+const LoadingContainer = (props) => <div>Fancy loading container!</div>;
 
 class MapContainer extends Component {
   constructor(props) {
@@ -24,8 +24,12 @@ class MapContainer extends Component {
     this.state = {
       showingInfoWindow: false,
       activeMarker: {},
+      //for info window
       selectedPlace: {},
+      //for show choosen place befor submit to db
+      choosenPlace: null,
       coords: {},
+      projectID: null,
     };
   }
   componentDidMount() {
@@ -37,12 +41,10 @@ class MapContainer extends Component {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         },
+        //Get ProjectID from props
+        projectID: this.props.location.state.projectId,
       });
     });
-    //For Resize Window
-    // window.addEventListener("resize", () => {
-    //   this._changeWidth();
-    // });
   }
 
   _centerMoved = (mapProps, map) => {
@@ -68,30 +70,51 @@ class MapContainer extends Component {
   _markerDragged = () => {
     this.setState({
       coords: this.state.newCoords,
-      choosenLocation: this.state.newCoords,
+      choosenPlace: this.state.newCoords,
     });
   };
 
-  _selectedPlace = (data) => {
+  _selectPlace = (data) => {
     console.log("data", data);
     // this.setState({ info: true });
   };
 
+  _submitCoords = () => {
+    const payload = {
+      projectID: this.state.projectID,
+      coords: this.state.choosenPlace,
+    };
+    this.props.addCoords(payload);
+  };
+
+  _cancelLocation = () => {
+    this.setState({
+      choosenPlace: null,
+    });
+  };
+
   render() {
     return Object.keys(this.state.coords).length > 0 ? (
-      <div className="pt-3">
+      <div
+        className={
+          window.innerWidth < 1000
+            ? "pt-3 tex-center pr-4"
+            : "pt-3 tex-center  "
+        }
+        style={{ minHeight: 700 }}
+      >
         <div className="text-center h6 text-white ">Pick Location</div>
-        <div className="row py-4" style={{ height: "100vh" }}>
-          <div className="col-md-4 border px-4">
+        <div className="row py-4">
+          <div className="col-md-5  px-4">
             {" "}
-            <div className="py-3 ">
+            <div className={window.innerWidth < 1000 ? "pl-2" : "py-3 pl-2"}>
               <span className="text-white">
                 In order to choose the area where your employees be able to get
                 access to the app geolocation features position the marker on
                 the desirable location and submit.
               </span>
               {/* Choosen Location */}
-              {this.state.choosenLocation && (
+              {this.state.choosenPlace && (
                 <div className="my-3  text-center">
                   <span className="text-center text-white h6 d-block">
                     Choosen Location
@@ -102,28 +125,36 @@ class MapContainer extends Component {
                       Latitude
                     </span>{" "}
                     <span style={{ color: "#dede04" }}>
-                      {this.state.choosenLocation.lat}
+                      {this.state.choosenPlace.lat}
                     </span>
                     <br />
                     <span className="text-white font-weight-bold">
                       Longitude
                     </span>{" "}
                     <span style={{ color: "#dede04" }}>
-                      {this.state.choosenLocation.lng}
+                      {this.state.choosenPlace.lng}
                     </span>
                   </div>
-
-                  <input
-                    className="btn btn-primary my-3"
-                    type="button"
-                    value="Submit"
-                  />
+                  <div className="btn-group my-3">
+                    <input
+                      className="btn btn-primary "
+                      type="button"
+                      value="Submit"
+                      onClick={this._submitCoords}
+                    />
+                    <input
+                      className="btn btn-primary ml-1 "
+                      type="button"
+                      value="Cancel"
+                      onClick={this._cancelLocation}
+                    />
+                  </div>
                 </div>
               )}
             </div>
           </div>
 
-          <div className="col-md-8 border ">
+          <div className={"col-md-7  "}>
             <Map
               ref={this.mapRef}
               google={this.props.google}
@@ -141,7 +172,7 @@ class MapContainer extends Component {
                 draggable={true}
                 position_changed={this._positionChanged}
                 onDragend={this._markerDragged}
-                onClick={this._selectedPlace(this.state.coords)}
+                onClick={this._selectPlace(this.state.coords)}
                 // name={this.state.coords}
               />
               <InfoWindow visible={this.state.info}>
@@ -152,17 +183,20 @@ class MapContainer extends Component {
         </div>
       </div>
     ) : (
-      <div>Loading..</div>
+      <div style={{ minHeight: 700 }}>Loading..</div>
     );
   }
 }
 
-export default GoogleApiWrapper({
-  apiKey: GOOGLE_MAP_API_KEY,
-})(MapContainer);
+export default connect(null, { addCoords })(
+  GoogleApiWrapper({
+    apiKey: GOOGLE_MAP_API_KEY,
+    LoadingContainer,
+  })(MapContainer)
+);
 
 const style = {
-  width: window.innerWidth < 1000 ? "100%" : "80%",
-  height: 500,
-  position: "relative",
+  width: window.innerWidth < 1000 ? "100%" : "90%",
+  height: window.innerWidth < 1000 ? 300 : 500,
+  marginTop: window.innerWidth < 1000 ? 20 : 0,
 };

@@ -26,6 +26,10 @@ const ProjectSchema = new Schema({
       type: String,
     },
   },
+  coords: {
+    type: Object,
+    default: {},
+  },
 
   //List of Employees
   staff: [

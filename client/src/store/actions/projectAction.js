@@ -103,6 +103,21 @@ export const deleteProject = (data) => (dispatch) => {
     });
 };
 
+//Add the Coords to determind the area for Employees to be able get access for geolocation on their App
+
+export const addCoords = (data) => (dispatch) => {
+  console.log("data in coords", data);
+  dispatch(loading());
+  axios
+    .post("/api/project/addCoords", data)
+    .then((res) => {
+      console.log("res.data addCoords", res.data);
+    })
+    .catch((err) => {
+      console.log("err addCoords", err.response.data);
+    });
+};
+
 //Loading
 
 export const loading = () => {

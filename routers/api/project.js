@@ -235,4 +235,28 @@ router.post(
   }
 );
 
+//Route Private
+//Adding Coords for controling Geolocation Area
+router.post(
+  "/addCoords",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    console.log("reg.body coords", typeof req.body.coords.lat);
+    Project.findById(req.body.projectID).then((project) => {
+      if (!project) {
+        return res.status(400).json({ error: "Project not found" });
+      }
+      project.coords = req.body.coords;
+      project
+        .save()
+        .then((upProject) => {
+          res.json({ upProject });
+        })
+        .catch((err) => {
+          console.log("error to add coords", err);
+        });
+    });
+  }
+);
+
 module.exports = router;

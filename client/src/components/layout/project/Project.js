@@ -44,6 +44,7 @@ export class Project extends Component {
         companyCoreFunc: e.companyCoreFunc,
         staff: e.staff,
         date: e.date,
+        coords: e.coords,
       },
       showDetails: true,
     });
@@ -168,6 +169,7 @@ export class Project extends Component {
                     date={this.state.projectDetails.date}
                     //Props to child to reload Project.js
                     reloadParent={this._reloadComponent}
+                    coords={this.state.projectDetails.coords}
                   />
                 </div>
               ) : null}

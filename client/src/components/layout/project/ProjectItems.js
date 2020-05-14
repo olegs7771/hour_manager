@@ -71,6 +71,7 @@ class ProjectItems extends Component {
       companyCoreFunc,
       staff,
       date,
+      coords,
     } = this.props;
 
     if (this.state.loading) {
@@ -171,6 +172,32 @@ class ProjectItems extends Component {
               <span className=" text-right" style={{ color: "#fafc6a" }}>
                 {moment(date).format("LL")}
               </span>
+            </div>
+          </div>
+        </li>
+        {/* Coordinates */}
+        <li className="list-group-item" style={{ backgroundColor: "#2a70a8" }}>
+          <div className="row">
+            <div className="col-md-6">
+              <span className="font-weight-bold text-white">Coordinates </span>{" "}
+            </div>
+            <div className="col-md-6">
+              {coords && (
+                <div>
+                  <span className="text-white">lat</span>{" "}
+                  <span className=" text-right" style={{ color: "#fafc6a" }}>
+                    {coords.lat}
+                  </span>
+                  <br />
+                  <span className="text-white">lng </span>{" "}
+                  <span className=" text-right" style={{ color: "#fafc6a" }}>
+                    {coords.lng}
+                  </span>
+                </div>
+              )}
+              {!coords && (
+                <span className="text-danger">Coordinates not set</span>
+              )}
             </div>
           </div>
         </li>
