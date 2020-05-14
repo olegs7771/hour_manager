@@ -15,6 +15,8 @@ const GOOGLE_MAP_API_KEY = "AIzaSyASLLZYTv8JDeXhU4ASMK4U_lyn4gD7vY0";
 
 const LoadingContainer = (props) => <div>Fancy loading container!</div>;
 
+const circleCoords = { lat: 31.046051, lng: 34.851611999999996 };
+
 class MapContainer extends Component {
   constructor(props) {
     super(props);
@@ -30,19 +32,23 @@ class MapContainer extends Component {
       choosenPlace: null,
       coords: {},
       projectID: null,
+      //Coords for circle. if project doesnt has coords then show marker currrent
+      // coords.
+      circleCoords: {},
     };
   }
   componentDidMount() {
+    //Obtain Initial Coords from HTML5
     window.navigator.geolocation.getCurrentPosition((position) => {
-      console.log("window.navigator", window.navigator);
-
       this.setState({
         coords: {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         },
         //Get ProjectID from props
-        projectID: this.props.location.state.projectId,
+        projectID: this.props.location.state.data.projectId,
+        //Get circleCoords from props.project.coords
+        circleCoords: this.props.location.state.data.coords,
       });
     });
   }
@@ -94,7 +100,7 @@ class MapContainer extends Component {
   };
 
   render() {
-    return Object.keys(this.state.coords).length > 0 ? (
+    return Object.keys(this.state.circleCoords).length > 0 ? (
       <div
         className={
           window.innerWidth < 1000
@@ -175,6 +181,20 @@ class MapContainer extends Component {
                 onClick={this._selectPlace(this.state.coords)}
                 // name={this.state.coords}
               />
+
+              <Circle
+                radius={1200}
+                center={this.state.circleCoords}
+                onMouseover={() => console.log("mouseover")}
+                onClick={() => console.log("click")}
+                onMouseout={() => console.log("mouseout")}
+                strokeColor="transparent"
+                strokeOpacity={0}
+                strokeWeight={5}
+                fillColor="#FF0000"
+                fillOpacity={0.2}
+              />
+
               <InfoWindow visible={this.state.info}>
                 <span>{this.state.selectedPlace.name}</span>
               </InfoWindow>
@@ -188,7 +208,11 @@ class MapContainer extends Component {
   }
 }
 
-export default connect(null, { addCoords })(
+const mapStateToProps = (state) => ({
+  project: state.projects.selectedProject,
+});
+
+export default connect(mapStateToProps, { addCoords })(
   GoogleApiWrapper({
     apiKey: GOOGLE_MAP_API_KEY,
     LoadingContainer,

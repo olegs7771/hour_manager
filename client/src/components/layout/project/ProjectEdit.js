@@ -127,7 +127,14 @@ export class ProjectEdit extends Component {
     this.setState({ editWorkHours: e });
   };
   _selectProject = () => {
-    this.props.history.push("/map", { projectId: this.props.match.params.id });
+    const data = {
+      projectId: this.props.match.params.id,
+      coords: this.state.selectedProject.coords
+        ? this.state.selectedProject.coords
+        : null,
+    };
+
+    this.props.history.push("/map", { data });
   };
 
   render() {
