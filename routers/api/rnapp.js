@@ -110,15 +110,6 @@ router.post("/checkOut_automatic", (req, res) => {
         });
         console.log("selectedDay", selectedDay);
 
-        // const endTimeNum = parseInt(moment(req.body.timeEnd).format("X"));
-        // const startTimeNum = parseInt(
-        //   moment(selectedDay.timeStart).format("X")
-        // );
-
-        // const totalTime = parseInt(
-        //   moment(req.body.timeEnd).format("X") -
-        //     parseInt(moment(selectedDay.timeStart).format("X"))
-        // );
         console.log("total time ", totalTime);
 
         selectedDay.timeEnd = req.body.timeEnd;
@@ -387,6 +378,24 @@ router.post("/confirmEmployee", (req, res) => {
           });
         }
       });
+    });
+  });
+});
+
+//Get Project for Coords
+router.post("/getProject", (req, res) => {
+  console.log("req.body getProject", req.body);
+
+  Employee.findOne({ token: req.body.token }).then((emp) => {
+    if (!emp) {
+      return res.status(400).json({ error: "Unauthorized!" });
+    }
+    Project.findById(req.body.projectID).then((project) => {
+      if (!project) {
+        return res.status(400).json({ error: "No project found" });
+      }
+
+      res.json(project);
     });
   });
 });
