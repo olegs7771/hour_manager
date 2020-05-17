@@ -110,7 +110,7 @@ router.post("/checkOut_automatic", (req, res) => {
         });
         console.log("selectedDay", selectedDay);
 
-        console.log("total time ", totalTime);
+        // console.log("total time ", totalTime);
 
         selectedDay.timeEnd = req.body.timeEnd;
         // selectedDay.totalTimeOnJob = totalTime;
