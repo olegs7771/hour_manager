@@ -21,6 +21,7 @@
     "moment-range": "^4.0.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "react-geocode": "^0.2.1",
     "react-geolocated": "^3.0.1",
     "react-nbsp": "^1.2.4",
     "react-redux": "^7.2.0",

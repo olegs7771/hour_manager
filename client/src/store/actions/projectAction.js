@@ -106,7 +106,7 @@ export const deleteProject = (data) => (dispatch) => {
 //Add the Coords to determind the area for Employees to be able get access for geolocation on their App
 
 export const addCoords = (data) => (dispatch) => {
-  console.log("data in coords", data);
+  console.log("data in adding coords and assress", data);
   dispatch(loading());
   axios
     .post("/api/project/addCoords", data)

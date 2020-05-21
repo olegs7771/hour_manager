@@ -11,11 +11,12 @@ import {
   GoogleApiWrapper,
   Circle,
 } from "google-maps-react";
+import Geocode from "react-geocode";
+Geocode.setApiKey("AIzaSyDF9BWn17CT9geI3L-Ff0ujGWwpPHmxvCQ");
+
 const GOOGLE_MAP_API_KEY = "AIzaSyASLLZYTv8JDeXhU4ASMK4U_lyn4gD7vY0";
 
 const LoadingContainer = (props) => <div>Fancy loading container!</div>;
-
-const circleCoords = { lat: 31.046051, lng: 34.851611999999996 };
 
 class MapContainer extends Component {
   constructor(props) {
@@ -45,10 +46,7 @@ class MapContainer extends Component {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         },
-        //Get ProjectID from props
         projectID: this.props.location.state.data.projectId,
-        //Get circleCoords from props.project.coords
-        circleCoords: this.props.location.state.data.coords,
       });
     });
   }
@@ -63,6 +61,14 @@ class MapContainer extends Component {
       lat: position.lat(),
       lng: position.lng(),
     };
+    //Geocode new position
+    Geocode.fromLatLng(position.lat(), position.lng())
+      .then((address) => {
+        console.log("address", address);
+      })
+      .catch((err) => {
+        console.log("error to get address", err);
+      });
 
     // console.log("newCoordsObj", newCoordsObj);
     // this.props.setNewCoords(newCoordsObj);
@@ -100,7 +106,7 @@ class MapContainer extends Component {
   };
 
   render() {
-    return Object.keys(this.state.circleCoords).length > 0 ? (
+    return Object.keys(this.state.coords).length > 0 ? (
       <div
         className={
           window.innerWidth < 1000
@@ -181,29 +187,12 @@ class MapContainer extends Component {
                 onClick={this._selectPlace(this.state.coords)}
                 // name={this.state.coords}
               />
-
-              <Circle
-                radius={1200}
-                center={this.state.circleCoords}
-                onMouseover={() => console.log("mouseover")}
-                onClick={() => console.log("click")}
-                onMouseout={() => console.log("mouseout")}
-                strokeColor="transparent"
-                strokeOpacity={0}
-                strokeWeight={5}
-                fillColor="#FF0000"
-                fillOpacity={0.2}
-              />
-
-              <InfoWindow visible={this.state.info}>
-                <span>{this.state.selectedPlace.name}</span>
-              </InfoWindow>
             </Map>
           </div>
         </div>
       </div>
     ) : (
-      <div style={{ minHeight: 700 }}>Loading..</div>
+      <div style={{ minHeight: 700 }}>Loading!!!..</div>
     );
   }
 }
