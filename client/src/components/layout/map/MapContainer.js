@@ -148,36 +148,28 @@ class MapContainer extends Component {
                     Choosen Location
                   </span>
                   {/* Coords To Show */}
-                  {this.state.loading ? (
-                    <span>Loading..</span>
-                  ) : this.state.messages.message ? (
-                    <span>{this.state.messages.message}</span>
-                  ) : (
-                    <div className="text-center border p-4">
-                      <span className="text-white font-weight-bold">
-                        Address
-                      </span>
-                      <br />
-                      <span style={{ color: "#dede04" }}>
-                        {this.state.address}
-                      </span>
-                      <br />
-                      <br />
-                      <span className="text-white font-weight-bold ">
-                        Latitude
-                      </span>{" "}
-                      <span style={{ color: "#dede04" }}>
-                        {this.state.choosenPlace.lat}
-                      </span>
-                      <br />
-                      <span className="text-white font-weight-bold">
-                        Longitude
-                      </span>{" "}
-                      <span style={{ color: "#dede04" }}>
-                        {this.state.choosenPlace.lng}
-                      </span>
-                    </div>
-                  )}
+                  <div className="text-center border p-4">
+                    <span className="text-white font-weight-bold">Address</span>
+                    <br />
+                    <span style={{ color: "#dede04" }}>
+                      {this.state.address}
+                    </span>
+                    <br />
+                    <br />
+                    <span className="text-white font-weight-bold ">
+                      Latitude
+                    </span>{" "}
+                    <span style={{ color: "#dede04" }}>
+                      {this.state.choosenPlace.lat}
+                    </span>
+                    <br />
+                    <span className="text-white font-weight-bold">
+                      Longitude
+                    </span>{" "}
+                    <span style={{ color: "#dede04" }}>
+                      {this.state.choosenPlace.lng}
+                    </span>
+                  </div>
                   <div className="btn-group my-3">
                     <input
                       className="btn btn-primary "
