@@ -241,16 +241,18 @@ router.post(
   "/addCoords",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    console.log("reg.body coords", typeof req.body.coords.lat);
+    console.log("reg.body add coords", req.body);
     Project.findById(req.body.projectID).then((project) => {
       if (!project) {
         return res.status(400).json({ error: "Project not found" });
       }
       project.coords = req.body.coords;
+      project.address = req.body.address;
+
       project
         .save()
         .then((upProject) => {
-          res.json({ upProject });
+          res.json({ message: "New coordinates were successfuly updated." });
         })
         .catch((err) => {
           console.log("error to add coords", err);

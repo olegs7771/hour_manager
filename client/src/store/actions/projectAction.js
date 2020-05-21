@@ -107,11 +107,15 @@ export const deleteProject = (data) => (dispatch) => {
 
 export const addCoords = (data) => (dispatch) => {
   console.log("data in adding coords and assress", data);
-  dispatch(loading());
+
   axios
     .post("/api/project/addCoords", data)
     .then((res) => {
       console.log("res.data addCoords", res.data);
+      dispatch({
+        type: GET_MESSAGE,
+        payload: res.data,
+      });
     })
     .catch((err) => {
       console.log("err addCoords", err.response.data);

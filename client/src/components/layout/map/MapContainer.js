@@ -36,19 +36,46 @@ class MapContainer extends Component {
       //Coords for circle. if project doesnt has coords then show marker currrent
       // coords.
       circleCoords: {},
+      address: "", //from GeoCode
+      //Local State
+      loading: false,
+      //Redux
+      messages: {},
     };
   }
   componentDidMount() {
     //Obtain Initial Coords from HTML5
     window.navigator.geolocation.getCurrentPosition((position) => {
-      this.setState({
+      this.setState((prevState) => ({
+        ...prevState,
+
         coords: {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         },
         projectID: this.props.location.state.data.projectId,
-      });
+      }));
     });
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.coords !== this.state.coords) {
+      //Geocode new position
+      Geocode.fromLatLng(this.state.coords.lat, this.state.coords.lng)
+        .then((address) => {
+          console.log("address", address);
+          this.setState((prevState) => ({
+            address: address.results[0].formatted_address,
+          }));
+        })
+        .catch((err) => {
+          console.log("error to get address", err);
+        });
+    }
+    if (this.props.messages !== prevProps.messages) {
+      if (this.props.messages) {
+        this.setState({ messages: this.props.messages, loading: false });
+      }
+    }
   }
 
   _centerMoved = (mapProps, map) => {
@@ -61,14 +88,6 @@ class MapContainer extends Component {
       lat: position.lat(),
       lng: position.lng(),
     };
-    //Geocode new position
-    Geocode.fromLatLng(position.lat(), position.lng())
-      .then((address) => {
-        console.log("address", address);
-      })
-      .catch((err) => {
-        console.log("error to get address", err);
-      });
 
     // console.log("newCoordsObj", newCoordsObj);
     // this.props.setNewCoords(newCoordsObj);
@@ -86,17 +105,14 @@ class MapContainer extends Component {
     });
   };
 
-  _selectPlace = (data) => {
-    console.log("data", data);
-    // this.setState({ info: true });
-  };
-
   _submitCoords = () => {
     const payload = {
       projectID: this.state.projectID,
       coords: this.state.choosenPlace,
+      address: this.state.address,
     };
     this.props.addCoords(payload);
+    this.setState({ loading: true });
   };
 
   _cancelLocation = () => {
@@ -132,21 +148,36 @@ class MapContainer extends Component {
                     Choosen Location
                   </span>
                   {/* Coords To Show */}
-                  <div className="text-center border p-4">
-                    <span className="text-white font-weight-bold ">
-                      Latitude
-                    </span>{" "}
-                    <span style={{ color: "#dede04" }}>
-                      {this.state.choosenPlace.lat}
-                    </span>
-                    <br />
-                    <span className="text-white font-weight-bold">
-                      Longitude
-                    </span>{" "}
-                    <span style={{ color: "#dede04" }}>
-                      {this.state.choosenPlace.lng}
-                    </span>
-                  </div>
+                  {this.state.loading ? (
+                    <span>Loading..</span>
+                  ) : this.state.messages.message ? (
+                    <span>{this.state.messages.message}</span>
+                  ) : (
+                    <div className="text-center border p-4">
+                      <span className="text-white font-weight-bold">
+                        Address
+                      </span>
+                      <br />
+                      <span style={{ color: "#dede04" }}>
+                        {this.state.address}
+                      </span>
+                      <br />
+                      <br />
+                      <span className="text-white font-weight-bold ">
+                        Latitude
+                      </span>{" "}
+                      <span style={{ color: "#dede04" }}>
+                        {this.state.choosenPlace.lat}
+                      </span>
+                      <br />
+                      <span className="text-white font-weight-bold">
+                        Longitude
+                      </span>{" "}
+                      <span style={{ color: "#dede04" }}>
+                        {this.state.choosenPlace.lng}
+                      </span>
+                    </div>
+                  )}
                   <div className="btn-group my-3">
                     <input
                       className="btn btn-primary "
@@ -184,7 +215,7 @@ class MapContainer extends Component {
                 draggable={true}
                 position_changed={this._positionChanged}
                 onDragend={this._markerDragged}
-                onClick={this._selectPlace(this.state.coords)}
+                // onClick={this._selectPlace(this.state.coords)}
                 // name={this.state.coords}
               />
             </Map>
@@ -199,6 +230,7 @@ class MapContainer extends Component {
 
 const mapStateToProps = (state) => ({
   project: state.projects.selectedProject,
+  messages: state.messages.messages,
 });
 
 export default connect(mapStateToProps, { addCoords })(
