@@ -72,6 +72,7 @@ class ProjectItems extends Component {
       staff,
       date,
       coords,
+      address,
     } = this.props;
 
     if (this.state.loading) {
@@ -198,6 +199,21 @@ class ProjectItems extends Component {
               {!coords && (
                 <span className="text-danger">Coordinates not set</span>
               )}
+            </div>
+          </div>
+        </li>
+        <li className="list-group-item" style={{ backgroundColor: "#2a70a8" }}>
+          <div className="row">
+            <div className="col-md-6">
+              <span className="font-weight-bold text-white">Address </span>{" "}
+            </div>
+            <div className="col-md-6">
+              {address && (
+                <span className=" text-right" style={{ color: "#fafc6a" }}>
+                  {address}
+                </span>
+              )}
+              {!address && <span className="text-danger">Address not set</span>}
             </div>
           </div>
         </li>

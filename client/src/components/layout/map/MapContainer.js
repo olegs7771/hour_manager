@@ -142,7 +142,19 @@ class MapContainer extends Component {
                 the desirable location and submit.
               </span>
               {/* Choosen Location */}
-              {this.state.choosenPlace && (
+              {this.state.loading && (
+                <div className="my-5 text-center">
+                  <DotLoaderSpinner size={50} color="#FFF" />
+                </div>
+              )}
+              {this.state.messages.message && (
+                <div className="my-5 text-center">
+                  <span className="text-white font-weight-bold ">
+                    {this.state.messages.message}
+                  </span>
+                </div>
+              )}
+              {this.state.choosenPlace && !this.state.messages.message && (
                 <div className="my-3  text-center">
                   <span className="text-center text-white h6 d-block">
                     Choosen Location
