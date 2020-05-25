@@ -52,8 +52,8 @@ class MapContainer extends Component {
     );
     console.log("process.env.NODE_ENV", process.env.NODE_ENV);
     console.log(
-      "process.env.GOOGLE_MAP_API_KEY",
-      process.env.GOOGLE_MAP_API_KEY
+      "process.env.REACT_APP_GOOGLE_MAP_API_KEY",
+      process.env.REACT_APP_GOOGLE_MAP_API_KEY
     );
 
     //Obtain Initial Coords from HTML5
