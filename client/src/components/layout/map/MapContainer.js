@@ -14,11 +14,13 @@ import {
 import Geocode from "react-geocode";
 
 // const GEOCODE_API_KEY = process.env.REACT_APP_GEOCODE_API_KEY;
-const GEOCODE_API_KEY = "AIzaSyDF9BWn17CT9geI3L-Ff0ujGWwpPHmxvCQ";
+// const GEOCODE_API_KEY = "AIzaSyDF9BWn17CT9geI3L-Ff0ujGWwpPHmxvCQ";
+const GEOCODE_API_KEY = process.env.REACT_APP_GEOCODE_API_KEY;
 Geocode.setApiKey(GEOCODE_API_KEY);
 
 // const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
-const GOOGLE_MAP_API_KEY = "AIzaSyASLLZYTv8JDeXhU4ASMK4U_lyn4gD7vY0";
+// const GOOGLE_MAP_API_KEY = "AIzaSyASLLZYTv8JDeXhU4ASMK4U_lyn4gD7vY0";
+const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
 const LoadingContainer = (props) => <div>Fancy loading container!</div>;
 
@@ -49,16 +51,13 @@ class MapContainer extends Component {
   }
   componentDidMount() {
     console.log(
-      "process.env.REACT_APP_GOOGLE_MAP_API_KEY",
+      "process.env.REACT_APP_GOOGLE_MAP_API_KEY===>",
       process.env.REACT_APP_GOOGLE_MAP_API_KEY
     );
     console.log("process.env.NODE_ENV", process.env.NODE_ENV);
+
     console.log(
-      "process.env.REACT_APP_GOOGLE_MAP_API_KEY",
-      process.env.REACT_APP_GOOGLE_MAP_API_KEY
-    );
-    console.log(
-      "REACT_APP_GEOCODE_API_KEY",
+      "REACT_APP_GEOCODE_API_KEY-->",
       process.env.REACT_APP_GEOCODE_API_KEY
     );
 
