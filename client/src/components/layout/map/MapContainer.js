@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 import { connect } from "react-redux";
 import { addCoords } from "../../../store/actions/projectAction";
-import { keys } from "../../../../../config/keys";
 
 import {
   Map,
@@ -13,10 +12,11 @@ import {
   Circle,
 } from "google-maps-react";
 import Geocode from "react-geocode";
-// Geocode.setApiKey(GoogleAPI_Keys().Geocode_ApiKey);
 
-// const GOOGLE_MAP_API_KEY = GoogleAPI_Keys().GOOGLE_MAP_API_KEY;
-const GOOGLE_MAP_API_KEY = "123";
+const GEOCODE_API_KEY = process.env.REACT_APP_GEOCODE_API_KEY;
+Geocode.setApiKey(GEOCODE_API_KEY);
+
+const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
 const LoadingContainer = (props) => <div>Fancy loading container!</div>;
 
@@ -46,7 +46,6 @@ class MapContainer extends Component {
     };
   }
   componentDidMount() {
-    console.log("keys", keys);
     //Obtain Initial Coords from HTML5
     window.navigator.geolocation.getCurrentPosition((position) => {
       this.setState((prevState) => ({
