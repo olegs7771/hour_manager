@@ -46,6 +46,12 @@ class MapContainer extends Component {
     };
   }
   componentDidMount() {
+    console.log(
+      "process.env.REACT_APP_GOOGLE_MAP_API_KEY",
+      process.env.REACT_APP_GOOGLE_MAP_API_KEY
+    );
+    console.log("process.env.NODE_ENV", process.env.NODE_ENV);
+
     //Obtain Initial Coords from HTML5
     window.navigator.geolocation.getCurrentPosition((position) => {
       this.setState((prevState) => ({
