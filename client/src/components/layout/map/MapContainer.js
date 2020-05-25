@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 import { connect } from "react-redux";
 import { addCoords } from "../../../store/actions/projectAction";
+import { keys } from "../../../../../config/keys";
 
 import {
   Map,
@@ -12,11 +13,10 @@ import {
   Circle,
 } from "google-maps-react";
 import Geocode from "react-geocode";
-const GEOCODE_API_KEY = process.env.REACT_APP_GEOCODE_API_KEY;
+// Geocode.setApiKey(GoogleAPI_Keys().Geocode_ApiKey);
 
-Geocode.setApiKey(GEOCODE_API_KEY);
-
-const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
+// const GOOGLE_MAP_API_KEY = GoogleAPI_Keys().GOOGLE_MAP_API_KEY;
+const GOOGLE_MAP_API_KEY = "123";
 
 const LoadingContainer = (props) => <div>Fancy loading container!</div>;
 
@@ -46,6 +46,7 @@ class MapContainer extends Component {
     };
   }
   componentDidMount() {
+    console.log("keys", keys);
     //Obtain Initial Coords from HTML5
     window.navigator.geolocation.getCurrentPosition((position) => {
       this.setState((prevState) => ({
@@ -144,7 +145,19 @@ class MapContainer extends Component {
                 the desirable location and submit.
               </span>
               {/* Choosen Location */}
-              {this.state.choosenPlace && (
+              {this.state.loading && (
+                <div className="my-5 text-center">
+                  <DotLoaderSpinner size={50} color="#FFF" />
+                </div>
+              )}
+              {this.state.messages.message && (
+                <div className="my-5 text-center">
+                  <span className="text-white font-weight-bold ">
+                    {this.state.messages.message}
+                  </span>
+                </div>
+              )}
+              {this.state.choosenPlace && !this.state.messages.message && (
                 <div className="my-3  text-center">
                   <span className="text-center text-white h6 d-block">
                     Choosen Location
