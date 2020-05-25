@@ -55,6 +55,10 @@ class MapContainer extends Component {
       "process.env.REACT_APP_GOOGLE_MAP_API_KEY",
       process.env.REACT_APP_GOOGLE_MAP_API_KEY
     );
+    console.log(
+      "REACT_APP_GEOCODE_API_KEY",
+      process.env.REACT_APP_GEOCODE_API_KEY
+    );
 
     //Obtain Initial Coords from HTML5
     window.navigator.geolocation.getCurrentPosition((position) => {
