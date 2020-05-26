@@ -66,7 +66,7 @@ class MapContainer extends Component {
         .then((address) => {
           console.log("address", address);
           this.setState((prevState) => ({
-            address: address.results[0].formatted_address,
+            address: address.results[0].address_components[1].short_name,
           }));
         })
         .catch((err) => {

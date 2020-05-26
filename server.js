@@ -75,3 +75,11 @@ console.log("NODE_ENV", process.env.NODE_ENV);
 //Exercises
 
 // key: "AIzaSyASLLZYTv8JDeXhU4ASMK4U_lyn4gD7vY0"
+
+const str = `
+one
+two
+tree
+"four"
+`;
+console.log(str);
