@@ -11,7 +11,7 @@ import ProjectItems from "./ProjectItems";
 
 export class Project extends Component {
   state = {
-    projects: [],
+    projects: null,
     showDetails: false,
     projectDetails: {},
     //Change backgroundColor onMouseEnter
@@ -20,8 +20,8 @@ export class Project extends Component {
 
   componentDidMount() {
     //Fetch Projects
-    this.props.getProjects();
 
+    this.props.getProjects();
     console.log("fetch projects");
   }
   _createProject = () => {

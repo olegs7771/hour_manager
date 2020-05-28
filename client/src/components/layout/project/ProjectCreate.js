@@ -107,6 +107,19 @@ export class ProjectCreate extends Component {
     this.setState({ editWorkHours: e });
   };
 
+  _getCoordsToMap = async () => {
+    window.navigator.geolocation.getCurrentPosition((position) => {
+      const data = {
+        projectID: null,
+        coords: {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        },
+      };
+      this.props.history.push("/map", { data });
+    });
+  };
+
   render() {
     // Select options for Business functions;
     const options = [
@@ -151,7 +164,7 @@ export class ProjectCreate extends Component {
                 error={this.state.errors.location}
               />
               <div className="px-3 my-2 ">
-                <span className="font-italic text-muted">
+                <span className="font-italic text-white">
                   Please Select a Business Function that are carried out by your
                   enterprise.
                 </span>
@@ -163,6 +176,17 @@ export class ProjectCreate extends Component {
                 onChange={this._onChange}
                 error={this.state.errors.companyCoreFunc}
               />
+              {/* Add Project Geolocation */}
+
+              <div className="my-5 border rounded p-4">
+                <p className="text-white">Edit Geolocation of your project</p>
+                <input
+                  type="button"
+                  value="Add Coordenates"
+                  onClick={this._getCoordsToMap}
+                  className="btn btn-outline-info"
+                />
+              </div>
               <HashLoaderSpinner loading={this.state.loading} />
               {true ? (
                 <div className="my-2 ">
@@ -211,6 +235,7 @@ export class ProjectCreate extends Component {
 const mapStateToProps = (state) => ({
   errors: state.errors.errors,
   messages: state.messages.messages,
+  selectedCoords: state.projects.selectedCoords,
 });
 
 const mapDispatchToProps = { createProject };

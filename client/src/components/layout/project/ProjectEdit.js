@@ -126,7 +126,7 @@ export class ProjectEdit extends Component {
     console.log("e in edit hours", e);
     this.setState({ editWorkHours: e });
   };
-  _selectProject = () => {
+  _getCoordsToMap = () => {
     const data = {
       projectId: this.props.match.params.id,
       coords: this.state.selectedProject.coords
@@ -269,16 +269,16 @@ export class ProjectEdit extends Component {
                     error={this.state.errors.companyCoreFunc}
                   />
                 </div>
+                {/* Add Project Geolocation */}
 
-                <div className="my-3 border">
+                <div className="my-5 border rounded p-4">
+                  <p className="text-white">Edit Geolocation of your project</p>
                   <input
                     type="button"
                     value="Add Coordenates"
-                    onClick={this._selectProject}
+                    onClick={this._getCoordsToMap}
+                    className="btn btn-outline-info"
                   />
-                </div>
-                <div className="my-3 border">
-                  <a href="/sandbox">SandBox</a>
                 </div>
 
                 <div className="my-1 ">

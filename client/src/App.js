@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import setAuthToken from "./utils/setAuthToken";
-//SandBox
-import SandBox from "../src/components/sendbox/SandBox";
 
 //Auth
 import Register from "../src/components/auth/Register";
@@ -151,11 +149,6 @@ class App extends Component {
                   exact
                   path="/map"
                   component={userIsAuthenticated(MapContainer)}
-                />
-                <Route
-                  exact
-                  path="/sandbox"
-                  component={userIsAuthenticated(SandBox)}
                 />
 
                 <Route exact path="/register" component={Register} />

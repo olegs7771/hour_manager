@@ -4,6 +4,7 @@ import {
   GET_MESSAGE,
   GET_ERRORS,
   LOADING_PROJECT,
+  SELECT_COORDINATES,
 } from "./types";
 import axios from "axios";
 
@@ -106,7 +107,7 @@ export const deleteProject = (data) => (dispatch) => {
 //Add the Coords to determind the area for Employees to be able get access for geolocation on their App
 
 export const addCoords = (data) => (dispatch) => {
-  console.log("data in adding coords and assress", data);
+  console.log("data in adding coords and address", data);
 
   axios
     .post("/api/project/addCoords", data)
@@ -120,6 +121,15 @@ export const addCoords = (data) => (dispatch) => {
     .catch((err) => {
       console.log("err addCoords", err.response.data);
     });
+};
+
+//While creating new project the Manager can pick up GeoLocation
+export const pickLocation = (data) => (dispatch) => {
+  console.log("data pickLocation", data);
+  dispatch({
+    type: SELECT_COORDINATES,
+    payload: data,
+  });
 };
 
 //Loading

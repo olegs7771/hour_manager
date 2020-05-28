@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 import { connect } from "react-redux";
-import { addCoords } from "../../../store/actions/projectAction";
+import { addCoords, pickLocation } from "../../../store/actions/projectAction";
 
 import {
   Map,
@@ -46,6 +46,12 @@ class MapContainer extends Component {
     };
   }
   componentDidMount() {
+    //Coords from data in link
+    this.setState({ circleCoords: this.props.location.state.data.coords });
+    console.log(
+      "coords for circle in cdm",
+      this.props.location.state.data.coords
+    );
     //Obtain Initial Coords from HTML5
     window.navigator.geolocation.getCurrentPosition((position) => {
       this.setState((prevState) => ({
@@ -60,6 +66,11 @@ class MapContainer extends Component {
     });
   }
   componentDidUpdate(prevProps, prevState) {
+    console.log(
+      "coords for circle in cdu",
+      this.props.location.state.data.coords
+    );
+
     if (prevState.coords !== this.state.coords) {
       //Geocode new position
       Geocode.fromLatLng(this.state.coords.lat, this.state.coords.lng)
@@ -90,9 +101,6 @@ class MapContainer extends Component {
       lat: position.lat(),
       lng: position.lng(),
     };
-
-    // console.log("newCoordsObj", newCoordsObj);
-    // this.props.setNewCoords(newCoordsObj);
     this.setState((prevState) => {
       return {
         ...prevState,
@@ -108,13 +116,27 @@ class MapContainer extends Component {
   };
 
   _submitCoords = () => {
-    const payload = {
-      projectID: this.state.projectID,
-      coords: this.state.choosenPlace,
-      address: this.state.address,
-    };
-    this.props.addCoords(payload);
-    this.setState({ loading: true });
+    //if used in Create Project than no projectID yet exists
+    if (this.state.projectID === undefined) {
+      const payload = {
+        coords: this.state.choosenPlace,
+        address: this.state.address,
+      };
+      this.setState({ loading: true });
+      this.props.pickLocation(payload);
+      setTimeout(() => {
+        this.props.history.push("/create_project", { payload });
+      }, 3000);
+    } else {
+      //In editing the existing project
+      const payload = {
+        projectID: this.state.projectID,
+        coords: this.state.choosenPlace,
+        address: this.state.address,
+      };
+      this.props.addCoords(payload);
+      this.setState({ loading: true });
+    }
   };
 
   _cancelLocation = () => {
@@ -122,6 +144,9 @@ class MapContainer extends Component {
       choosenPlace: null,
     });
   };
+  componentWillUnmount() {
+    this.setState({ loading: false });
+  }
 
   render() {
     return Object.keys(this.state.coords).length > 0 ? (
@@ -216,13 +241,21 @@ class MapContainer extends Component {
             >
               <Marker
                 ref={this.markerRef}
-                name={"Current location"}
                 position={this.state.coords}
                 draggable={true}
                 position_changed={this._positionChanged}
                 onDragend={this._markerDragged}
                 // onClick={this._selectPlace(this.state.coords)}
                 // name={this.state.coords}
+              />
+
+              <Circle
+                center={this.state.circleCoords}
+                radius={500}
+                strokeOpacity={0}
+                strokeWeight={5}
+                fillColor="#FF0000"
+                fillOpacity={0.2}
               />
             </Map>
           </div>
@@ -239,7 +272,7 @@ const mapStateToProps = (state) => ({
   messages: state.messages.messages,
 });
 
-export default connect(mapStateToProps, { addCoords })(
+export default connect(mapStateToProps, { addCoords, pickLocation })(
   GoogleApiWrapper({
     apiKey: GOOGLE_MAP_API_KEY,
     LoadingContainer,
