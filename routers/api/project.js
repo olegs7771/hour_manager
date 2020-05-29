@@ -12,7 +12,7 @@ router.post(
   "/create",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    console.log("req.body", req.body);
+    console.log("req.body create project", req.body);
 
     const { errors, isValid } = validateProjectInput(req.body);
     if (!isValid) {
@@ -34,6 +34,8 @@ router.post(
             start: req.body.jobStart,
             end: req.body.jobEnd,
           },
+          coords: req.body.coords.coords,
+          address: req.body.coords.address,
         };
 
         new Project(newProject).save().then((project) => {
@@ -74,6 +76,8 @@ router.post(
             start: req.body.jobStart,
             end: req.body.jobEnd,
           },
+          coords: req.body.coords.coords,
+          address: req.body.coords.address,
         };
 
         new Project(newProject).save().then((project) => {

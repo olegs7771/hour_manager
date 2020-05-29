@@ -74,6 +74,10 @@ export class ProjectCreate extends Component {
           companyCoreFunc: this.state.companyCoreFunc,
           jobStart: `${this.state.start}`,
           jobEnd: `${this.state.end}`,
+          coords: {
+            address: this.state.selectedCoords.address,
+            coords: this.state.selectedCoords.coords,
+          },
         };
         this.props.createProject(data);
       } else {
@@ -94,6 +98,10 @@ export class ProjectCreate extends Component {
         companyCoreFunc: this.state.companyCoreFunc,
         jobStart: "00:00",
         jobEnd: "00:00",
+        coords: {
+          address: this.state.selectedCoords.address,
+          coords: this.state.selectedCoords.coords,
+        },
       };
       this.props.createProject(data);
     }
@@ -141,6 +149,12 @@ export class ProjectCreate extends Component {
   _cancelSelectedCoords = () => {
     this.setState({ selectedCoords: null });
   };
+
+  componentWillUnmount() {
+    this.setState({
+      selectedCoords: null,
+    });
+  }
 
   render() {
     // Select options for Business functions;
