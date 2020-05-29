@@ -25,6 +25,8 @@ export class ProjectCreate extends Component {
       start: "00:00",
       end: "00:00",
       editWorkHours: true,
+      //Picking Geolocation
+      selectedCoords: null,
     };
   }
   _setHours = (data) => {
@@ -87,6 +89,14 @@ export class ProjectCreate extends Component {
       this.props.createProject(data);
     }
   };
+
+  componentDidMount() {
+    //In Pickin the Geolocation
+    if (this.props.selectedCoords) {
+      this.setState({ selectedCoords: this.props.selectedCoords });
+    }
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.errors !== this.props.errors) {
       this.setState({ errors: this.props.errors, loading: false });
@@ -118,6 +128,9 @@ export class ProjectCreate extends Component {
       };
       this.props.history.push("/map", { data });
     });
+  };
+  _cancelSelectedCoords = () => {
+    this.setState({ selectedCoords: null });
   };
 
   render() {
@@ -179,13 +192,61 @@ export class ProjectCreate extends Component {
               {/* Add Project Geolocation */}
 
               <div className="my-5 border rounded p-4">
-                <p className="text-white">Edit Geolocation of your project</p>
-                <input
-                  type="button"
-                  value="Add Coordenates"
-                  onClick={this._getCoordsToMap}
-                  className="btn btn-outline-info"
-                />
+                {this.state.selectedCoords ? (
+                  <div className="border text-center my-3 mx-auto">
+                    <span className="text-white ">Geolocation Selected</span>
+                    <br />
+                    <div
+                      className=" my-3 d-block mx-auto d-flex justify-content-between"
+                      style={{ width: "40%" }}
+                    >
+                      <span className="text-white font-weight-bold">
+                        Address
+                      </span>{" "}
+                      <span style={{ color: "#e8fc0d" }}>
+                        {this.state.selectedCoords.address}
+                      </span>
+                    </div>
+                    <div
+                      className=" my-3 d-block mx-auto d-flex justify-content-between"
+                      style={{ width: "40%" }}
+                    >
+                      <span className="text-white font-weight-bold">
+                        Coordinates
+                      </span>{" "}
+                      <span style={{ color: "#e8fc0d" }}>
+                        {this.state.selectedCoords.address}
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="text-center">
+                      <span className="text-white h6">
+                        Edit Geolocation of your project
+                      </span>
+                    </div>
+
+                    <small className="text-white">
+                      Please select address which includes street name
+                    </small>
+                  </div>
+                )}
+                {this.state.selectedCoords ? (
+                  <input
+                    type="button"
+                    value="Cancel"
+                    onClick={this._cancelSelectedCoords}
+                    className="btn btn-outline-info my-3"
+                  />
+                ) : (
+                  <input
+                    type="button"
+                    value="Add Coordenates"
+                    onClick={this._getCoordsToMap}
+                    className="btn btn-outline-info my-3"
+                  />
+                )}
               </div>
               <HashLoaderSpinner loading={this.state.loading} />
               {true ? (

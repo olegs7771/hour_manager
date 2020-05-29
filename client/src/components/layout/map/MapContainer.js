@@ -125,7 +125,7 @@ class MapContainer extends Component {
       this.setState({ loading: true });
       this.props.pickLocation(payload);
       setTimeout(() => {
-        this.props.history.push("/create_project", { payload });
+        this.props.history.push("/create_project");
       }, 3000);
     } else {
       //In editing the existing project
