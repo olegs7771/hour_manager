@@ -8,14 +8,14 @@ const duration = 1000;
 const defaultStyle = {
   transition: `opacity ${duration}ms ease-in-out`,
   opacity: 0,
-  color: " red"
+  color: " red",
 };
 
 const transitionStyles = {
   entering: { opacity: 1 },
   entered: { opacity: 1 },
   exiting: { opacity: 0 },
-  exited: { opacity: 0 }
+  exited: { opacity: 0 },
 };
 
 export class AdminContactForm extends Component {
@@ -26,39 +26,39 @@ export class AdminContactForm extends Component {
     in: false,
     loading: false,
     messages: {},
-    errors: {}
+    errors: {},
   };
 
-  _onChange = e => {
+  _onChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
     this.setState({ errors: {}, in: false });
   };
 
-  _onSubmit = e => {
+  _onSubmit = (e) => {
     e.preventDefault();
     const data = {
       text: this.state.text,
       email: this.state.email,
-      name: this.state.name
+      name: this.state.name,
     };
     if (this.state.name.length === 0) {
       return this.setState({
         errors: { name: "Please provide your name" },
-        in: true
+        in: true,
       });
     }
     if (this.state.email.length === 0) {
       return this.setState({
         errors: { email: "Please provide your valid Email address" },
-        in: true
+        in: true,
       });
     }
     if (this.state.text.length === 0) {
       return this.setState({
         errors: { text: "Text can not be emty" },
-        in: true
+        in: true,
       });
     }
     this.setState({ loading: true });
@@ -93,9 +93,9 @@ export class AdminContactForm extends Component {
       );
     } else {
       return (
-        <div className="border p-2">
+        <div className="border pb-5">
           <div
-            className="text-center  font-italic my-3"
+            className="text-center  font-italic my-3 text-white"
             style={{ fontSize: 40 }}
           >
             Contact Admin
@@ -116,11 +116,11 @@ export class AdminContactForm extends Component {
               />
 
               <Transition in={this.state.in} timeout={duration}>
-                {state => (
+                {(state) => (
                   <div
                     style={{
                       ...defaultStyle,
-                      ...transitionStyles[state]
+                      ...transitionStyles[state],
                     }}
                   >
                     {this.state.errors ? (
@@ -141,11 +141,11 @@ export class AdminContactForm extends Component {
               />
 
               <Transition in={this.state.in} timeout={duration}>
-                {state => (
+                {(state) => (
                   <div
                     style={{
                       ...defaultStyle,
-                      ...transitionStyles[state]
+                      ...transitionStyles[state],
                     }}
                   >
                     {this.state.errors ? (
@@ -155,11 +155,11 @@ export class AdminContactForm extends Component {
                 )}
               </Transition>
 
-              <small id="emailHelp" className="form-text text-muted">
+              <small id="emailHelp" className="form-text text-white">
                 We'll never share your email with anyone else.
               </small>
             </div>
-            <div className="form-group">
+            <div className="form-group ">
               <textarea
                 className="form-control"
                 rows="3"
@@ -170,11 +170,11 @@ export class AdminContactForm extends Component {
               ></textarea>
             </div>
             <Transition in={this.state.in} timeout={duration}>
-              {state => (
+              {(state) => (
                 <div
                   style={{
                     ...defaultStyle,
-                    ...transitionStyles[state]
+                    ...transitionStyles[state],
                   }}
                 >
                   {this.state.errors ? (
@@ -185,12 +185,13 @@ export class AdminContactForm extends Component {
                 </div>
               )}
             </Transition>
-
-            <input
-              type="submit"
-              value="Submit"
-              className="d-block mx-auto btn btn-outline-secondary my-3"
-            />
+            <div className="my-5 ">
+              <input
+                type="submit"
+                value="Submit"
+                className="d-block mx-auto btn btn-outline-secondary my-3"
+              />
+            </div>
           </form>
         </div>
       );
@@ -198,8 +199,8 @@ export class AdminContactForm extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  messages: state.messages.messages
+const mapStateToProps = (state) => ({
+  messages: state.messages.messages,
 });
 
 const mapDispatchToProps = { sendEmailToAdmin };

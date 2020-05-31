@@ -29,6 +29,7 @@ import ActivationConfirmation from "../src/components/layout/employee/Activation
 //Admin
 import AdminControl from "./components/layout/admin/AdminControl";
 import AdminContactForm from "./components/layout/admin/AdminContactForm";
+import About from "./components/layout/admin/About";
 
 import configureStore from "./store/configureStore/configureStore";
 import jwt_decode from "jwt-decode";
@@ -179,6 +180,7 @@ class App extends Component {
                   path="/admin/:token/:access"
                   component={AdminControl}
                 />
+                <Route exact path="/about" component={About} />
               </Switch>
             </div>
             <Footer />

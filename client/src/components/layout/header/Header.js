@@ -63,19 +63,19 @@ export class Header extends Component {
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                Dropdown
+                Help
               </a>
               <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a className="dropdown-item" href="/#">
-                  Action
+                <a className="dropdown-item" href="/about">
+                  About Hour Manager
                 </a>
-                <a className="dropdown-item" href="/#">
+                {/* <a className="dropdown-item" href="/#">
                   Another action
                 </a>
                 <div className="dropdown-divider"></div>
                 <a className="dropdown-item" href="/#">
                   Something else here
-                </a>
+                </a> */}
               </div>
             </li>
           </ul>

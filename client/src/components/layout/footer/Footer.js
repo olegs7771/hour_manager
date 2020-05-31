@@ -15,7 +15,7 @@ export class Footer extends Component {
           </a>
           {/* <button className="btn btn-outline-secondary">Contact Admin</button> */}
         </li>
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <a className="nav-link" href="/">
             Link
           </a>
@@ -24,7 +24,7 @@ export class Footer extends Component {
           <a className="nav-link" href="/">
             Link
           </a>
-        </li>
+        </li> */}
       </ul>
     );
   }
