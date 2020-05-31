@@ -54,6 +54,15 @@ export class ProjectCreate extends Component {
           },
         });
       }
+      if (!this.state.selectedCoords) {
+        return this.setState({
+          errors: {
+            coords:
+              "Please Edit Geolocation of your project. Move the Marker to desirable spot",
+          },
+        });
+      }
+
       //Test for Work Hour form errors(22:00)
       const reg = /^[0-2][0-9]:[0-5][0-9]$/;
       if (reg.test(this.state.start) && reg.test(this.state.end)) {
@@ -65,6 +74,10 @@ export class ProjectCreate extends Component {
           companyCoreFunc: this.state.companyCoreFunc,
           jobStart: `${this.state.start}`,
           jobEnd: `${this.state.end}`,
+          coords: {
+            address: this.state.selectedCoords.address,
+            coords: this.state.selectedCoords.coords,
+          },
         };
         this.props.createProject(data);
       } else {
@@ -85,6 +98,10 @@ export class ProjectCreate extends Component {
         companyCoreFunc: this.state.companyCoreFunc,
         jobStart: "00:00",
         jobEnd: "00:00",
+        coords: {
+          address: this.state.selectedCoords.address,
+          coords: this.state.selectedCoords.coords,
+        },
       };
       this.props.createProject(data);
     }
@@ -132,6 +149,12 @@ export class ProjectCreate extends Component {
   _cancelSelectedCoords = () => {
     this.setState({ selectedCoords: null });
   };
+
+  componentWillUnmount() {
+    this.setState({
+      selectedCoords: null,
+    });
+  }
 
   render() {
     // Select options for Business functions;
@@ -193,13 +216,10 @@ export class ProjectCreate extends Component {
 
               <div className="my-5 border rounded p-4">
                 {this.state.selectedCoords ? (
-                  <div className="border text-center my-3 mx-auto">
-                    <span className="text-white ">Geolocation Selected</span>
+                  <div className=" text-center my-3 mx-auto">
+                    <span className="text-white h6">Geolocation Selected</span>
                     <br />
-                    <div
-                      className=" my-3 d-block mx-auto d-flex justify-content-between"
-                      style={{ width: "40%" }}
-                    >
+                    <div className=" my-3  text-left " style={{ width: "80%" }}>
                       <span className="text-white font-weight-bold">
                         Address
                       </span>{" "}
@@ -207,29 +227,32 @@ export class ProjectCreate extends Component {
                         {this.state.selectedCoords.address}
                       </span>
                     </div>
-                    <div
-                      className=" my-3 d-block mx-auto d-flex justify-content-between"
-                      style={{ width: "40%" }}
-                    >
+                    <div className="my-3  text-left " style={{ width: "40%" }}>
+                      <span className="text-white font-weight-bold">Lat </span>{" "}
+                      <span style={{ color: "#e8fc0d" }}>
+                        {this.state.selectedCoords.coords.lat}
+                      </span>
+                      <br />
                       <span className="text-white font-weight-bold">
-                        Coordinates
+                        Lng{" "}
                       </span>{" "}
                       <span style={{ color: "#e8fc0d" }}>
-                        {this.state.selectedCoords.address}
+                        {this.state.selectedCoords.coords.lng}
                       </span>
+                      <br />
                     </div>
                   </div>
                 ) : (
                   <div>
                     <div className="text-center">
-                      <span className="text-white h6">
+                      <span className="text-white h6 ">
                         Edit Geolocation of your project
                       </span>
                     </div>
-
-                    <small className="text-white">
+                    <br />
+                    <span className="text-white">
                       Please select address which includes street name
-                    </small>
+                    </span>
                   </div>
                 )}
                 {this.state.selectedCoords ? (
@@ -256,6 +279,13 @@ export class ProjectCreate extends Component {
                   </span>
                 </div>
               ) : null}
+              {this.state.errors.coords && (
+                <div className="my-3">
+                  <span className="text-danger">
+                    {this.state.errors.coords}
+                  </span>
+                </div>
+              )}
               <div className="my-1 ">
                 <button
                   type="submit"

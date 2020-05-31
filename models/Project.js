@@ -29,7 +29,6 @@ const ProjectSchema = new Schema({
   //Coorditates and Address of choosen place
   coords: {
     type: Object,
-    default: {},
   },
   address: {
     type: String,
