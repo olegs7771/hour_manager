@@ -174,6 +174,28 @@ class Jobday extends Component {
   };
   _cancelShowDay = () => {
     this.props.showDayChild(false);
+    //relode current month
+    const currentDateStr = moment().format("YYYY-MM-DD");
+    const firstDay = moment(currentDateStr) //<------ dateToShow
+      .startOf("month")
+      .format("");
+    const lastDay = moment(currentDateStr) //<------ dateToShow
+      .endOf("month")
+      .format("");
+    const date = {
+      startdate: firstDay,
+      enddate: lastDay,
+    };
+    const employeeID = this.props.employee._id;
+    const projectID = this.props.employee.projectID;
+
+    const payload = {
+      date,
+      employeeID,
+      projectID,
+    };
+    // console.log("payload to select month", payload);
+    this.props.selectMonth(payload);
   };
 
   render() {
@@ -273,7 +295,7 @@ class Jobday extends Component {
 
               <tbody>
                 {this.state.workDays.map((day, i) => (
-                  <tr key={i}>
+                  <tr key={i} style={{ backgroundColor: "#bdc6c7" }}>
                     {/* {Date} */}
                     <td
                       className="d-flex justify-content-between"
@@ -323,7 +345,7 @@ class Jobday extends Component {
                           ) : null}
                         </span>
                       ) : (
-                        <span> Pending..</span>
+                        <span className="text-white"> Pending..</span>
                       )}
                     </td>
                     {/* {Checked} */}
@@ -388,6 +410,7 @@ class Jobday extends Component {
                 </span>
               </div>
             </div>
+            {/* Button To Close Single Day */}
             <div className="col-md-2">
               <button
                 className="btn btn-outline-secondary mt-2 "
@@ -398,8 +421,11 @@ class Jobday extends Component {
             </div>
           </div>
 
-          <div className="my-2  p-3">
-            <span className="ml-4" style={{ fontWeight: "bold" }}>
+          <div className="  p-3" style={{ backgroundColor: "#bdc6c7" }}>
+            <span
+              className="ml-4"
+              style={{ fontWeight: "bold", color: "#FFF" }}
+            >
               {" "}
               Start Time
             </span>
@@ -423,7 +449,10 @@ class Jobday extends Component {
               </div>
             ) : null}
             <hr />
-            <span className="ml-4" style={{ fontWeight: "bold" }}>
+            <span
+              className="ml-4"
+              style={{ fontWeight: "bold", color: "#FFF" }}
+            >
               {" "}
               End Time
             </span>
@@ -483,7 +512,9 @@ class Jobday extends Component {
                 )}
               </div>
             ) : (
-              <span>Pending of Employee confirmation</span>
+              <span className="text-danger">
+                Pending of Employee confirmation..
+              </span>
             )}
           </div>
         </div>

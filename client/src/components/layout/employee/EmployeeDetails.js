@@ -261,7 +261,6 @@ export class EmployeeDetails extends Component {
                 </li>
               </ul>
             </div>
-
             <div
               className={
                 window.innerWidth < 500 ? "col-md-3  " : "col-md-3 pl-3 "
@@ -285,8 +284,8 @@ export class EmployeeDetails extends Component {
                 //hide controls if Jobsday got message
                 showControls={this._showControls}
               />
-              <TotalJobHours />
             </div>
+            <TotalJobHours />
           </div>
           <div className="my-3  d-flex justify-content-center ">
             <div className="my-3 btn-group">

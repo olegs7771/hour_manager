@@ -56,7 +56,9 @@ export class EmployeeStaff extends Component {
         );
       }
       return (
-        <div className="my-4  ">
+        <div
+          style={{ height: this.props.employees.length < 10 ? 700 : "auto" }}
+        >
           <div className="h5 text-center my-3 text-white">Employee Table</div>
 
           {/* table */}

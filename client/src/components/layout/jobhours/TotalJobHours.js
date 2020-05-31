@@ -13,11 +13,31 @@ const totalSum = (arr) => {
   return arr.reduce(reducer) / 3600;
 };
 
+const total = (daysArr) => {
+  let end;
+  let start;
+  let totalTime = [];
+  let total;
+  daysArr.map((day) => {
+    end = moment(day.timeEnd).format("X");
+    start = moment(day.timeStart).format("X");
+    totalTime.push(end - start);
+  });
+
+  const totalStr = totalSum(totalTime).toString();
+  total = totalStr.slice(0, 5);
+  return total;
+};
+
 class TotalJobHours extends Component {
   state = {
     workDays: null,
     showTotal: false,
+    total: null,
   };
+  componentDidMount() {
+    this.setState({ showTotal: this.props.message ? false : true });
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.workDays !== this.props.workDays) {
@@ -26,28 +46,12 @@ class TotalJobHours extends Component {
     if (prevProps.message !== this.props.message) {
       this.setState({ showTotal: this.props.message ? false : true });
     }
+    if (this.state.workDays !== prevState.workDays) {
+      this.setState({ total: total(this.state.workDays) });
+    }
   }
 
   render() {
-    let totalTime = [];
-    let total; //total Hours
-    let end;
-    let start;
-
-    if (this.state.workDays) {
-      this.state.workDays.map((day) => {
-        end = moment(day.timeEnd).format("X");
-        start = moment(day.timeStart).format("X");
-        console.log("end", end);
-        console.log("start", start);
-
-        totalTime.push(end - start);
-      });
-
-      const totalStr = totalSum(totalTime).toString();
-      total = totalStr.slice(0, 5);
-    }
-    console.log("total", total);
     if (this.state.showTotal) {
       return (
         <div className=" my-3 p-1">
@@ -58,7 +62,9 @@ class TotalJobHours extends Component {
           <span style={{ fontWeight: "bold", marginLeft: 10, color: "#FFF" }}>
             Total Hours
           </span>{" "}
-          <span style={{ color: "#ebde34", fontWeight: "bold" }}>{total}</span>{" "}
+          <span style={{ color: "#ebde34", fontWeight: "bold" }}>
+            {this.state.total}
+          </span>{" "}
           <span className="text-white">Hours</span>
         </div>
       );
