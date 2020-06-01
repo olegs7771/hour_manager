@@ -85,6 +85,18 @@ export const managerCancelConfirm = (data) => (dispatch) => {
 
 export const managerEditHours = (data) => (dispatch) => {
   console.log("data managerEditHours", data);
+  dispatch(loading());
+  axios
+    .post("/api/jobday/manager_edit_jobday_hours", data)
+    .then((res) => {
+      console.log("res.data manager_edit_jobday_hours", res.data);
+    })
+    .catch((err) => {
+      console.log(
+        "error res.data manager_edit_jobday_hours ",
+        err.response.data
+      );
+    });
 };
 
 export const loading = () => {

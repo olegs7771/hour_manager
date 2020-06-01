@@ -233,16 +233,16 @@ router.post(
       }
       console.log("days", days);
       //Filter found days by EmployeeID
-      const filteredDays = days.filter((day) => {
-        return day.employee !== req.body.selectedDay.employee;
+      const filteredDay = days.find((day) => {
+        return day.employee == req.body.selectedDay.employee;
       });
-      console.log("filteredDays", filteredDays);
-      filteredDays.map((day) => {
-        day.confirmManager = false;
-        day.save().then((upDay) => {
-          res.json({ day: upDay, hours: req.body.hoursLimit });
-        });
-      });
+      console.log("filteredDay", filteredDay);
+      // filteredDays.map((day) => {
+      //   day.confirmManager = false;
+      //   day.save().then((upDay) => {
+      //     res.json({ day: upDay, hours: req.body.hoursLimit });
+      //   });
+      // });
     });
   }
 );
