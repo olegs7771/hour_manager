@@ -156,7 +156,7 @@ export class EmployeeDetails extends Component {
       );
     } else {
       return (
-        <div className={window.innerWidth < 500 ? "py-1 " : "py-5 pl-5"}>
+        <div className={window.innerWidth < 500 ? "py-1 " : "py-5 pl-5 px-4"}>
           {window.innerWidth < 500 ? (
             <div className=" text-center ">
               <span className=" text-white">Employee Dashboard Mobile</span>
@@ -271,7 +271,7 @@ export class EmployeeDetails extends Component {
                 showMonth={this.state.showMonth}
               />
             </div>
-            <div className="col-md-6 ">
+            <div className="col-md-6 border">
               {/* Select To show Day or Month */}
               {this.state.showControls && (
                 <EmployeeControls parentCB={this._showDate} />

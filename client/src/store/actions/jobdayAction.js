@@ -81,6 +81,12 @@ export const managerCancelConfirm = (data) => (dispatch) => {
   });
 };
 
+//Manager Edits timeStart,timeEnd manually
+
+export const managerEditHours = (data) => (dispatch) => {
+  console.log("data managerEditHours", data);
+};
+
 export const loading = () => {
   return {
     type: LOADING_JOBDAY,

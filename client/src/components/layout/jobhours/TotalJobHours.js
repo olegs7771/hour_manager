@@ -1,6 +1,7 @@
 //This Child Component of EmployeeDeytail.js
 // In this component we will  show  the total amount of hours
 // Employee had spent timeStart to timeEnd
+//only jobdays that confirmManager=true will be added to total
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -14,19 +15,25 @@ const totalSum = (arr) => {
 };
 
 const total = (daysArr) => {
+  console.log("daysArr", daysArr);
+
   let end;
   let start;
   let totalTime = [];
   let total;
-  daysArr.map((day) => {
-    end = moment(day.timeEnd).format("X");
-    start = moment(day.timeStart).format("X");
-    totalTime.push(end - start);
-  });
+  if (daysArr.length > 0) {
+    daysArr.map((day) => {
+      end = moment(day.timeEnd).format("X");
+      start = moment(day.timeStart).format("X");
+      totalTime.push(end - start);
+    });
 
-  const totalStr = totalSum(totalTime).toString();
-  total = totalStr.slice(0, 5);
-  return total;
+    const totalStr = totalSum(totalTime).toString();
+    total = totalStr.slice(0, 5);
+    return total;
+  } else {
+    return (total = 0);
+  }
 };
 
 class TotalJobHours extends Component {
@@ -47,7 +54,14 @@ class TotalJobHours extends Component {
       this.setState({ showTotal: this.props.message ? false : true });
     }
     if (this.state.workDays !== prevState.workDays) {
-      this.setState({ total: total(this.state.workDays) });
+      //Filter jobdays for confirmManager=true
+      if (this.state.workDays) {
+        const filteredDays = this.state.workDays.filter((day) => {
+          return day.confirmManager === true;
+        });
+
+        this.setState({ total: total(filteredDays) });
+      }
     }
   }
 

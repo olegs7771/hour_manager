@@ -26,6 +26,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Message from "./Message";
 import ToolTip from "../tooltip/ToolTip";
+import JobdayEditManager from "./JobdayEditManager";
 
 // Function to sort this.props.jobDays
 const sortArrAsc = (arr) => {
@@ -66,6 +67,8 @@ class Jobday extends Component {
     //Order how to show Month list
     ascendOrder: true,
     descendOrder: false,
+    //Show Single Day in Edit Mode( for Manager)
+    isEditMode: false,
   };
 
   //Load Current Month on Mount
@@ -196,6 +199,9 @@ class Jobday extends Component {
     };
     // console.log("payload to select month", payload);
     this.props.selectMonth(payload);
+  };
+  _editModeOn = () => {
+    this.setState({ isEditMode: true });
   };
 
   render() {
@@ -393,6 +399,21 @@ class Jobday extends Component {
           </div>
         </Scrollbar>
       );
+    } else if (this.state.isEditMode) {
+      return (
+        <JobdayEditManager
+          message={this.state.selectedDay.message}
+          date={this.state.selectedDay.date}
+          timeStart={this.state.selectedDay.timeStart}
+          timeEnd={this.state.selectedDay.timeEnd}
+          timeEndMan={this.state.selectedDay.timeEndMan}
+          timeStartMan={this.state.selectedDay.timeStartMan}
+          endHour={this.props.hoursLimit.endHour}
+          startHour={this.props.hoursLimit.startHour}
+          confirmEmployee={this.state.selectedDay.confirmEmployee}
+          cancelEditModeChild={(state) => this.setState({ isEditMode: state })}
+        />
+      );
     } else {
       return (
         //Show Single day
@@ -401,7 +422,7 @@ class Jobday extends Component {
             className="row   border mx-auto pb-2 bg-dark"
             style={{ width: "100%" }}
           >
-            <div className="col-md-10  ">
+            <div className="col-md-8  ">
               <div className="my-2 ml-5 mt-3">
                 <span className="text-white " style={{ fontWeight: "bold" }}>
                   {moment(this.state.selectedDay.date).format("LL") +
@@ -419,6 +440,15 @@ class Jobday extends Component {
                 X
               </button>
             </div>
+            {/* Edit Single Jobday by Manager */}
+            <div className="col-md-2">
+              <button
+                className="btn btn-outline-secondary mt-2 "
+                onClick={this._editModeOn}
+              >
+                Edit
+              </button>
+            </div>
           </div>
 
           <div className="  p-3" style={{ backgroundColor: "#bdc6c7" }}>
@@ -432,12 +462,12 @@ class Jobday extends Component {
             <span
               className={classnames("text-success ml-5", {
                 "text-danger ml-5":
-                  moment(this.state.selectedDay.timeStart).format("hh : mm") >
+                  moment(this.state.selectedDay.timeStart).format("hh:mm") >
                   this.props.hoursLimit.startHour,
               })}
               style={{ fontWeight: "bold" }}
             >
-              {moment(this.state.selectedDay.timeStart).format("hh : mm")}
+              {moment(this.state.selectedDay.timeStart).format("hh:mm")}
             </span>
             <br />
             {this.state.selectedDay.timeStartMan ? (
@@ -456,22 +486,24 @@ class Jobday extends Component {
               {" "}
               End Time
             </span>
-            <span
-              className={classnames("text-success ml-5", {
-                "text-danger ml-5":
-                  moment(this.state.selectedDay.timeEnd).format("HH : mm") <
-                  this.props.hoursLimit.endHour,
-              })}
-              style={{ fontWeight: "bold" }}
-            >
-              {moment(this.state.selectedDay.timeEnd).format("HH : mm")}
-            </span>
+            {this.state.selectedDay.timeEnd ? (
+              <span
+                className={classnames("text-success ml-5", {
+                  "text-danger ml-5":
+                    moment(this.state.selectedDay.timeEnd).format("HH:mm") <
+                    this.props.hoursLimit.endHour,
+                })}
+                style={{ fontWeight: "bold" }}
+              >
+                {moment(this.state.selectedDay.timeEnd).format("HH:mm")}
+              </span>
+            ) : null}
             <br />
             {this.state.selectedDay.timeEndMan ? (
               <div className="bg-danger mt-1 p-2 ">
                 <span className="text-white">
                   Added manually on{" "}
-                  {moment(this.state.selectedDay.timeStartMan).format("LLL")}
+                  {moment(this.state.selectedDay.timeEndMan).format("LLL")}
                 </span>
               </div>
             ) : null}

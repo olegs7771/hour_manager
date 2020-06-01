@@ -74,4 +74,16 @@ console.log("NODE_ENV", process.env.NODE_ENV);
 
 //Exercises
 
-// key: "AIzaSyASLLZYTv8JDeXhU4ASMK4U_lyn4gD7vY0"
+// const arr1 = [
+//   { price: 2000, brand: "honda" },
+//   { price: 5000, brand: "fiat" },
+//   { price: 1000, brand: "tayota" },
+//   { price: 7000, brand: "bmw" },
+//   { price: 4500, brand: "seat" },
+// ];
+
+// const cheapCars = arr1.filter((car) => {
+//   return car.price < 2000;
+// });
+
+// console.log("cheapCars ", cheapCars);
