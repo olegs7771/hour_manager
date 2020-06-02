@@ -74,16 +74,9 @@ console.log("NODE_ENV", process.env.NODE_ENV);
 
 //Exercises
 
-// const arr1 = [
-//   { price: 2000, brand: "honda" },
-//   { price: 5000, brand: "fiat" },
-//   { price: 1000, brand: "tayota" },
-//   { price: 7000, brand: "bmw" },
-//   { price: 4500, brand: "seat" },
-// ];
-
-// const cheapCars = arr1.filter((car) => {
-//   return car.price < 2000;
-// });
-
-// console.log("cheapCars ", cheapCars);
+// const str = "2020-06-01T03:58:28.000Z";
+// const subStr = str.substring(0, 11);
+// console.log("subStr", subStr);
+// const newStr = subStr + "06:50" + ":00";
+// console.log("newStr", newStr);
+// console.log("new Date", new Date(newStr));

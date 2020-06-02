@@ -36,6 +36,9 @@ const JobDaySchema = new Schema({
     type: Boolean,
     default: false,
   },
+  managerNote: {
+    type: String,
+  },
 
   date: {
     type: Date,

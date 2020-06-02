@@ -24,7 +24,7 @@ import {
   faArrowUp,
   faArrowDown,
 } from "@fortawesome/free-solid-svg-icons";
-import Message from "./Message";
+
 import ToolTip from "../tooltip/ToolTip";
 import JobdayEditManager from "./JobdayEditManager";
 
@@ -450,104 +450,124 @@ class Jobday extends Component {
               </button>
             </div>
           </div>
-
-          <div className="  p-3" style={{ backgroundColor: "#bdc6c7" }}>
-            <span
-              className="ml-4"
-              style={{ fontWeight: "bold", color: "#FFF" }}
-            >
-              {" "}
-              Start Time
-            </span>
-            <span
-              className={classnames("text-success ml-5", {
-                "text-danger ml-5":
-                  moment(this.state.selectedDay.timeStart).format("hh:mm") >
-                  this.props.hoursLimit.startHour,
-              })}
-              style={{ fontWeight: "bold" }}
-            >
-              {moment(this.state.selectedDay.timeStart).format("hh:mm")}
-            </span>
-            <br />
-            {this.state.selectedDay.timeStartMan ? (
-              <div className="bg-danger mt-1 p-2 ">
-                <span className="text-white">
-                  Added manually on{" "}
-                  {moment(this.state.selectedDay.timeStartMan).format("LLL")}
+          {/* Body of Jobday */}
+          <div className="row">
+            <div className="col-md-8">
+              <div className="  p-3 " style={{ backgroundColor: "#bdc6c7" }}>
+                <span
+                  className="ml-4"
+                  style={{ fontWeight: "bold", color: "#FFF" }}
+                >
+                  {" "}
+                  Start Time
                 </span>
-              </div>
-            ) : null}
-            <hr />
-            <span
-              className="ml-4"
-              style={{ fontWeight: "bold", color: "#FFF" }}
-            >
-              {" "}
-              End Time
-            </span>
-            {this.state.selectedDay.timeEnd ? (
-              <span
-                className={classnames("text-success ml-5", {
-                  "text-danger ml-5":
-                    moment(this.state.selectedDay.timeEnd).format("HH:mm") <
-                    this.props.hoursLimit.endHour,
-                })}
-                style={{ fontWeight: "bold" }}
-              >
-                {moment(this.state.selectedDay.timeEnd).format("HH:mm")}
-              </span>
-            ) : null}
-            <br />
-            {this.state.selectedDay.timeEndMan ? (
-              <div className="bg-danger mt-1 p-2 ">
-                <span className="text-white">
-                  Added manually on{" "}
-                  {moment(this.state.selectedDay.timeEndMan).format("LLL")}
+                <span
+                  className={classnames("text-success ", {
+                    "text-danger ":
+                      moment(this.state.selectedDay.timeStart).format("hh:mm") >
+                      this.props.hoursLimit.startHour,
+                  })}
+                  style={{ fontWeight: "bold", marginLeft: 40 }}
+                >
+                  {moment(this.state.selectedDay.timeStart).format("hh:mm")}
                 </span>
-              </div>
-            ) : null}
-            <hr />
-            {/* {Message from Employee} */}
-            {this.state.selectedDay.message ? (
-              <Message message={this.state.selectedDay.message} />
-            ) : null}
-            {/* {Here Manager can confirm if Employee Confirmed hours pair} */}
-            {this.state.selectedDay.confirmEmployee ? (
-              <div className="my-3 pl-4">
-                {this.state.selectedDay.confirmManager ? (
-                  <div>
-                    <span className="text-success">
-                      Confirmed by Manager{" "}
-                      <FontAwesomeIcon icon={faCheckDouble} />
-                    </span>{" "}
-                    <input
-                      type="button"
-                      value="Cancel"
-                      className="btn btn-outline-secondary ml-4"
-                      onClick={this._cancelManConfirm}
-                    />
+                <br />
+                {this.state.selectedDay.timeStartMan ? (
+                  <div className="bg-danger mt-1 p-2 ">
+                    <span className="text-white">
+                      Added manually on{" "}
+                      {moment(this.state.selectedDay.timeStartMan).format(
+                        "LLL"
+                      )}
+                    </span>
+                  </div>
+                ) : null}
+                <hr />
+                <span
+                  className="ml-4"
+                  style={{ fontWeight: "bold", color: "#FFF" }}
+                >
+                  {" "}
+                  End Time
+                </span>
+                {this.state.selectedDay.timeEnd ? (
+                  <span
+                    className={classnames("text-success ml-5", {
+                      "text-danger ml-5":
+                        moment(this.state.selectedDay.timeEnd).format("HH:mm") <
+                        this.props.hoursLimit.endHour,
+                    })}
+                    style={{ fontWeight: "bold" }}
+                  >
+                    {moment(this.state.selectedDay.timeEnd).format("HH:mm")}
+                  </span>
+                ) : null}
+                <br />
+                {this.state.selectedDay.timeEndMan ? (
+                  <div className="bg-danger mt-1 p-2 ">
+                    <span className="text-white">
+                      Added manually on{" "}
+                      {moment(this.state.selectedDay.timeEndMan).format("LLL")}
+                    </span>
+                  </div>
+                ) : null}
+                <hr />
+                {/* {Message from Employee} */}
+                {this.state.selectedDay.message ? (
+                  <div className="border rounded p-2 mb-4">
+                    <div className="text-center h6">Message from Employee</div>
+                    <p>{this.state.selectedDay.message}</p>
+                    <div className="py-2"></div>
+                  </div>
+                ) : null}
+                {/* {Here Manager can confirm if Employee Confirmed hours pair} */}
+                {this.state.selectedDay.confirmEmployee ? (
+                  <div className="my-3 pl-4">
+                    {this.state.selectedDay.confirmManager ? (
+                      <div>
+                        <span className="text-success">
+                          Confirmed by Manager{" "}
+                          <FontAwesomeIcon icon={faCheckDouble} />
+                        </span>{" "}
+                        <input
+                          type="button"
+                          value="Cancel"
+                          className="btn btn-outline-secondary ml-4"
+                          onClick={this._cancelManConfirm}
+                        />
+                      </div>
+                    ) : (
+                      <div>
+                        <span className="text-success">
+                          Employee Confirmed hours{" "}
+                          <FontAwesomeIcon icon={faCheck} />
+                        </span>{" "}
+                        <input
+                          type="button"
+                          value="Confirm"
+                          className="btn btn-outline-success"
+                          onClick={this._managerConfirm}
+                        />
+                      </div>
+                    )}
                   </div>
                 ) : (
-                  <div>
-                    <span className="text-success">
-                      Employee Confirmed hours{" "}
-                      <FontAwesomeIcon icon={faCheck} />
-                    </span>{" "}
-                    <input
-                      type="button"
-                      value="Confirm"
-                      className="btn btn-outline-success"
-                      onClick={this._managerConfirm}
-                    />
-                  </div>
+                  <span className="text-danger">
+                    Pending of Employee confirmation..
+                  </span>
                 )}
               </div>
-            ) : (
-              <span className="text-danger">
-                Pending of Employee confirmation..
-              </span>
-            )}
+            </div>
+            <div
+              className="col-md-4 border"
+              style={{
+                backgroundColor: "#bdc6c7",
+                width: "100%",
+                marginLeft: -14,
+              }}
+            >
+              <div className="text-center">Manager Note</div>
+            </div>
           </div>
         </div>
       );

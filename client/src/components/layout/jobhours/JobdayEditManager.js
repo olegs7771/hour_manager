@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import moment from "moment";
 import { connect } from "react-redux";
-import { managerEditHours } from "../../../store/actions/jobdayAction";
-import Message from "./Message";
+import {
+  managerEditHours,
+  selectDay,
+} from "../../../store/actions/jobdayAction";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  // faUserMinus,
+  faPen,
   faCheck,
   faCheckDouble,
 } from "@fortawesome/free-solid-svg-icons";
@@ -20,12 +23,23 @@ const testInput = (value) => {
 
 class JobdayEditManager extends Component {
   state = {
-    timeStart: moment(this.props.timeStart).format("hh:mm"),
-    timeEnd: this.props.timeEnd
-      ? moment(this.props.timeEnd).format("hh:mm")
-      : null,
+    timeStart: "",
+    timeEnd: "",
     errors: {},
+    //if the manager decides to leave a note in Edit Jobday
+    // split jobday container in two colomns
+    isManagerNoteOpen: false,
+    text: "",
   };
+
+  componentDidMount() {
+    this.setState({
+      timeStart: moment(this.props.timeStart).format("HH:mm"),
+      timeEnd: this.props.timeEnd
+        ? moment(this.props.timeEnd).format("HH:mm")
+        : null,
+    });
+  }
 
   _onChange = (e) => {
     this.setState({
@@ -62,18 +76,35 @@ class JobdayEditManager extends Component {
       timeStart: this.state.timeStart,
       timeEnd: this.state.timeEnd,
       selectedDay: this.props.selectedDay,
+      managerComment: this.state.text,
     };
     this.props.managerEditHours(data);
+    // Reload Select Day after Manager had editted hour to gat selectedDay into the Redux.
+    const payload = {
+      date: moment(this.props.selectedDay.date).format("YYYY-MM-DD"),
+      employeeID: this.props.selectedDay.employee,
+      projectID: this.props.selectedDay.projectID,
+    };
+    this.props.selectDay(payload);
   };
+
+  componentWillUnmount() {
+    this.setState({
+      timeStart: "",
+      timeEnd: "",
+    });
+  }
+
   render() {
     return (
       //Show Single day
+      // Header
       <div className="my-3 border">
         <div
           className="row   border mx-auto pb-2 bg-dark"
           style={{ width: "100%" }}
         >
-          <div className="col-md-6  ">
+          <div className="col-md-7 ">
             <div className="my-2 ml-5 mt-3">
               <span className="text-white " style={{ fontWeight: "bold" }}>
                 {moment(this.props.date).format("LL") +
@@ -83,8 +114,7 @@ class JobdayEditManager extends Component {
             </div>
           </div>
           {/* Button To Submit changes */}
-
-          <div className="col-md-3">
+          <div className="col-md-2">
             <button
               className="btn btn-outline-secondary mt-2 "
               onClick={this._submit}
@@ -92,124 +122,167 @@ class JobdayEditManager extends Component {
               Submit
             </button>
           </div>
-          {/* Edit Single Jobday by Manager */}
-          <div className="col-md-3">
+          {/* Comments Manager */}
+          <div className="col-md-1">
+            <button
+              className="btn btn-outline-secondary mt-2 "
+              onClick={() =>
+                this.setState({
+                  isManagerNoteOpen: !this.state.isManagerNoteOpen,
+                })
+              }
+            >
+              <FontAwesomeIcon icon={faPen} />
+            </button>
+          </div>
+
+          {/* Cancel Edit Jobday by Manager */}
+          <div className="col-md-2">
             <button
               className="btn btn-outline-secondary mt-2 "
               onClick={this._cancelEdit}
             >
-              Cancel
+              X
             </button>
           </div>
         </div>
-
-        <div className="  p-3" style={{ backgroundColor: "#bdc6c7" }}>
-          <span className="ml-4" style={{ fontWeight: "bold", color: "#FFF" }}>
-            {" "}
-            Start Time
-          </span>{" "}
-          <input
-            name="timeStart"
-            type="text"
-            value={this.state.timeStart}
-            onChange={this._onChange}
-            style={{
-              paddingLeft: 10,
-              width: 80,
-              borderStyle: "none",
-              borderRadius: 5,
-              marginLeft: 35,
-            }}
-            onMouseLeave={this._validateInputTimeStart}
-          />
-          <br />
-          {/* Errors  */}
-          {this.state.errors.timeStart && (
-            <small className="text-danger ml-3">
-              {this.state.errors.timeStart}
-            </small>
-          )}
-          <br />
-          {this.props.timeStartMan ? (
-            <div className="bg-danger mt-1 p-2 ">
-              <span className="text-white">
-                Added manually on{" "}
-                {moment(this.props.timeStartMan).format("LLL")}
+        {/* Body of EditJobday */}
+        <div className={this.state.isManagerNoteOpen ? "row" : ""}>
+          <div className={this.state.isManagerNoteOpen ? "col-md-6" : ""}>
+            <div className="  p-3  " style={{ backgroundColor: "#bdc6c7" }}>
+              <span
+                className="ml-4"
+                style={{ fontWeight: "bold", color: "#FFF" }}
+              >
+                {" "}
+                Start Time
+              </span>{" "}
+              <input
+                name="timeStart"
+                type="text"
+                value={this.state.timeStart}
+                onChange={this._onChange}
+                style={{
+                  paddingLeft: 10,
+                  width: 80,
+                  borderStyle: "none",
+                  borderRadius: 5,
+                  marginLeft: 25,
+                }}
+                onMouseLeave={this._validateInputTimeStart}
+              />
+              <br />
+              {/* Errors  */}
+              {this.state.errors.timeStart && (
+                <small className="text-danger ml-3">
+                  {this.state.errors.timeStart}
+                </small>
+              )}
+              <br />
+              {this.props.timeStartMan ? (
+                <div className="bg-danger mt-1 p-2 ">
+                  <span className="text-white">
+                    Added manually on{" "}
+                    {moment(this.props.timeStartMan).format("LLL")}
+                  </span>
+                </div>
+              ) : null}
+              <hr />
+              <span
+                className="ml-4"
+                style={{ fontWeight: "bold", color: "#FFF" }}
+              >
+                End Time
               </span>
-            </div>
-          ) : null}
-          <hr />
-          <span className="ml-4" style={{ fontWeight: "bold", color: "#FFF" }}>
-            End Time
-          </span>
-          {this.props.timeEnd ? (
-            <input
-              name="timeEnd"
-              type="text"
-              value={this.state.timeEnd}
-              onChange={this._onChange}
-              style={{
-                paddingLeft: 10,
-                width: 80,
-                borderStyle: "none",
-                borderRadius: 5,
-                marginLeft: 35,
-              }}
-              onMouseLeave={this._validateInputTimeEnd}
-            />
-          ) : null}
-          <br />
-          {/* Errors  */}
-          {this.state.errors.timeEnd && (
-            <small className="text-danger ml-3">
-              {this.state.errors.timeEnd}
-            </small>
-          )}
-          <br />
-          {this.props.timeEndMan ? (
-            <div className="bg-danger mt-1 p-2 ">
-              <span className="text-white">
-                Added manually on {moment(this.props.timeEndMan).format("LLL")}
-              </span>
-            </div>
-          ) : null}
-          <hr />
-          {/* {Message from Employee} */}
-          {this.props.message ? <Message message={this.props.message} /> : null}
-          {/* {Here Manager can confirm if Employee Confirmed hours pair} */}
-          {this.props.confirmEmployee ? (
-            <div className="my-3 pl-4">
-              {this.state.selectedDay.confirmManager ? (
-                <div>
-                  <span className="text-success">
-                    Confirmed by Manager{" "}
-                    <FontAwesomeIcon icon={faCheckDouble} />
-                  </span>{" "}
-                  <input
-                    type="button"
-                    value="Cancel"
-                    className="btn btn-outline-secondary ml-4"
-                    onClick={this._cancelManConfirm}
-                  />
+              {this.props.timeEnd ? (
+                <input
+                  name="timeEnd"
+                  type="text"
+                  value={this.state.timeEnd}
+                  onChange={this._onChange}
+                  style={{
+                    paddingLeft: 10,
+                    width: 80,
+                    borderStyle: "none",
+                    borderRadius: 5,
+                    marginLeft: 35,
+                  }}
+                  onMouseLeave={this._validateInputTimeEnd}
+                />
+              ) : null}
+              <br />
+              {/* Errors  */}
+              {this.state.errors.timeEnd && (
+                <small className="text-danger ml-3">
+                  {this.state.errors.timeEnd}
+                </small>
+              )}
+              <br />
+              {this.props.timeEndMan ? (
+                <div className="bg-danger mt-1 p-2 ">
+                  <span className="text-white">
+                    Added manually on{" "}
+                    {moment(this.props.timeEndMan).format("LLL")}
+                  </span>
+                </div>
+              ) : null}
+              <hr />
+              {/* {Here Manager can confirm if Employee Confirmed hours pair} */}
+              {this.props.confirmEmployee ? (
+                <div className="my-3 pl-4">
+                  {this.state.selectedDay.confirmManager ? (
+                    <div>
+                      <span className="text-success">
+                        Confirmed by Manager{" "}
+                        <FontAwesomeIcon icon={faCheckDouble} />
+                      </span>{" "}
+                      <input
+                        type="button"
+                        value="Cancel"
+                        className="btn btn-outline-secondary ml-4"
+                        onClick={this._cancelManConfirm}
+                      />
+                    </div>
+                  ) : (
+                    <div>
+                      <span className="text-success">
+                        Employee Confirmed hours{" "}
+                        <FontAwesomeIcon icon={faCheck} />
+                      </span>{" "}
+                      <input
+                        type="button"
+                        value="Confirm"
+                        className="btn btn-outline-success"
+                        onClick={this._managerConfirm}
+                      />
+                    </div>
+                  )}
                 </div>
               ) : (
-                <div>
-                  <span className="text-success">
-                    Employee Confirmed hours <FontAwesomeIcon icon={faCheck} />
-                  </span>{" "}
-                  <input
-                    type="button"
-                    value="Confirm"
-                    className="btn btn-outline-success"
-                    onClick={this._managerConfirm}
-                  />
-                </div>
+                <span className="text-danger">
+                  Pending of Employee confirmation..
+                </span>
               )}
             </div>
-          ) : (
-            <span className="text-danger">
-              Pending of Employee confirmation..
-            </span>
+          </div>
+          {this.state.isManagerNoteOpen && (
+            <div
+              className="col-md-6"
+              style={{
+                marginLeft: -15,
+                backgroundColor: "#bdc6c7",
+                paddingTop: 10,
+              }}
+            >
+              <textarea
+                value={this.state.text}
+                onChange={this._onChange}
+                name="text"
+                rows={5}
+                style={{ width: "100%" }}
+                placeholder="Add comment.."
+              />
+            </div>
           )}
         </div>
       </div>
@@ -219,8 +292,9 @@ class JobdayEditManager extends Component {
 const mapStateToProps = (state) => ({
   selectedDay: state.jobday.selectedDay,
   loading: state.jobday.loading,
+  message: state.jobday.message,
 });
 
-export default connect(mapStateToProps, { managerEditHours })(
+export default connect(mapStateToProps, { managerEditHours, selectDay })(
   JobdayEditManager
 );

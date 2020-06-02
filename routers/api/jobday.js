@@ -46,7 +46,7 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     //Get Selected
-    console.log("test req.body get_jobday ", req.body);
+    // console.log("test req.body get_jobday ", req.body);
     Project.findById(req.body.projectID).then((project) => {
       if (!project) {
         return res.status(400).json({ error: "No Project found" });
@@ -60,7 +60,7 @@ router.post(
       };
 
       JobDay.find({ date: dateFilter }).then((days) => {
-        console.log("days", days);
+        // console.log("days", days);
 
         if (days.length === 0) {
           return res.json({
@@ -88,7 +88,7 @@ router.post(
   "/jobdays_month",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    console.log("req.body", req.body);
+    // console.log("req.body", req.body);
 
     //Find Employee
     Employee.findById(req.body.employeeID).then((employee) => {
@@ -114,7 +114,7 @@ router.post(
           const selectedDays = days.filter((day) => {
             return day.employee.toString() === req.body.employeeID;
           });
-          console.log("selectedDays", selectedDays);
+          // console.log("selectedDays", selectedDays);
           if (selectedDays.length === 0) {
             return res.json({
               message: "No Job Days in this month",
@@ -237,12 +237,26 @@ router.post(
         return day.employee == req.body.selectedDay.employee;
       });
       console.log("filteredDay", filteredDay);
-      // filteredDays.map((day) => {
-      //   day.confirmManager = false;
-      //   day.save().then((upDay) => {
-      //     res.json({ day: upDay, hours: req.body.hoursLimit });
-      //   });
-      // });
+      if (req.body.timeStart) {
+        //Create timeStart date format
+        const timeStartSubstr = req.body.selectedDay.timeStart.substring(0, 11);
+        const newTimeStartStr = timeStartSubstr + req.body.timeStart + ":00";
+        filteredDay.timeStart = new Date(newTimeStartStr);
+      }
+      if (req.body.timeEnd) {
+        //Create timeStart date format
+        const timeEndSubstr = req.body.selectedDay.timeEnd.substring(0, 11);
+        const newTimeEndStr = timeEndSubstr + req.body.timeEnd + ":00";
+        filteredDay.timeEnd = new Date(newTimeEndStr);
+      }
+      if (req.body.managerComment.length > 0) {
+        console.log("req.body.managerComment", req.body.managerComment);
+        filteredDay.managerNote = req.body.managerComment;
+      }
+
+      filteredDay.save().then(() => {
+        res.json({ message: "Hours been set successfully." });
+      });
     });
   }
 );

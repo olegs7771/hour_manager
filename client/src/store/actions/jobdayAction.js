@@ -90,6 +90,10 @@ export const managerEditHours = (data) => (dispatch) => {
     .post("/api/jobday/manager_edit_jobday_hours", data)
     .then((res) => {
       console.log("res.data manager_edit_jobday_hours", res.data);
+      dispatch({
+        type: JOBDAY_MESSAGE,
+        payload: res.data,
+      });
     })
     .catch((err) => {
       console.log(
