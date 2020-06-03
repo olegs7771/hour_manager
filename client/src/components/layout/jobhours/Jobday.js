@@ -69,6 +69,8 @@ class Jobday extends Component {
     descendOrder: false,
     //Show Single Day in Edit Mode( for Manager)
     isEditMode: false,
+    //if jobday has manager note. split single day bodu in two colomns
+    isManagerNoteExists: false,
   };
 
   //Load Current Month on Mount
@@ -116,6 +118,14 @@ class Jobday extends Component {
         this.props.showControls(false);
       } else {
         this.props.showControls(true);
+      }
+      //if Jobday has mnager note split single day in two colomns
+      if (this.props.selectedDay) {
+        if (this.props.selectedDay.managerNote) {
+          this.setState({ isManagerNoteExists: true });
+        } else {
+          this.setState({ isManagerNoteExists: false });
+        }
       }
     }
     if (prevProps.workDays !== this.props.workDays) {
@@ -451,8 +461,8 @@ class Jobday extends Component {
             </div>
           </div>
           {/* Body of Jobday */}
-          <div className="row">
-            <div className="col-md-8">
+          <div className={this.state.isManagerNoteExists ? "row" : ""}>
+            <div className={this.state.isManagerNoteExists ? "col-md-6" : ""}>
               <div className="  p-3 " style={{ backgroundColor: "#bdc6c7" }}>
                 <span
                   className="ml-4"
@@ -559,14 +569,25 @@ class Jobday extends Component {
               </div>
             </div>
             <div
-              className="col-md-4 border"
+              className={this.state.isManagerNoteExists ? "col-md-6 " : ""}
               style={{
                 backgroundColor: "#bdc6c7",
-                width: "100%",
+                // width: "100%",
                 marginLeft: -14,
+                paddingLeft: 0,
+                paddingRight: 0,
               }}
             >
-              <div className="text-center">Manager Note</div>
+              {this.state.isManagerNoteExists && (
+                <div className=" border">
+                  <div className="bg-dark py-1">
+                    <div className="text-center text-white">Manager Note</div>
+                  </div>
+                  <div className="px-2 pt-2">
+                    <span>{this.state.selectedDay.managerNote}</span>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

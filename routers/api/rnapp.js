@@ -187,6 +187,8 @@ router.post("/startTime_manually", (req, res) => {
         const dateFormat = new Date(
           req.body.date + `T${req.body.timeStart}` + ":00"
         );
+        console.log("dateFormat", dateFormat);
+
         new JobDay({
           employee: req.body.id,
           projectID: req.body.projectID,
@@ -198,7 +200,10 @@ router.post("/startTime_manually", (req, res) => {
           .save()
           .then((day) => {
             if (!day) return res.json({ message: "Day was not created" });
-            res.json({ message: "Start time has been succefully set up" });
+            res.json({
+              message: "Start time has been succefully set up",
+              dateFormat: dateFormat,
+            });
           });
       } else {
         //Days found for this date. Filter by Employee Id
@@ -246,7 +251,10 @@ router.post("/startTime_manually", (req, res) => {
             day.message = req.body.message;
             day.save().then((upDate) => {
               console.log("upDate", upDate);
-              res.json({ message: "Start time has been succefully changed!" });
+              res.json({
+                message: "Start time has been succefully changed!",
+                dateFormat,
+              });
             });
           });
         }
