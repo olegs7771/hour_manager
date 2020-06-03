@@ -1,9 +1,14 @@
-import React, { Component } from "react";
+//This Component has controls for EmployeeDetail.js
+//two radio inputs (single day ,month view)
+//Create new Jobday by manager
+//Delete jobday by manager
 
+import React, { Component } from "react";
 class EmployeeControls extends Component {
   state = {
     showDay: false,
     showMonth: false,
+    isShowCreateDay: false,
   };
   _onSubmit = () => {
     console.log("submitted");
@@ -36,36 +41,65 @@ class EmployeeControls extends Component {
   render() {
     return (
       <div>
-        <form onSubmit={this._onSubmit}>
-          <div className="row   mx-auto mt-2" style={{ width: "60%" }}>
-            <div className="col-md-6  ">
-              <label>
-                <span className="text-white">Show Day</span>
+        <div className="row">
+          <div className="col-md-6 ">
+            <form onSubmit={this._onSubmit}>
+              <div className="row   mx-auto mt-2" style={{ width: "60%" }}>
+                <div className="col-md-6  ">
+                  <label>
+                    <span className="text-white"> Day</span>
+                    <input
+                      name="day"
+                      type="checkbox"
+                      checked={this.state.showDay}
+                      onChange={this._onChangeDay}
+                      className="ml-2"
+                    />
+                  </label>
+                </div>
+                <div className="col-md-6">
+                  <label>
+                    <span className="text-white"> Month</span>
+                    <input
+                      name="month"
+                      type="checkbox"
+                      checked={this.state.showMonth}
+                      onChange={this._onChangeMonth}
+                      className="ml-2"
+                    />
+                  </label>
+                </div>
+              </div>
+
+              <br />
+            </form>
+          </div>
+          <div className="col-md-6 ">
+            <div className="row pt-2 justify-content-between px-5">
+              <div className="col_md-6 ">
                 <input
-                  name="day"
-                  type="checkbox"
-                  checked={this.state.showDay}
-                  onChange={this._onChangeDay}
-                  className="ml-2"
+                  type="button"
+                  value="Create Day"
+                  style={{ width: 100 }}
+                  className="btn btn-primary"
+                  onClick={() =>
+                    this.setState({
+                      isShowCreateDay: !this.state.isShowCreateDay,
+                    })
+                  }
                 />
-              </label>
-            </div>
-            <div className="col-md-6">
-              <label>
-                <span className="text-white">Show Month</span>
+              </div>
+              <div className="col_md-6 ">
                 <input
-                  name="month"
-                  type="checkbox"
-                  checked={this.state.showMonth}
-                  onChange={this._onChangeMonth}
-                  className="ml-2"
+                  type="button"
+                  value="Delete Day"
+                  style={{ width: 100 }}
+                  className="btn btn-warning"
                 />
-              </label>
+              </div>
             </div>
           </div>
-
-          <br />
-        </form>
+        </div>
       </div>
     );
   }

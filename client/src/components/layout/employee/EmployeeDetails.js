@@ -41,7 +41,7 @@ export class EmployeeDetails extends Component {
     //toggle Button Delete Profile/Cancel. True or false coming from Popup.js
     switchBtn: false,
     //Hide EmployeeControls.js if No days to show
-    showControls: false,
+    // showControls: false,
   };
   _onChange = (e) => {
     this.setState({
@@ -114,11 +114,11 @@ export class EmployeeDetails extends Component {
     console.log("e change btn", e);
     this.setState({ switchBtn: e ? true : false });
   };
-  _showControls = (state) => {
-    console.log("state", state);
+  // _showControls = (state) => {
+  //   console.log("state", state);
 
-    this.setState({ showControls: state });
-  };
+  //   this.setState({ showControls: state });
+  // };
 
   render() {
     if (this.state.loading || this.state.selectedEmployee === null) {
@@ -273,16 +273,17 @@ export class EmployeeDetails extends Component {
             </div>
             <div className="col-md-6 border">
               {/* Select To show Day or Month */}
-              {this.state.showControls && (
-                <EmployeeControls parentCB={this._showDate} />
-              )}
+              <EmployeeControls parentCB={this._showDate} />
+              {/* Create Jobday by manager */}
+              <div style={{ height: 200 }} className="border">
+                Create Day
+              </div>
+
               <Jobday
                 employee={this.state.selectedEmployeeDetails}
                 showDay={this.state.showDay}
                 //Show Day from child
                 showDayChild={this._showDateChild}
-                //hide controls if Jobsday got message
-                showControls={this._showControls}
               />
             </div>
             <TotalJobHours />

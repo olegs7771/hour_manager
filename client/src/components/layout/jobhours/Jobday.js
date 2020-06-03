@@ -114,10 +114,6 @@ class Jobday extends Component {
         this.setState({
           selectedDay: true,
         });
-        //hide controls in EmployeeControls
-        this.props.showControls(false);
-      } else {
-        this.props.showControls(true);
       }
       //if Jobday has mnager note split single day in two colomns
       if (this.props.selectedDay) {
