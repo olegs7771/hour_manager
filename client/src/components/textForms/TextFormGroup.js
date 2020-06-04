@@ -18,7 +18,7 @@ const TextFormGroup = ({
 }) => {
   return (
     <div className="form-group ">
-      <label>{label}</label>
+      {label && <label>{label}</label>}
       <input
         className={classnames(
           "form-control",
@@ -37,8 +37,7 @@ const TextFormGroup = ({
       />
       {error && <div className="invalid-feedback">{error}</div>}
       {message && <div className="valid-feedback">{message}</div>}
-
-      <small className="text-muted"> {info}</small>
+      {info && <small className="text-muted"> {info}</small>}
     </div>
   );
 };

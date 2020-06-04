@@ -20,6 +20,7 @@ import Jobday from "../jobhours/Jobday";
 import TotalJobHours from "../jobhours/TotalJobHours";
 //Control Options
 import EmployeeControls from "./EmployeeControls";
+import CreateNewJobday from "../jobhours/CreateNewJobday";
 
 export class EmployeeDetails extends Component {
   //State for popover Email Confirmation for delete btn
@@ -40,8 +41,8 @@ export class EmployeeDetails extends Component {
     showMonth: false,
     //toggle Button Delete Profile/Cancel. True or false coming from Popup.js
     switchBtn: false,
-    //Hide EmployeeControls.js if No days to show
-    // showControls: false,
+    //Show Create Jobday coming from EmployeeControls
+    showCreateJobday: false,
   };
   _onChange = (e) => {
     this.setState({
@@ -273,11 +274,14 @@ export class EmployeeDetails extends Component {
             </div>
             <div className="col-md-6 border">
               {/* Select To show Day or Month */}
-              <EmployeeControls parentCB={this._showDate} />
+              <EmployeeControls
+                parentCB={this._showDate}
+                showCreateJobday={(state) =>
+                  this.setState({ showCreateJobday: state })
+                }
+              />
               {/* Create Jobday by manager */}
-              <div style={{ height: 200 }} className="border">
-                Create Day
-              </div>
+              {this.state.showCreateJobday && <CreateNewJobday />}
 
               <Jobday
                 employee={this.state.selectedEmployeeDetails}

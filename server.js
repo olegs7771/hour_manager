@@ -73,10 +73,8 @@ const server = app.listen(port, () => {
 console.log("NODE_ENV", process.env.NODE_ENV);
 
 //Exercises
+const reg = /^([0-1][0-9]|[2][0-3]):([0-5][0-9])$/;
 
-// const str = "2020-06-01T03:58:28.000Z";
-// const subStr = str.substring(0, 11);
-// console.log("subStr", subStr);
-// const newStr = subStr + "06:50" + ":00";
-// console.log("newStr", newStr);
-// console.log("new Date", new Date(newStr));
+const str = "20:02";
+
+console.log("test regex :", reg.test(str));

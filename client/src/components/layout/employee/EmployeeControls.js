@@ -10,6 +10,17 @@ class EmployeeControls extends Component {
     showMonth: false,
     isShowCreateDay: false,
   };
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState !== this.state) {
+      const data = {
+        showDay: this.state.showDay,
+        showMonth: this.state.showMonth,
+      };
+      this.props.parentCB(data);
+      this.props.showCreateJobday(this.state.isShowCreateDay);
+    }
+  }
+
   _onSubmit = () => {
     console.log("submitted");
   };
@@ -28,15 +39,9 @@ class EmployeeControls extends Component {
       showDay: this.state.showDay ? false : this.state.showDay,
     });
   };
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState !== this.state) {
-      const data = {
-        showDay: this.state.showDay,
-        showMonth: this.state.showMonth,
-      };
-      this.props.parentCB(data);
-    }
-  }
+  _showCreateJobday = () => {
+    this.setState({ isShowCreateDay: !this.state.isShowCreateDay });
+  };
 
   render() {
     return (
@@ -79,14 +84,10 @@ class EmployeeControls extends Component {
               <div className="col_md-6 ">
                 <input
                   type="button"
-                  value="Create Day"
+                  value={!this.state.isShowCreateDay ? "Create Day" : "Close"}
                   style={{ width: 100 }}
                   className="btn btn-primary"
-                  onClick={() =>
-                    this.setState({
-                      isShowCreateDay: !this.state.isShowCreateDay,
-                    })
-                  }
+                  onClick={this._showCreateJobday}
                 />
               </div>
               <div className="col_md-6 ">
