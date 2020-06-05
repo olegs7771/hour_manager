@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { managerCreatesJobday } from "../../../store/actions/jobdayAction";
+import DateField from "./DateField";
 
-const dateCheck = (value) => {
-  const reg = /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/;
-  return reg.test(value);
-};
 const timeCheck = (value) => {
   const reg = /^([0-1][0-9]|[2][0-3]):([0-5][0-9])$/;
   return reg.test(value);
@@ -13,16 +10,11 @@ const timeCheck = (value) => {
 
 class CreateNewJobday extends Component {
   state = {
-    dateYear: "YYYY",
-    dateMonth: "MM",
-    dateDay: "DD",
     errors: {},
     timeStart: "HH:mm",
     timeEnd: "HH:mm",
     text: "",
   };
-
-  componentDidUpdate(prevProps, prevState) {}
 
   _onChange = (e) => {
     this.setState({
@@ -31,13 +23,6 @@ class CreateNewJobday extends Component {
     });
   };
 
-  _mouseLeaveDate = () => {
-    if (!dateCheck(this.state.date)) {
-      this.setState({ errors: { date: "Check Date Format DD-MM-YYYY" } });
-    } else {
-      this.setState({ errors: {} });
-    }
-  };
   _mouseLeaveStart = () => {
     if (!timeCheck(this.state.timeStart) && this.state.timeStart !== "HH:mm") {
       this.setState({ errors: { timeStart: "Check Time Format HH-mm" } });
@@ -54,11 +39,11 @@ class CreateNewJobday extends Component {
   };
   _submitNewJobday = async () => {
     //Check if date,startTime,endTime valid format
-    if (!dateCheck(this.state.date)) {
-      return this.setState({
-        errors: { date: "Check Date Format DD-MM-YYYY" },
-      });
-    }
+    // if (!dateCheck(this.state.date)) {
+    //   return this.setState({
+    //     errors: { date: "Check Date Format DD-MM-YYYY" },
+    //   });
+    // }
     if (!timeCheck(this.state.timeStart)) {
       return this.setState({
         errors: { timeStart: "Check Time Format HH-mm" },
@@ -91,35 +76,7 @@ class CreateNewJobday extends Component {
               <div className="row justify-content-between">
                 {/* Date Field */}
                 <div className="col-md-6">Date</div>
-                <div className="col-md-6">
-                  <input
-                    type="text"
-                    value={this.state.date}
-                    onChange={this._onChange}
-                    name="date"
-                    onMouseLeave={this._mouseLeaveDate}
-                    className="text-center"
-                    style={{ width: 60, borderStyle: "none" }}
-                  />
-                  <input
-                    type="text"
-                    value={this.state.date}
-                    onChange={this._onChange}
-                    name="date"
-                    onMouseLeave={this._mouseLeaveDate}
-                    className="text-center"
-                    style={{ width: 60, borderStyle: "none" }}
-                  />
-                  <input
-                    type="text"
-                    value={this.state.date}
-                    onChange={this._onChange}
-                    name="date"
-                    onMouseLeave={this._mouseLeaveDate}
-                    className="text-center"
-                    style={{ width: 60, borderStyle: "none" }}
-                  />
-                </div>
+                <DateField />
               </div>
               {/* Errors Date */}
               {this.state.errors.date && (
