@@ -6,20 +6,19 @@ const yearCheck = (value) => {
   const reg = /^\d{4}$/;
   return reg.test(value);
 };
-// const monthCheck = (value) => {
-//   const reg = /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/;
-//   return reg.test(value);
-// };
-// const dayCheck = (value) => {
-//   const reg = /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/;
-//   return reg.test(value);
-// };
-
+const monthCheck = (value) => {
+  const reg = /^\d{2}$/;
+  return reg.test(value);
+};
+const dayCheck = (value) => {
+  const reg = /^\d{2}$/;
+  return reg.test(value);
+};
 class DateField extends Component {
   state = {
     year: moment().format("YYYY"),
-    month: "",
-    day: "",
+    month: moment().format("MM"),
+    day: moment().format("MM"),
     isYearFocused: false,
     isMonthFocused: false,
     isDayFocused: false,
@@ -63,7 +62,16 @@ class DateField extends Component {
           onChange={this._onChange}
           name="day"
           onMouseEnter={() => this.setState({ isDayFocused: true })}
-          onMouseLeave={() => this.setState({ isDayFocused: false })}
+          onMouseLeave={() =>
+            this.setState({
+              isDayFocused: false,
+              errors: !dayCheck(this.state.year)
+                ? {
+                    day: "Use Two Digits for Day",
+                  }
+                : {},
+            })
+          }
           className="text-center no-outline"
           style={{
             width: 40,
@@ -88,7 +96,7 @@ class DateField extends Component {
               isYearFocused: false,
               errors: !yearCheck(this.state.year)
                 ? {
-                    year: "Wrong Format",
+                    year: "Use Four Digits for Year",
                   }
                 : {},
             })
@@ -109,6 +117,9 @@ class DateField extends Component {
         />
         {this.state.errors.year && (
           <div className="small text-danger">{this.state.errors.year}</div>
+        )}
+        {this.state.errors.day && (
+          <div className="small text-danger">{this.state.errors.day}</div>
         )}
       </div>
     );
