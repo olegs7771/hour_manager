@@ -281,7 +281,11 @@ export class EmployeeDetails extends Component {
                 }
               />
               {/* Create Jobday by manager */}
-              {this.state.showCreateJobday && <CreateNewJobday />}
+              {this.state.showCreateJobday && (
+                <CreateNewJobday
+                  selectedEmployeeDetails={this.state.selectedEmployeeDetails}
+                />
+              )}
 
               <Jobday
                 employee={this.state.selectedEmployeeDetails}

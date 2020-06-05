@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { managerCreatesJobday } from "../../../store/actions/jobdayAction";
 
 const dateCheck = (value) => {
   const reg = /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/;
@@ -11,7 +13,9 @@ const timeCheck = (value) => {
 
 class CreateNewJobday extends Component {
   state = {
-    date: "DD-MM-YYYY",
+    dateYear: "YYYY",
+    dateMonth: "MM",
+    dateDay: "DD",
     errors: {},
     timeStart: "HH:mm",
     timeEnd: "HH:mm",
@@ -35,20 +39,20 @@ class CreateNewJobday extends Component {
     }
   };
   _mouseLeaveStart = () => {
-    if (!timeCheck(this.state.timeStart)) {
+    if (!timeCheck(this.state.timeStart) && this.state.timeStart !== "HH:mm") {
       this.setState({ errors: { timeStart: "Check Time Format HH-mm" } });
     } else {
       this.setState({ errors: {} });
     }
   };
   _mouseLeaveEnd = () => {
-    if (!timeCheck(this.state.timeEnd)) {
+    if (!timeCheck(this.state.timeEnd) && this.state.timeEnd !== "HH:mm") {
       this.setState({ errors: { timeEnd: "Check Time Format HH-mm" } });
     } else {
       this.setState({ errors: {} });
     }
   };
-  _submitNewJobday = () => {
+  _submitNewJobday = async () => {
     //Check if date,startTime,endTime valid format
     if (!dateCheck(this.state.date)) {
       return this.setState({
@@ -64,12 +68,15 @@ class CreateNewJobday extends Component {
       return this.setState({ errors: { timeEnd: "Check Time Format HH-mm" } });
     }
     const payload = {
+      employeeID: this.props.selectedEmployeeDetails._id,
+      projectID: this.props.selectedEmployeeDetails.projectID,
       date: this.state.date,
       timeStart: this.state.timeStart,
       timeEnd: this.state.timeEnd,
       text: this.state.text,
     };
     console.log("payload to create new jobday", payload);
+    this.props.managerCreatesJobday(payload);
   };
 
   render() {
@@ -82,6 +89,7 @@ class CreateNewJobday extends Component {
           <ul className="list-group">
             <li className="list-group-item">
               <div className="row justify-content-between">
+                {/* Date Field */}
                 <div className="col-md-6">Date</div>
                 <div className="col-md-6">
                   <input
@@ -91,9 +99,29 @@ class CreateNewJobday extends Component {
                     name="date"
                     onMouseLeave={this._mouseLeaveDate}
                     className="text-center"
+                    style={{ width: 60, borderStyle: "none" }}
+                  />
+                  <input
+                    type="text"
+                    value={this.state.date}
+                    onChange={this._onChange}
+                    name="date"
+                    onMouseLeave={this._mouseLeaveDate}
+                    className="text-center"
+                    style={{ width: 60, borderStyle: "none" }}
+                  />
+                  <input
+                    type="text"
+                    value={this.state.date}
+                    onChange={this._onChange}
+                    name="date"
+                    onMouseLeave={this._mouseLeaveDate}
+                    className="text-center"
+                    style={{ width: 60, borderStyle: "none" }}
                   />
                 </div>
               </div>
+              {/* Errors Date */}
               {this.state.errors.date && (
                 <div className=" text-center">
                   <span className="text-danger">{this.state.errors.date}</span>
@@ -173,4 +201,4 @@ class CreateNewJobday extends Component {
     );
   }
 }
-export default CreateNewJobday;
+export default connect(null, { managerCreatesJobday })(CreateNewJobday);

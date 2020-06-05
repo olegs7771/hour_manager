@@ -102,6 +102,27 @@ export const managerEditHours = (data) => (dispatch) => {
       );
     });
 };
+//Manager Creates New Jobday manually
+
+export const managerCreatesJobday = (data) => (dispatch) => {
+  console.log("data managerEditHours", data);
+  dispatch(loading());
+  axios
+    .post("/api/jobday/manager_create_jobday", data)
+    .then((res) => {
+      console.log(" res.data manager_create_jobday", res.data);
+      dispatch({
+        type: JOBDAY_MESSAGE,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      console.log(
+        "error res.data manager_edit_jobday_hours ",
+        err.response.data
+      );
+    });
+};
 
 export const loading = () => {
   return {

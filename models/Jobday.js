@@ -30,7 +30,7 @@ const JobDaySchema = new Schema({
     default: false,
   },
   message: {
-    type: String,
+    type: Array,
   },
   confirmManager: {
     type: Boolean,
@@ -38,6 +38,9 @@ const JobDaySchema = new Schema({
   },
   managerNote: {
     type: String,
+  },
+  startedByManager: {
+    type: Boolean,
   },
 
   date: {
