@@ -124,7 +124,7 @@ export const managerCreatesJobday = (data) => (dispatch) => {
     });
 };
 
-export const pickDate = (data) => (dispatch) => {
+export const managerPickDate = (data) => (dispatch) => {
   console.log("data pickDate", data);
 };
 

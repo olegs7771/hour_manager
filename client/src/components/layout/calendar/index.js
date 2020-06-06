@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import {
   selectDay,
   selectMonth,
-  pickDate,
+  managerPickDate,
 } from "../../../store/actions/jobdayAction";
 
 class Calendar extends React.Component {
@@ -216,7 +216,7 @@ class Calendar extends React.Component {
 
     const day = dayStr.length < 2 ? `0${d}` : d;
     const dateToShow = `${y}-${m}-${day}`;
-    console.log("dateToShow", dateToShow);
+    // console.log("dateToShow", dateToShow);
     //Only pick date for CreateNewJobday.js
 
     const EmployeeID = this.props.selectedEmployee._id;
@@ -226,7 +226,7 @@ class Calendar extends React.Component {
     //then show Day
 
     if (this.props.pickDate) {
-      this.props.pickDate({ date: dateToShow });
+      return this.props.managerPickDate({ date: dateToShow });
     } else if (this.props.showDay) {
       this.props.selectDay({
         date: dateToShow,
@@ -368,6 +368,8 @@ const mapStateToProps = (state) => ({
   selectedEmployee: state.employees.selectedEmployee,
 });
 
-export default connect(mapStateToProps, { selectDay, selectMonth, pickDate })(
-  Calendar
-);
+export default connect(mapStateToProps, {
+  selectDay,
+  selectMonth,
+  managerPickDate,
+})(Calendar);
