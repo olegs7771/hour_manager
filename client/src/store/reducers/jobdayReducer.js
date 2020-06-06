@@ -2,7 +2,8 @@ import {
   GET_SELECT_DAY,
   GET_SELECT_MONTH,
   LOADING_JOBDAY,
-  JOBDAY_MESSAGE
+  JOBDAY_MESSAGE,
+  PICK_DATE,
 } from "../actions/types";
 
 const initialState = {
@@ -11,7 +12,7 @@ const initialState = {
   loading: false,
   message: null,
   date: null,
-  hoursLimit: {}
+  hoursLimit: {},
 };
 
 export default (state = initialState, action) => {
@@ -19,7 +20,7 @@ export default (state = initialState, action) => {
     case LOADING_JOBDAY:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     case GET_SELECT_DAY:
       return {
@@ -28,7 +29,7 @@ export default (state = initialState, action) => {
         loading: false,
         message: null,
         workDays: null,
-        hoursLimit: action.payload.hours
+        hoursLimit: action.payload.hours,
       };
     case GET_SELECT_MONTH:
       return {
@@ -37,7 +38,7 @@ export default (state = initialState, action) => {
         hoursLimit: action.payload.hours,
         loading: false,
         selectedDay: true,
-        message: null
+        message: null,
       };
 
     case JOBDAY_MESSAGE:
@@ -46,7 +47,12 @@ export default (state = initialState, action) => {
         message: action.payload.message,
         date: action.payload.date,
         loading: false,
-        selectedDay: null
+        selectedDay: null,
+      };
+    case PICK_DATE:
+      return {
+        ...state,
+        date: action.payload.date,
       };
 
     default:

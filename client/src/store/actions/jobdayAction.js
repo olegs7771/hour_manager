@@ -4,6 +4,7 @@ import {
   JOBDAY_MESSAGE,
   GET_SELECT_MONTH,
   GET_ERRORS,
+  PICK_DATE,
 } from "./types";
 import axios from "axios";
 
@@ -126,6 +127,10 @@ export const managerCreatesJobday = (data) => (dispatch) => {
 
 export const managerPickDate = (data) => (dispatch) => {
   console.log("data pickDate", data);
+  dispatch({
+    type: PICK_DATE,
+    payload: data,
+  });
 };
 
 export const loading = () => {

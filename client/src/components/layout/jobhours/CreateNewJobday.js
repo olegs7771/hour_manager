@@ -10,6 +10,7 @@ const timeCheck = (value) => {
 class CreateNewJobday extends Component {
   state = {
     errors: {},
+    date: null,
     timeStart: "HH:mm",
     timeEnd: "HH:mm",
     text: "",
@@ -21,6 +22,11 @@ class CreateNewJobday extends Component {
       errors: {},
     });
   };
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.date !== prevProps.date) {
+      this.setState({ date: this.props.date });
+    }
+  }
 
   _mouseLeaveStart = () => {
     if (!timeCheck(this.state.timeStart) && this.state.timeStart !== "HH:mm") {
@@ -75,7 +81,11 @@ class CreateNewJobday extends Component {
               <div className="row justify-content-between">
                 {/* Date Field */}
                 <div className="col-md-6">Date</div>
-                <div className="col-md-6">Pick a date On the Calendar</div>
+                {this.state.date ? (
+                  <div className="col-md-6">{this.state.date}</div>
+                ) : (
+                  <div className="col-md-6">Pick a date On the Calendar</div>
+                )}
               </div>
               {/* Errors Date */}
               {this.state.errors.date && (
@@ -157,4 +167,10 @@ class CreateNewJobday extends Component {
     );
   }
 }
-export default connect(null, { managerCreatesJobday })(CreateNewJobday);
+
+const mapStateToprops = (state) => ({
+  date: state.jobday.date,
+});
+export default connect(mapStateToprops, { managerCreatesJobday })(
+  CreateNewJobday
+);

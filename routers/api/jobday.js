@@ -268,49 +268,43 @@ router.post(
   (req, res) => {
     //Get Selected
     console.log(" req.body manager_edit_jobday_hours", req.body);
-    //Create Date for A new Jobday
-    const dateBody = req.body.date;
-    const dateFormat = new Date();
 
-    // let dateFilter = {
-    //   $lt: new Date(dateStr + "T23:59:59"),
-    //   $gt: new Date(dateStr + "T00:00:00"),
-    // };
+    let dateFilter = {
+      $lt: new Date(req.body.date + "T23:59:59"),
+      $gt: new Date(req.body.date + "T00:00:00"),
+    };
 
-    // JobDay.find({ date: dateFilter }).then((days) => {
-    //   if (days.legth === 0) {
-    //     return res.json({
-    //       message: "No Data for this date.",
-    //       date: req.body.date,
-    //     });
-    //   }
-    //   console.log("days", days);
-    //   //Filter found days by EmployeeID
-    //   const filteredDay = days.find((day) => {
-    //     return day.employee == req.body.selectedDay.employee;
-    //   });
-    //   console.log("filteredDay", filteredDay);
-    //   if (req.body.timeStart) {
-    //     //Create timeStart date format
-    //     const timeStartSubstr = req.body.selectedDay.timeStart.substring(0, 11);
-    //     const newTimeStartStr = timeStartSubstr + req.body.timeStart + ":00";
-    //     filteredDay.timeStart = new Date(newTimeStartStr);
-    //   }
-    //   if (req.body.timeEnd) {
-    //     //Create timeStart date format
-    //     const timeEndSubstr = req.body.selectedDay.timeEnd.substring(0, 11);
-    //     const newTimeEndStr = timeEndSubstr + req.body.timeEnd + ":00";
-    //     filteredDay.timeEnd = new Date(newTimeEndStr);
-    //   }
-    //   if (req.body.managerComment.length > 0) {
-    //     console.log("req.body.managerComment", req.body.managerComment);
-    //     filteredDay.managerNote = req.body.managerComment;
-    //   }
+    JobDay.find({ date: dateFilter }).then((days) => {
+      if (days.legth === 0) {
+        res.json({ message: "No date" });
+      }
+      res.status(400).json({ error: "Date already exists" });
+      //   //Filter found days by EmployeeID
+      //   const filteredDay = days.find((day) => {
+      //     return day.employee == req.body.selectedDay.employee;
+      //   });
+      //   console.log("filteredDay", filteredDay);
+      //   if (req.body.timeStart) {
+      //     //Create timeStart date format
+      //     const timeStartSubstr = req.body.selectedDay.timeStart.substring(0, 11);
+      //     const newTimeStartStr = timeStartSubstr + req.body.timeStart + ":00";
+      //     filteredDay.timeStart = new Date(newTimeStartStr);
+      //   }
+      //   if (req.body.timeEnd) {
+      //     //Create timeStart date format
+      //     const timeEndSubstr = req.body.selectedDay.timeEnd.substring(0, 11);
+      //     const newTimeEndStr = timeEndSubstr + req.body.timeEnd + ":00";
+      //     filteredDay.timeEnd = new Date(newTimeEndStr);
+      //   }
+      //   if (req.body.managerComment.length > 0) {
+      //     console.log("req.body.managerComment", req.body.managerComment);
+      //     filteredDay.managerNote = req.body.managerComment;
+      //   }
 
-    //   filteredDay.save().then(() => {
-    //     res.json({ message: "Hours been set successfully." });
-    //   });
-    // });
+      //   filteredDay.save().then(() => {
+      //     res.json({ message: "Hours been set successfully." });
+      //   });
+    });
   }
 );
 

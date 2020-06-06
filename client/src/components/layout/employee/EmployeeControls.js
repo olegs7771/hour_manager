@@ -57,39 +57,45 @@ class EmployeeControls extends Component {
     return (
       <div>
         <div className="row">
-          <div className="col-md-6 ">
-            <form onSubmit={this._onSubmit}>
-              <div className="row   mx-auto mt-2" style={{ width: "60%" }}>
-                <div className="col-md-6  ">
-                  <label>
-                    <span className="text-white"> Day</span>
-                    <input
-                      name="day"
-                      type="checkbox"
-                      checked={this.state.showDay}
-                      onChange={this._onChangeDay}
-                      className="ml-2"
-                    />
-                  </label>
+          {!this.state.isShowCreateDay && (
+            <div className="col-md-6 ">
+              <form onSubmit={this._onSubmit}>
+                <div className="row   mx-auto mt-2" style={{ width: "60%" }}>
+                  <div className="col-md-6  ">
+                    <label>
+                      <span className="text-white"> Day</span>
+                      <input
+                        name="day"
+                        type="checkbox"
+                        checked={this.state.showDay}
+                        onChange={this._onChangeDay}
+                        className="ml-2"
+                      />
+                    </label>
+                  </div>
+                  <div className="col-md-6">
+                    <label>
+                      <span className="text-white"> Month</span>
+                      <input
+                        name="month"
+                        type="checkbox"
+                        checked={this.state.showMonth}
+                        onChange={this._onChangeMonth}
+                        className="ml-2"
+                      />
+                    </label>
+                  </div>
                 </div>
-                <div className="col-md-6">
-                  <label>
-                    <span className="text-white"> Month</span>
-                    <input
-                      name="month"
-                      type="checkbox"
-                      checked={this.state.showMonth}
-                      onChange={this._onChangeMonth}
-                      className="ml-2"
-                    />
-                  </label>
-                </div>
-              </div>
 
-              <br />
-            </form>
-          </div>
-          <div className="col-md-6 ">
+                <br />
+              </form>
+            </div>
+          )}
+          <div
+            className={
+              !this.state.isShowCreateDay ? "col-md-6 " : "col-md-12  py-3 px-5"
+            }
+          >
             <div className="row pt-2 justify-content-between px-5">
               <div className="col_md-6 ">
                 <input
