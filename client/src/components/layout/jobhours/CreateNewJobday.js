@@ -25,6 +25,25 @@ class CreateNewJobday extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.date !== prevProps.date) {
       this.setState({ date: this.props.date });
+      //Test if date exists
+    }
+    if (prevState.date !== this.state.date) {
+      if (this.state.date) {
+        const payload = {
+          employeeID: this.props.selectedEmployeeDetails._id,
+          projectID: this.props.selectedEmployeeDetails.projectID,
+          date: this.state.date,
+          timeStart: null,
+          timeEnd: null,
+          text: null,
+        };
+        this.props.managerCreatesJobday(payload);
+      }
+    }
+    //Show Error if Picking date already exists
+    if (prevProps.message !== this.props.message) {
+      //Cant use GET_ERRORS in redux.
+      this.setState({ errors: this.props.message });
     }
   }
 
@@ -82,7 +101,7 @@ class CreateNewJobday extends Component {
                 {/* Date Field */}
                 <div className="col-md-6">Date</div>
                 {this.state.date ? (
-                  <div className="col-md-6">{this.state.date}</div>
+                  <div className="col-md-6">{this.state.date.date}</div>
                 ) : (
                   <div className="col-md-6">Pick a date On the Calendar</div>
                 )}
@@ -170,6 +189,7 @@ class CreateNewJobday extends Component {
 
 const mapStateToprops = (state) => ({
   date: state.jobday.date,
+  message: state.jobday.message,
 });
 export default connect(mapStateToprops, { managerCreatesJobday })(
   CreateNewJobday

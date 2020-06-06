@@ -4,6 +4,7 @@ import {
   LOADING_JOBDAY,
   JOBDAY_MESSAGE,
   PICK_DATE,
+  CREATENEWJOBDAY_ERROR_MESSAGE,
 } from "../actions/types";
 
 const initialState = {
@@ -49,10 +50,15 @@ export default (state = initialState, action) => {
         loading: false,
         selectedDay: null,
       };
+    case CREATENEWJOBDAY_ERROR_MESSAGE:
+      return {
+        ...state,
+        message: action.payload.messageDate,
+      };
     case PICK_DATE:
       return {
         ...state,
-        date: action.payload.date,
+        date: action.payload,
       };
 
     default:

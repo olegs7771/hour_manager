@@ -285,7 +285,6 @@ class Jobday extends Component {
                     style={{
                       borderBottom: "none",
                       borderTop: "none",
-                      borderTop: "none",
                     }}
                   >
                     <span className="text-white">Start</span>

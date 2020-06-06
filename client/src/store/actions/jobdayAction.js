@@ -5,6 +5,7 @@ import {
   GET_SELECT_MONTH,
   GET_ERRORS,
   PICK_DATE,
+  CREATENEWJOBDAY_ERROR_MESSAGE,
 } from "./types";
 import axios from "axios";
 
@@ -113,7 +114,7 @@ export const managerCreatesJobday = (data) => (dispatch) => {
     .then((res) => {
       console.log(" res.data manager_create_jobday", res.data);
       dispatch({
-        type: JOBDAY_MESSAGE,
+        type: CREATENEWJOBDAY_ERROR_MESSAGE,
         payload: res.data,
       });
     })
@@ -122,6 +123,10 @@ export const managerCreatesJobday = (data) => (dispatch) => {
         "error res.data manager_edit_jobday_hours ",
         err.response.data
       );
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      });
     });
 };
 
