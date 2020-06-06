@@ -28,5 +28,3 @@ export const GET_SELECT_MONTH = "GET_SELECT_MONTH";
 export const LOADING_JOBDAY = "LOADING_JOBDAY";
 export const JOBDAY_MESSAGE = "JOBDAY_MESSAGE";
 export const PICK_DATE = "PICK_DATE";
-//for error if date already exists
-export const CREATENEWJOBDAY_ERROR_MESSAGE = "CREATENEWJOBDAY_ERROR_MESSAGE";
