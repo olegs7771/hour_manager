@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { managerCreatesJobday } from "../../../store/actions/jobdayAction";
-import DateField from "./DateField";
 
 const timeCheck = (value) => {
   const reg = /^([0-1][0-9]|[2][0-3]):([0-5][0-9])$/;
@@ -76,7 +75,7 @@ class CreateNewJobday extends Component {
               <div className="row justify-content-between">
                 {/* Date Field */}
                 <div className="col-md-6">Date</div>
-                <DateField />
+                <div className="col-md-6">Pick a date On the Calendar</div>
               </div>
               {/* Errors Date */}
               {this.state.errors.date && (

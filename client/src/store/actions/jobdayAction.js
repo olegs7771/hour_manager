@@ -124,6 +124,10 @@ export const managerCreatesJobday = (data) => (dispatch) => {
     });
 };
 
+export const pickDate = (data) => (dispatch) => {
+  console.log("data pickDate", data);
+};
+
 export const loading = () => {
   return {
     type: LOADING_JOBDAY,

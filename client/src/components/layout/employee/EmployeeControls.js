@@ -9,6 +9,8 @@ class EmployeeControls extends Component {
     showDay: false,
     showMonth: false,
     isShowCreateDay: false,
+    //We pick the date on Calendar
+    pickDate: false,
   };
   componentDidUpdate(prevProps, prevState) {
     if (prevState !== this.state) {
@@ -18,6 +20,14 @@ class EmployeeControls extends Component {
       };
       this.props.parentCB(data);
       this.props.showCreateJobday(this.state.isShowCreateDay);
+    }
+    //Pick Date on Calendar
+    if (prevState.isShowCreateDay !== this.state.isShowCreateDay) {
+      if (this.state.isShowCreateDay) {
+        this.props.pickDate(true);
+      } else {
+        this.props.pickDate(false);
+      }
     }
   }
 

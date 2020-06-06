@@ -1,3 +1,5 @@
+//From CreateateNewJobday.js  we pick date on Calendar
+
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -43,6 +45,8 @@ export class EmployeeDetails extends Component {
     switchBtn: false,
     //Show Create Jobday coming from EmployeeControls
     showCreateJobday: false,
+    //Coming from EmployeeControls to pick a date on Calendar
+    pickDate: false,
   };
   _onChange = (e) => {
     this.setState({
@@ -115,11 +119,9 @@ export class EmployeeDetails extends Component {
     console.log("e change btn", e);
     this.setState({ switchBtn: e ? true : false });
   };
-  // _showControls = (state) => {
-  //   console.log("state", state);
-
-  //   this.setState({ showControls: state });
-  // };
+  _pickDate = (state) => {
+    this.setState({ pickDate: state });
+  };
 
   render() {
     if (this.state.loading || this.state.selectedEmployee === null) {
@@ -270,11 +272,14 @@ export class EmployeeDetails extends Component {
               <Calendar
                 showDay={this.state.showDay}
                 showMonth={this.state.showMonth}
+                //To pick a date for CreateNewJobday.js
+                pickDate={this.state.pickDate}
               />
             </div>
             <div className="col-md-6 border">
               {/* Select To show Day or Month */}
               <EmployeeControls
+                pickDate={this._pickDate}
                 parentCB={this._showDate}
                 showCreateJobday={(state) =>
                   this.setState({ showCreateJobday: state })
