@@ -107,11 +107,19 @@ export const managerEditHours = (data) => (dispatch) => {
 
 export const managerCreatesJobday = (data) => (dispatch) => {
   console.log("data managerEditHours", data);
+  //if only pre Validation than no need for loading()
+  if (data.timeStart) {
+    dispatch(loading());
+  }
 
   axios
     .post("/api/jobday/manager_create_jobday", data)
     .then((res) => {
       console.log(" res.data manager_create_jobday", res.data);
+      dispatch({
+        type: JOBDAY_MESSAGE,
+        payload: res.data,
+      });
     })
     .catch((err) => {
       console.log(

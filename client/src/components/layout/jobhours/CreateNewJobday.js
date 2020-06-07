@@ -10,9 +10,10 @@ const timeCheck = (value) => {
 class CreateNewJobday extends Component {
   state = {
     errors: {},
+    message: null,
     date: null,
-    timeStart: "HH:mm",
-    timeEnd: "HH:mm",
+    timeStart: "",
+    timeEnd: "",
     text: "",
   };
 
@@ -24,8 +25,10 @@ class CreateNewJobday extends Component {
   };
   componentDidUpdate(prevProps, prevState) {
     if (this.props.date !== prevProps.date) {
-      this.setState({ date: this.props.date });
-      //Test if date exists
+      if (this.props.date) {
+        this.setState({ date: this.props.date });
+        //Test if date exists
+      }
     }
     if (prevState.date !== this.state.date) {
       if (this.state.date) {
@@ -40,41 +43,47 @@ class CreateNewJobday extends Component {
         this.props.managerCreatesJobday(payload);
       }
     }
-    //Show Error if Picking date already exists
+
+    if (prevProps.errors !== this.props.errors) {
+      //Cant use GET_ERRORS in redux.
+      this.setState({ message: null, errors: this.props.errors });
+    }
+
     if (prevProps.message !== this.props.message) {
       //Cant use GET_ERRORS in redux.
-      this.setState({ errors: this.props.message });
+      this.setState({ errors: {}, message: this.props.message.messageDate });
     }
   }
 
   _mouseLeaveStart = () => {
     if (!timeCheck(this.state.timeStart) && this.state.timeStart !== "HH:mm") {
-      this.setState({ errors: { timeStart: "Check Time Format HH-mm" } });
+      this.setState({ errors: { timeStart: "Check Time Format HH:mm" } });
     } else {
       this.setState({ errors: {} });
     }
   };
   _mouseLeaveEnd = () => {
     if (!timeCheck(this.state.timeEnd) && this.state.timeEnd !== "HH:mm") {
-      this.setState({ errors: { timeEnd: "Check Time Format HH-mm" } });
+      this.setState({ errors: { timeEnd: "Check Time Format HH:mm" } });
     } else {
       this.setState({ errors: {} });
     }
   };
   _submitNewJobday = async () => {
-    //Check if date,startTime,endTime valid format
-    // if (!dateCheck(this.state.date)) {
-    //   return this.setState({
-    //     errors: { date: "Check Date Format DD-MM-YYYY" },
-    //   });
-    // }
+    if (!this.state.date) {
+      return this.setState({ errors: { date: "Pick a date" } });
+    }
     if (!timeCheck(this.state.timeStart)) {
       return this.setState({
-        errors: { timeStart: "Check Time Format HH-mm" },
+        errors: { timeStart: "Check Time Format HH:mm" },
       });
     }
     if (!timeCheck(this.state.timeEnd)) {
-      return this.setState({ errors: { timeEnd: "Check Time Format HH-mm" } });
+      return this.setState({ errors: { timeEnd: "Check Time Format HH:mm" } });
+    }
+    //Check if no errors befor sending to API
+    if (Object.keys(this.state.errors).length > 0) {
+      this.setState({ errors: { alert: "Please rectify errors" } });
     }
     const payload = {
       employeeID: this.props.selectedEmployeeDetails._id,
@@ -107,9 +116,22 @@ class CreateNewJobday extends Component {
                 )}
               </div>
               {/* Errors Date */}
+              {this.state.errors.errorDate && (
+                <div className=" text-center">
+                  <span className="text-danger">
+                    {this.state.errors.errorDate}
+                  </span>
+                </div>
+              )}
               {this.state.errors.date && (
                 <div className=" text-center">
                   <span className="text-danger">{this.state.errors.date}</span>
+                </div>
+              )}
+              {/* Message Date */}
+              {this.state.message && (
+                <div className=" text-center">
+                  <span className="text-success">{this.state.message}</span>
                 </div>
               )}
             </li>
@@ -118,6 +140,7 @@ class CreateNewJobday extends Component {
                 <div className="col-md-6">Start Time</div>
                 <div className="col-md-6">
                   <input
+                    placeholder="HH:mm"
                     type="text"
                     value={this.state.timeStart}
                     onChange={this._onChange}
@@ -140,6 +163,7 @@ class CreateNewJobday extends Component {
                 <div className="col-md-6">End Time</div>
                 <div className="col-md-6">
                   <input
+                    placeholder="HH:mm"
                     type="text"
                     value={this.state.timeEnd}
                     onChange={this._onChange}
@@ -172,6 +196,11 @@ class CreateNewJobday extends Component {
                 </div>
               </div>
             </li>
+            {this.state.errors.alert && (
+              <div style={{ backgroundColor: "FFF" }}>
+                <span className="text-danger">{this.state.errors.alert}</span>
+              </div>
+            )}
 
             <input
               type="button"
@@ -189,6 +218,7 @@ class CreateNewJobday extends Component {
 
 const mapStateToprops = (state) => ({
   date: state.jobday.date,
+  errors: state.errors.errors,
   message: state.jobday.message,
 });
 export default connect(mapStateToprops, { managerCreatesJobday })(

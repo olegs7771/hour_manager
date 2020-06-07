@@ -266,7 +266,7 @@ export class EmployeeDetails extends Component {
             </div>
             <div
               className={
-                window.innerWidth < 500 ? "col-md-3  " : "col-md-3 pl-3 "
+                window.innerWidth < 500 ? "col-md-3  " : "col-md-3 pl-3  "
               }
             >
               <Calendar

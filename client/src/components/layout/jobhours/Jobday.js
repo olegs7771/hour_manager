@@ -23,6 +23,7 @@ import {
   faCheckDouble,
   faArrowUp,
   faArrowDown,
+  faFlag,
 } from "@fortawesome/free-solid-svg-icons";
 
 import ToolTip from "../tooltip/ToolTip";
@@ -229,7 +230,7 @@ class Jobday extends Component {
           </span>
           <br />
           <br />
-          <span className="text-white">{this.state.message}</span>
+          <span className="text-white">{this.state.message.message}</span>
         </div>
       );
     } else if (this.state.workDays && !this.state.showDay) {
@@ -295,12 +296,6 @@ class Jobday extends Component {
                   >
                     <span className="text-white">End</span>
                   </th>
-                  <th
-                    scope="col"
-                    style={{ borderBottom: "none", borderTop: "none" }}
-                  >
-                    <span className="text-white">Checked</span>
-                  </th>
                 </tr>
               </thead>
 
@@ -309,13 +304,13 @@ class Jobday extends Component {
                   <tr key={i} style={{ backgroundColor: "#bdc6c7" }}>
                     {/* {Date} */}
                     <td
-                      className="d-flex justify-content-between"
-                      style={{ borderBottom: "none" }}
+                      className="d-flex justify-content-between "
+                      style={{ borderBottom: "none", width: "80%" }}
                     >
                       <span className="font-weight-bold text-white">
                         {moment(day.date).format("L ")}
                       </span>
-                      <span className="font-weight-bold ml-1 text-white">
+                      <span className="font-weight-bold  text-white ">
                         {moment(day.date).format("ddd")}
                       </span>
                     </td>
@@ -389,6 +384,16 @@ class Jobday extends Component {
                         }
                       />
                     </td>
+                    <td style={{ paddingRight: 0, paddingLeft: 0 }}>
+                      <ToolTip
+                        text={
+                          day.startedByManager && (
+                            <FontAwesomeIcon icon={faFlag} color="#0c67f0" />
+                          )
+                        }
+                        tip="Jobday created by Manager"
+                      />
+                    </td>
                     <td>
                       <button
                         className="btn btn-outline-secondary"
@@ -417,6 +422,8 @@ class Jobday extends Component {
           startHour={this.props.hoursLimit.startHour}
           confirmEmployee={this.state.selectedDay.confirmEmployee}
           cancelEditModeChild={(state) => this.setState({ isEditMode: state })}
+          managerNote={this.state.selectedDay.managerNote}
+          startedByManager={this.state.selectedDay.startedByManager}
         />
       );
     } else {
@@ -526,41 +533,51 @@ class Jobday extends Component {
                   </div>
                 ) : null}
                 {/* {Here Manager can confirm if Employee Confirmed hours pair} */}
-                {this.state.selectedDay.confirmEmployee ? (
-                  <div className="my-3 pl-4">
-                    {this.state.selectedDay.confirmManager ? (
-                      <div>
-                        <span className="text-success">
-                          Confirmed by Manager{" "}
-                          <FontAwesomeIcon icon={faCheckDouble} />
-                        </span>{" "}
-                        <input
-                          type="button"
-                          value="Cancel"
-                          className="btn btn-outline-secondary ml-4"
-                          onClick={this._cancelManConfirm}
-                        />
-                      </div>
-                    ) : (
-                      <div>
-                        <span className="text-success">
-                          Employee Confirmed hours{" "}
-                          <FontAwesomeIcon icon={faCheck} />
-                        </span>{" "}
-                        <input
-                          type="button"
-                          value="Confirm"
-                          className="btn btn-outline-success"
-                          onClick={this._managerConfirm}
-                        />
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <span className="text-danger">
-                    Pending of Employee confirmation..
-                  </span>
-                )}
+
+                {
+                  //If creted by manager
+                  this.state.selectedDay.startedByManager ? (
+                    <span className="text-info">Created By Manager</span>
+                  ) : (
+                    <div className="my-3 pl-4">
+                      {this.state.selectedDay.confirmEmployee ? (
+                        <div className="my-3 pl-4">
+                          {this.state.selectedDay.confirmManager ? (
+                            <div>
+                              <span className="text-success">
+                                Confirmed by Manager{" "}
+                                <FontAwesomeIcon icon={faCheckDouble} />
+                              </span>{" "}
+                              <input
+                                type="button"
+                                value="Cancel"
+                                className="btn btn-outline-secondary ml-4"
+                                onClick={this._cancelManConfirm}
+                              />
+                            </div>
+                          ) : (
+                            <div>
+                              <span className="text-success">
+                                Employee Confirmed hours{" "}
+                                <FontAwesomeIcon icon={faCheck} />
+                              </span>{" "}
+                              <input
+                                type="button"
+                                value="Confirm"
+                                className="btn btn-outline-success"
+                                onClick={this._managerConfirm}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <span className="text-danger">
+                          Pending of Employee confirmation..
+                        </span>
+                      )}
+                    </div>
+                  )
+                }
               </div>
             </div>
             <div

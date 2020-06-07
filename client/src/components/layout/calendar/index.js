@@ -310,7 +310,7 @@ class Calendar extends React.Component {
     });
 
     return (
-      <div className="tail-datetime-calendar">
+      <div className="tail-datetime-calendar ">
         <div className="calendar-navi">
           <span
             onClick={(e) => {
@@ -350,7 +350,7 @@ class Calendar extends React.Component {
         </div>
 
         {this.state.showDateTable && (
-          <div className="calendar-date">
+          <div className="calendar-date ">
             <table className="calendar-day">
               <thead>
                 <tr>{weekdayshortname}</tr>

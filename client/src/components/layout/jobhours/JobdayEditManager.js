@@ -237,40 +237,47 @@ class JobdayEditManager extends Component {
                 ) : null}
                 <hr />
                 {/* {Here Manager can confirm if Employee Confirmed hours pair} */}
-                {this.props.confirmEmployee ? (
-                  <div className="my-3 pl-4">
-                    {this.props.selectedDay.confirmManager ? (
-                      <div>
-                        <span className="text-success">
-                          Confirmed by Manager{" "}
-                          <FontAwesomeIcon icon={faCheckDouble} />
-                        </span>{" "}
-                        <input
-                          type="button"
-                          value="Cancel"
-                          className="btn btn-outline-secondary ml-4"
-                          onClick={this._cancelManConfirm}
-                        />
+                {/* if confirmed by manager */}
+                {this.props.startedByManager ? (
+                  <span className="ml-3 text-info">Created By Manager</span>
+                ) : (
+                  <div>
+                    {this.props.confirmEmployee ? (
+                      <div className="my-3 pl-4">
+                        {this.props.selectedDay.confirmManager ? (
+                          <div>
+                            <span className="text-success">
+                              Confirmed by Manager{" "}
+                              <FontAwesomeIcon icon={faCheckDouble} />
+                            </span>{" "}
+                            <input
+                              type="button"
+                              value="Cancel"
+                              className="btn btn-outline-secondary ml-4"
+                              onClick={this._cancelManConfirm}
+                            />
+                          </div>
+                        ) : (
+                          <div>
+                            <span className="text-success">
+                              Employee Confirmed hours{" "}
+                              <FontAwesomeIcon icon={faCheck} />
+                            </span>{" "}
+                            <input
+                              type="button"
+                              value="Confirm"
+                              className="btn btn-outline-success"
+                              onClick={this._managerConfirm}
+                            />
+                          </div>
+                        )}
                       </div>
                     ) : (
-                      <div>
-                        <span className="text-success">
-                          Employee Confirmed hours{" "}
-                          <FontAwesomeIcon icon={faCheck} />
-                        </span>{" "}
-                        <input
-                          type="button"
-                          value="Confirm"
-                          className="btn btn-outline-success"
-                          onClick={this._managerConfirm}
-                        />
-                      </div>
+                      <span className="text-danger">
+                        Pending of Employee confirmation..
+                      </span>
                     )}
                   </div>
-                ) : (
-                  <span className="text-danger">
-                    Pending of Employee confirmation..
-                  </span>
                 )}
               </div>
             </div>

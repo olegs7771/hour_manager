@@ -267,17 +267,52 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     if (!req.body.timeStart) {
-      //Get Selected
-      console.log(" req.body manager_edit_jobday_hours", req.body);
+      //Pre validation when user picked date on calendar
+      console.log(" req.body manager_edit_jobday_hours validation", req.body);
       let dateFilter = {
         $lt: new Date(req.body.date.date + "T23:59:59"),
         $gt: new Date(req.body.date.date + "T00:00:00"),
       };
       JobDay.find({ date: dateFilter }).then((days) => {
-        return res.json({ messageDate: "Date already exists" });
+        if (days.length > 0) {
+          console.log("days", days);
+          // check if found day related to current employee
+          const employeeDay = days.find((day) => {
+            return day.employee == req.body.employeeID;
+          });
+          if (employeeDay) {
+            return res.status(400).json({ errorDate: "Date already exists" });
+          } else {
+            return res.json({ messageDate: "Date valid" });
+          }
+        } else {
+          return res.json({ messageDate: "Date valid" });
+        }
       });
     } else {
-      return res.json({ messageDate: "No date" });
+      //Creating New Date
+      const timeStartFormat = `${req.body.date.date}T${req.body.timeStart}:00`;
+      const timeEndFormat = `${req.body.date.date}T${req.body.timeEnd}:00`;
+
+      console.log(" req.body manager_edit_jobday_hours create", req.body);
+      new JobDay({
+        employee: req.body.employeeID,
+        projectID: req.body.projectID,
+        timeStart: new Date(timeStartFormat),
+        timeEnd: new Date(timeEndFormat),
+        date: new Date(req.body.date.date),
+        confirmManager: true,
+        confirmEmployee: true,
+        startedByManager: true,
+        managerNote: req.body.text,
+      })
+        .save()
+        .then(() => {
+          res.json({ messageDate: "Date was created" });
+        })
+        .then((err) => {
+          res.status(400).json(err);
+        });
     }
   }
 );
