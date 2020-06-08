@@ -141,6 +141,11 @@ export const managerPickDate = (data) => (dispatch) => {
   });
 };
 
+//Delete Jobday by id
+export const deleteJobdayByID = (data) => (dispatch) => {
+  console.log("data deleteJobdayByID ", data);
+};
+
 export const loading = () => {
   return {
     type: LOADING_JOBDAY,

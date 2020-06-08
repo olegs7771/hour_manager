@@ -13,6 +13,7 @@ import {
   faCheckDouble,
 } from "@fortawesome/free-solid-svg-icons";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
+import Popup from "../popup/Popup";
 
 //Function to test input field
 const testInput = (value) => {
@@ -113,7 +114,7 @@ class JobdayEditManager extends Component {
             className="row   border mx-auto pb-2 bg-dark"
             style={{ width: "100%" }}
           >
-            <div className="col-md-7 ">
+            <div className="col-md-5 ">
               <div className="my-2 ml-5 mt-3">
                 <span className="text-white " style={{ fontWeight: "bold" }}>
                   {moment(this.props.date).format("LL") +
@@ -130,6 +131,26 @@ class JobdayEditManager extends Component {
               >
                 Submit
               </button>
+            </div>
+            <div className="col-md-2">
+              <Popup
+                // open={this.state.open}
+
+                icon={"Delete"}
+                marginTop={10}
+                title={<span className="text-danger pl-5">Delete Warning</span>}
+                placement={"top"}
+                //toggle Button Delete Profile/Cancel
+                open={this._changeBtn}
+                body={<div className="border p3">Body</div>}
+              />
+
+              {/* <button
+                className="btn btn-outline-warning mt-2 "
+                onClick={this._submit}
+              >
+                Delete
+              </button> */}
             </div>
             {/* Comments Manager */}
             <div className="col-md-1">

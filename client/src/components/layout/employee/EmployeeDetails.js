@@ -7,6 +7,7 @@ import {
   getEmployee,
   deleteEmployee,
 } from "../../../store/actions/employeeAction";
+
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 import { UpCase } from "../../../utils/UpperCase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -115,6 +116,8 @@ export class EmployeeDetails extends Component {
       id: e,
     });
   };
+
+  //bring btn state from Popover
   _changeBtn = (e) => {
     console.log("e change btn", e);
     this.setState({ switchBtn: e ? true : false });
@@ -363,6 +366,7 @@ export class EmployeeDetails extends Component {
 
 const mapStateToProps = (state) => ({
   selectedEmployee: state.employees.selectedEmployee,
+  selectedDay: state.jobday.selectedDay,
   errors: state.errors.errors,
   loading: state.employees.loading,
   messages: state.messages.messages,

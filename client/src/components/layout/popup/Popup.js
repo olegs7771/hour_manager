@@ -9,7 +9,13 @@ const Popup = (props) => {
     props.open(!popoverOpen);
   };
   return (
-    <div style={{ marginLeft: props.margin, zIndex: props.zIndex }}>
+    <div
+      style={{
+        marginLeft: props.margin,
+        zIndex: props.zIndex,
+        marginTop: props.marginTop,
+      }}
+    >
       <Button id="Popover1" type="button">
         {props.icon}
       </Button>

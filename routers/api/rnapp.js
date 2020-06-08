@@ -169,7 +169,6 @@ router.post("/startTime_manually", (req, res) => {
     if (!emp) {
       return res.status(400).json({ error: "Unauthorized!" });
     }
-    console.log("Authorized!");
 
     //Find if Jobday Exists
     //Create dateFilter
@@ -179,26 +178,25 @@ router.post("/startTime_manually", (req, res) => {
       $gt: new Date(req.body.date + "T00:00:00"),
     };
     JobDay.find({ date: dateFilter }).then((days) => {
-      console.log("days", days);
-
       if (days.length === 0) {
         //No days found create one
         console.log("no days been found");
         const dateFormat = new Date(
           req.body.date + `T${req.body.timeStart}` + ":00"
         );
-        console.log("dateFormat", dateFormat);
 
         new JobDay({
           employee: req.body.id,
           projectID: req.body.projectID,
           timeStart: dateFormat,
-          message: req.body.message,
+          messages: { text: req.body.message },
           timeStartMan: moment().format(), //Current Date
           date: dateFormat, //Selected day
         })
           .save()
           .then((day) => {
+            console.log("created new Jobday", day);
+
             if (!day) return res.json({ message: "Day was not created" });
             res.json({
               message: "Start time has been succefully set up",
@@ -220,12 +218,12 @@ router.post("/startTime_manually", (req, res) => {
           const dateFormat = new Date(
             req.body.date + `T${req.body.timeStart}` + ":00"
           );
-          console.log("dateFormat", dateFormat);
+
           new JobDay({
             employee: req.body.id,
             projectID: req.body.projectID,
             timeStart: dateFormat,
-            message: req.body.message,
+            messages: { text: req.body.message },
             timeStartMan: moment().format(), //Current Date
             date: dateFormat,
           }).save(() => {
@@ -241,7 +239,6 @@ router.post("/startTime_manually", (req, res) => {
           const dateFormat = new Date(
             req.body.date + `T${req.body.timeStart}` + ":00"
           );
-          console.log("dateFormat", dateFormat);
 
           filtredDays.map((day) => {
             console.log("day", day);
@@ -294,7 +291,7 @@ router.post("/endTime_manually", (req, res) => {
           employee: req.body.id,
           projectID: req.body.projectID,
           timeEnd: dateFormat,
-          message: req.body.message,
+          messages: { text: req.body.message },
           timeEndMan: moment().format(), //Current Date
           date: dateFormat,
         }).save(() => {
@@ -315,7 +312,7 @@ router.post("/endTime_manually", (req, res) => {
             employee: req.body.id,
             projectID: req.body.projectID,
             timeEnd: dateFormat,
-            message: req.body.message,
+            message: { text: req.body.message },
             timeEndMan: moment().format(), //Current Date
             date: dateFormat,
           }).save(() => {
@@ -335,7 +332,7 @@ router.post("/endTime_manually", (req, res) => {
             console.log("day", day);
             day.timeEndMan = moment().format(); //current time
             day.timeEnd = dateFormat;
-            day.message = req.body.message;
+            day.messages.unshift({ text: req.body.message });
             day.save().then((upDate) => {
               console.log("upDate", upDate);
               res.json({ message: "End time has been succefully set up" });

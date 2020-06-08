@@ -29,9 +29,17 @@ const JobDaySchema = new Schema({
     type: Boolean,
     default: false,
   },
-  message: {
-    type: String,
-  },
+  messages: [
+    {
+      text: {
+        type: String,
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
   confirmManager: {
     type: Boolean,
     default: false,

@@ -525,10 +525,21 @@ class Jobday extends Component {
                 ) : null}
                 <hr />
                 {/* {Message from Employee} */}
-                {this.state.selectedDay.message ? (
-                  <div className="border rounded p-2 mb-4">
-                    <div className="text-center h6">Message from Employee</div>
-                    <p>{this.state.selectedDay.message}</p>
+                {this.state.selectedDay.messages.length > 0 ? (
+                  <div className="rounded p-2 mb-4 bg-dark">
+                    <div className="text-center h6 ">
+                      <span className="text-white">Messages from Employee</span>
+                    </div>
+                    {this.state.selectedDay.messages.map((message, i) => (
+                      <div className="border my-1 p-2" key={i}>
+                        <span style={{ color: "#e5fa05" }}>
+                          {" "}
+                          [{moment(message.date).format("HH:mm")}]:
+                        </span>{" "}
+                        <span style={{ color: "#FFF" }}> {message.text}</span>
+                      </div>
+                    ))}
+
                     <div className="py-2"></div>
                   </div>
                 ) : null}

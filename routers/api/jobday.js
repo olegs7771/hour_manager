@@ -5,7 +5,7 @@ const Employee = require("../../models/Employee");
 const Project = require("../../models/Project");
 
 const passport = require("passport");
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
 const moment = require("moment");
 
 //Create JobDay For Employee By Manager
@@ -314,6 +314,25 @@ router.post(
           res.status(400).json(err);
         });
     }
+  }
+);
+
+//Delete Jobday
+//Private Route
+router.post(
+  "/delete_jobday",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    JobDay.findById(req.body.id)
+      .then((day) => {
+        if (!day) {
+          return res.json({ message: "No Jobday found" });
+        }
+        res.json({ day });
+      })
+      .catch((err) => {
+        res.status(400).json({ error: err });
+      });
   }
 );
 

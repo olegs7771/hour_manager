@@ -97,7 +97,7 @@ class EmployeeControls extends Component {
             }
           >
             <div className="row pt-2 justify-content-between px-5">
-              <div className="col_md-6 ">
+              <div className="col_md-12 ">
                 <input
                   type="button"
                   value={!this.state.isShowCreateDay ? "Create Day" : "Close"}
@@ -106,14 +106,15 @@ class EmployeeControls extends Component {
                   onClick={this._showCreateJobday}
                 />
               </div>
-              <div className="col_md-6 ">
+              {/* <div className="col_md-6 ">
                 <input
                   type="button"
                   value="Delete Day"
                   style={{ width: 100 }}
                   className="btn btn-warning"
+                  onClick={this._deleteJobday}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
