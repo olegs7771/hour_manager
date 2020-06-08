@@ -16,7 +16,11 @@ const Popup = (props) => {
         marginTop: props.marginTop,
       }}
     >
-      <Button id="Popover1" type="button">
+      <Button
+        id="Popover1"
+        type="button"
+        style={{ color: props.btnText, backgroundColor: props.backgroundColor }}
+      >
         {props.icon}
       </Button>
       <Popover

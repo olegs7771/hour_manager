@@ -103,6 +103,10 @@ class JobdayEditManager extends Component {
       timeEnd: "",
     });
   }
+  //Popover
+  _changeBtn = (state) => {
+    console.log("state from popover", state);
+  };
 
   render() {
     if (this.props.selectedDay) {
@@ -137,11 +141,13 @@ class JobdayEditManager extends Component {
                 // open={this.state.open}
 
                 icon={"Delete"}
-                marginTop={10}
+                marginTop={8}
+                btnText="#fff"
+                backgroundColor="#5d6316"
                 title={<span className="text-danger pl-5">Delete Warning</span>}
                 placement={"top"}
                 //toggle Button Delete Profile/Cancel
-                open={this._changeBtn}
+                open={this._changeBtn} //state from Popover
                 body={<div className="border p3">Body</div>}
               />
 
@@ -169,7 +175,7 @@ class JobdayEditManager extends Component {
             {/* Cancel Edit Jobday by Manager */}
             <div className="col-md-2">
               <button
-                className="btn btn-outline-secondary mt-2 "
+                className="btn btn-outline-secondary mt-2 ml-1 "
                 onClick={this._cancelEdit}
               >
                 X
