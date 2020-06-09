@@ -62,7 +62,7 @@ class CreateNewJobday extends Component {
             //Close CreateNewJobday
             //Reload month
             this.props.close();
-          }, 4000);
+          }, 2000);
         }
       }
     }

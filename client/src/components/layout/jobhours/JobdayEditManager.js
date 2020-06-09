@@ -34,6 +34,7 @@ class JobdayEditManager extends Component {
     isManagerNoteOpen: false,
     text: "",
     isPopupOpen: false,
+    message: {},
   };
 
   componentDidMount() {
@@ -43,13 +44,20 @@ class JobdayEditManager extends Component {
         ? moment(this.props.timeEnd).format("HH:mm")
         : null,
     });
-    //split jobday body if selectedDay has managerNote
-    // if (this.props.selectedDay.managerNote) {
-    //   this.setState({
-    //     isManagerNoteOpen: true,
-    //     text: this.props.selectedDay.managerNote,
-    //   });
-    // }
+    // split jobday body if selectedDay has managerNote
+    if (this.props.selectedDay) {
+      if (this.props.selectedDay.managerNote) {
+        this.setState({
+          isManagerNoteOpen: true,
+          text: this.props.selectedDay.managerNote,
+        });
+      }
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps !== this.props) {
+      this.setState({ message: this.props.message });
+    }
   }
 
   _onChange = (e) => {
@@ -163,13 +171,6 @@ class JobdayEditManager extends Component {
                   </div>
                 }
               />
-
-              {/* <button
-                className="btn btn-outline-warning mt-2 "
-                onClick={this._submit}
-              >
-                Delete
-              </button> */}
             </div>
             {/* Comments Manager */}
             <div className="col-md-1">

@@ -329,7 +329,7 @@ router.post(
           return res.json({ message: "No Jobday found" });
         }
         day.remove().then(() => {
-          res.json({ messageDelete: "Jobday was deleted" });
+          res.json({ message: "Jobday was deleted" });
         });
       })
       .catch((err) => {

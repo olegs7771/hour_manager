@@ -143,7 +143,6 @@ export const managerPickDate = (data) => (dispatch) => {
 
 //Delete Jobday by id
 export const deleteJobdayByID = (data) => (dispatch) => {
-  dispatch(loading());
   console.log("data deleteJobdayByID ", data);
   axios
     .post("/api/jobday/delete_jobday", data)
