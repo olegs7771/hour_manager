@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import {
   managerEditHours,
   selectDay,
+  deleteJobdayByID,
 } from "../../../store/actions/jobdayAction";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -32,6 +33,7 @@ class JobdayEditManager extends Component {
     // split jobday container in two colomns
     isManagerNoteOpen: false,
     text: "",
+    isPopupOpen: false,
   };
 
   componentDidMount() {
@@ -42,12 +44,12 @@ class JobdayEditManager extends Component {
         : null,
     });
     //split jobday body if selectedDay has managerNote
-    if (this.props.selectedDay.managerNote) {
-      this.setState({
-        isManagerNoteOpen: true,
-        text: this.props.selectedDay.managerNote,
-      });
-    }
+    // if (this.props.selectedDay.managerNote) {
+    //   this.setState({
+    //     isManagerNoteOpen: true,
+    //     text: this.props.selectedDay.managerNote,
+    //   });
+    // }
   }
 
   _onChange = (e) => {
@@ -105,7 +107,11 @@ class JobdayEditManager extends Component {
   }
   //Popover
   _changeBtn = (state) => {
-    console.log("state from popover", state);
+    this.setState({ isPopupOpen: state });
+  };
+  //Delete Current Jobday by ID
+  _deleteJobday = () => {
+    this.props.deleteJobdayByID({ id: this.props.selectedDay._id });
   };
 
   render() {
@@ -140,15 +146,22 @@ class JobdayEditManager extends Component {
               <Popup
                 // open={this.state.open}
 
-                icon={"Delete"}
+                icon={this.state.isPopupOpen ? "Cancel" : "Delete"}
                 marginTop={8}
                 btnText="#fff"
                 backgroundColor="#5d6316"
-                title={<span className="text-danger pl-5">Delete Warning</span>}
+                title={<span className="text-danger  ">Delete Warning</span>}
                 placement={"top"}
                 //toggle Button Delete Profile/Cancel
                 open={this._changeBtn} //state from Popover
-                body={<div className="border p3">Body</div>}
+                body={
+                  <div className=" p3">
+                    Are you sure to delete current Jobday?
+                    <div className="btn-group my-3">
+                      <button onClick={this._deleteJobday}>Yes</button>
+                    </div>
+                  </div>
+                }
               />
 
               {/* <button
@@ -345,6 +358,8 @@ const mapStateToProps = (state) => ({
   message: state.jobday.message,
 });
 
-export default connect(mapStateToProps, { managerEditHours, selectDay })(
-  JobdayEditManager
-);
+export default connect(mapStateToProps, {
+  managerEditHours,
+  selectDay,
+  deleteJobdayByID,
+})(JobdayEditManager);

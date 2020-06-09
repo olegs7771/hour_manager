@@ -52,6 +52,7 @@ class CreateNewJobday extends Component {
     if (prevProps.message !== this.props.message) {
       //Cant use GET_ERRORS in redux.
       this.setState({ errors: {}, message: this.props.message.messageDate });
+      setTimeout(() => {}, 3000);
     }
   }
 
@@ -81,10 +82,7 @@ class CreateNewJobday extends Component {
     if (!timeCheck(this.state.timeEnd)) {
       return this.setState({ errors: { timeEnd: "Check Time Format HH:mm" } });
     }
-    //Check if no errors befor sending to API
-    if (Object.keys(this.state.errors).length > 0) {
-      this.setState({ errors: { alert: "Please rectify errors" } });
-    }
+
     const payload = {
       employeeID: this.props.selectedEmployeeDetails._id,
       projectID: this.props.selectedEmployeeDetails.projectID,
@@ -196,19 +194,16 @@ class CreateNewJobday extends Component {
                 </div>
               </div>
             </li>
-            {this.state.errors.alert && (
-              <div style={{ backgroundColor: "FFF" }}>
-                <span className="text-danger">{this.state.errors.alert}</span>
-              </div>
-            )}
 
-            <input
-              type="button"
-              value="Create"
-              className="py-2"
-              style={{ backgroundColor: "#3c4a5c", color: "#FFF" }}
-              onClick={this._submitNewJobday}
-            />
+            {!Object.keys(this.state.errors).length > 0 && (
+              <input
+                type="button"
+                value="Create"
+                className="py-2"
+                style={{ backgroundColor: "#3c4a5c", color: "#FFF" }}
+                onClick={this._submitNewJobday}
+              />
+            )}
           </ul>
         </div>
       </div>

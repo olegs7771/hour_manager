@@ -308,7 +308,7 @@ router.post(
       })
         .save()
         .then(() => {
-          res.json({ messageDate: "Date was created" });
+          res.json({ messageDateCreated: "Date was created" });
         })
         .then((err) => {
           res.status(400).json(err);
@@ -328,7 +328,9 @@ router.post(
         if (!day) {
           return res.json({ message: "No Jobday found" });
         }
-        res.json({ day });
+        day.remove().then(() => {
+          res.json({ messageDelete: "Jobday was deleted" });
+        });
       })
       .catch((err) => {
         res.status(400).json({ error: err });

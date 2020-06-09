@@ -29,6 +29,29 @@ import {
 import ToolTip from "../tooltip/ToolTip";
 import JobdayEditManager from "./JobdayEditManager";
 
+const getMonth = (employeeID, projectID) => {
+  const currentDateStr = moment().format("YYYY-MM-DD");
+  const firstDay = moment(currentDateStr) //<------ dateToShow
+    .startOf("month")
+    .format("");
+  const lastDay = moment(currentDateStr) //<------ dateToShow
+    .endOf("month")
+    .format("");
+  const date = {
+    startdate: firstDay,
+    enddate: lastDay,
+  };
+  // const employeeID = this.props.employee._id;
+  // const projectID = this.props.employee.projectID;
+
+  const payload = {
+    date,
+    employeeID,
+    projectID,
+  };
+  return payload;
+};
+
 // Function to sort this.props.jobDays
 const sortArrAsc = (arr) => {
   let date;
@@ -76,29 +99,9 @@ class Jobday extends Component {
 
   //Load Current Month on Mount
   componentDidMount() {
-    //Create payload for Action
-
-    const currentDateStr = moment().format("YYYY-MM-DD");
-    const firstDay = moment(currentDateStr) //<------ dateToShow
-      .startOf("month")
-      .format("");
-    const lastDay = moment(currentDateStr) //<------ dateToShow
-      .endOf("month")
-      .format("");
-    const date = {
-      startdate: firstDay,
-      enddate: lastDay,
-    };
-    const employeeID = this.props.employee._id;
-    const projectID = this.props.employee.projectID;
-
-    const payload = {
-      date,
-      employeeID,
-      projectID,
-    };
-    // console.log("payload to select month", payload);
-    this.props.selectMonth(payload);
+    this.props.selectMonth(
+      getMonth(this.props.employee._id, this.props.employee.projectID)
+    );
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -107,15 +110,11 @@ class Jobday extends Component {
         selectedDay: this.props.selectedDay,
         loading: this.props.loading,
         date: this.props.date,
-        message: this.props.message,
+
         showDay: this.props.showDay,
         // workDays: sort(this.props.workDays),
       });
-      if (this.props.message) {
-        this.setState({
-          selectedDay: true,
-        });
-      }
+
       //if Jobday has mnager note split single day in two colomns
       if (this.props.selectedDay) {
         if (this.props.selectedDay.managerNote) {
@@ -141,6 +140,14 @@ class Jobday extends Component {
           ? sortArrDesc(this.props.workDays)
           : sortArrAsc(this.props.workDays),
       });
+    }
+    //Messages
+    if (prevProps.message !== this.props.message) {
+      if (this.props.message) {
+        this.setState({
+          selectedDay: true,
+        });
+      }
     }
   }
 
@@ -171,6 +178,7 @@ class Jobday extends Component {
     this.props.selectDay(payloadDay);
   };
   //Use selectDay
+  //View Selected day
   _viewEmp = (e) => {
     this.props.showDayChild(true);
     console.log("e", e);
@@ -185,27 +193,9 @@ class Jobday extends Component {
   _cancelShowDay = () => {
     this.props.showDayChild(false);
     //relode current month
-    const currentDateStr = moment().format("YYYY-MM-DD");
-    const firstDay = moment(currentDateStr) //<------ dateToShow
-      .startOf("month")
-      .format("");
-    const lastDay = moment(currentDateStr) //<------ dateToShow
-      .endOf("month")
-      .format("");
-    const date = {
-      startdate: firstDay,
-      enddate: lastDay,
-    };
-    const employeeID = this.props.employee._id;
-    const projectID = this.props.employee.projectID;
-
-    const payload = {
-      date,
-      employeeID,
-      projectID,
-    };
-    // console.log("payload to select month", payload);
-    this.props.selectMonth(payload);
+    this.props.selectMonth(
+      getMonth(this.props.employee._id, this.props.employee.projectID)
+    );
   };
   _editModeOn = () => {
     this.setState({ isEditMode: true });
@@ -230,7 +220,8 @@ class Jobday extends Component {
           </span>
           <br />
           <br />
-          <span className="text-white">{this.state.message.message}</span>
+          {/* <span className="text-white">{this.state.message.message}</span>
+          <span className="text-white">{this.state.message.messageDelete}</span> */}
         </div>
       );
     } else if (this.state.workDays && !this.state.showDay) {

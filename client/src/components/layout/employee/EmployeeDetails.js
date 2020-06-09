@@ -104,6 +104,13 @@ export class EmployeeDetails extends Component {
         loading: null,
       });
     }
+    //jobdayMessages
+    //to close CreateNewJobday after message
+    if (prevProps.jobdayMessages !== this.props.jobdayMessages) {
+      setTimeout(() => {
+        this.setState({ showCreateJobday: false });
+      }, 4000);
+    }
   }
 
   componentDidMount() {
@@ -282,8 +289,8 @@ export class EmployeeDetails extends Component {
             <div className="col-md-6 border">
               {/* Select To show Day or Month */}
               <EmployeeControls
+                history={this.props.history}
                 pickDate={this._pickDate}
-                parentCB={this._showDate}
                 showCreateJobday={(state) =>
                   this.setState({ showCreateJobday: state })
                 }
@@ -292,6 +299,7 @@ export class EmployeeDetails extends Component {
               {this.state.showCreateJobday && (
                 <CreateNewJobday
                   selectedEmployeeDetails={this.state.selectedEmployeeDetails}
+                  //On Creation new Jobday ->loading->show hole month
                 />
               )}
 
@@ -370,6 +378,7 @@ const mapStateToProps = (state) => ({
   errors: state.errors.errors,
   loading: state.employees.loading,
   messages: state.messages.messages,
+  jobdayMessages: state.jobday.message,
 });
 
 const mapDispatchToProps = { getEmployee, deleteEmployee };
