@@ -21,8 +21,7 @@ import TextFormGroup from "../../textForms/TextFormGroup";
 import Calendar from "../calendar";
 import Jobday from "../jobhours/Jobday";
 import TotalJobHours from "../jobhours/TotalJobHours";
-//Control Options
-import EmployeeControls from "./EmployeeControls";
+
 import CreateNewJobday from "../jobhours/CreateNewJobday";
 
 export class EmployeeDetails extends Component {
@@ -46,29 +45,27 @@ export class EmployeeDetails extends Component {
     switchBtn: false,
     //Show Create Jobday coming from EmployeeControls
     showCreateJobday: false,
-    //Coming from EmployeeControls to pick a date on Calendar
     pickDate: false,
+    isShowCreateDay: false,
+    //For Jobday to reload mnth after finished to create new jobday
+    jobDayCreated: null,
   };
   _onChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value.toLowerCase(),
     });
   };
-  _showDate = () => {
-    return console.log("date");
-  };
 
-  //Functions listens for change in <EmployeeControls />
-
-  _showDate = (childData) => {
-    this.setState({
-      showDay: childData.showDay,
-      showMonth: childData.showMonth,
-    });
-  };
   //Comes from Jobday.js when user clicks view button
   _showDateChild = (state) => {
     this.setState({ showDay: state });
+  };
+
+  //Comes from CreateNewJobday to close
+  _closeChildCreateNewJobday = () => {
+    //reload month in Jobday
+    this.setState({ jobDayCreated: true });
+    this.setState({ showCreateJobday: false });
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -104,12 +101,8 @@ export class EmployeeDetails extends Component {
         loading: null,
       });
     }
-    //jobdayMessages
-    //to close CreateNewJobday after message
-    if (prevProps.jobdayMessages !== this.props.jobdayMessages) {
-      setTimeout(() => {
-        this.setState({ showCreateJobday: false });
-      }, 4000);
+    if (this.state.showCreateJobday !== prevState.showCreateJobday) {
+      this.setState({ pickDate: this.state.showCreateJobday });
     }
   }
 
@@ -128,9 +121,6 @@ export class EmployeeDetails extends Component {
   _changeBtn = (e) => {
     console.log("e change btn", e);
     this.setState({ switchBtn: e ? true : false });
-  };
-  _pickDate = (state) => {
-    this.setState({ pickDate: state });
   };
 
   render() {
@@ -287,19 +277,27 @@ export class EmployeeDetails extends Component {
               />
             </div>
             <div className="col-md-6 border">
-              {/* Select To show Day or Month */}
-              <EmployeeControls
-                history={this.props.history}
-                pickDate={this._pickDate}
-                showCreateJobday={(state) =>
-                  this.setState({ showCreateJobday: state })
-                }
-              />
+              {/* Button Create NewJobday */}
+              <div className=" py-3 px-5">
+                <input
+                  type="button"
+                  value={!this.state.showCreateJobday ? "Create Day" : "Close"}
+                  style={{ width: 100 }}
+                  className="btn btn-primary"
+                  onClick={() =>
+                    this.setState({
+                      showCreateJobday: !this.state.showCreateJobday,
+                    })
+                  }
+                />
+              </div>
+
               {/* Create Jobday by manager */}
               {this.state.showCreateJobday && (
                 <CreateNewJobday
                   selectedEmployeeDetails={this.state.selectedEmployeeDetails}
-                  //On Creation new Jobday ->loading->show hole month
+                  //close in EmployeeControls createnewjobday
+                  close={this._closeChildCreateNewJobday}
                 />
               )}
 
@@ -308,6 +306,7 @@ export class EmployeeDetails extends Component {
                 showDay={this.state.showDay}
                 //Show Day from child
                 showDayChild={this._showDateChild}
+                jobDayCreated={this.state.jobDayCreated}
               />
             </div>
             <TotalJobHours />
@@ -378,7 +377,6 @@ const mapStateToProps = (state) => ({
   errors: state.errors.errors,
   loading: state.employees.loading,
   messages: state.messages.messages,
-  jobdayMessages: state.jobday.message,
 });
 
 const mapDispatchToProps = { getEmployee, deleteEmployee };

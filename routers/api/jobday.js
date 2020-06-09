@@ -283,10 +283,10 @@ router.post(
           if (employeeDay) {
             return res.status(400).json({ errorDate: "Date already exists" });
           } else {
-            return res.json({ messageDate: "Date valid" });
+            return res.json({ message: "Date valid" });
           }
         } else {
-          return res.json({ messageDate: "Date valid" });
+          return res.json({ message: "Date valid" });
         }
       });
     } else {
@@ -308,7 +308,7 @@ router.post(
       })
         .save()
         .then(() => {
-          res.json({ messageDateCreated: "Date was created" });
+          res.json({ message: "Date was created" });
         })
         .then((err) => {
           res.status(400).json(err);

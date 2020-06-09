@@ -3,3 +3,6 @@
 [0418/130409.674:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: An attempt was made to access an exiting process. (0xc000010a)
 [0529/220018.675:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
 [0529/220018.675:ERROR:exception_snapshot_win.cc(98)] thread ID 2800 not found in process
+[0609/143153.700:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[0609/143153.701:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[0609/143153.701:ERROR:exception_snapshot_win.cc(98)] thread ID 688 not found in process

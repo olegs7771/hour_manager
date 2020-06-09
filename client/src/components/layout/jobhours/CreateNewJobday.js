@@ -23,6 +23,7 @@ class CreateNewJobday extends Component {
       errors: {},
     });
   };
+
   componentDidUpdate(prevProps, prevState) {
     if (this.props.date !== prevProps.date) {
       if (this.props.date) {
@@ -51,8 +52,19 @@ class CreateNewJobday extends Component {
 
     if (prevProps.message !== this.props.message) {
       //Cant use GET_ERRORS in redux.
-      this.setState({ errors: {}, message: this.props.message.messageDate });
-      setTimeout(() => {}, 3000);
+      this.setState({ errors: {}, message: this.props.message });
+    }
+    if (this.props.message) {
+      if (this.state.message !== prevState.message) {
+        if (this.state.message.message === "Date was created") {
+          console.log("sent to jobday");
+          setTimeout(() => {
+            //Close CreateNewJobday
+            //Reload month
+            this.props.close();
+          }, 4000);
+        }
+      }
     }
   }
 
@@ -129,7 +141,9 @@ class CreateNewJobday extends Component {
               {/* Message Date */}
               {this.state.message && (
                 <div className=" text-center">
-                  <span className="text-success">{this.state.message}</span>
+                  <span className="text-success">
+                    {this.state.message.message}
+                  </span>
                 </div>
               )}
             </li>

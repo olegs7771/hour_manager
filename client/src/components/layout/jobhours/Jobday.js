@@ -29,6 +29,7 @@ import {
 import ToolTip from "../tooltip/ToolTip";
 import JobdayEditManager from "./JobdayEditManager";
 
+//Get Month Function
 const getMonth = (employeeID, projectID) => {
   const currentDateStr = moment().format("YYYY-MM-DD");
   const firstDay = moment(currentDateStr) //<------ dateToShow
@@ -148,6 +149,12 @@ class Jobday extends Component {
           selectedDay: true,
         });
       }
+    }
+    //reload month after create day finished
+    if (this.props.jobDayCreated !== prevProps.jobDayCreated) {
+      this.props.selectMonth(
+        getMonth(this.props.employee._id, this.props.employee.projectID)
+      );
     }
   }
 
