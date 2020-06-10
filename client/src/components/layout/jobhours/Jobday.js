@@ -158,8 +158,17 @@ class Jobday extends Component {
         message: this.props.message,
         showDay: false,
       });
+      ///After Delete Jobday Complete .WE got message
+      //Reload month
+      if (this.props.message) {
+        if (this.props.message.message === "Jobday was deleted") {
+          this.props.selectMonth(
+            getMonth(this.props.employee._id, this.props.employee.projectID)
+          );
+        }
+      }
     }
-    //reload month after create day finished
+    //reload month after create day finished coming from CreateNewJobday->EmployeeDetails
     if (this.props.jobDayCreated !== prevProps.jobDayCreated) {
       this.props.selectMonth(
         getMonth(this.props.employee._id, this.props.employee.projectID)
@@ -216,13 +225,13 @@ class Jobday extends Component {
   //View Selected day
   _viewEmp = (e) => {
     this.props.showDayChild(true);
-    console.log("e", e);
+
     const payload = {
       date: moment(e.date).format("YYYY-MM-DD"),
       employeeID: e.employee,
       projectID: e.projectID,
     };
-    console.log("payload", payload);
+
     this.props.selectDay(payload);
   };
   _cancelShowDay = () => {

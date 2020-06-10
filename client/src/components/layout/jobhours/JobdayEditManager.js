@@ -131,9 +131,6 @@ class JobdayEditManager extends Component {
   };
 
   render() {
-    if (this.state.message) {
-      return <span>{this.state.message.message}!!!message!!!!</span>;
-    }
     if (this.props.selectedDay) {
       return (
         //Show Single day

@@ -15,8 +15,6 @@ const totalSum = (arr) => {
 };
 
 const total = (daysArr) => {
-  console.log("daysArr", daysArr);
-
   let end;
   let start;
   let totalTime = [];
