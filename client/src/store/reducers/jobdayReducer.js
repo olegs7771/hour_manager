@@ -4,6 +4,7 @@ import {
   LOADING_JOBDAY,
   JOBDAY_MESSAGE,
   PICK_DATE,
+  GET_STATUS,
 } from "../actions/types";
 
 const initialState = {
@@ -13,6 +14,8 @@ const initialState = {
   message: null,
   date: null,
   hoursLimit: {},
+  // For API edit jobday reply
+  status: false,
 };
 
 export default (state = initialState, action) => {
@@ -30,6 +33,7 @@ export default (state = initialState, action) => {
         message: null,
         workDays: null,
         hoursLimit: action.payload.hours,
+        status: false,
       };
     case GET_SELECT_MONTH:
       return {
@@ -37,8 +41,9 @@ export default (state = initialState, action) => {
         workDays: action.payload.selectedDays,
         hoursLimit: action.payload.hours,
         loading: false,
-        selectedDay: true,
+        selectedDay: null,
         message: null,
+        status: false,
       };
 
     case JOBDAY_MESSAGE:
@@ -48,12 +53,19 @@ export default (state = initialState, action) => {
         date: action.payload.date,
         loading: false,
         selectedDay: null,
+        status: false,
       };
 
     case PICK_DATE:
       return {
         ...state,
         date: action.payload,
+        status: false,
+      };
+    case GET_STATUS:
+      return {
+        ...state,
+        status: action.payload.status,
       };
 
     default:

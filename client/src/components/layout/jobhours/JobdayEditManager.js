@@ -34,7 +34,7 @@ class JobdayEditManager extends Component {
     isManagerNoteOpen: false,
     text: "",
     isPopupOpen: false,
-    message: {},
+    status: false,
   };
 
   componentDidMount() {
@@ -55,8 +55,10 @@ class JobdayEditManager extends Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps !== this.props) {
-      this.setState({ message: this.props.message });
+    if (prevProps.status !== this.props.status) {
+      this.setState({ status: this.props.status });
+      // Reload Select Day after Manager had editted hour to get selectedDay into the Redux.
+      this.props.cancelEditModeChild(false);
     }
   }
 
@@ -91,20 +93,26 @@ class JobdayEditManager extends Component {
   };
 
   _submit = () => {
+    // Reload Select Day after Manager had editted hour to get selectedDay into the Redux.
+    const payload = {
+      date: moment(this.props.selectedDay.date).format("YYYY-MM-DD"),
+      employeeID: this.props.selectedDay.employee,
+      projectID: this.props.selectedDay.projectID,
+    };
+    console.log("payload ", payload);
+
+    this.props.selectDay(payload);
+
     const data = {
       timeStart: this.state.timeStart,
       timeEnd: this.state.timeEnd,
       selectedDay: this.props.selectedDay,
       managerComment: this.state.text,
     };
+    // console.log("data", data);
+
     this.props.managerEditHours(data);
-    // Reload Select Day after Manager had editted hour to gat selectedDay into the Redux.
-    const payload = {
-      date: moment(this.props.selectedDay.date).format("YYYY-MM-DD"),
-      employeeID: this.props.selectedDay.employee,
-      projectID: this.props.selectedDay.projectID,
-    };
-    this.props.selectDay(payload);
+    // this.props.cancelEditModeChild(false);
   };
 
   componentWillUnmount() {
@@ -123,6 +131,9 @@ class JobdayEditManager extends Component {
   };
 
   render() {
+    if (this.state.message) {
+      return <span>{this.state.message.message}!!!message!!!!</span>;
+    }
     if (this.props.selectedDay) {
       return (
         //Show Single day
@@ -143,12 +154,14 @@ class JobdayEditManager extends Component {
             </div>
             {/* Button To Submit changes */}
             <div className="col-md-2">
-              <button
-                className="btn btn-outline-secondary mt-2 "
-                onClick={this._submit}
-              >
-                Submit
-              </button>
+              {!Object.keys(this.state.errors).length > 0 && (
+                <button
+                  className="btn btn-outline-secondary mt-2 "
+                  onClick={this._submit}
+                >
+                  Submit
+                </button>
+              )}
             </div>
             <div className="col-md-2">
               <Popup
@@ -356,7 +369,7 @@ class JobdayEditManager extends Component {
 const mapStateToProps = (state) => ({
   selectedDay: state.jobday.selectedDay,
   loading: state.jobday.loading,
-  message: state.jobday.message,
+  status: state.jobday.status,
 });
 
 export default connect(mapStateToProps, {

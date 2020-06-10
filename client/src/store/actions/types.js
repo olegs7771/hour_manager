@@ -28,3 +28,4 @@ export const GET_SELECT_MONTH = "GET_SELECT_MONTH";
 export const LOADING_JOBDAY = "LOADING_JOBDAY";
 export const JOBDAY_MESSAGE = "JOBDAY_MESSAGE";
 export const PICK_DATE = "PICK_DATE";
+export const GET_STATUS = "GET_STATUS";

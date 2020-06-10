@@ -5,6 +5,7 @@ import {
   GET_SELECT_MONTH,
   GET_ERRORS,
   PICK_DATE,
+  GET_STATUS,
 } from "./types";
 import axios from "axios";
 
@@ -12,7 +13,7 @@ export const selectDay = (data) => (dispatch) => {
   console.log("data day select day", data);
   dispatch(loading());
   axios.post("/api/jobday/get_jobday", data).then((res) => {
-    console.log("res.data", res.data);
+    console.log("res.data selectDay", res.data);
     if (res.data.message) {
       dispatch({
         type: JOBDAY_MESSAGE,
@@ -92,7 +93,7 @@ export const managerEditHours = (data) => (dispatch) => {
     .then((res) => {
       console.log("res.data manager_edit_jobday_hours", res.data);
       dispatch({
-        type: JOBDAY_MESSAGE,
+        type: GET_STATUS,
         payload: res.data,
       });
     })

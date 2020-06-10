@@ -255,7 +255,7 @@ router.post(
       }
 
       filteredDay.save().then(() => {
-        res.json({ message: "Hours been set successfully." });
+        res.json({ status: true });
       });
     });
   }

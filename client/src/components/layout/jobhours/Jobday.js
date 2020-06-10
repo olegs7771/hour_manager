@@ -83,7 +83,7 @@ const sortArrDesc = (arr) => {
 
 class Jobday extends Component {
   state = {
-    messages: {},
+    message: null,
     loading: false,
     workDays: null,
     selectedDay: null,
@@ -96,10 +96,14 @@ class Jobday extends Component {
     isEditMode: false,
     //if jobday has manager note. split single day bodu in two colomns
     isManagerNoteExists: false,
+    //updated only after submitted to API status changed
+    isUpdatedStatus: false,
   };
 
   //Load Current Month on Mount
   componentDidMount() {
+    console.log("cdm");
+
     this.props.selectMonth(
       getMonth(this.props.employee._id, this.props.employee.projectID)
     );
@@ -111,8 +115,10 @@ class Jobday extends Component {
         selectedDay: this.props.selectedDay,
         loading: this.props.loading,
         date: this.props.date,
+        showDay: !this.state.isUpdatedStatus
+          ? this.props.showDay
+          : !this.props.showDay,
 
-        showDay: this.props.showDay,
         // workDays: sort(this.props.workDays),
       });
 
@@ -123,6 +129,7 @@ class Jobday extends Component {
         } else {
           this.setState({ isManagerNoteExists: false });
         }
+        this.setState({ workDays: null, showDay: true });
       }
     }
     if (prevProps.workDays !== this.props.workDays) {
@@ -131,6 +138,7 @@ class Jobday extends Component {
           workDays: this.state.descendOrder
             ? sortArrDesc(this.props.workDays)
             : sortArrAsc(this.props.workDays),
+          isUpdatedStatus: false,
         });
       }
     }
@@ -144,17 +152,37 @@ class Jobday extends Component {
     }
     //Messages
     if (prevProps.message !== this.props.message) {
-      if (this.props.message) {
-        this.setState({
-          selectedDay: true,
-        });
-      }
+      console.log("we got message");
+
+      this.setState({
+        message: this.props.message,
+        showDay: false,
+      });
     }
     //reload month after create day finished
     if (this.props.jobDayCreated !== prevProps.jobDayCreated) {
       this.props.selectMonth(
         getMonth(this.props.employee._id, this.props.employee.projectID)
       );
+    }
+    //After Editing  API return status:true
+    if (this.props.status !== prevProps.status) {
+      console.log("updated month after status");
+      this.setState({ isUpdatedStatus: true, showDay: false });
+
+      this.props.selectMonth(
+        getMonth(this.props.employee._id, this.props.employee.projectID)
+      );
+    }
+    // After this.state.isEditMode:false
+    if (this.state.isEditMode !== prevState.isEditMode) {
+      console.log("showDay: false this.state", this.state);
+      if (!this.state.isEditMode && this.state.isUpdatedStatus) {
+        console.log("turn showDay:false");
+
+        //close showDay
+        this.setState({ showDay: false });
+      }
     }
   }
 
@@ -209,7 +237,12 @@ class Jobday extends Component {
   };
 
   render() {
-    if (this.state.loading || this.state.selectedDay === null) {
+    if (
+      this.state.loading ||
+      (this.state.workDays === null &&
+        !this.state.selectedDay &&
+        !this.state.message)
+    ) {
       return (
         //Spinner
         <div className="my-5">
@@ -227,8 +260,7 @@ class Jobday extends Component {
           </span>
           <br />
           <br />
-          {/* <span className="text-white">{this.state.message.message}</span>
-          <span className="text-white">{this.state.message.messageDelete}</span> */}
+          <span className="text-white">{this.state.message.message}</span>
         </div>
       );
     } else if (this.state.workDays && !this.state.showDay) {
@@ -408,23 +440,29 @@ class Jobday extends Component {
         </Scrollbar>
       );
     } else if (this.state.isEditMode) {
-      return (
-        <JobdayEditManager
-          message={this.state.selectedDay.message}
-          date={this.state.selectedDay.date}
-          timeStart={this.state.selectedDay.timeStart}
-          timeEnd={this.state.selectedDay.timeEnd}
-          timeEndMan={this.state.selectedDay.timeEndMan}
-          timeStartMan={this.state.selectedDay.timeStartMan}
-          endHour={this.props.hoursLimit.endHour}
-          startHour={this.props.hoursLimit.startHour}
-          confirmEmployee={this.state.selectedDay.confirmEmployee}
-          cancelEditModeChild={(state) => this.setState({ isEditMode: state })}
-          managerNote={this.state.selectedDay.managerNote}
-          startedByManager={this.state.selectedDay.startedByManager}
-        />
-      );
-    } else {
+      if (this.state.selectedDay) {
+        return (
+          <JobdayEditManager
+            message={this.state.selectedDay.message}
+            date={this.state.selectedDay.date}
+            timeStart={this.state.selectedDay.timeStart}
+            timeEnd={this.state.selectedDay.timeEnd}
+            timeEndMan={this.state.selectedDay.timeEndMan}
+            timeStartMan={this.state.selectedDay.timeStartMan}
+            endHour={this.props.hoursLimit.endHour}
+            startHour={this.props.hoursLimit.startHour}
+            confirmEmployee={this.state.selectedDay.confirmEmployee}
+            cancelEditModeChild={(state) =>
+              this.setState({ isEditMode: state })
+            }
+            managerNote={this.state.selectedDay.managerNote}
+            startedByManager={this.state.selectedDay.startedByManager}
+          />
+        );
+      } else {
+        return <span>Loading Editor..</span>;
+      }
+    } else if (this.state.selectedDay && this.state.showDay) {
       return (
         //Show Single day
         <div className="my-3 border">
@@ -613,6 +651,8 @@ class Jobday extends Component {
           </div>
         </div>
       );
+    } else {
+      return <span>Loading...</span>;
     }
   }
 }
@@ -642,6 +682,7 @@ const mapStateToProps = (state) => ({
   workDays: state.jobday.workDays,
   date: state.jobday.date,
   hoursLimit: state.jobday.hoursLimit,
+  status: state.jobday.status,
 });
 
 export default connect(mapStateToProps, {
