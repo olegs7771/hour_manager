@@ -100,6 +100,12 @@ export class EmployeeDetails extends Component {
         selectedEmployee: true,
         loading: null,
       });
+      //go back to Employees List
+      setTimeout(() => {
+        this.props.history.push(
+          `/employees/${this.props.selectedEmployee.projectID}`
+        );
+      }, 3000);
     }
     if (this.state.showCreateJobday !== prevState.showCreateJobday) {
       this.setState({ pickDate: this.state.showCreateJobday });
@@ -150,10 +156,11 @@ export class EmployeeDetails extends Component {
           className="my-4"
           style={{ paddingTop: "10%", paddingBottom: "50%" }}
         >
-          <div className="rounded p-4" style={{ backgroundColor: "#023802" }}>
-            <span className="text-white text-center">
-              {this.state.messages.message}
-            </span>
+          <div
+            className="rounded p-4 text-center border mx-auto"
+            style={{ backgroundColor: "#023802", width: "50%" }}
+          >
+            <span className="text-white ">{this.state.messages.message}</span>
           </div>
         </div>
       );

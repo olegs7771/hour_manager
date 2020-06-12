@@ -108,46 +108,82 @@ export class EmployeeAdd extends Component {
               {projectName[0].toUpperCase() + projectName.slice(1)}
             </span>
           </div>
-          <div className="row">
-            <div className="col-md-6 border">
-              <div className="my-3  pl-3">
-                Created:{" "}
-                <span className="font-italic text-success">
-                  {" "}
-                  {moment(date).format("LL")}
-                </span>
-                <br />
-                Company:{" "}
-                <span className="font-italic text-success">
-                  {" "}
-                  {companyName[0].toUpperCase() + companyName.slice(1)}
-                </span>
-                <br />
-                Core Business:{" "}
-                <span className="font-italic text-success">
-                  {" "}
-                  {companyCoreFunc[0].toUpperCase() + companyCoreFunc.slice(1)}
-                </span>
-                <br />
-                Location:{""}
-                <span className="font-italic text-success">
-                  {" "}
-                  {location[0].toUpperCase() + location.slice(1)}
-                </span>
-                <br />
-                Manager:{""}
-                <span className="font-italic text-success">
-                  {" "}
-                  {user.name[0].toUpperCase() + user.name.slice(1)}
-                </span>
-                <br />
-                Staff:{""}
-                <span className="font-italic text-success">
-                  {" "}
-                  {staff.length}
-                </span>
-                <br />
+          <div className="row ">
+            <div className="col-md-6 border ">
+              {/* Created */}
+              <div className=" row border-bottom py-2">
+                <div className="col-6  ">
+                  <span className="text-white  ml-5">Created</span>
+                </div>
+                <div className="col-6 ">
+                  <span className="font-italic text-success">
+                    {" "}
+                    {moment(date).format("LL")}
+                  </span>
+                </div>
               </div>
+              {/* Company */}
+              <div className=" row  border-bottom py-2">
+                <div className="col-6  ">
+                  <span className="text-white  ml-5">Company</span>
+                </div>
+                <div className="col-6 ">
+                  <span className="font-italic text-success">
+                    {" "}
+                    {companyName[0].toUpperCase() + companyName.slice(1)}
+                  </span>
+                </div>
+              </div>
+              {/* Core Business */}
+              <div className=" row border-bottom py-2">
+                <div className="col-6  ">
+                  <span className="text-white  ml-5">Core Business</span>
+                </div>
+                <div className="col-6 ">
+                  <span className="font-italic text-success">
+                    {" "}
+                    {companyCoreFunc[0].toUpperCase() +
+                      companyCoreFunc.slice(1)}
+                  </span>
+                </div>
+              </div>
+              {/* Location */}
+              <div className=" row border-bottom py-2">
+                <div className="col-6  ">
+                  <span className="text-white  ml-5">Location</span>
+                </div>
+                <div className="col-6 ">
+                  <span className="font-italic text-success">
+                    {" "}
+                    {location[0].toUpperCase() + location.slice(1)}
+                  </span>
+                </div>
+              </div>
+              {/* Manager */}
+              <div className=" row border-bottom  py-2">
+                <div className="col-6  ">
+                  <span className="text-white  ml-5">Manager</span>
+                </div>
+                <div className="col-6 ">
+                  <span className="font-italic text-success">
+                    {" "}
+                    {user.name[0].toUpperCase() + user.name.slice(1)}
+                  </span>
+                </div>
+              </div>
+              {/* Staff */}
+              <div className=" row border-bottom py-2">
+                <div className="col-6  ">
+                  <span className="text-white  ml-5"> Staff</span>
+                </div>
+                <div className="col-6 ">
+                  <span className="font-italic text-success">
+                    {" "}
+                    {staff.length}
+                  </span>
+                </div>
+              </div>
+
               <div className="btn-group my-3">
                 <button
                   className="btn btn-outline-info"
