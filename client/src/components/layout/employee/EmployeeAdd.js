@@ -100,10 +100,10 @@ export class EmployeeAdd extends Component {
       return (
         <div className="py-3 border">
           {/* Title */}
-          <div className="h5 text-center">
-            <span className="text-white display-4">Project </span>
+          <div className="h5 text-center my-4">
+            <span className="text-white h4">Project </span>
 
-            <span className="font-italic text-success display-4">
+            <span className="font-italic  h4" style={{ color: "#f7f30f" }}>
               {" "}
               {projectName[0].toUpperCase() + projectName.slice(1)}
             </span>
@@ -116,7 +116,7 @@ export class EmployeeAdd extends Component {
                   <span className="text-white  ml-5">Created</span>
                 </div>
                 <div className="col-6 ">
-                  <span className="font-italic text-success">
+                  <span className="font-italic " style={{ color: "#f7f30f" }}>
                     {" "}
                     {moment(date).format("LL")}
                   </span>
@@ -128,7 +128,7 @@ export class EmployeeAdd extends Component {
                   <span className="text-white  ml-5">Company</span>
                 </div>
                 <div className="col-6 ">
-                  <span className="font-italic text-success">
+                  <span className="font-italic " style={{ color: "#f7f30f" }}>
                     {" "}
                     {companyName[0].toUpperCase() + companyName.slice(1)}
                   </span>
@@ -140,7 +140,7 @@ export class EmployeeAdd extends Component {
                   <span className="text-white  ml-5">Core Business</span>
                 </div>
                 <div className="col-6 ">
-                  <span className="font-italic text-success">
+                  <span className="font-italic " style={{ color: "#f7f30f" }}>
                     {" "}
                     {companyCoreFunc[0].toUpperCase() +
                       companyCoreFunc.slice(1)}
@@ -153,7 +153,7 @@ export class EmployeeAdd extends Component {
                   <span className="text-white  ml-5">Location</span>
                 </div>
                 <div className="col-6 ">
-                  <span className="font-italic text-success">
+                  <span className="font-italic " style={{ color: "#f7f30f" }}>
                     {" "}
                     {location[0].toUpperCase() + location.slice(1)}
                   </span>
@@ -165,7 +165,7 @@ export class EmployeeAdd extends Component {
                   <span className="text-white  ml-5">Manager</span>
                 </div>
                 <div className="col-6 ">
-                  <span className="font-italic text-success">
+                  <span className="font-italic " style={{ color: "#f7f30f" }}>
                     {" "}
                     {user.name[0].toUpperCase() + user.name.slice(1)}
                   </span>
@@ -177,7 +177,7 @@ export class EmployeeAdd extends Component {
                   <span className="text-white  ml-5"> Staff</span>
                 </div>
                 <div className="col-6 ">
-                  <span className="font-italic text-success">
+                  <span className="font-italic " style={{ color: "#f7f30f" }}>
                     {" "}
                     {staff.length}
                   </span>
