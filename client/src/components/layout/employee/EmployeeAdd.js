@@ -98,185 +98,186 @@ export class EmployeeAdd extends Component {
         user,
       } = this.props.selectedProject;
       return (
-        <div className="my-3 ">
+        <div className="py-3 border">
+          {/* Title */}
           <div className="h5 text-center">
-            Project
-            <span className="font-italic text-success">
-              {} {projectName[0].toUpperCase() + projectName.slice(1)}
-            </span>
-          </div>
-          <div className="my-3  pl-3">
-            Created:{" "}
-            <span className="font-italic text-success">
-              {" "}
-              {moment(date).format("LL")}
-            </span>
-            <br />
-            Company:{" "}
-            <span className="font-italic text-success">
-              {" "}
-              {companyName[0].toUpperCase() + companyName.slice(1)}
-            </span>
-            <br />
-            Core Business:{" "}
-            <span className="font-italic text-success">
-              {" "}
-              {companyCoreFunc[0].toUpperCase() + companyCoreFunc.slice(1)}
-            </span>
-            <br />
-            Location:{""}
-            <span className="font-italic text-success">
-              {" "}
-              {location[0].toUpperCase() + location.slice(1)}
-            </span>
-            <br />
-            Manager:{""}
-            <span className="font-italic text-success">
-              {" "}
-              {user.name[0].toUpperCase() + user.name.slice(1)}
-            </span>
-            <br />
-            Staff:{""}
-            <span className="font-italic text-success"> {staff.length}</span>
-            <br />
-          </div>
-          <div className="my-3 pl-3">
-            {this.state.openEmployeeForm ? (
-              <div className="my-3 border">
-                {/* {Form Create New Employee} */}
-                {this.state.errors ? (
-                  <div className="my-3 text-center text-danger">
-                    {this.state.errors.error}
-                  </div>
-                ) : null}
+            <span className="text-white display-4">Project </span>
 
-                <form onSubmit={this._onSubmit} className="my-3 px-5">
-                  <TextFormGroup
-                    label="Name"
-                    placeholder="John Brown"
-                    onChange={this._onChange}
-                    value={this.state.name}
-                    name="name"
-                    error={this.state.errors.name}
-                  />
-                  <TextFormGroup
-                    label="Email"
-                    placeholder="john@example.com"
-                    onChange={this._onChange}
-                    value={this.state.email}
-                    name="email"
-                    error={this.state.errors.email}
-                  />
-                  <TextFormGroup
-                    label="Phone"
-                    placeholder="0520000000"
-                    onChange={this._onChange}
-                    value={this.state.phone}
-                    name="phone"
-                    error={this.state.errors.phone}
-                  />
-                  <TextFormGroup
-                    label="Address"
-                    placeholder="city,street"
-                    onChange={this._onChange}
-                    value={this.state.address}
-                    name="address"
-                    error={this.state.errors.address}
-                  />
-                  <TextFormGroup
-                    label="Function"
-                    placeholder="General laborer"
-                    onChange={this._onChange}
-                    value={this.state.func}
-                    name="func"
-                    error={this.state.errors.func}
-                  />
-                  <TextFormGroup
-                    label="Started Job Date"
-                    placeholder="01/10/2019"
-                    onChange={this._onChange}
-                    value={this.state.started}
-                    name="started"
-                    error={this.state.errors.started}
-                  />
-                  <div className="btn-group">
-                    <button
-                      type="submit"
-                      className="btn btn-outline-info"
-                      disabled={this.state.messages}
-                    >
-                      Save Employee
-                    </button>
-                    <button
-                      className="btn btn-outline-secondary"
-                      onClick={() => this.setState({ openEmployeeForm: false })}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </form>
+            <span className="font-italic text-success display-4">
+              {" "}
+              {projectName[0].toUpperCase() + projectName.slice(1)}
+            </span>
+          </div>
+          <div className="row">
+            <div className="col-md-6 border">
+              <div className="my-3  pl-3">
+                Created:{" "}
+                <span className="font-italic text-success">
+                  {" "}
+                  {moment(date).format("LL")}
+                </span>
+                <br />
+                Company:{" "}
+                <span className="font-italic text-success">
+                  {" "}
+                  {companyName[0].toUpperCase() + companyName.slice(1)}
+                </span>
+                <br />
+                Core Business:{" "}
+                <span className="font-italic text-success">
+                  {" "}
+                  {companyCoreFunc[0].toUpperCase() + companyCoreFunc.slice(1)}
+                </span>
+                <br />
+                Location:{""}
+                <span className="font-italic text-success">
+                  {" "}
+                  {location[0].toUpperCase() + location.slice(1)}
+                </span>
+                <br />
+                Manager:{""}
+                <span className="font-italic text-success">
+                  {" "}
+                  {user.name[0].toUpperCase() + user.name.slice(1)}
+                </span>
+                <br />
+                Staff:{""}
+                <span className="font-italic text-success">
+                  {" "}
+                  {staff.length}
+                </span>
+                <br />
               </div>
-            ) : (
-              <div className="my-3 ">
-                {this.state.messages ? (
-                  <div className="my-3 mx-auto">
-                    <span className="text-success">
-                      {this.state.messages.message}
-                    </span>
-                  </div>
-                ) : null}
+              <div className="btn-group my-3">
+                <button
+                  className="btn btn-outline-info"
+                  onClick={() =>
+                    this.setState({
+                      openEmployeeForm: true,
+                    })
+                  }
+                >
+                  Add Employee
+                </button>
+                <button
+                  className="btn btn-outline-secondary ml-2"
+                  onClick={() =>
+                    this.props.history.push(
+                      `/edit_project/${this.props.selectedProject._id}`
+                    )
+                  }
+                >
+                  Project Edit
+                </button>
+                <button
+                  className="btn btn-outline-secondary ml-1 "
+                  onClick={() =>
+                    this.props.history.push(
+                      `/edit_project/${this.props.selectedProject._id}`
+                    )
+                  }
+                >
+                  Back To DashBoard
+                </button>
+              </div>
+            </div>
+            <div className="col-md-6">
+              {/* Form */}
+              <div className="my-3 pl-3">
+                {this.state.openEmployeeForm ? (
+                  <div className="my-3 border">
+                    {/* {Form Create New Employee} */}
+                    {this.state.errors ? (
+                      <div className="my-3 text-center text-danger">
+                        {this.state.errors.error}
+                      </div>
+                    ) : null}
 
-                {this.state.messages ? (
-                  <div className="btn-group my-3">
-                    <button
-                      className="btn btn-outline-info"
-                      onClick={() =>
-                        this.setState({
-                          openEmployeeForm: true,
-                        })
-                      }
-                    >
-                      Add Employee
-                    </button>
-                    <button
-                      className="btn btn-outline-secondary ml-2"
-                      onClick={() =>
-                        this.props.history.push(
-                          `/edit_project/${this.props.selectedProject._id}`
-                        )
-                      }
-                    >
-                      Project Edit
-                    </button>
+                    <form onSubmit={this._onSubmit} className="my-3 px-5">
+                      <TextFormGroup
+                        label="Name"
+                        placeholder="John Brown"
+                        onChange={this._onChange}
+                        value={this.state.name}
+                        name="name"
+                        error={this.state.errors.name}
+                      />
+                      <TextFormGroup
+                        label="Email"
+                        placeholder="john@example.com"
+                        onChange={this._onChange}
+                        value={this.state.email}
+                        name="email"
+                        error={this.state.errors.email}
+                      />
+                      <TextFormGroup
+                        label="Phone"
+                        placeholder="0520000000"
+                        onChange={this._onChange}
+                        value={this.state.phone}
+                        name="phone"
+                        error={this.state.errors.phone}
+                      />
+                      <TextFormGroup
+                        label="Address"
+                        placeholder="city,street"
+                        onChange={this._onChange}
+                        value={this.state.address}
+                        name="address"
+                        error={this.state.errors.address}
+                      />
+                      <TextFormGroup
+                        label="Function"
+                        placeholder="General laborer"
+                        onChange={this._onChange}
+                        value={this.state.func}
+                        name="func"
+                        error={this.state.errors.func}
+                      />
+                      <TextFormGroup
+                        label="Started Job Date"
+                        placeholder="01/10/2019"
+                        onChange={this._onChange}
+                        value={this.state.started}
+                        name="started"
+                        error={this.state.errors.started}
+                      />
+                      <div className="btn-group">
+                        <button
+                          type="submit"
+                          className="btn btn-outline-info"
+                          disabled={this.state.messages}
+                        >
+                          Save Employee
+                        </button>
+                        <button
+                          className="btn btn-outline-secondary"
+                          onClick={() =>
+                            this.setState({ openEmployeeForm: false })
+                          }
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
                   </div>
                 ) : (
-                  <div className="btn-group">
-                    <button
-                      className="btn btn-outline-info "
-                      onClick={() =>
-                        this.setState({
-                          openEmployeeForm: true,
-                        })
-                      }
-                    >
-                      Add Employee
-                    </button>
-                    <button
-                      className="btn btn-outline-secondary ml-1 "
-                      onClick={() =>
-                        this.props.history.push(
-                          `/edit_project/${this.props.selectedProject._id}`
-                        )
-                      }
-                    >
-                      Back To DashBoard
-                    </button>
+                  <div className="my-3 ">
+                    {this.state.messages ? (
+                      <div className="my-3 mx-auto">
+                        <span className="text-success">
+                          {this.state.messages.message}
+                        </span>
+                      </div>
+                    ) : null}
+
+                    {/* {Form Create New Employee} */}
                   </div>
                 )}
-                {/* {Form Create New Employee} */}
               </div>
-            )}
+            </div>
           </div>
+          {/* Body */}
         </div>
       );
     }
