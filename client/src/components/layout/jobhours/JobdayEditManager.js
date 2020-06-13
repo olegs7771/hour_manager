@@ -269,7 +269,22 @@ class JobdayEditManager extends Component {
                     }}
                     onMouseLeave={this._validateInputTimeEnd}
                   />
-                ) : null}
+                ) : (
+                  <input
+                    name="timeEnd"
+                    type="text"
+                    defaultValue="00:00"
+                    onChange={this._onChange}
+                    style={{
+                      paddingLeft: 10,
+                      width: 80,
+                      borderStyle: "none",
+                      borderRadius: 5,
+                      marginLeft: 35,
+                    }}
+                    onMouseLeave={this._validateInputTimeEnd}
+                  />
+                )}
                 <br />
                 {/* Errors  */}
                 {this.state.errors.timeEnd && (

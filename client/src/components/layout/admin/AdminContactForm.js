@@ -190,6 +190,7 @@ export class AdminContactForm extends Component {
                 type="submit"
                 value="Submit"
                 className="d-block mx-auto btn btn-outline-secondary my-3"
+                style={{ color: "#FFF" }}
               />
             </div>
           </form>

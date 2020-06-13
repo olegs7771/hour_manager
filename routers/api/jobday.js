@@ -237,18 +237,28 @@ router.post(
         return day.employee == req.body.selectedDay.employee;
       });
       console.log("filteredDay", filteredDay);
-      if (req.body.timeStart) {
+      if (req.body.selectedDay.timeStart) {
         //Create timeStart date format
         const timeStartSubstr = req.body.selectedDay.timeStart.substring(0, 11);
         const newTimeStartStr = timeStartSubstr + req.body.timeStart + ":00";
         filteredDay.timeStart = new Date(newTimeStartStr);
       }
-      if (req.body.timeEnd) {
+      //If We Edit Jobday with existing timeStart and timeEnd
+      if (req.body.selectedDay.timeEnd) {
         //Create timeStart date format
         const timeEndSubstr = req.body.selectedDay.timeEnd.substring(0, 11);
         const newTimeEndStr = timeEndSubstr + req.body.timeEnd + ":00";
         filteredDay.timeEnd = new Date(newTimeEndStr);
       }
+      //No timeEnd yet exists , so we create one
+      //We use timeStart date plus timeEnd time
+
+      if (req.body.timeEnd) {
+        const timeStartSubstr = req.body.selectedDay.timeStart.substring(0, 11);
+        const newTimeStartStr = timeStartSubstr + req.body.timeEnd + ":00";
+        filteredDay.timeEnd = new Date(newTimeStartStr);
+      }
+
       if (req.body.managerComment.length > 0) {
         console.log("req.body.managerComment", req.body.managerComment);
         filteredDay.managerNote = req.body.managerComment;

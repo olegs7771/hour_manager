@@ -20,7 +20,7 @@ export class EmployeeAdd extends Component {
     started: "",
     employees: [],
     errors: {},
-    openEmployeeForm: false,
+    isFormOpened: false,
     loading: false,
   };
 
@@ -40,7 +40,7 @@ export class EmployeeAdd extends Component {
       this.setState({
         messages: this.props.messages,
         loading: false,
-        openEmployeeForm: false,
+        isFormOpened: false,
       });
     }
     //Reload staff.length
@@ -98,7 +98,10 @@ export class EmployeeAdd extends Component {
         user,
       } = this.props.selectedProject;
       return (
-        <div className="py-3 border">
+        <div
+          className="py-3 border"
+          style={{ height: this.state.isFormOpened ? "auto" : 700 }}
+        >
           {/* Title */}
           <div className="h5 text-center my-4">
             <span className="text-white h4">Project </span>
@@ -184,44 +187,41 @@ export class EmployeeAdd extends Component {
                 </div>
               </div>
 
-              <div className="btn-group my-3">
+              <div
+                className={
+                  window.innerWidth < 400
+                    ? "btn-group my-3  d-flex "
+                    : "btn-group my-3  d-flex pl-2"
+                }
+              >
                 <button
                   className="btn btn-outline-info"
                   onClick={() =>
                     this.setState({
-                      openEmployeeForm: true,
+                      isFormOpened: true,
                     })
                   }
                 >
-                  Add Employee
+                  <span className="text-white">Add Employee</span>
                 </button>
+
                 <button
-                  className="btn btn-outline-secondary ml-2"
+                  className="btn btn-outline-secondary  "
                   onClick={() =>
                     this.props.history.push(
                       `/edit_project/${this.props.selectedProject._id}`
                     )
                   }
                 >
-                  Project Edit
-                </button>
-                <button
-                  className="btn btn-outline-secondary ml-1 "
-                  onClick={() =>
-                    this.props.history.push(
-                      `/edit_project/${this.props.selectedProject._id}`
-                    )
-                  }
-                >
-                  Back To DashBoard
+                  <span className="text-white">Back To DashBoard</span>
                 </button>
               </div>
             </div>
+            {/* Form */}
             <div className="col-md-6">
-              {/* Form */}
-              <div className="my-3 pl-3">
-                {this.state.openEmployeeForm ? (
-                  <div className="my-3 border">
+              <div className="my-3 ">
+                {this.state.isFormOpened ? (
+                  <div className="my-3 ">
                     {/* {Form Create New Employee} */}
                     {this.state.errors ? (
                       <div className="my-3 text-center text-danger">
@@ -231,7 +231,11 @@ export class EmployeeAdd extends Component {
 
                     <form onSubmit={this._onSubmit} className="my-3 px-5">
                       <TextFormGroup
-                        label="Name"
+                        label={
+                          <span className="text-white font-weight-bold">
+                            Name
+                          </span>
+                        }
                         placeholder="John Brown"
                         onChange={this._onChange}
                         value={this.state.name}
@@ -239,7 +243,11 @@ export class EmployeeAdd extends Component {
                         error={this.state.errors.name}
                       />
                       <TextFormGroup
-                        label="Email"
+                        label={
+                          <span className="text-white font-weight-bold">
+                            Email
+                          </span>
+                        }
                         placeholder="john@example.com"
                         onChange={this._onChange}
                         value={this.state.email}
@@ -247,7 +255,11 @@ export class EmployeeAdd extends Component {
                         error={this.state.errors.email}
                       />
                       <TextFormGroup
-                        label="Phone"
+                        label={
+                          <span className="text-white font-weight-bold">
+                            Phone
+                          </span>
+                        }
                         placeholder="0520000000"
                         onChange={this._onChange}
                         value={this.state.phone}
@@ -255,7 +267,11 @@ export class EmployeeAdd extends Component {
                         error={this.state.errors.phone}
                       />
                       <TextFormGroup
-                        label="Address"
+                        label={
+                          <span className="text-white font-weight-bold">
+                            Address
+                          </span>
+                        }
                         placeholder="city,street"
                         onChange={this._onChange}
                         value={this.state.address}
@@ -263,7 +279,11 @@ export class EmployeeAdd extends Component {
                         error={this.state.errors.address}
                       />
                       <TextFormGroup
-                        label="Function"
+                        label={
+                          <span className="text-white font-weight-bold">
+                            Function
+                          </span>
+                        }
                         placeholder="General laborer"
                         onChange={this._onChange}
                         value={this.state.func}
@@ -271,7 +291,11 @@ export class EmployeeAdd extends Component {
                         error={this.state.errors.func}
                       />
                       <TextFormGroup
-                        label="Started Job Date"
+                        label={
+                          <span className="text-white font-weight-bold">
+                            Started Job Date
+                          </span>
+                        }
                         placeholder="01/10/2019"
                         onChange={this._onChange}
                         value={this.state.started}
@@ -284,15 +308,13 @@ export class EmployeeAdd extends Component {
                           className="btn btn-outline-info"
                           disabled={this.state.messages}
                         >
-                          Save Employee
+                          <span className="text-white">Save Employee</span>
                         </button>
                         <button
-                          className="btn btn-outline-secondary"
-                          onClick={() =>
-                            this.setState({ openEmployeeForm: false })
-                          }
+                          className="btn btn-outline-secondary ml-2"
+                          onClick={() => this.setState({ isFormOpened: false })}
                         >
-                          Cancel
+                          <span className="text-white ">Cancel</span>
                         </button>
                       </div>
                     </form>

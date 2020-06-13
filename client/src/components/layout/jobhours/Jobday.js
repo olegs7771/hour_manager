@@ -558,7 +558,9 @@ class Jobday extends Component {
                   >
                     {moment(this.state.selectedDay.timeEnd).format("HH:mm")}
                   </span>
-                ) : null}
+                ) : (
+                  <span className="  ml-5">Pending Checkout..</span>
+                )}
                 <br />
                 {this.state.selectedDay.timeEndMan ? (
                   <div className="bg-danger mt-1 p-2 ">
