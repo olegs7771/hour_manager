@@ -47,11 +47,10 @@ class CreateNewJobday extends Component {
 
     if (prevProps.errors !== this.props.errors) {
       //Cant use GET_ERRORS in redux.
-      this.setState({ message: null, errors: this.props.errors });
+      this.setState({ message: {}, errors: this.props.errors });
     }
 
     if (prevProps.message !== this.props.message) {
-      //Cant use GET_ERRORS in redux.
       this.setState({ errors: {}, message: this.props.message });
     }
     if (this.props.message) {
@@ -133,11 +132,7 @@ class CreateNewJobday extends Component {
                   </span>
                 </div>
               )}
-              {this.state.errors.date && (
-                <div className=" text-center">
-                  <span className="text-danger">{this.state.errors.date}</span>
-                </div>
-              )}
+
               {/* Message Date */}
               {this.state.message && (
                 <div className=" text-center">

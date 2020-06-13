@@ -288,7 +288,7 @@ router.post(
           console.log("days", days);
           // check if found day related to current employee
           const employeeDay = days.find((day) => {
-            return day.employee == req.body.employeeID;
+            return day.employee.toString() === req.body.employeeID;
           });
           if (employeeDay) {
             return res.status(400).json({ errorDate: "Date already exists" });
