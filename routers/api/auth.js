@@ -26,7 +26,7 @@ router.post("/register", (req, res) => {
   }
 
   const email = req.body.email;
-  User.findOne({ email }).then(user => {
+  User.findOne({ email }).then((user) => {
     if (user) {
       return res
         .status(400)
@@ -38,7 +38,7 @@ router.post("/register", (req, res) => {
       name: req.body.name,
       email: req.body.email,
       phone: req.body.phone,
-      password: req.body.password
+      password: req.body.password,
     };
     jwt.sign(payload, keys, { expiresIn: 43200 }, (err, token) => {
       if (err) {
@@ -51,9 +51,9 @@ router.post("/register", (req, res) => {
         phone: req.body.phone,
         location: req.body.location,
         password: req.body.password,
-        token
+        token,
       });
-      newUser.save().then(user => {
+      newUser.save().then((user) => {
         console.log("temp user created", user);
         let URLString;
         if (process.env.NODE_ENV === "production") {
@@ -69,14 +69,14 @@ router.post("/register", (req, res) => {
           token: user.token,
           name: user.name,
           email: user.email,
-          url: URLString
+          url: URLString,
         };
 
-        sendMail(data, cb => {
+        sendMail(data, (cb) => {
           if (cb.infoMessageid) {
             res.status(200).json({
               message:
-                "Success! Thank You for Registering on HourManager. Please check your email to confirm registration. "
+                "Success! Thank You for Registering on HourManager. Please check your email to confirm registration. ",
             });
             //New user Received Confirmation
           }
@@ -93,7 +93,7 @@ router.post("/register", (req, res) => {
 // @access Public
 
 router.post("/confirm_registration", (req, res) => {
-  User.findOne({ _id: req.body.id }).then(user => {
+  User.findOne({ _id: req.body.id }).then((user) => {
     if (!user) {
       return res
         .status(400)
@@ -123,13 +123,13 @@ router.post("/confirm_registration", (req, res) => {
         const set = {
           confirmed: true,
           // token: null,
-          password: hash
+          password: hash,
         };
         User.updateMany({
-          $set: set
+          $set: set,
         })
           .then(() => {
-            User.findOne({ email: user.email }).then(upUser => {
+            User.findOne({ email: user.email }).then((upUser) => {
               //User Confirmed Registration confirmed===true
 
               //Send Notification Email to Admin
@@ -161,9 +161,9 @@ router.post("/confirm_registration", (req, res) => {
                 URL_Approve_ACCESS,
 
                 //to in MailTransporter
-                email: "olegs7771@gmail.com"
+                email: "olegs7771@gmail.com",
               };
-              sendMail(dataAdmin, cb => {
+              sendMail(dataAdmin, (cb) => {
                 if (cb.infoMessageid) {
                   console.log("Sent Message to Admin");
                 }
@@ -174,11 +174,11 @@ router.post("/confirm_registration", (req, res) => {
               res.json({
                 name: upUser.name,
                 email: upUser.email,
-                password: user.password
+                password: user.password,
               });
             });
           })
-          .catch(err => {
+          .catch((err) => {
             console.log("cant update", err);
           });
       });
@@ -194,12 +194,12 @@ router.post("/admin", (req, res) => {
   //Decode Token
   const decoded = jwt_decode(req.body.token);
   console.log("decoded", decoded);
-  User.findOne({ email: decoded.email }).then(user => {
+  User.findOne({ email: decoded.email }).then((user) => {
     if (!user) return res.status(400).json({ error: "Can not find user" });
     console.log("user", user);
     user.approvedByAdmin = true;
     user.token = null;
-    user.save().then(upUser => {
+    user.save().then((upUser) => {
       console.log("upUser", upUser);
       //User Updated --> Send Email to user
       // Create URL ling to Login page
@@ -214,16 +214,25 @@ router.post("/admin", (req, res) => {
         type: "PERMISSION",
         uname: upUser.name,
         email: upUser.email,
-        url: loginURL
+        url: loginURL,
       };
 
-      sendMail(data, cb => {
+      sendMail(data, (cb) => {
         if (cb.infoMessageid) {
           console.log("Sent Message to User");
         }
         console.log("sent to user");
       });
     });
+  });
+});
+
+//Checking if Email Exists onMouseLeave Event
+router.post("/check_email", (req, res) => {
+  User.findOne({ email: req.body.email }).then((user) => {
+    if (!user) {
+      res.status(400).json({ error: "No such e-mail in our data storage" });
+    }
   });
 });
 
@@ -235,7 +244,7 @@ router.post("/login", (req, res) => {
   if (!isValid) {
     return res.status(400).json(errors);
   }
-  User.findOne({ email: req.body.email }).then(user => {
+  User.findOne({ email: req.body.email }).then((user) => {
     if (!user) {
       return res
         .status(400)
@@ -245,14 +254,14 @@ router.post("/login", (req, res) => {
     if (!user.approvedByAdmin) {
       return res.status(400).json({
         error:
-          " Pending HourManager Admin Approve. If it takes longer than 24h since the signup , you free to contact us by Email.  Sorry for inconvenience."
+          " Pending HourManager Admin Approve. If it takes longer than 24h since the signup , you free to contact us by Email.  Sorry for inconvenience.",
       });
     }
 
     //User Found
     console.log("req.body.password", req.body.password);
 
-    bcrypt.compare(req.body.password, user.password).then(match => {
+    bcrypt.compare(req.body.password, user.password).then((match) => {
       if (!match) {
         return res
           .status(400)
@@ -268,7 +277,7 @@ router.post("/login", (req, res) => {
         email: user.email,
         phone: user.phone,
         password: user.password,
-        date: user.date
+        date: user.date,
       };
       jwt.sign(payload, keys, { expiresIn: 28800 }, (err, token) => {
         if (err) {
@@ -288,9 +297,9 @@ router.post("/sendEmailAdmin", (req, res) => {
     email: "olegs7771@gmail.com",
     uname: req.body.name,
     uemail: req.body.email,
-    text: req.body.text
+    text: req.body.text,
   };
-  sendMail(data, cb => {
+  sendMail(data, (cb) => {
     if (cb.infoMessageid) {
       res.json({ message: "Your message was sent to Admin. Thank You" });
     }

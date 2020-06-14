@@ -4,51 +4,57 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
   name: {
-    type: String
+    type: String,
   },
   email: {
-    type: String
+    type: String,
   },
   phone: {
-    type: String
+    type: String,
+  },
+  secretQuestion: {
+    type: String,
+  },
+  secretAnswer: {
+    type: String,
   },
 
   password: {
-    type: String
+    type: String,
   },
   location: {
-    type: String
+    type: String,
   },
 
   confirmed: {
     type: Boolean,
-    default: false
+    default: false,
   },
   approvedByAdmin: {
     type: Boolean,
-    default: false
+    default: false,
   },
   token: {
-    type: String
+    type: String,
   },
   projects: [
     {
       _id: {
-        type: String
+        type: String,
       },
       projectName: {
-        type: String
+        type: String,
       },
       companyName: {
-        type: String
-      }
-    }
+        type: String,
+      },
+    },
   ],
 
   date: {
     type: Date,
-    default: Date.now()
-  }
+    default: Date.now(),
+  },
 });
 
 module.exports = User = mongoose.model("User", UserSchema);

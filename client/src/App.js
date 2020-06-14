@@ -30,6 +30,8 @@ import ActivationConfirmation from "../src/components/layout/employee/Activation
 import AdminControl from "./components/layout/admin/AdminControl";
 import AdminContactForm from "./components/layout/admin/AdminContactForm";
 import About from "./components/layout/admin/About";
+//404
+import NoPage404 from "./components/layout/404/NoPage404";
 
 import configureStore from "./store/configureStore/configureStore";
 import jwt_decode from "jwt-decode";
@@ -181,6 +183,7 @@ class App extends Component {
                   component={AdminControl}
                 />
                 <Route exact path="/about" component={About} />
+                <Route exact path="/*" component={NoPage404} />
               </Switch>
             </div>
             <Footer />

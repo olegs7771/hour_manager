@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { loginUser } from "../../store/actions/authAction";
+import { loginUser, checkEmailExists } from "../../store/actions/authAction";
 import TextFormGroup from "../textForms/TextFormGroup";
 import { DotLoaderSpinner } from "../spinners/DotLoaderSpinner";
 
@@ -12,8 +12,9 @@ export class Login extends Component {
     password: "",
     errors: {},
     messages: {},
-    // submitDisabled: true,
     loading: false,
+    //for checking if  Email Exists onMouseLeave Event
+    isUserStartedToFillEmailField: false,
   };
 
   _onChange = (e) => {
@@ -24,7 +25,15 @@ export class Login extends Component {
     this.setState({ errors: {} });
   };
 
-  _onSubmit = async (e) => {
+  //Check Email on mouseLeave Event
+  _onMouseLeave = () => {
+    if (this.state.isUserStartedToFillEmailField) {
+      console.log("checking Email");
+      this.props.checkEmailExists({ email: this.state.email });
+    }
+  };
+
+  _onSubmit = (e) => {
     e.preventDefault();
 
     this.setState({ loading: true });
@@ -33,7 +42,7 @@ export class Login extends Component {
       email,
       password,
     };
-    await this.props.loginUser(data, this.props.history);
+    this.props.loginUser(data, this.props.history);
   };
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.errors !== this.props.errors) {
@@ -46,6 +55,9 @@ export class Login extends Component {
       if (this.props.auth.isAuthenticated) {
         this.setState({ loading: false });
       }
+    }
+    if (this.state.email !== prevState.email) {
+      this.setState({ isUserStartedToFillEmailField: true });
     }
   }
 
@@ -68,12 +80,24 @@ export class Login extends Component {
                   }
                   placeholder="brown@exemple.com"
                   onChange={this._onChange}
+                  onMouseLeave={this._onMouseLeave}
                   value={this.state.email}
                   name="email"
                   error={this.state.errors.email}
                   type="email"
                 />
-
+                {/* Show only error email not exists onMouseLeave */}
+                {this.state.errors.error ===
+                "No such e-mail in our data storage" ? (
+                  <div
+                    className="my-3 border p-1 rounded border-danger"
+                    style={{ backgroundColor: "#FFF" }}
+                  >
+                    <span className="text-danger ">
+                      {this.state.errors.error}
+                    </span>
+                  </div>
+                ) : null}
                 <TextFormGroup
                   label={
                     <span
@@ -90,30 +114,37 @@ export class Login extends Component {
                   error={this.state.errors.password}
                   type="password"
                 />
-                {this.state.messages.message ? (
-                  <div className="text-success mb-3">
-                    {this.state.messages.message}
-                  </div>
-                ) : null}
-                {this.state.errors.error ? (
-                  <div className="text-danger mb-3">
-                    {this.state.errors.error}
+
+                {this.state.errors.error !==
+                  "No such e-mail in our data storage" &&
+                this.state.errors.error ? (
+                  <div
+                    className="my-3 border p-2 rounded border-danger"
+                    style={{ backgroundColor: "#FFF" }}
+                  >
+                    <span className="text-danger ">
+                      {this.state.errors.error}
+                    </span>
                   </div>
                 ) : null}
                 <DotLoaderSpinner loading={this.state.loading} />
 
-                <button
-                  type="submit"
-                  // disabled={this.state.submitDisabled}
-                  className="btn btn-outline-secondary  "
-                >
+                <button type="submit" className="btn btn-outline-secondary  ">
                   <span className="text-white">Submit</span>
                 </button>
               </form>
             </div>
-            <span className="text-white">
-              Not Registered yet? please press SingUp
-            </span>
+            <div className="row border">
+              <div className="col-md-6 border text-center">
+                <span className="text-white">Not Registered yet? please </span>
+                <a href="/register" className="text-white">
+                  SingUp
+                </a>
+              </div>
+              <div className="col-md-6 border text-center">
+                Forgot password?
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -127,7 +158,7 @@ const mapStateToProps = (state) => ({
   messages: state.messages.messages,
 });
 
-const mapDispatchToProps = { loginUser };
+const mapDispatchToProps = { loginUser, checkEmailExists };
 
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,

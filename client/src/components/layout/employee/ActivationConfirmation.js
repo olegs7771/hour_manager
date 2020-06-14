@@ -67,13 +67,14 @@ class ActivationConfirmation extends Component {
     if (this.state.message) {
       return (
         <div
-          style={{
-            paddingTop: "10%",
-            paddingBottom: "30%",
-          }}
+          className="my-4"
+          style={{ paddingTop: "10%", paddingBottom: "50%" }}
         >
-          <div className="p-4 rounded" style={{ backgroundColor: "#084f1b" }}>
-            <span className="text-left  text-white">{this.state.message}</span>
+          <div
+            className="rounded p-4 text-center border mx-auto"
+            style={{ backgroundColor: "#023802", width: "50%" }}
+          >
+            <span className="text-white ">{this.state.message}</span>
           </div>
         </div>
       );

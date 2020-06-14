@@ -24,6 +24,7 @@
     "react-geocode": "^0.2.1",
     "react-geolocated": "^3.0.1",
     "react-nbsp": "^1.2.4",
+    "react-phone-input-2": "^2.13.5",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
