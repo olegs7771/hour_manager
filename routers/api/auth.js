@@ -50,6 +50,8 @@ router.post("/register", (req, res) => {
         email: req.body.email,
         phone: req.body.phone,
         location: req.body.location,
+        secretQuestion: req.body.secretQuestion,
+        secretAnswer: req.body.secretAnswer,
         password: req.body.password,
         token,
       });

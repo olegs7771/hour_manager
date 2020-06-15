@@ -1,0 +1,42 @@
+input.field {
+  width: 100%;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 5px;
+  border-style: none;
+  outline: none;
+}
+input.field :focus {
+  width: 100%;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 5px;
+  border-style: none;
+  outline: none;
+}
+input.field-valid {
+  background-color: seagreen;
+}
+input.field-invalid {
+  width: 100%;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 5px;
+  border-color: tomato;
+  background-color: rgb(168, 107, 107);
+  color: white;
+}
+input.field-invalid:focus {
+  width: 100%;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 5px;
+  outline: none;
+  border-color: tomato;
+  background-color: rgb(168, 107, 107);
+  color: white;
+}

@@ -37,7 +37,7 @@ const TextFormGroup = ({
         style={{ backgroundColor: "#bfe1f5", borderStyle: "none" }}
         // style={{ marginTop: "-2rem" }}
       />
-      {error && <div className="invalid-feedback">{error}</div>}
+      {error && <div className="invalid-feedback pl-4">{error}</div>}
       {message && <div className="valid-feedback">{message}</div>}
       {info && <small className="text-muted"> {info}</small>}
     </div>

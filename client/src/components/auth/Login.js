@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { loginUser, checkEmailExists } from "../../store/actions/authAction";
 import TextFormGroup from "../textForms/TextFormGroup";
@@ -134,15 +135,17 @@ export class Login extends Component {
                 </button>
               </form>
             </div>
-            <div className="row border">
-              <div className="col-md-6 border text-center">
+            <div className="row ">
+              <div className="col-md-6  text-center">
                 <span className="text-white">Not Registered yet? please </span>
                 <a href="/register" className="text-white">
-                  SingUp
+                  <span style={{ color: "#e5f52c" }}>SingUp</span>
                 </a>
               </div>
-              <div className="col-md-6 border text-center">
-                Forgot password?
+              <div className="col-md-6  text-center">
+                <a href="/recover" className="text-white">
+                  <span style={{ color: "#e5f52c" }}>Forgot password?</span>
+                </a>
               </div>
             </div>
           </div>

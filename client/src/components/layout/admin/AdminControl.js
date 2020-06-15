@@ -14,7 +14,13 @@ class AdminPermit extends Component {
   }
 
   render() {
-    return <div className="my-3">Admin Permits</div>;
+    return (
+      <div className="my-3 " style={{ height: 700 }}>
+        <div className="border text-center mx-auto" style={{ width: "50%" }}>
+          <span className=" display-4 text-white">Admin has his approve!</span>
+        </div>
+      </div>
+    );
   }
 }
 

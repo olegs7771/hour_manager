@@ -35,19 +35,31 @@ export class Register extends Component {
     this.setState({ errors: {} });
   };
 
-  _onSubmit = async (e) => {
+  _onSubmit = (e) => {
     e.preventDefault();
 
     this.setState({ loading: true });
-    const { name, email, phone, location, password } = this.state;
-    const data = {
+    const {
+      name,
+      email,
+      phone,
+      secretQuestion,
+      secretAnswer,
+      location,
+      password,
+    } = this.state;
+    const payload = {
       name,
       email,
       phone,
       location,
       password,
+      secretQuestion,
+      secretAnswer,
     };
-    await this.props.registerUser(data);
+    console.log("payload", payload);
+
+    this.props.registerUser(payload);
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -122,14 +134,16 @@ export class Register extends Component {
               onChange={(phone) => this.setState({ phone })}
               style={{ marginTop: 10 }}
             />
+            {this.state.errors.phone && (
+              <div className="pl-4">
+                <small className="text-danger">{this.state.errors.phone}</small>
+              </div>
+            )}
             <small className="text-white">
               In case you forgot the password , you can recover your account's
               login and password with sms text.
             </small>
-            {this.state.errors.phone && (
-              <div className="border p-2">{this.state.errors.phone}</div>
-            )}
-            <br />
+
             <br />
             {/* Secret Question/Answer */}
             <div className="row ">
@@ -148,6 +162,13 @@ export class Register extends Component {
                   onChange={this._onChange}
                   placeholder="My first car brand?"
                 />
+                {this.state.errors.secretQuestion && (
+                  <div className="pl-4">
+                    <small className="text-danger">
+                      {this.state.errors.secretQuestion}
+                    </small>
+                  </div>
+                )}
               </div>
               <div className="col-md-6">
                 <input
@@ -164,6 +185,13 @@ export class Register extends Component {
                   onChange={this._onChange}
                   placeholder="Tayota"
                 />
+                {this.state.errors.secretAnswer && (
+                  <div className="pl-4">
+                    <small className="text-danger">
+                      {this.state.errors.secretAnswer}
+                    </small>
+                  </div>
+                )}
               </div>
             </div>
             <small className="text-white">
@@ -213,7 +241,7 @@ export class Register extends Component {
 
             <button
               type="submit"
-              disabled={this.state.submitDisabled}
+              // disabled={this.state.submitDisabled}
               className="btn btn-outline-secondary  "
             >
               <span className="text-white">Submit</span>

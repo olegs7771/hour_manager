@@ -7,6 +7,7 @@ const passport = require("passport");
 require("dotenv").config();
 const app = express();
 const moment = require("moment");
+const validator = require("validator");
 
 //Routes
 const employee = require("./routers/api/employee");
@@ -73,8 +74,4 @@ const server = app.listen(port, () => {
 console.log("NODE_ENV", process.env.NODE_ENV);
 
 //Exercises
-// const reg = /(^0[1-9]|1[0-2]$)/;
-
-// const str = "11";
-
-// console.log("test regex :", reg.test(str));
+// console.log(validator.isMobilePhone("+" + "9720503054422"));

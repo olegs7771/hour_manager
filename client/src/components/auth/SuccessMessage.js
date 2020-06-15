@@ -9,7 +9,7 @@ export class SuccessMessage extends Component {
   state = {
     loading: false,
     errors: {},
-    confirmed_user: null
+    confirmed_user: null,
   };
 
   //After User sends a URL link with id and token
@@ -28,13 +28,13 @@ export class SuccessMessage extends Component {
       this.setState({
         errors: this.props.errors,
         loading: false,
-        confirmed_user: true
+        confirmed_user: true,
       });
     }
     if (prevProps.confirmed_user !== this.props.confirmed_user) {
       this.setState({
         confirmed_user: this.props.confirmed_user,
-        loading: false
+        loading: false,
       });
     }
   }
@@ -42,32 +42,42 @@ export class SuccessMessage extends Component {
   render() {
     if (this.state.loading || this.state.confirmed_user === null) {
       return (
-        <div className="my-5">
+        <div className="my-5" style={{ height: 700 }}>
           <DotLoaderSpinner />
         </div>
       );
     } else if (this.state.errors.error) {
       return (
-        <div className="my-3 border rounded p-4">
-          <div className="text-center h6">{this.state.errors.error}</div>
+        <div className="py-5" style={{ height: 700 }}>
+          <div
+            className="text-center mx-auto py-3 rounded"
+            style={{ backgroundColor: "#FFF", width: "50%" }}
+          >
+            <span className="text-danger font-weight-bold">
+              {this.state.errors.error}
+            </span>
+          </div>
         </div>
       );
     } else {
       return (
-        <div className="my-3 border rounded">
-          <div className="text-center my-3 display-4">Success!</div>
-          <div className="my-3 border rounded pl-4">
+        <div
+          className="py-3 "
+          style={{ height: 700, paddingRight: "30%", paddingLeft: "30%" }}
+        >
+          <div className="text-center my-3 display-4 text-white">Success!</div>
+          <div className="my-3 border rounded ">
             Dear{" "}
-            <span className="ml-1 font-italic">
+            <span className="ml-1 font-italic text-white">
               {UpCase(this.state.confirmed_user.name)}
             </span>{" "}
             Thank you for registration <br />
-            <p>
+            <p className="text-white">
               You've now sent your request to the Hourmanager admin. Once the
               admin approves your request, you will be able the to access
               HourManager. Please save your credentials for further Login
             </p>
-            <div className="my-3 border rounded">
+            <div className="my-3 border rounded text-white">
               <span>Email : {this.state.confirmed_user.email}</span>
               <br />
               <span>Password: {this.state.confirmed_user.password}</span>
@@ -79,10 +89,10 @@ export class SuccessMessage extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   errors: state.errors.errors,
   loading: state.auth.loading,
-  confirmed_user: state.auth.confirmed_user
+  confirmed_user: state.auth.confirmed_user,
 });
 
 const mapDispatchToProps = { confirmUser };

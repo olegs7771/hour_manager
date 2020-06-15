@@ -1,7 +1,7 @@
 const validator = require("validator");
 const isEmpty = require("./isEmpty");
 
-const validateRegisterInput = data => {
+const validateRegisterInput = (data) => {
   console.log("data in validation", data);
 
   let errors = {};
@@ -14,7 +14,7 @@ const validateRegisterInput = data => {
     errors.email = "Wrong email format";
   }
   //Phone
-  if (!validator.isMobilePhone(data.phone, ["he-IL"])) {
+  if (!validator.isMobilePhone("+" + data.phone)) {
     errors.phone = "phone wrong format.";
   }
 
@@ -35,12 +35,18 @@ const validateRegisterInput = data => {
   if (validator.isEmpty(data.location)) {
     errors.location = "Location can not be empty";
   }
-  if (validator.isEmpty(data.password)) {
-    errors.password = "Password can not be empty";
+  if (validator.isEmpty(data.location)) {
+    errors.location = "Location can not be empty";
+  }
+  if (validator.isEmpty(data.secretQuestion)) {
+    errors.secretQuestion = "Secret question can not be empty";
+  }
+  if (validator.isEmpty(data.secretAnswer)) {
+    errors.secretAnswer = "Secret answer can not be empty";
   }
   return {
     errors,
-    isValid: isEmpty(errors)
+    isValid: isEmpty(errors),
   };
 };
 

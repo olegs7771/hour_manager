@@ -5,7 +5,6 @@ import {
   GET_MESSAGE,
   LOADING_USER,
   CONFIRMED_USER,
-  CHECK_EMAIL_EXISTS,
 } from "./types";
 import axios from "axios";
 import setAuthToken from "../../utils/setAuthToken";

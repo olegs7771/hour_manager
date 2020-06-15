@@ -7,6 +7,8 @@ import setAuthToken from "./utils/setAuthToken";
 import Register from "../src/components/auth/Register";
 import Login from "../src/components/auth/Login";
 import SuccessMessage from "../src/components/auth/SuccessMessage";
+//Recovery
+import PasswordRecovery from "../src/components/recovery/PasswordRecovery";
 
 //Layout
 import Header from "../src/components/layout/header/Header";
@@ -183,6 +185,7 @@ class App extends Component {
                   component={AdminControl}
                 />
                 <Route exact path="/about" component={About} />
+                <Route exact path="/recover" component={PasswordRecovery} />
                 <Route exact path="/*" component={NoPage404} />
               </Switch>
             </div>
