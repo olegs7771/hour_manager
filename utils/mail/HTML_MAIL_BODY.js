@@ -13,6 +13,7 @@ const htmlBody = (data) => {
         " " +
         ` ${data.name} Thank you for your registration on HourManager.</p>` +
         `<p> To complete registration please <a href=${data.url}>click here</a> ` +
+        `This link will be valid for 12 hours` +
         "<p>See You Soon.</p>";
       "</div></body></html>";
       break;

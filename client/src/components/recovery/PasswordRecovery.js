@@ -48,8 +48,14 @@ class PasswordRecovery extends Component {
           <span className="text-white" style={{ fontSize: 20 }}>
             Choose to recover password by SMS or Secred Question
           </span>
-          <div className="my-5  mx-auto" style={{ width: "50%" }}>
-            <form onSubmit={this._onSubmitSecret} className="px-5 ">
+          <div
+            className="my-5  mx-auto"
+            style={{ width: window.innerWidth > 500 ? "50%" : "100%" }}
+          >
+            <form
+              onSubmit={this._onSubmitSecret}
+              className={{ width: window.innerWidth > 500 ? "px-5 " : "px-5" }}
+            >
               <input
                 type="text"
                 placeholder={"brown@exemple.com"}
@@ -60,8 +66,38 @@ class PasswordRecovery extends Component {
                 className={this.state.errors.error ? "field-invalid " : "field"}
                 name="email"
               />
+              <div className="row my-3">
+                <div className="col-md-6">
+                  <input
+                    type="text"
+                    placeholder={"secret question"}
+                    onChange={this._onChange}
+                    onMouseLeave={this._onMouseLeave}
+                    onMouseEnter={() => this.setState({ errors: {} })}
+                    value={this.state.secretQuestion}
+                    className={
+                      this.state.errors.error ? "field-invalid " : "field"
+                    }
+                    name="secretQuestion"
+                  />
+                </div>
+                <div className="col-md-6">
+                  <input
+                    type="text"
+                    placeholder={"answer"}
+                    onChange={this._onChange}
+                    onMouseLeave={this._onMouseLeave}
+                    onMouseEnter={() => this.setState({ errors: {} })}
+                    value={this.state.secretAnswer}
+                    className={
+                      this.state.errors.error ? "field-invalid " : "field"
+                    }
+                    name="secretAnswer"
+                  />
+                </div>
+              </div>
               {this.state.errors.error && (
-                <div className="border" style={{ backgroundColor: "#fff" }}>
+                <div className="">
                   <span className="text-danger">{this.state.errors.error}</span>
                 </div>
               )}

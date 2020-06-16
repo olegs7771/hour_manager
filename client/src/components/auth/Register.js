@@ -8,6 +8,7 @@ import "../../App.css";
 //Phone Input
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import "./auth.css";
 
 export class Register extends Component {
   state = {
@@ -18,20 +19,20 @@ export class Register extends Component {
     location: "",
     errors: {},
     messages: {},
-    submitDisabled: true,
     loading: false,
-    secretQuestion: "",
-    secretAnswer: "",
+    secretQuestion1: "Your first car's brand?",
+    secretAnswer1: "",
+    secretQuestion2: "Your mother's middle name?",
+    secretAnswer2: "",
   };
 
   _onChange = (e) => {
+    console.log("e.target.vlue", e.target.value);
+
     this.setState({
-      [e.target.name]: e.target.value.toLowerCase(),
+      [e.target.name]: e.target.value,
     });
-    const { name, email, phone, password } = this.state;
-    if (name !== "" && email !== "" && phone !== "" && password !== "") {
-      this.setState({ submitDisabled: false });
-    }
+
     this.setState({ errors: {} });
   };
 
@@ -43,8 +44,10 @@ export class Register extends Component {
       name,
       email,
       phone,
-      secretQuestion,
-      secretAnswer,
+      secretQuestion1,
+      secretAnswer1,
+      secretQuestion2,
+      secretAnswer2,
       location,
       password,
     } = this.state;
@@ -54,8 +57,10 @@ export class Register extends Component {
       phone,
       location,
       password,
-      secretQuestion,
-      secretAnswer,
+      secretQuestion1,
+      secretAnswer1,
+      secretQuestion2,
+      secretAnswer2,
     };
     console.log("payload", payload);
 
@@ -72,7 +77,24 @@ export class Register extends Component {
         loading: false,
         errors: {},
       });
-      console.log("message came success registration!");
+      setTimeout(() => {
+        this.props.history.push("/");
+      }, 4000);
+    }
+    //Check if  the picked Secret Answers not the same
+    if (this.state.secretQuestion2 !== prevState.secretQuestion2) {
+      if (this.state.secretQuestion2 === this.state.secretQuestion1) {
+        this.setState({
+          errors: { secretQuestion: " Same  question." },
+        });
+      }
+    }
+    if (this.state.secretQuestion1 !== prevState.secretQuestion1) {
+      if (this.state.secretQuestion1 === this.state.secretQuestion2) {
+        this.setState({
+          errors: { secretQuestion: " Same  question." },
+        });
+      }
     }
   }
 
@@ -145,23 +167,36 @@ export class Register extends Component {
             </small>
 
             <br />
+            <br />
+            <small className="text-white">
+              With a secret questions and the answers you can recover the
+              Account.
+            </small>
+            <br />
+            <br />
             {/* Secret Question/Answer */}
             <div className="row ">
               <div className="col-md-6 ">
-                <input
-                  type="text"
-                  style={{
-                    width: "100%",
-                    height: 40,
-                    borderRadius: 5,
-                    borderStyle: "none",
-                    textAlign: "center",
-                  }}
-                  value={this.state.secretQuestion}
-                  name="secretQuestion"
+                <select
+                  value={this.state.secretQuestion1}
                   onChange={this._onChange}
-                  placeholder="My first car brand?"
-                />
+                  name="secretQuestion1"
+                  className="field"
+                >
+                  <option value="Your first car's brand?">
+                    {this.state.secretQuestion1}
+                  </option>
+                  <option value="Your mother's middle name?">
+                    Your mother middle name?
+                  </option>
+                  <option value="Your first pet's name?">
+                    Your first pet name?
+                  </option>
+                  <option value="City of your birth?">
+                    City of your birth?
+                  </option>
+                </select>
+
                 {this.state.errors.secretQuestion && (
                   <div className="pl-4">
                     <small className="text-danger">
@@ -173,30 +208,70 @@ export class Register extends Component {
               <div className="col-md-6">
                 <input
                   type="text"
-                  style={{
-                    width: "100%",
-                    height: 40,
-                    borderRadius: 5,
-                    borderStyle: "none",
-                    textAlign: "center",
-                  }}
-                  value={this.state.secretAnswer}
-                  name="secretAnswer"
+                  value={this.state.secretAnswer1}
+                  name="secretAnswer1"
                   onChange={this._onChange}
-                  placeholder="Tayota"
+                  placeholder="Answer"
+                  className="field"
                 />
-                {this.state.errors.secretAnswer && (
+                {this.state.errors.secretAnswer1 && (
                   <div className="pl-4">
                     <small className="text-danger">
-                      {this.state.errors.secretAnswer}
+                      {this.state.errors.secretAnswer1}
                     </small>
                   </div>
                 )}
               </div>
             </div>
-            <small className="text-white">
-              With a secret question and the answer you can recover the Account
-            </small>
+            {/*2 Secret Question/Answer */}
+            <div className="row mt-1">
+              <div className="col-md-6 ">
+                <select
+                  value={this.state.secretQuestion2}
+                  onChange={this._onChange}
+                  name="secretQuestion2"
+                  className="field"
+                >
+                  <option value="Your mother's middle name?">
+                    {this.state.secretQuestion2}
+                  </option>
+                  <option value="Your first car's brand?">
+                    Your first car's brand?
+                  </option>
+                  <option value="Your first pet's name?">
+                    Your first pet name?
+                  </option>
+                  <option value="City of your birth?">
+                    City of your birth?
+                  </option>
+                </select>
+
+                {this.state.errors.secretQuestion && (
+                  <div className="pl-4">
+                    <small className="text-danger">
+                      {this.state.errors.secretQuestion}
+                    </small>
+                  </div>
+                )}
+              </div>
+              <div className="col-md-6">
+                <input
+                  type="text"
+                  value={this.state.secretAnswer2}
+                  name="secretAnswer2"
+                  onChange={this._onChange}
+                  placeholder="Answer"
+                  className="field"
+                />
+                {this.state.errors.secretAnswer2 && (
+                  <div className="pl-4">
+                    <small className="text-danger">
+                      {this.state.errors.secretAnswer2}
+                    </small>
+                  </div>
+                )}
+              </div>
+            </div>
 
             <TextFormGroup
               label={
@@ -239,11 +314,7 @@ export class Register extends Component {
             ) : null}
             <DotLoaderSpinner loading={this.state.loading} />
 
-            <button
-              type="submit"
-              // disabled={this.state.submitDisabled}
-              className="btn btn-outline-secondary  "
-            >
+            <button type="submit" className="btn btn-outline-secondary  ">
               <span className="text-white">Submit</span>
             </button>
           </form>

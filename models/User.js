@@ -12,10 +12,16 @@ const UserSchema = new mongoose.Schema({
   phone: {
     type: String,
   },
-  secretQuestion: {
+  secretQuestion1: {
     type: String,
   },
-  secretAnswer: {
+  secretAnswer1: {
+    type: String,
+  },
+  secretQuestion2: {
+    type: String,
+  },
+  secretAnswer2: {
     type: String,
   },
 
@@ -55,6 +61,13 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+
+  // expireAt: {
+  //   type: Date,
+  //   default: Date.now,
+  //   index: { expires: false },
+  // },
+  expireAt: false,
 });
 
 module.exports = User = mongoose.model("User", UserSchema);

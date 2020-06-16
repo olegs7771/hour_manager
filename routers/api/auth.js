@@ -50,8 +50,10 @@ router.post("/register", (req, res) => {
         email: req.body.email,
         phone: req.body.phone,
         location: req.body.location,
-        secretQuestion: req.body.secretQuestion,
-        secretAnswer: req.body.secretAnswer,
+        secretQuestion1: req.body.secretQuestion1,
+        secretAnswer1: req.body.secretAnswer1,
+        secretQuestion2: req.body.secretQuestion2,
+        secretAnswer2: req.body.secretAnswer2,
         password: req.body.password,
         token,
       });
@@ -124,6 +126,13 @@ router.post("/confirm_registration", (req, res) => {
         // Store hash in  password DB.
         const set = {
           confirmed: true,
+          //Prevent from expireAt
+          // expireAt: {
+          //   index: {
+          //     expire: null,
+          //   },
+          // },
+
           // token: null,
           password: hash,
         };

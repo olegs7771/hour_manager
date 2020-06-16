@@ -38,11 +38,13 @@ const validateRegisterInput = (data) => {
   if (validator.isEmpty(data.location)) {
     errors.location = "Location can not be empty";
   }
-  if (validator.isEmpty(data.secretQuestion)) {
-    errors.secretQuestion = "Secret question can not be empty";
+
+  if (validator.isEmpty(data.secretAnswer1)) {
+    errors.secretAnswer1 = "Can not be empty";
   }
-  if (validator.isEmpty(data.secretAnswer)) {
-    errors.secretAnswer = "Secret answer can not be empty";
+
+  if (validator.isEmpty(data.secretAnswer2)) {
+    errors.secretAnswer2 = " Can not be empty";
   }
   return {
     errors,
