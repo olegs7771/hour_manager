@@ -98,102 +98,100 @@ router.post("/register", (req, res) => {
 
 router.post("/confirm_registration", (req, res) => {
   User.findOne({ _id: req.body.id }).then((user) => {
-    if (!user) {
-      return res
-        .status(400)
-        .json({ error: "No account for this email exists" });
-    }
-    //confirmed:true
-    if (user.confirmed) {
-      return res
-        .status(400)
-        .json({ error: "Account for this email alredy has been confirmed" });
-    }
-    console.log("user found", user);
-    //Check if token in params match token in temp user
-    if (user.token !== req.body.token) {
-      return res
-        .status(400)
-        .json({ error: "Invalid Credentials. Please repeat SignUp precess." });
-    }
-
-    //Update Temp User to Verified user and hash password
-    bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(user.password, salt, (err, hash) => {
-        if (err) {
-          return res.status(400).json({ error: err });
-        }
-        // Store hash in  password DB.
-        const set = {
-          confirmed: true,
-          //Prevent from expireAt
-          // expireAt: {
-          //   index: {
-          //     expire: null,
-          //   },
-          // },
-
-          // token: null,
-          password: hash,
-        };
-        User.updateMany({
-          $set: set,
-        })
-          .then(() => {
-            User.findOne({ email: user.email }).then((upUser) => {
-              //User Confirmed Registration confirmed===true
-
-              //Send Notification Email to Admin
-              //Create two URLs for Admin Email html
-              //Use token for  EMAIL URL Admin security
-              const token = upUser.token;
-              console.log("token", token);
-
-              //Create data obj for Admin URL
-              const access = "true";
-
-              console.log("access", access);
-
-              let URL_Approve_ACCESS;
-
-              if (process.env.NODE_ENV === "production") {
-                URL_Approve_ACCESS = `https://glacial-crag-30370.herokuapp.com/admin/${token}/${access}`;
-              } else {
-                URL_Approve_ACCESS = `http://localhost:3000/admin/${token}/${access}`;
-              }
-
-              const dataAdmin = {
-                type: "ADMIN",
-                uname: upUser.name,
-                uemail: upUser.email,
-                uphone: upUser.phone,
-                uaddress: upUser.location,
-                udate: upUser.date,
-                URL_Approve_ACCESS,
-
-                //to in MailTransporter
-                email: "olegs7771@gmail.com",
-              };
-              sendMail(dataAdmin, (cb) => {
-                if (cb.infoMessageid) {
-                  console.log("Sent Message to Admin");
-                }
-              });
-
-              //Here Updated and Confirmed User
-
-              res.json({
-                name: upUser.name,
-                email: upUser.email,
-                password: user.password,
-              });
-            });
-          })
-          .catch((err) => {
-            console.log("cant update", err);
-          });
-      });
+    user.collection.getIndexes().then((indexes) => {
+      console.log("indexes", indexes);
     });
+    // if (!user) {
+    //   return res
+    //     .status(400)
+    //     .json({ error: "No account for this email exists" });
+    // }
+    // //confirmed:true
+    // if (user.confirmed) {
+    //   return res
+    //     .status(400)
+    //     .json({ error: "Account for this email alredy has been confirmed" });
+    // }
+    // console.log("user found", user);
+    // //Check if token in params match token in temp user
+    // if (user.token !== req.body.token) {
+    //   return res
+    //     .status(400)
+    //     .json({ error: "Invalid Credentials. Please repeat SignUp precess." });
+    // }
+
+    // //Update Temp User to Verified user and hash password
+    // bcrypt.genSalt(10, (err, salt) => {
+    //   bcrypt.hash(user.password, salt, (err, hash) => {
+    //     if (err) {
+    //       return res.status(400).json({ error: err });
+    //     }
+    //     // Store hash in  password DB.
+    //     const set = {
+    //       confirmed: true,
+
+    //       // token: null,
+    //       password: hash,
+    //     };
+
+    //     User.updateMany({
+    //       $set: set,
+    //     })
+    //       .then(() => {
+    //         User.findOne({ email: user.email }).then((upUser) => {
+    //           //User Confirmed Registration confirmed===true
+
+    //           //Send Notification Email to Admin
+    //           //Create two URLs for Admin Email html
+    //           //Use token for  EMAIL URL Admin security
+    //           const token = upUser.token;
+    //           console.log("token", token);
+
+    //           //Create data obj for Admin URL
+    //           const access = "true";
+
+    //           console.log("access", access);
+
+    //           let URL_Approve_ACCESS;
+
+    //           if (process.env.NODE_ENV === "production") {
+    //             URL_Approve_ACCESS = `https://glacial-crag-30370.herokuapp.com/admin/${token}/${access}`;
+    //           } else {
+    //             URL_Approve_ACCESS = `http://localhost:3000/admin/${token}/${access}`;
+    //           }
+
+    //           const dataAdmin = {
+    //             type: "ADMIN",
+    //             uname: upUser.name,
+    //             uemail: upUser.email,
+    //             uphone: upUser.phone,
+    //             uaddress: upUser.location,
+    //             udate: upUser.date,
+    //             URL_Approve_ACCESS,
+
+    //             //to in MailTransporter
+    //             email: "olegs7771@gmail.com",
+    //           };
+    //           sendMail(dataAdmin, (cb) => {
+    //             if (cb.infoMessageid) {
+    //               console.log("Sent Message to Admin");
+    //             }
+    //           });
+
+    //           //Here Updated and Confirmed User
+
+    //           res.json({
+    //             name: upUser.name,
+    //             email: upUser.email,
+    //             password: user.password,
+    //           });
+    //         });
+    //       })
+    //       .catch((err) => {
+    //         console.log("cant update", err);
+    //       });
+    //   });
+    // });
   });
 });
 

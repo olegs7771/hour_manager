@@ -27,10 +27,8 @@ export class Register extends Component {
   };
 
   _onChange = (e) => {
-    console.log("e.target.vlue", e.target.value);
-
     this.setState({
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value.toLowerCase(),
     });
 
     this.setState({ errors: {} });

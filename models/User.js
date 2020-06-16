@@ -62,12 +62,12 @@ const UserSchema = new mongoose.Schema({
     default: Date.now(),
   },
 
-  // expireAt: {
-  //   type: Date,
-  //   default: Date.now,
-  //   index: { expires: false },
-  // },
-  expireAt: false,
+  expireAt: {
+    type: Date,
+    default: Date.now,
+    index: { expires: "12h" },
+  },
+  // expireAt: false,
 });
 
 module.exports = User = mongoose.model("User", UserSchema);
