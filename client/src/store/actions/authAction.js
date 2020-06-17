@@ -5,6 +5,7 @@ import {
   GET_MESSAGE,
   LOADING_USER,
   CONFIRMED_USER,
+  GET_USER_DETAILS,
 } from "./types";
 import axios from "axios";
 import setAuthToken from "../../utils/setAuthToken";
@@ -125,6 +126,20 @@ export const setCurrentUser = (decoded) => {
     payload: decoded,
   };
 };
+
+//Get User Details for Recover Account
+export const getUser = (data) => (dispatch) => {
+  dispatch(loading());
+  axios
+    .post("/api/auth/getUser", data)
+    .then((res) => {
+      console.log("res.data getUser", res.data);
+    })
+    .catch((err) => {
+      console.log("error getUser", err.response.data);
+    });
+};
+
 //Logout  User
 export const clearOutUser = () => {
   return {

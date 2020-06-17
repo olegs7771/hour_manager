@@ -66,18 +66,21 @@ export class SuccessMessage extends Component {
           style={{ height: 700, paddingRight: "30%", paddingLeft: "30%" }}
         >
           <div className="text-center my-3 display-4 text-white">Success!</div>
-          <div className="my-3 border rounded ">
-            Dear{" "}
+          <div className="my-3 border rounded p-4">
+            <span className="text-white">Dear</span>{" "}
             <span className="ml-1 font-italic text-white">
               {UpCase(this.state.confirmed_user.name)}
             </span>{" "}
-            Thank you for registration <br />
+            <span className="text-center text-white">
+              Thank you for registration
+            </span>
+            <br />
             <p className="text-white">
               You've now sent your request to the Hourmanager admin. Once the
               admin approves your request, you will be able the to access
               HourManager. Please save your credentials for further Login
             </p>
-            <div className="my-3 border rounded text-white">
+            <div className="my-3  rounded text-white">
               <span>Email : {this.state.confirmed_user.email}</span>
               <br />
               <span>Password: {this.state.confirmed_user.password}</span>

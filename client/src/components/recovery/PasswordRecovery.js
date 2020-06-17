@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { checkEmailExists } from "../../store/actions/authAction";
+import { checkEmailExists, getUser } from "../../store/actions/authAction";
 import "./recover.css";
 
 class PasswordRecovery extends Component {
