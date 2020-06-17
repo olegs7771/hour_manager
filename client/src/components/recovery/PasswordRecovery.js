@@ -12,6 +12,15 @@ class PasswordRecovery extends Component {
     //for checking if  Email Exists onMouseLeave Event
     isUserStartedToFillEmailField: false,
   };
+
+  _onChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value.toLowerCase(),
+    });
+
+    this.setState({ errors: {} });
+  };
+
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.errors !== this.props.errors) {
       this.setState({ errors: this.props.errors });
@@ -22,19 +31,22 @@ class PasswordRecovery extends Component {
     }
   }
 
-  _onChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value.toLowerCase(),
-    });
-
-    this.setState({ errors: {} });
-  };
-
   //Check Email on mouseLeave Event
   _onMouseLeave = () => {
-    if (this.state.isUserStartedToFillEmailField) {
-      console.log("checking Email");
+    if (
+      this.state.isUserStartedToFillEmailField &&
+      this.state.email.length > 10
+    ) {
       this.props.checkEmailExists({ email: this.state.email });
+    }
+    if (
+      this.state.isUserStartedToFillEmailField &&
+      this.state.email.length > 10 &&
+      Object.keys(this.state.errors).length === 0
+    ) {
+      console.log("ready");
+      //fetch user
+      this.props.getUser({ email: this.state.email });
     }
   };
 
@@ -61,11 +73,17 @@ class PasswordRecovery extends Component {
                 placeholder={"brown@exemple.com"}
                 onChange={this._onChange}
                 onMouseLeave={this._onMouseLeave}
-                onMouseEnter={() => this.setState({ errors: {} })}
+                // onMouseEnter={() => this.setState({ errors: {} })}
                 value={this.state.email}
-                className={this.state.errors.error ? "field-invalid " : "field"}
+                className={this.state.errors.email ? "field-invalid " : "field"}
                 name="email"
               />
+              {this.state.errors.email && (
+                <div className="">
+                  <span className="text-danger">{this.state.errors.email}</span>
+                </div>
+              )}
+              {/* First Secret Pair */}
               <div className="row my-3">
                 <div className="col-md-6">
                   <input
@@ -73,7 +91,6 @@ class PasswordRecovery extends Component {
                     placeholder={"secret question"}
                     onChange={this._onChange}
                     onMouseLeave={this._onMouseLeave}
-                    onMouseEnter={() => this.setState({ errors: {} })}
                     value={this.state.secretQuestion}
                     className={
                       this.state.errors.error ? "field-invalid " : "field"
@@ -87,7 +104,6 @@ class PasswordRecovery extends Component {
                     placeholder={"answer"}
                     onChange={this._onChange}
                     onMouseLeave={this._onMouseLeave}
-                    onMouseEnter={() => this.setState({ errors: {} })}
                     value={this.state.secretAnswer}
                     className={
                       this.state.errors.error ? "field-invalid " : "field"
@@ -96,11 +112,35 @@ class PasswordRecovery extends Component {
                   />
                 </div>
               </div>
-              {this.state.errors.error && (
-                <div className="">
-                  <span className="text-danger">{this.state.errors.error}</span>
+              {/* Second Secret Pair */}
+              <div className="row my-3">
+                <div className="col-md-6">
+                  <input
+                    type="text"
+                    placeholder={"secret question"}
+                    onChange={this._onChange}
+                    onMouseLeave={this._onMouseLeave}
+                    value={this.state.secretQuestion}
+                    className={
+                      this.state.errors.error ? "field-invalid " : "field"
+                    }
+                    name="secretQuestion"
+                  />
                 </div>
-              )}
+                <div className="col-md-6">
+                  <input
+                    type="text"
+                    placeholder={"answer"}
+                    onChange={this._onChange}
+                    onMouseLeave={this._onMouseLeave}
+                    value={this.state.secretAnswer}
+                    className={
+                      this.state.errors.error ? "field-invalid " : "field"
+                    }
+                    name="secretAnswer"
+                  />
+                </div>
+              </div>
             </form>
           </div>
         </div>
@@ -114,6 +154,6 @@ const mapStateToProps = (state) => ({
   messages: state.messages.messages,
 });
 
-const mapDispatchToProps = { checkEmailExists };
+const mapDispatchToProps = { checkEmailExists, getUser };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PasswordRecovery);

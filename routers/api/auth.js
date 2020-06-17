@@ -253,7 +253,7 @@ router.post("/admin", (req, res) => {
 router.post("/check_email", (req, res) => {
   User.findOne({ email: req.body.email }).then((user) => {
     if (!user) {
-      res.status(400).json({ error: "No such e-mail in our data storage" });
+      res.status(400).json({ email: "No such e-mail in our data storage" });
     }
   });
 });
@@ -331,9 +331,6 @@ router.post("/sendEmailAdmin", (req, res) => {
 // Get User Details for Recovery Procedure
 router.post("/getUser", (req, res) => {
   User.findOne({ email: req.body.email }).then((user) => {
-    if (!user) {
-      return res.status(400).json({ error: "An Account could not be found " });
-    }
     res.json(user);
   });
 });
