@@ -41,7 +41,7 @@ router.post("/register", (req, res) => {
       phone: req.body.phone,
       password: req.body.password,
     };
-    jwt.sign(payload, keys, { expiresIn: 43200 }, (err, token) => {
+    jwt.sign(payload, keys, { expiresIn: 120 }, (err, token) => {
       if (err) {
         throw err;
       }
@@ -98,119 +98,109 @@ router.post("/register", (req, res) => {
 // @access Public
 
 router.post("/confirm_registration", (req, res) => {
+  console.log("req.body confirmation", req.body);
+  const decoded = jwt_decode(req.body.token);
+  console.log("decoded", decoded);
+  if (decoded.exp < moment().format("X")) {
+    //Token Expired . Delete User in DB
+    User.findById(req.body.id).then((user) => {
+      user.remove().then(() => {
+        return res.status(400).json({
+          error: "Registration link has been expired. Please Sign up again",
+        });
+      });
+    });
+  }
+  console.log("token valid");
+
   User.findOne({ _id: req.body.id }).then((user) => {
     if (!user) {
       return res.status(400).json({
         error: "Registration has been expired. Please sign up again.",
       });
     }
-    user.collection.getIndexes().then((indexes) => {
-      console.log("indexes in user", indexes);
-    });
-    user.collection
-      .dropIndex("*") //drops all indexes but _id
-      .then(() => {
-        //confirmed:true
-        if (user.confirmed) {
-          return res.status(400).json({
-            error: "Account for this email alredy has been confirmed",
-          });
-        }
-        console.log("user found", user);
-        //Check if token in params match token in temp user
-        if (user.token !== req.body.token) {
-          return res.status(400).json({
-            error: "Invalid Credentials. Please repeat SignUp precess.",
-          });
-        }
-
-        //Update Temp User to Verified user and hash password
-        bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(user.password, salt, (err, hash) => {
-            if (err) {
-              return res.status(400).json({ error: err });
-            }
-            // Store hash in  password DB.
-            const set = {
-              confirmed: true,
-              //Prevent from Deletion by expire index
-              createdAt: new Date(moment().format()),
-
-              // token: null,
-              password: hash,
-            };
-
-            User.updateMany({
-              $set: set,
-            })
-              .then(() => {
-                User.findOne({ email: user.email }).then((upUser) => {
-                  //User Confirmed Registration confirmed===true
-
-                  //Send Notification Email to Admin
-                  //Create two URLs for Admin Email html
-                  //Use token for  EMAIL URL Admin security
-                  const token = upUser.token;
-                  console.log("token", token);
-
-                  //Create data obj for Admin URL
-                  const access = "true";
-
-                  console.log("access", access);
-
-                  let URL_Approve_ACCESS;
-
-                  if (process.env.NODE_ENV === "production") {
-                    URL_Approve_ACCESS = `https://glacial-crag-30370.herokuapp.com/admin/${token}/${access}`;
-                  } else {
-                    URL_Approve_ACCESS = `http://localhost:3000/admin/${token}/${access}`;
-                  }
-
-                  const dataAdmin = {
-                    type: "ADMIN",
-                    uname: upUser.name,
-                    uemail: upUser.email,
-                    uphone: upUser.phone,
-                    uaddress: upUser.location,
-                    udate: upUser.date,
-                    URL_Approve_ACCESS,
-
-                    //to in MailTransporter
-                    email: "olegs7771@gmail.com",
-                  };
-                  sendMail(dataAdmin, (cb) => {
-                    if (cb.infoMessageid) {
-                      console.log("Sent Message to Admin");
-                    }
-                  });
-
-                  //Here Updated and Confirmed User
-
-                  res.json({
-                    name: upUser.name,
-                    email: upUser.email,
-                    password: user.password,
-                  });
-                  upUser.collection.getIndexes().then((indexes) => {
-                    console.log("indexes inUpuser", indexes);
-                  });
-                });
-              })
-              .catch((err) => {
-                console.log("cant update", err);
-              });
-          });
-        });
-      })
-      .catch((err) => {
-        console.log("error dropIndex", err);
+    //confirmed:true
+    if (user.confirmed) {
+      return res.status(400).json({
+        error: "Account for this email alredy has been confirmed",
       });
+    }
+    console.log("user found", user);
+    //Check if token in params match token in temp user
+    if (user.token !== req.body.token) {
+      return res.status(400).json({
+        error: "Invalid Credentials. Please repeat SignUp precess.",
+      });
+    }
+    //Update Temp User to Verified user and hash password
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(user.password, salt, (err, hash) => {
+        if (err) {
+          return res.status(400).json({ error: err });
+        }
+        // Store hash in  password DB.
+        const set = {
+          confirmed: true,
+          password: hash,
+        };
+        User.updateMany({
+          $set: set,
+        })
+          .then(() => {
+            User.findOne({ email: user.email }).then((upUser) => {
+              //User Confirmed Registration confirmed===true
+              //Send Notification Email to Admin
+              //Create two URLs for Admin Email html
+              //Use token for  EMAIL URL Admin security
+              const token = upUser.token;
+              console.log("token", token);
+              //Create data obj for Admin URL
+              const access = "true";
+              console.log("access", access);
+              let URL_Approve_ACCESS;
+              if (process.env.NODE_ENV === "production") {
+                URL_Approve_ACCESS = `https://glacial-crag-30370.herokuapp.com/admin/${token}/${access}`;
+              } else {
+                URL_Approve_ACCESS = `http://localhost:3000/admin/${token}/${access}`;
+              }
+              const dataAdmin = {
+                type: "ADMIN",
+                uname: upUser.name,
+                uemail: upUser.email,
+                uphone: upUser.phone,
+                uaddress: upUser.location,
+                udate: upUser.date,
+                URL_Approve_ACCESS,
+                //to in MailTransporter
+                email: "olegs7771@gmail.com",
+              };
+              sendMail(dataAdmin, (cb) => {
+                if (cb.infoMessageid) {
+                  console.log("Sent Message to Admin");
+                }
+              });
+              //Here Updated and Confirmed User
+              res.json({
+                name: upUser.name,
+                email: upUser.email,
+                password: user.password,
+              });
+              upUser.collection.getIndexes().then((indexes) => {
+                console.log("indexes inUpuser", indexes);
+              });
+            });
+          })
+          .catch((err) => {
+            console.log("cant update", err);
+          });
+      });
+    });
   });
 });
 
 //Route from AdminControl.js
 //Params from Admin URL with access true
-//Update Temp User approvedByAdmin:true
+//Update Temp User approvedByAdmin:true token:null
 //Send Mail to New User with Notification
 router.post("/admin", (req, res) => {
   //Decode Token
@@ -246,15 +236,6 @@ router.post("/admin", (req, res) => {
         console.log("sent to user");
       });
     });
-  });
-});
-
-//Checking if Email Exists onMouseLeave Event
-router.post("/check_email", (req, res) => {
-  User.findOne({ email: req.body.email }).then((user) => {
-    if (!user) {
-      res.status(400).json({ email: "No such e-mail in our data storage" });
-    }
   });
 });
 
@@ -325,6 +306,20 @@ router.post("/sendEmailAdmin", (req, res) => {
     if (cb.infoMessageid) {
       res.json({ message: "Your message was sent to Admin. Thank You" });
     }
+  });
+});
+
+//Check If Email Exists onChange event
+
+//Checking if Email Exists onMouseLeave Event
+router.post("/check_email", (req, res) => {
+  User.findOne({ email: req.body.email }).then((user) => {
+    if (!user) {
+      return res
+        .status(400)
+        .json({ email: "No such e-mail in our data storage" });
+    }
+    res.json({ status: true });
   });
 });
 

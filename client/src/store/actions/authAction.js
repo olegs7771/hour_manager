@@ -6,6 +6,7 @@ import {
   LOADING_USER,
   CONFIRMED_USER,
   GET_USER_DETAILS,
+  GET_STATUS_EMAIL,
 } from "./types";
 import axios from "axios";
 import setAuthToken from "../../utils/setAuthToken";
@@ -64,9 +65,14 @@ export const checkEmailExists = (data) => (dispatch) => {
     .post("/api/auth/check_email", data)
     .then((res) => {
       console.log("res.data", res.data);
+
       dispatch({
-        type: GET_MESSAGE,
+        type: GET_STATUS_EMAIL,
         payload: res.data,
+      });
+      dispatch({
+        type: GET_ERRORS,
+        payload: {},
       });
     })
     .catch((err) => {
@@ -129,11 +135,14 @@ export const setCurrentUser = (decoded) => {
 
 //Get User Details for Recover Account
 export const getUser = (data) => (dispatch) => {
-  dispatch(loading());
   axios
     .post("/api/auth/getUser", data)
     .then((res) => {
       console.log("res.data getUser", res.data);
+      dispatch({
+        type: GET_USER_DETAILS,
+        payload: res.data,
+      });
     })
     .catch((err) => {
       console.log("error getUser", err.response.data);

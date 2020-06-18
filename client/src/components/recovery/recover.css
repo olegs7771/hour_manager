@@ -29,6 +29,16 @@ input.field-invalid {
   background-color: rgb(168, 107, 107);
   color: white;
 }
+input.field-valid {
+  width: 100%;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 5px;
+  border-color: green;
+  background-color: rgb(5, 112, 14);
+  color: white;
+}
 input.field-invalid:focus {
   width: 100%;
   text-align: center;

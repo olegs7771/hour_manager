@@ -43,7 +43,6 @@ mongoose
     useNewUrlParser: true,
     useFindAndModify: false,
     useUnifiedTopology: true,
-    useCreateIndex: true,
   })
   .then(() => console.log(`connected to ${db}`))
   .catch((err) => console.log(err));
@@ -75,4 +74,4 @@ const server = app.listen(port, () => {
 console.log("NODE_ENV", process.env.NODE_ENV);
 
 //Exercises
-// console.log(validator.isMobilePhone("+" + "9720503054422"));
+// console.log(moment().format("X"));

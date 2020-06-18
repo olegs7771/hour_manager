@@ -2,13 +2,16 @@ import {
   SET_CURRENT_USER,
   CLEAR_OUT_USER,
   LOADING_USER,
-  CONFIRMED_USER
+  CONFIRMED_USER,
+  GET_USER_DETAILS,
+  GET_STATUS_EMAIL,
 } from "../actions/types";
 const initialState = {
   isAuthenticated: false,
   user: null,
   loading: false,
-  confirmed_user: null
+  confirmed_user: null,
+  status: false,
 };
 
 export default (state = initialState, action) => {
@@ -16,27 +19,39 @@ export default (state = initialState, action) => {
     case LOADING_USER:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     case SET_CURRENT_USER:
       return {
         ...state,
         isAuthenticated: true,
         user: action.payload,
-        loading: false
+        loading: false,
       };
     case CLEAR_OUT_USER:
       return {
         ...state,
         isAuthenticated: false,
         user: null,
-        loading: false
+        loading: false,
       };
     case CONFIRMED_USER:
       return {
         ...state,
         confirmed_user: action.payload,
-        loading: false
+        loading: false,
+      };
+    case GET_STATUS_EMAIL:
+      return {
+        ...state,
+        status: action.payload.status,
+        loading: false,
+      };
+    case GET_USER_DETAILS: //for recovery
+      return {
+        ...state,
+        user: action.payload,
+        loading: false,
       };
     default:
       return state;
