@@ -71,6 +71,7 @@ class PasswordRecovery extends Component {
   _onSubmitSecret = (e) => {
     e.preventDefault();
     this.setState({ isSubmitted: true }); //Prevent from spliting row, showing error exclamation
+    //Email Field Validation
     if (this.state.email.length === 0) {
       return this.setState({
         errors: {
@@ -89,6 +90,15 @@ class PasswordRecovery extends Component {
     if (Object.keys(this.state.errors).length > 0) {
       return this.setState({ errors: { email: "Fix all the errors first!" } });
     }
+
+    //Secret Question/Answer Validation
+    if (this.state.secretAnswer1.length === 0) {
+      return this.setState({ errors: { secretAnswer1: "Enter Valid Answer" } });
+    }
+    if (this.state.secretAnswer2.length === 0) {
+      return this.setState({ errors: { secretAnswer2: "Enter Valid Answer" } });
+    }
+
     const payload = {
       secretAnswer1: this.state.secretAnswer1,
       secretAnswer2: this.state.secretAnswer2,
@@ -178,65 +188,150 @@ class PasswordRecovery extends Component {
               )}
 
               {/* First Secret Pair */}
-              <div className="row my-3">
-                <div className="col-md-6">
-                  <div
-                    className="border rounded py-1"
-                    style={{ backgroundColor: "#FFF", height: 33 }}
-                  >
-                    {this.state.user ? (
-                      <span>{this.state.secretQuestion1}</span>
-                    ) : (
-                      <span>1 Question</span>
-                    )}
+              {/* {If Error then split on 3 col} */}
+
+              {this.state.errors.secretAnswer1 ? (
+                <div className="row my-3">
+                  <div className="col-md-6">
+                    <div
+                      className="border rounded py-1"
+                      style={{ backgroundColor: "#FFF", height: 33 }}
+                    >
+                      {this.state.user ? (
+                        <span>{this.state.secretQuestion1}</span>
+                      ) : (
+                        <span>1 Question</span>
+                      )}
+                    </div>
+                  </div>
+                  {/* Secret Answer 1 */}
+                  <div className="col-md-5">
+                    <input
+                      type="text"
+                      placeholder={" your answer"}
+                      onChange={this._onChange}
+                      value={this.state.secretAnswer1}
+                      className={
+                        this.state.errors.secretAnswer1
+                          ? "field-invalid "
+                          : "field"
+                      }
+                      name="secretAnswer1"
+                    />
+                  </div>
+                  <div className="col-md-1">
+                    <span className="text-danger">
+                      <FontAwesomeIcon icon={faExclamation} />
+                    </span>
                   </div>
                 </div>
-                {/* Secret Answer 1 */}
-                <div className="col-md-6">
-                  <input
-                    type="text"
-                    placeholder={" your answer"}
-                    onChange={this._onChange}
-                    value={this.state.secretAnswer1}
-                    className={
-                      this.state.errors.answer1 ? "field-invalid " : "field"
-                    }
-                    name="secretAnswer"
-                  />
+              ) : (
+                <div className="row my-3">
+                  <div className="col-md-6">
+                    <div
+                      className="border rounded py-1"
+                      style={{ backgroundColor: "#FFF", height: 33 }}
+                    >
+                      {this.state.user ? (
+                        <span>{this.state.secretQuestion1}</span>
+                      ) : (
+                        <span>1 Question</span>
+                      )}
+                    </div>
+                  </div>
+                  {/* Secret Answer 1 */}
+                  <div className="col-md-6">
+                    <input
+                      type="text"
+                      placeholder={" your answer"}
+                      onChange={this._onChange}
+                      value={this.state.secretAnswer1}
+                      className={
+                        this.state.errors.secretAnswer1
+                          ? "field-invalid "
+                          : "field"
+                      }
+                      name="secretAnswer1"
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
               {/* Second Secret Pair */}
-              <div className="row my-3">
-                <div className="col-md-6">
-                  <div
-                    className="border rounded py-1"
-                    style={{ backgroundColor: "#FFF", height: 33 }}
-                  >
-                    {this.state.user ? (
-                      <span>{this.state.secretQuestion2}</span>
-                    ) : (
-                      <span>2 Question</span>
-                    )}
+              {/* {If Error then split on 3 col} */}
+
+              {this.state.errors.secretAnswer2 ? (
+                <div className="row my-3">
+                  <div className="col-md-6">
+                    <div
+                      className="border rounded py-2"
+                      style={{ backgroundColor: "#FFF", height: 33 }}
+                    >
+                      {this.state.user ? (
+                        <span>{this.state.secretQuestion2}</span>
+                      ) : (
+                        <span>2 Question</span>
+                      )}
+                    </div>
+                  </div>
+                  {/* Secret Answer 2 */}
+                  <div className="col-md-5">
+                    <input
+                      type="text"
+                      placeholder={" your answer"}
+                      onChange={this._onChange}
+                      value={this.state.secretAnswer2}
+                      className={
+                        this.state.errors.secretAnswer2
+                          ? "field-invalid "
+                          : "field"
+                      }
+                      name="secretAnswer1"
+                    />
+                  </div>
+                  <div className="col-md-1">
+                    <span className="text-danger">
+                      <FontAwesomeIcon icon={faExclamation} />
+                    </span>
                   </div>
                 </div>
-                {/* Secret Answer 2 */}
-                <div className="col-md-6">
-                  <input
-                    type="text"
-                    placeholder={"your answer"}
-                    onChange={this._onChange}
-                    value={this.state.secretAnswer2}
-                    className={
-                      this.state.errors.answer2 ? "field-invalid " : "field"
-                    }
-                    name="secretAnswer"
-                  />
+              ) : (
+                <div className="row my-3">
+                  <div className="col-md-6">
+                    <div
+                      className="border rounded py-1"
+                      style={{ backgroundColor: "#FFF", height: 33 }}
+                    >
+                      {this.state.user ? (
+                        <span>{this.state.secretQuestion2}</span>
+                      ) : (
+                        <span>2 Question</span>
+                      )}
+                    </div>
+                  </div>
+                  {/* Secret Answer 1 */}
+                  <div className="col-md-6">
+                    <input
+                      type="text"
+                      placeholder={" your answer"}
+                      onChange={this._onChange}
+                      value={this.state.secretAnswer2}
+                      className={
+                        this.state.errors.secretAnswer2
+                          ? "field-invalid "
+                          : "field"
+                      }
+                      name="secretAnswer1"
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
+
               {Object.keys(this.state.errors).length > 0 && (
                 <div className="border py-1 text-danger">
                   {this.state.errors.email}
                   {this.state.errors.error}
+                  {this.state.errors.secretAnswer1}
+                  {this.state.errors.secretAnswer2}
                 </div>
               )}
 
