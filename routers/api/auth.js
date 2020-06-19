@@ -330,4 +330,20 @@ router.post("/getUser", (req, res) => {
   });
 });
 
+//Recover Password by Secret Questin/Answer
+//Returns true/false
+router.post("/secret_question", (req, res) => {
+  console.log("req.body secret", req.body);
+
+  User.findById(req.body.uid).then((user) => {
+    if (!user) {
+      return res.status(400).json({ error: "User not found " });
+    }
+    console.log("user", user);
+    //Check if secret answer valid\
+    if(user.secretAnswer1===req.body.secretAnswer1)
+
+  });
+});
+
 module.exports = router;

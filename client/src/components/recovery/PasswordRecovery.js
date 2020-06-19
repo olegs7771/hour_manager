@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { checkEmailExists, getUser } from "../../store/actions/authAction";
+import {
+  checkEmailExists,
+  getUser,
+  checkSecretPair,
+} from "../../store/actions/authAction";
 import "./recover.css";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,7 +31,7 @@ class PasswordRecovery extends Component {
       [e.target.name]: e.target.value.toLowerCase(),
     });
 
-    this.setState({ errors: {}, isSubmitted: false, status: null });
+    this.setState({ errors: {}, isSubmitted: false, status: false });
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -45,7 +49,7 @@ class PasswordRecovery extends Component {
     if (
       this.state.email !== prevState.email &&
       this.state.email.length > 10 &&
-      this.state.status === null
+      !this.state.status
     ) {
       this.setState({ errors: {}, secretQuestion1: "", secretQuestion2: "" });
       this.props.checkEmailExists({
@@ -109,6 +113,7 @@ class PasswordRecovery extends Component {
       uid: this.state.user._id,
     };
     console.log("payload", payload);
+    this.props.checkSecretPair(payload);
   };
 
   render() {
@@ -352,7 +357,7 @@ class PasswordRecovery extends Component {
                 value="Submit"
                 className="btn btn-outline-secondary"
                 style={{ color: "#fff" }}
-                disabled={!this.state.status}
+                disabled={!this.props.user}
               />
             </form>
           </div>
@@ -370,6 +375,6 @@ const mapStateToProps = (state) => ({
   status: state.auth.status, //checking if email exists
 });
 
-const mapDispatchToProps = { checkEmailExists, getUser };
+const mapDispatchToProps = { checkEmailExists, getUser, checkSecretPair };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PasswordRecovery);

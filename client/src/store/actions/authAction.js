@@ -159,6 +159,14 @@ export const getUser = (data) => (dispatch) => {
 //If true then user can choose new password
 export const checkSecretPair = (data) => (dispatch) => {
   console.log("data checkSecretPair", data);
+  axios
+    .post("/api/auth/secret_question", data)
+    .then((res) => {
+      console.log("res.data checkSecretPair", res.data);
+    })
+    .catch((err) => {
+      console.log("error checkSecretPair", err.response.data);
+    });
 };
 
 //Logout  User
