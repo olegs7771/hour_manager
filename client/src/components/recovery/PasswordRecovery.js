@@ -4,7 +4,7 @@ import { checkEmailExists, getUser } from "../../store/actions/authAction";
 import "./recover.css";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faExclamation } from "@fortawesome/free-solid-svg-icons";
 
 class PasswordRecovery extends Component {
   state = {
@@ -18,6 +18,7 @@ class PasswordRecovery extends Component {
     status: false,
     secretAnswer1: "",
     secretAnswer2: "",
+    isSubmitted: false,
   };
 
   _onChange = (e) => {
@@ -25,7 +26,7 @@ class PasswordRecovery extends Component {
       [e.target.name]: e.target.value.toLowerCase(),
     });
 
-    this.setState({ errors: {}, status: null });
+    this.setState({ errors: {}, isSubmitted: false, status: null });
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -67,14 +68,33 @@ class PasswordRecovery extends Component {
     }
   }
 
-  // _onSubmitSecret=e=>{
-  //   e.preventDefault()
-  //   const payload={
-  //     secretAnswer1:this.state.secretAnswer1,
-  //     secretAnswer2:this.state.secretAnswer2,
-  //     uid:
-  //   }
-  // }
+  _onSubmitSecret = (e) => {
+    e.preventDefault();
+    this.setState({ isSubmitted: true }); //Prevent from spliting row, showing error exclamation
+    if (this.state.email.length === 0) {
+      return this.setState({
+        errors: {
+          email:
+            "Please enter your valid Email which been used during registration",
+        },
+      });
+    }
+    if (this.state.email.length < 10) {
+      return this.setState({
+        errors: {
+          email: "Complete the E-mail which been used during registration",
+        },
+      });
+    }
+    if (Object.keys(this.state.errors).length > 0) {
+      return this.setState({ errors: { email: "Fix all the errors first!" } });
+    }
+    const payload = {
+      secretAnswer1: this.state.secretAnswer1,
+      secretAnswer2: this.state.secretAnswer2,
+      uid: this.state.user._id,
+    };
+  };
 
   render() {
     return (
@@ -99,14 +119,16 @@ class PasswordRecovery extends Component {
                 width: window.innerWidth > 500 ? "px-5 " : "px-5",
               }}
             >
-              {this.state.status ? (
+              {/* Split if email true or error occured */}
+              {this.state.status ||
+              (this.state.errors.email && this.state.isSubmitted) ? (
                 <div className="row">
                   <div className="col-md-11">
                     <input
                       type="text"
                       placeholder={"brown@exemple.com"}
                       onChange={this._onChange}
-                      // onMouseLeave={this._onMouseLeave}
+                      onMouseEnter={() => this.setState({ errors: {} })}
                       value={this.state.email}
                       className={classnames(
                         "field",
@@ -120,11 +142,20 @@ class PasswordRecovery extends Component {
                       name="email"
                     />
                   </div>
-                  <div className="col-md-1">
-                    <span className="text-success">
-                      <FontAwesomeIcon icon={faCheck} />
-                    </span>
-                  </div>
+                  {this.state.status && (
+                    <div className="col-md-1">
+                      <span className="text-success">
+                        <FontAwesomeIcon icon={faCheck} />
+                      </span>
+                    </div>
+                  )}
+                  {this.state.errors.email && (
+                    <div className="col-md-1">
+                      <span className="text-danger">
+                        <FontAwesomeIcon icon={faExclamation} />
+                      </span>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <input
@@ -146,11 +177,6 @@ class PasswordRecovery extends Component {
                 />
               )}
 
-              {/* {this.state.errors.email && (
-                <div className="">
-                  <span className="text-danger">{this.state.errors.email}</span>
-                </div>
-              )} */}
               {/* First Secret Pair */}
               <div className="row my-3">
                 <div className="col-md-6">
@@ -173,7 +199,7 @@ class PasswordRecovery extends Component {
                     onChange={this._onChange}
                     value={this.state.secretAnswer1}
                     className={
-                      this.state.errors.error ? "field-invalid " : "field"
+                      this.state.errors.answer1 ? "field-invalid " : "field"
                     }
                     name="secretAnswer"
                   />
@@ -201,12 +227,19 @@ class PasswordRecovery extends Component {
                     onChange={this._onChange}
                     value={this.state.secretAnswer2}
                     className={
-                      this.state.errors.error ? "field-invalid " : "field"
+                      this.state.errors.answer2 ? "field-invalid " : "field"
                     }
                     name="secretAnswer"
                   />
                 </div>
               </div>
+              {Object.keys(this.state.errors).length > 0 && (
+                <div className="border py-1 text-danger">
+                  {this.state.errors.email}
+                  {this.state.errors.error}
+                </div>
+              )}
+
               <input
                 type="submit"
                 value="Submit"
