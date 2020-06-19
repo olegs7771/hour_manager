@@ -81,6 +81,10 @@ export const checkEmailExists = (data) => (dispatch) => {
         type: GET_ERRORS,
         payload: err.response.data,
       });
+      dispatch({
+        type: GET_STATUS_EMAIL,
+        payload: { status: false },
+      });
     });
 };
 
@@ -135,6 +139,7 @@ export const setCurrentUser = (decoded) => {
 
 //Get User Details for Recover Account
 export const getUser = (data) => (dispatch) => {
+  dispatch(loading());
   axios
     .post("/api/auth/getUser", data)
     .then((res) => {
@@ -147,6 +152,13 @@ export const getUser = (data) => (dispatch) => {
     .catch((err) => {
       console.log("error getUser", err.response.data);
     });
+};
+
+//Recover Password by Secret Questin/Answer
+//Returns true/false
+//If true then user can choose new password
+export const checkSecretPair = (data) => (dispatch) => {
+  console.log("data checkSecretPair", data);
 };
 
 //Logout  User

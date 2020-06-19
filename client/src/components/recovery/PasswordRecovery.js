@@ -5,6 +5,7 @@ import "./recover.css";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faExclamation } from "@fortawesome/free-solid-svg-icons";
+import { DotLoaderSpinner } from "../spinners/DotLoaderSpinner";
 
 class PasswordRecovery extends Component {
   state = {
@@ -30,6 +31,9 @@ class PasswordRecovery extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+    if (this.props.loading !== prevProps.loading) {
+      this.setState({ loading: this.props.loading });
+    }
     if (this.props !== prevProps) {
       this.setState({
         errors: this.props.errors,
@@ -104,6 +108,7 @@ class PasswordRecovery extends Component {
       secretAnswer2: this.state.secretAnswer2,
       uid: this.state.user._id,
     };
+    console.log("payload", payload);
   };
 
   render() {
@@ -123,6 +128,7 @@ class PasswordRecovery extends Component {
             <div className="my-3">
               <span className="text-white">Please fill in your E-mail</span>
             </div>
+            {this.state.loading && <DotLoaderSpinner />}
             <form
               onSubmit={this._onSubmitSecret}
               className={{
@@ -136,7 +142,9 @@ class PasswordRecovery extends Component {
                   <div className="col-md-11">
                     <input
                       type="text"
-                      placeholder={"brown@exemple.com"}
+                      placeholder={
+                        this.state.errors.email ? "" : "brown@exemple.com"
+                      }
                       onChange={this._onChange}
                       onMouseEnter={() => this.setState({ errors: {} })}
                       value={this.state.email}
@@ -208,7 +216,9 @@ class PasswordRecovery extends Component {
                   <div className="col-md-5">
                     <input
                       type="text"
-                      placeholder={" your answer"}
+                      placeholder={
+                        this.state.errors.secretAnswer1 ? "" : " your answer"
+                      }
                       onChange={this._onChange}
                       value={this.state.secretAnswer1}
                       className={
@@ -277,7 +287,9 @@ class PasswordRecovery extends Component {
                   <div className="col-md-5">
                     <input
                       type="text"
-                      placeholder={" your answer"}
+                      placeholder={
+                        this.state.errors.secretAnswer2 ? "" : " your answer"
+                      }
                       onChange={this._onChange}
                       value={this.state.secretAnswer2}
                       className={
@@ -285,7 +297,7 @@ class PasswordRecovery extends Component {
                           ? "field-invalid "
                           : "field"
                       }
-                      name="secretAnswer1"
+                      name="secretAnswer2"
                     />
                   </div>
                   <div className="col-md-1">
@@ -320,7 +332,7 @@ class PasswordRecovery extends Component {
                           ? "field-invalid "
                           : "field"
                       }
-                      name="secretAnswer1"
+                      name="secretAnswer2"
                     />
                   </div>
                 </div>
@@ -340,6 +352,7 @@ class PasswordRecovery extends Component {
                 value="Submit"
                 className="btn btn-outline-secondary"
                 style={{ color: "#fff" }}
+                disabled={!this.state.status}
               />
             </form>
           </div>
@@ -353,8 +366,8 @@ const mapStateToProps = (state) => ({
   errors: state.errors.errors,
   messages: state.messages.messages,
   user: state.auth.user,
-
-  status: state.auth.status,
+  loading: state.auth.loading,
+  status: state.auth.status, //checking if email exists
 });
 
 const mapDispatchToProps = { checkEmailExists, getUser };
