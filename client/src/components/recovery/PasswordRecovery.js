@@ -31,7 +31,7 @@ class PasswordRecovery extends Component {
       [e.target.name]: e.target.value.toLowerCase(),
     });
 
-    this.setState({ errors: {}, isSubmitted: false, status: false });
+    this.setState({ errors: {}, isSubmitted: false });
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -74,6 +74,12 @@ class PasswordRecovery extends Component {
         });
       }
     }
+    if (this.state.email !== prevState.email && this.state.status) {
+      this.setState({ status: false });
+      this.props.checkEmailExists({
+        email: this.state.email,
+      });
+    }
   }
 
   _onSubmitSecret = (e) => {
@@ -94,9 +100,6 @@ class PasswordRecovery extends Component {
           email: "Complete the E-mail which been used during registration",
         },
       });
-    }
-    if (Object.keys(this.state.errors).length > 0) {
-      return this.setState({ errors: { email: "Fix all the errors first!" } });
     }
 
     //Secret Question/Answer Validation
@@ -130,10 +133,22 @@ class PasswordRecovery extends Component {
             className="my-5  mx-auto "
             style={{ width: window.innerWidth > 500 ? "50%" : "100%" }}
           >
-            <div className="my-3">
-              <span className="text-white">Please fill in your E-mail</span>
-            </div>
-            {this.state.loading && <DotLoaderSpinner />}
+            {this.state.loading ? (
+              <div className="my-3">
+                <DotLoaderSpinner />
+                <span className="text-white">Loading User Info..</span>
+              </div>
+            ) : this.state.user ? (
+              <div className="my-3" style={{ height: 63.63 }}>
+                <span className="text-white"> The User been found!</span>
+                <br />
+                <span className="text-white"> Now answer the Questions</span>
+              </div>
+            ) : (
+              <div className="my-3" style={{ height: 63.63 }}>
+                <span className="text-white">Please fill in your E-mail</span>
+              </div>
+            )}
             <form
               onSubmit={this._onSubmitSecret}
               className={{
@@ -232,6 +247,9 @@ class PasswordRecovery extends Component {
                           : "field"
                       }
                       name="secretAnswer1"
+                      onMouseEnter={() =>
+                        this.setState({ errors: { secretAnswer1: null } })
+                      }
                     />
                   </div>
                   <div className="col-md-1">
@@ -303,6 +321,9 @@ class PasswordRecovery extends Component {
                           : "field"
                       }
                       name="secretAnswer2"
+                      onMouseEnter={() =>
+                        this.setState({ errors: { secretAnswer2: null } })
+                      }
                     />
                   </div>
                   <div className="col-md-1">
@@ -344,7 +365,7 @@ class PasswordRecovery extends Component {
               )}
 
               {Object.keys(this.state.errors).length > 0 && (
-                <div className="border py-1 text-danger">
+                <div className=" pb-2 text-danger">
                   {this.state.errors.email}
                   {this.state.errors.error}
                   {this.state.errors.secretAnswer1}
@@ -357,7 +378,7 @@ class PasswordRecovery extends Component {
                 value="Submit"
                 className="btn btn-outline-secondary"
                 style={{ color: "#fff" }}
-                disabled={!this.props.user}
+                disabled={Object.keys(this.state.errors).length > 0}
               />
             </form>
           </div>

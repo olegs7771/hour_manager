@@ -166,6 +166,10 @@ export const checkSecretPair = (data) => (dispatch) => {
     })
     .catch((err) => {
       console.log("error checkSecretPair", err.response.data);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      });
     });
 };
 

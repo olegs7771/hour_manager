@@ -341,8 +341,13 @@ router.post("/secret_question", (req, res) => {
     }
     console.log("user", user);
     //Check if secret answer valid\
-    if(user.secretAnswer1===req.body.secretAnswer1)
-
+    if (user.secretAnswer1 !== req.body.secretAnswer1) {
+      return res.status(400).json({ secretAnswer1: "Wrong answer" });
+    }
+    if (user.secretAnswer2 !== req.body.secretAnswer2) {
+      return res.status(400).json({ secretAnswer2: "Wrong answer" });
+    }
+    res.json({ check: true });
   });
 });
 
