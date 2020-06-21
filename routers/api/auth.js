@@ -347,7 +347,27 @@ router.post("/secret_question", (req, res) => {
     if (user.secretAnswer2 !== req.body.secretAnswer2) {
       return res.status(400).json({ secretAnswer2: "Wrong answer" });
     }
-    res.json({ check: true });
+    res.json({ secretCheck: true });
+  });
+});
+
+//Creating New Password
+// Return updated user
+router.post("/new_password", (req, res) => {
+  console.log("req.body new_password", req.body);
+  //Validation
+  User.findById(req.body.uid).then((user) => {
+    if (!user) {
+      return res.status(400).json({ error: "Can not find user" });
+    }
+    //Hash password
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(req.body.password, salt, (err, hash) => {
+        if (err) {
+          return res.status(400).json({ error: err });
+        }
+      });
+    });
   });
 });
 

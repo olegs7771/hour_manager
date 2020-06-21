@@ -7,6 +7,8 @@ import {
   CONFIRMED_USER,
   GET_USER_DETAILS,
   GET_STATUS_EMAIL,
+  SECRET_CHECK,
+  CLEAR_ERRORS,
 } from "./types";
 import axios from "axios";
 import setAuthToken from "../../utils/setAuthToken";
@@ -158,11 +160,20 @@ export const getUser = (data) => (dispatch) => {
 //Returns true/false
 //If true then user can choose new password
 export const checkSecretPair = (data) => (dispatch) => {
+  dispatch(loading());
   console.log("data checkSecretPair", data);
   axios
     .post("/api/auth/secret_question", data)
     .then((res) => {
       console.log("res.data checkSecretPair", res.data);
+      dispatch({
+        type: SECRET_CHECK,
+        payload: res.data.secretCheck,
+      });
+      dispatch({
+        type: GET_ERRORS,
+        payload: {},
+      });
     })
     .catch((err) => {
       console.log("error checkSecretPair", err.response.data);
@@ -170,7 +181,30 @@ export const checkSecretPair = (data) => (dispatch) => {
         type: GET_ERRORS,
         payload: err.response.data,
       });
+      dispatch({
+        type: SECRET_CHECK,
+        payload: false,
+      });
     });
+};
+
+//Creating New Password
+export const newPassword = (data) => (dispatch) => {
+  dispatch(loading());
+  axios
+    .post("/api/auth/new_password", data)
+    .then((res) => {
+      console.log("res.data new_password", res.data);
+    })
+    .catch((err) => {
+      console.log("error new_password", err.response.data);
+    });
+};
+
+export const clearErrors = () => (dispatch) => {
+  dispatch({
+    type: CLEAR_ERRORS,
+  });
 };
 
 //Logout  User

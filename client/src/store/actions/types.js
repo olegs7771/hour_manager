@@ -7,9 +7,11 @@ export const CONFIRMED_USER = "CONFIRMED_USER";
 //checkin if email exists in recovery
 export const GET_USER_DETAILS = "GET_USER_DETAILS";
 export const GET_STATUS_EMAIL = "GET_STATUS_EMAIL";
+export const SECRET_CHECK = "SECRET_CHECK";
 
 //Errors
 export const GET_ERRORS = "GET_ERRORS";
+export const CLEAR_ERRORS = "CLEAR_ERRORS";
 //Message
 export const GET_MESSAGE = "GET_MESSAGE";
 //Projects

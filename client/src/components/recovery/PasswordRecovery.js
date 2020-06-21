@@ -4,12 +4,14 @@ import {
   checkEmailExists,
   getUser,
   checkSecretPair,
+  clearErrors,
 } from "../../store/actions/authAction";
 import "./recover.css";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faExclamation } from "@fortawesome/free-solid-svg-icons";
 import { DotLoaderSpinner } from "../spinners/DotLoaderSpinner";
+import NewPasswordForm from "./NewPasswordForm";
 
 class PasswordRecovery extends Component {
   state = {
@@ -24,6 +26,7 @@ class PasswordRecovery extends Component {
     secretAnswer1: "",
     secretAnswer2: "",
     isSubmitted: false,
+    secretCheck: false,
   };
 
   _onChange = (e) => {
@@ -32,6 +35,14 @@ class PasswordRecovery extends Component {
     });
 
     this.setState({ errors: {}, isSubmitted: false });
+  };
+  _onMouseLeave = () => {
+    if (this.state.email.length > 10 && !this.state.status) {
+      this.setState({ errors: {}, secretQuestion1: "", secretQuestion2: "" });
+      this.props.checkEmailExists({
+        email: this.state.email,
+      });
+    }
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -45,17 +56,18 @@ class PasswordRecovery extends Component {
         user: this.props.user,
       });
     }
+    //Validation Email.
 
-    if (
-      this.state.email !== prevState.email &&
-      this.state.email.length > 10 &&
-      !this.state.status
-    ) {
-      this.setState({ errors: {}, secretQuestion1: "", secretQuestion2: "" });
-      this.props.checkEmailExists({
-        email: this.state.email,
-      });
-    }
+    // if (
+    //   this.state.email !== prevState.email &&
+    //   this.state.email.length > 10 &&
+    //   !this.state.status
+    // ) {
+    //   this.setState({ errors: {}, secretQuestion1: "", secretQuestion2: "" });
+    //   this.props.checkEmailExists({
+    //     email: this.state.email,
+    //   });
+    // }
 
     if (this.state.status !== prevState.status) {
       if (this.state.status) {
@@ -74,11 +86,25 @@ class PasswordRecovery extends Component {
         });
       }
     }
+
     if (this.state.email !== prevState.email && this.state.status) {
       this.setState({ status: false });
       this.props.checkEmailExists({
         email: this.state.email,
       });
+    }
+    //After Checking for secret pair
+    if (prevProps.secretCheck !== this.props.secretCheck) {
+      this.setState({ secretCheck: this.props.secretCheck });
+    }
+    //Clear Errors in Redux
+    if (
+      this.state.secretAnswer1 !== prevState.secretAnswer1 ||
+      this.state.secretAnswer2 !== prevState.secretAnswer2
+    ) {
+      if (this.props.errors.secretAnswer1 || this.props.errors.secretAnswer2) {
+        this.props.clearErrors();
+      }
     }
   }
 
@@ -125,264 +151,269 @@ class PasswordRecovery extends Component {
         <div className="my text-center">
           <span className="display-4 text-white">Account Recovery </span>
         </div>
-        <div className="my-3  text-center">
-          <span className="text-white" style={{ fontSize: 20 }}>
-            Choose to recover password by SMS or Secred Question
-          </span>
-          <div
-            className="my-5  mx-auto "
-            style={{ width: window.innerWidth > 500 ? "50%" : "100%" }}
-          >
-            {this.state.loading ? (
-              <div className="my-3">
-                <DotLoaderSpinner />
-                <span className="text-white">Loading User Info..</span>
-              </div>
-            ) : this.state.user ? (
-              <div className="my-3" style={{ height: 63.63 }}>
-                <span className="text-white"> The User been found!</span>
-                <br />
-                <span className="text-white"> Now answer the Questions</span>
-              </div>
-            ) : (
-              <div className="my-3" style={{ height: 63.63 }}>
-                <span className="text-white">Please fill in your E-mail</span>
-              </div>
-            )}
-            <form
-              onSubmit={this._onSubmitSecret}
-              className={{
-                width: window.innerWidth > 500 ? "px-5 " : "px-5",
-              }}
+        {/* if secretCheck true show create new password form */}
+        {this.state.secretCheck ? (
+          <NewPasswordForm uid={this.state.user._id} />
+        ) : (
+          <div className="my-3  text-center">
+            <span className="text-white" style={{ fontSize: 20 }}>
+              Choose to recover password by SMS or Secred Question
+            </span>
+            <div
+              className="my-5  mx-auto "
+              style={{ width: window.innerWidth > 500 ? "50%" : "100%" }}
             >
-              {/* Split if email true or error occured */}
-              {this.state.status ||
-              (this.state.errors.email && this.state.isSubmitted) ? (
-                <div className="row">
-                  <div className="col-md-11">
-                    <input
-                      type="text"
-                      placeholder={
-                        this.state.errors.email ? "" : "brown@exemple.com"
-                      }
-                      onChange={this._onChange}
-                      onMouseEnter={() => this.setState({ errors: {} })}
-                      value={this.state.email}
-                      className={classnames(
-                        "field",
-                        {
-                          "field-invalid": this.state.errors.email,
-                        },
-                        {
-                          "field-valid": this.state.status,
+              {this.state.loading ? (
+                <div className="my-3">
+                  <DotLoaderSpinner />
+                  <span className="text-white">Loading User Info..</span>
+                </div>
+              ) : this.state.user ? (
+                <div className="my-3" style={{ height: 63.63 }}>
+                  <span className="text-white"> The User been found!</span>
+                  <br />
+                  <span className="text-white"> Now answer the Questions</span>
+                </div>
+              ) : (
+                <div className="my-3" style={{ height: 63.63 }}>
+                  <span className="text-white">Please fill in your E-mail</span>
+                </div>
+              )}
+              <form
+                onSubmit={this._onSubmitSecret}
+                className={{
+                  width: window.innerWidth > 500 ? "px-5 " : "px-5",
+                }}
+              >
+                {/* Split if email true or error occured */}
+                {this.state.status ||
+                (this.state.errors.email && this.state.isSubmitted) ? (
+                  <div className="row">
+                    <div className="col-md-11">
+                      <input
+                        type="text"
+                        placeholder={
+                          this.state.errors.email ? "" : "brown@exemple.com"
                         }
-                      )}
-                      name="email"
-                    />
-                  </div>
-                  {this.state.status && (
-                    <div className="col-md-1">
-                      <span className="text-success">
-                        <FontAwesomeIcon icon={faCheck} />
-                      </span>
+                        onChange={this._onChange}
+                        onMouseEnter={() => this.setState({ errors: {} })}
+                        value={this.state.email}
+                        className={classnames(
+                          "field",
+                          {
+                            "field-invalid": this.state.errors.email,
+                          },
+                          {
+                            "field-valid": this.state.status,
+                          }
+                        )}
+                        name="email"
+                      />
                     </div>
-                  )}
-                  {this.state.errors.email && (
+                    {this.state.status && (
+                      <div className="col-md-1">
+                        <span className="text-success">
+                          <FontAwesomeIcon icon={faCheck} />
+                        </span>
+                      </div>
+                    )}
+                    {this.state.errors.email && (
+                      <div className="col-md-1">
+                        <span className="text-danger">
+                          <FontAwesomeIcon icon={faExclamation} />
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <input
+                    type="text"
+                    placeholder={"brown@exemple.com"}
+                    onChange={this._onChange}
+                    onMouseLeave={this._onMouseLeave}
+                    value={this.state.email}
+                    className={classnames(
+                      "field",
+                      {
+                        "field-invalid": this.state.errors.email,
+                      },
+                      {
+                        "field-valid": this.state.status,
+                      }
+                    )}
+                    name="email"
+                  />
+                )}
+
+                {/* First Secret Pair */}
+                {/* {If Error then split on 3 col} */}
+
+                {this.state.errors.secretAnswer1 ? (
+                  <div className="row my-3">
+                    <div className="col-md-6">
+                      <div
+                        className="border rounded py-1"
+                        style={{ backgroundColor: "#FFF", height: 33 }}
+                      >
+                        {this.state.user ? (
+                          <span>{this.state.secretQuestion1}</span>
+                        ) : (
+                          <span>1 Question</span>
+                        )}
+                      </div>
+                    </div>
+                    {/* Secret Answer 1 */}
+                    <div className="col-md-5">
+                      <input
+                        type="text"
+                        placeholder={
+                          this.state.errors.secretAnswer1 ? "" : " your answer"
+                        }
+                        onChange={this._onChange}
+                        value={this.state.secretAnswer1}
+                        className={
+                          this.state.errors.secretAnswer1
+                            ? "field-invalid "
+                            : "field"
+                        }
+                        name="secretAnswer1"
+                        onMouseEnter={() =>
+                          this.setState({ errors: { secretAnswer1: null } })
+                        }
+                      />
+                    </div>
                     <div className="col-md-1">
                       <span className="text-danger">
                         <FontAwesomeIcon icon={faExclamation} />
                       </span>
                     </div>
-                  )}
-                </div>
-              ) : (
+                  </div>
+                ) : (
+                  <div className="row my-3">
+                    <div className="col-md-6">
+                      <div
+                        className="border rounded py-1"
+                        style={{ backgroundColor: "#FFF", height: 33 }}
+                      >
+                        {this.state.user ? (
+                          <span>{this.state.secretQuestion1}</span>
+                        ) : (
+                          <span>1 Question</span>
+                        )}
+                      </div>
+                    </div>
+                    {/* Secret Answer 1 */}
+                    <div className="col-md-6">
+                      <input
+                        type="text"
+                        placeholder={" your answer"}
+                        onChange={this._onChange}
+                        value={this.state.secretAnswer1}
+                        className={
+                          this.state.errors.secretAnswer1
+                            ? "field-invalid "
+                            : "field"
+                        }
+                        name="secretAnswer1"
+                      />
+                    </div>
+                  </div>
+                )}
+                {/* Second Secret Pair */}
+                {/* {If Error then split on 3 col} */}
+
+                {this.state.errors.secretAnswer2 ? (
+                  <div className="row my-3">
+                    <div className="col-md-6">
+                      <div
+                        className="border rounded py-2"
+                        style={{ backgroundColor: "#FFF", height: 33 }}
+                      >
+                        {this.state.user ? (
+                          <span>{this.state.secretQuestion2}</span>
+                        ) : (
+                          <span>2 Question</span>
+                        )}
+                      </div>
+                    </div>
+                    {/* Secret Answer 2 */}
+                    <div className="col-md-5">
+                      <input
+                        type="text"
+                        placeholder={
+                          this.state.errors.secretAnswer2 ? "" : " your answer"
+                        }
+                        onChange={this._onChange}
+                        value={this.state.secretAnswer2}
+                        className={
+                          this.state.errors.secretAnswer2
+                            ? "field-invalid "
+                            : "field"
+                        }
+                        name="secretAnswer2"
+                        onMouseEnter={() =>
+                          this.setState({ errors: { secretAnswer2: null } })
+                        }
+                      />
+                    </div>
+                    <div className="col-md-1">
+                      <span className="text-danger">
+                        <FontAwesomeIcon icon={faExclamation} />
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="row my-3">
+                    <div className="col-md-6">
+                      <div
+                        className="border rounded py-1"
+                        style={{ backgroundColor: "#FFF", height: 33 }}
+                      >
+                        {this.state.user ? (
+                          <span>{this.state.secretQuestion2}</span>
+                        ) : (
+                          <span>2 Question</span>
+                        )}
+                      </div>
+                    </div>
+                    {/* Secret Answer 1 */}
+                    <div className="col-md-6">
+                      <input
+                        type="text"
+                        placeholder={" your answer"}
+                        onChange={this._onChange}
+                        value={this.state.secretAnswer2}
+                        className={
+                          this.state.errors.secretAnswer2
+                            ? "field-invalid "
+                            : "field"
+                        }
+                        name="secretAnswer2"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {Object.keys(this.state.errors).length > 0 && (
+                  <div className=" pb-2 text-danger">
+                    {this.state.errors.email}
+                    {this.state.errors.error}
+                    {this.state.errors.secretAnswer1}
+                    {this.state.errors.secretAnswer2}
+                  </div>
+                )}
+
                 <input
-                  type="text"
-                  placeholder={"brown@exemple.com"}
-                  onChange={this._onChange}
-                  // onMouseLeave={this._onMouseLeave}
-                  value={this.state.email}
-                  className={classnames(
-                    "field",
-                    {
-                      "field-invalid": this.state.errors.email,
-                    },
-                    {
-                      "field-valid": this.state.status,
-                    }
-                  )}
-                  name="email"
+                  type="submit"
+                  value="Submit"
+                  className="btn btn-outline-secondary"
+                  style={{ color: "#fff" }}
+                  disabled={Object.keys(this.state.errors).length > 0}
                 />
-              )}
-
-              {/* First Secret Pair */}
-              {/* {If Error then split on 3 col} */}
-
-              {this.state.errors.secretAnswer1 ? (
-                <div className="row my-3">
-                  <div className="col-md-6">
-                    <div
-                      className="border rounded py-1"
-                      style={{ backgroundColor: "#FFF", height: 33 }}
-                    >
-                      {this.state.user ? (
-                        <span>{this.state.secretQuestion1}</span>
-                      ) : (
-                        <span>1 Question</span>
-                      )}
-                    </div>
-                  </div>
-                  {/* Secret Answer 1 */}
-                  <div className="col-md-5">
-                    <input
-                      type="text"
-                      placeholder={
-                        this.state.errors.secretAnswer1 ? "" : " your answer"
-                      }
-                      onChange={this._onChange}
-                      value={this.state.secretAnswer1}
-                      className={
-                        this.state.errors.secretAnswer1
-                          ? "field-invalid "
-                          : "field"
-                      }
-                      name="secretAnswer1"
-                      onMouseEnter={() =>
-                        this.setState({ errors: { secretAnswer1: null } })
-                      }
-                    />
-                  </div>
-                  <div className="col-md-1">
-                    <span className="text-danger">
-                      <FontAwesomeIcon icon={faExclamation} />
-                    </span>
-                  </div>
-                </div>
-              ) : (
-                <div className="row my-3">
-                  <div className="col-md-6">
-                    <div
-                      className="border rounded py-1"
-                      style={{ backgroundColor: "#FFF", height: 33 }}
-                    >
-                      {this.state.user ? (
-                        <span>{this.state.secretQuestion1}</span>
-                      ) : (
-                        <span>1 Question</span>
-                      )}
-                    </div>
-                  </div>
-                  {/* Secret Answer 1 */}
-                  <div className="col-md-6">
-                    <input
-                      type="text"
-                      placeholder={" your answer"}
-                      onChange={this._onChange}
-                      value={this.state.secretAnswer1}
-                      className={
-                        this.state.errors.secretAnswer1
-                          ? "field-invalid "
-                          : "field"
-                      }
-                      name="secretAnswer1"
-                    />
-                  </div>
-                </div>
-              )}
-              {/* Second Secret Pair */}
-              {/* {If Error then split on 3 col} */}
-
-              {this.state.errors.secretAnswer2 ? (
-                <div className="row my-3">
-                  <div className="col-md-6">
-                    <div
-                      className="border rounded py-2"
-                      style={{ backgroundColor: "#FFF", height: 33 }}
-                    >
-                      {this.state.user ? (
-                        <span>{this.state.secretQuestion2}</span>
-                      ) : (
-                        <span>2 Question</span>
-                      )}
-                    </div>
-                  </div>
-                  {/* Secret Answer 2 */}
-                  <div className="col-md-5">
-                    <input
-                      type="text"
-                      placeholder={
-                        this.state.errors.secretAnswer2 ? "" : " your answer"
-                      }
-                      onChange={this._onChange}
-                      value={this.state.secretAnswer2}
-                      className={
-                        this.state.errors.secretAnswer2
-                          ? "field-invalid "
-                          : "field"
-                      }
-                      name="secretAnswer2"
-                      onMouseEnter={() =>
-                        this.setState({ errors: { secretAnswer2: null } })
-                      }
-                    />
-                  </div>
-                  <div className="col-md-1">
-                    <span className="text-danger">
-                      <FontAwesomeIcon icon={faExclamation} />
-                    </span>
-                  </div>
-                </div>
-              ) : (
-                <div className="row my-3">
-                  <div className="col-md-6">
-                    <div
-                      className="border rounded py-1"
-                      style={{ backgroundColor: "#FFF", height: 33 }}
-                    >
-                      {this.state.user ? (
-                        <span>{this.state.secretQuestion2}</span>
-                      ) : (
-                        <span>2 Question</span>
-                      )}
-                    </div>
-                  </div>
-                  {/* Secret Answer 1 */}
-                  <div className="col-md-6">
-                    <input
-                      type="text"
-                      placeholder={" your answer"}
-                      onChange={this._onChange}
-                      value={this.state.secretAnswer2}
-                      className={
-                        this.state.errors.secretAnswer2
-                          ? "field-invalid "
-                          : "field"
-                      }
-                      name="secretAnswer2"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {Object.keys(this.state.errors).length > 0 && (
-                <div className=" pb-2 text-danger">
-                  {this.state.errors.email}
-                  {this.state.errors.error}
-                  {this.state.errors.secretAnswer1}
-                  {this.state.errors.secretAnswer2}
-                </div>
-              )}
-
-              <input
-                type="submit"
-                value="Submit"
-                className="btn btn-outline-secondary"
-                style={{ color: "#fff" }}
-                disabled={Object.keys(this.state.errors).length > 0}
-              />
-            </form>
+              </form>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }
@@ -394,8 +425,14 @@ const mapStateToProps = (state) => ({
   user: state.auth.user,
   loading: state.auth.loading,
   status: state.auth.status, //checking if email exists
+  secretCheck: state.auth.secretCheck,
 });
 
-const mapDispatchToProps = { checkEmailExists, getUser, checkSecretPair };
+const mapDispatchToProps = {
+  checkEmailExists,
+  getUser,
+  checkSecretPair,
+  clearErrors,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(PasswordRecovery);

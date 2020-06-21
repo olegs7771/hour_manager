@@ -5,13 +5,17 @@ import {
   CONFIRMED_USER,
   GET_USER_DETAILS,
   GET_STATUS_EMAIL,
+  SECRET_CHECK,
+  CLEAR_ERRORS,
 } from "../actions/types";
 const initialState = {
   isAuthenticated: false,
   user: null,
   loading: false,
+  // account recovery
   confirmed_user: null,
   status: false,
+  secretCheck: false,
 };
 
 export default (state = initialState, action) => {
@@ -51,6 +55,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         user: action.payload,
+        loading: false,
+      };
+    case SECRET_CHECK: //for recovery
+      return {
+        ...state,
+        secretCheck: action.payload,
         loading: false,
       };
     default:

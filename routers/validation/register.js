@@ -11,11 +11,11 @@ const validateRegisterInput = (data) => {
   }
   //Email Field
   if (!validator.isEmail(data.email)) {
-    errors.email = "Wrong email format";
+    errors.email = "Wrong E-mail format";
   }
   //Phone
   if (!validator.isMobilePhone("+" + data.phone)) {
-    errors.phone = "phone wrong format.";
+    errors.phone = "Phone number wrong format.";
   }
 
   if (data.password.length > 10 || data.password.length < 6) {
@@ -27,16 +27,16 @@ const validateRegisterInput = (data) => {
     errors.name = "Name can not be empty";
   }
   if (validator.isEmpty(data.email)) {
-    errors.email = "Email can not be empty";
+    errors.email = "Email address can not be empty";
   }
   if (validator.isEmpty(data.phone)) {
-    errors.phone = "Phone can not be empty";
+    errors.phone = "Phone number can not be empty";
   }
   if (validator.isEmpty(data.location)) {
     errors.location = "Location can not be empty";
   }
-  if (validator.isEmpty(data.location)) {
-    errors.location = "Location can not be empty";
+  if (validator.isEmpty(data.password)) {
+    errors.location = "Password can not be empty";
   }
 
   if (validator.isEmpty(data.secretAnswer1)) {

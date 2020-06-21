@@ -19,7 +19,7 @@ const TextFormGroup = ({
 }) => {
   return (
     <div className="form-group ">
-      {label && <label>{label}</label>}
+      {label && <label style={{ ...style }}>{label}</label>}
       <input
         className={classnames(
           "form-control",
