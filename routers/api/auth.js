@@ -10,6 +10,7 @@ const User = require("../../models/User");
 const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
 const sendMail = require("../../utils/mail/MailTransporter");
+const Nexmo = require("nexmo");
 
 //1 New User Makes Registration
 //2 New temp user created in mongoDB
@@ -383,6 +384,15 @@ router.post("/sendSMS", (req, res) => {
     }
 
     console.log("user", user);
+    const nexmo = new Nexmo({
+      apiKey: "5b8b4a3e",
+      apiSecret: "dCstfbHMktqY7LIC",
+    });
+    const from = "HourManager";
+    const to = "972503054422";
+    const text = "1111111";
+
+    nexmo.message.sendSms(from, to, text);
   });
 });
 
