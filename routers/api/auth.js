@@ -366,6 +366,10 @@ router.post("/new_password", (req, res) => {
         if (err) {
           return res.status(400).json({ error: err });
         }
+        user.password = hash;
+        user.save().then(() => {
+          res.json({ message: "Password was updated" });
+        });
       });
     });
   });

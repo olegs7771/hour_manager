@@ -15,7 +15,7 @@ const TextFormGroup = ({
   style,
   maxLength,
   minLength,
-  onMouseLeave,
+  onMouseEnter,
 }) => {
   return (
     <div className="form-group ">
@@ -33,7 +33,7 @@ const TextFormGroup = ({
         value={value}
         name={name}
         onChange={onChange}
-        onMouseLeave={onMouseLeave}
+        onMouseEnter={onMouseEnter}
         style={{ backgroundColor: "#bfe1f5", borderStyle: "none" }}
         // style={{ marginTop: "-2rem" }}
       />

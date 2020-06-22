@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faExclamation } from "@fortawesome/free-solid-svg-icons";
 import { DotLoaderSpinner } from "../spinners/DotLoaderSpinner";
 import NewPasswordForm from "./NewPasswordForm";
+import TextFormGroup from "../textForms/TextFormGroup";
 
 class PasswordRecovery extends Component {
   state = {
@@ -36,14 +37,6 @@ class PasswordRecovery extends Component {
 
     this.setState({ errors: {}, isSubmitted: false });
   };
-  _onMouseLeave = () => {
-    if (this.state.email.length > 10 && !this.state.status) {
-      this.setState({ errors: {}, secretQuestion1: "", secretQuestion2: "" });
-      this.props.checkEmailExists({
-        email: this.state.email,
-      });
-    }
-  };
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.loading !== prevProps.loading) {
@@ -58,16 +51,16 @@ class PasswordRecovery extends Component {
     }
     //Validation Email.
 
-    // if (
-    //   this.state.email !== prevState.email &&
-    //   this.state.email.length > 10 &&
-    //   !this.state.status
-    // ) {
-    //   this.setState({ errors: {}, secretQuestion1: "", secretQuestion2: "" });
-    //   this.props.checkEmailExists({
-    //     email: this.state.email,
-    //   });
-    // }
+    if (
+      this.state.email !== prevState.email &&
+      this.state.email.length > 10 &&
+      !this.state.status
+    ) {
+      this.setState({ errors: {}, secretQuestion1: "", secretQuestion2: "" });
+      this.props.checkEmailExists({
+        email: this.state.email,
+      });
+    }
 
     if (this.state.status !== prevState.status) {
       if (this.state.status) {
@@ -185,65 +178,18 @@ class PasswordRecovery extends Component {
                   width: window.innerWidth > 500 ? "px-5 " : "px-5",
                 }}
               >
-                {/* Split if email true or error occured */}
-                {this.state.status ||
-                (this.state.errors.email && this.state.isSubmitted) ? (
-                  <div className="row">
-                    <div className="col-md-11">
-                      <input
-                        type="text"
-                        placeholder={
-                          this.state.errors.email ? "" : "brown@exemple.com"
-                        }
-                        onChange={this._onChange}
-                        onMouseEnter={() => this.setState({ errors: {} })}
-                        value={this.state.email}
-                        className={classnames(
-                          "field",
-                          {
-                            "field-invalid": this.state.errors.email,
-                          },
-                          {
-                            "field-valid": this.state.status,
-                          }
-                        )}
-                        name="email"
-                      />
-                    </div>
-                    {this.state.status && (
-                      <div className="col-md-1">
-                        <span className="text-success">
-                          <FontAwesomeIcon icon={faCheck} />
-                        </span>
-                      </div>
-                    )}
-                    {this.state.errors.email && (
-                      <div className="col-md-1">
-                        <span className="text-danger">
-                          <FontAwesomeIcon icon={faExclamation} />
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <input
-                    type="text"
-                    placeholder={"brown@exemple.com"}
-                    onChange={this._onChange}
-                    onMouseLeave={this._onMouseLeave}
-                    value={this.state.email}
-                    className={classnames(
-                      "field",
-                      {
-                        "field-invalid": this.state.errors.email,
-                      },
-                      {
-                        "field-valid": this.state.status,
-                      }
-                    )}
-                    name="email"
-                  />
-                )}
+                <TextFormGroup
+                  placeholder={
+                    this.state.errors.email ? "" : "brown@exemple.com"
+                  }
+                  onChange={this._onChange}
+                  onMouseEnter={() => this.setState({ errors: {} })}
+                  value={this.state.email}
+                  error={this.state.errors.email}
+                  message={this.state.status}
+                  feedback={this.state.status}
+                  name="email"
+                />
 
                 {/* First Secret Pair */}
                 {/* {If Error then split on 3 col} */}
@@ -396,7 +342,6 @@ class PasswordRecovery extends Component {
 
                 {Object.keys(this.state.errors).length > 0 && (
                   <div className=" pb-2 text-danger">
-                    {this.state.errors.email}
                     {this.state.errors.error}
                     {this.state.errors.secretAnswer1}
                     {this.state.errors.secretAnswer2}
