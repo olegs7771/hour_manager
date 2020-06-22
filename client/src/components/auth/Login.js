@@ -1,3 +1,8 @@
+//Login Component
+//For Recovery in PasswordRecovery.js Create New password two options:
+//#1 Secret Pair Question/Answer
+//#2 By SMS
+
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";

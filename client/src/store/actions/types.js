@@ -29,6 +29,7 @@ export const ACTIVATION_EMPLOYEE = "ACTIVATION_EMPLOYEE";
 
 //Loading
 export const LOADING = "LOADING";
+export const STOP_LOADING = "STOP_LOADING";
 
 //Calendar
 export const GET_SELECT_DAY = "GET_SELECT_DAY";

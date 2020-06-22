@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import TextFormGroup from "../textForms/TextFormGroup";
 import { connect } from "react-redux";
 import { newPassword } from "../../store/actions/authAction";
+import { DotLoaderSpinner } from "../spinners/DotLoaderSpinner";
 
 class NewPasswordForm extends Component {
   state = {
     newPassword: "",
     confirmPassword: "",
     errors: {},
+    loading: false,
   };
 
   _onChange = (e) => {
@@ -50,6 +52,12 @@ class NewPasswordForm extends Component {
         this.setState({ errors: {} });
       }
     }
+    //Redirect After
+    if (this.props.messages !== prevProps.messages) {
+      setTimeout(() => {
+        this.props.history.push("/login");
+      }, 3000);
+    }
   }
 
   _onSubmit = (e) => {
@@ -82,48 +90,65 @@ class NewPasswordForm extends Component {
   };
 
   render() {
-    return (
-      <div>
-        <div className="my-3 text-center">
-          <span className="text-white h5">Create New Password</span>
-          <form
-            onSubmit={this._onSubmit}
-            className="border mx-auto p-4 my-4"
-            style={{ width: "50%" }}
-          >
-            <TextFormGroup
-              label="New Password"
-              name="newPassword"
-              style={{ color: "#fff" }}
-              onChange={this._onChange}
-              error={this.state.errors.newPassword}
-            />
-
-            <TextFormGroup
-              label="Confirm Password"
-              name="confirmPassword"
-              style={{ color: "#fff" }}
-              onChange={this._onChange}
-              error={this.state.errors.confirmPassword}
-            />
-
-            <div className="mx-auto my-3">
-              <button type="submit" className="btn btn-outline-secondary  ">
-                <span className="text-white">Submit</span>
-              </button>
-            </div>
-          </form>
+    if (this.props.loading) {
+      return (
+        <div className="mx-auto" style={{ paddingTop: "20%" }}>
+          <DotLoaderSpinner />
         </div>
-      </div>
-    );
+      );
+    }
+    if (this.props.messages.message) {
+      return (
+        <div className="text-center my-4">
+          <span className="text-success h5 ">
+            {this.props.messages.message}
+          </span>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <div className="my-3 text-center">
+            <span className="text-white h5">Create New Password</span>
+            <form
+              onSubmit={this._onSubmit}
+              className="border mx-auto p-4 my-4"
+              style={{ width: "50%" }}
+            >
+              <TextFormGroup
+                label="New Password"
+                name="newPassword"
+                style={{ color: "#fff" }}
+                onChange={this._onChange}
+                error={this.state.errors.newPassword}
+              />
+
+              <TextFormGroup
+                label="Confirm Password"
+                name="confirmPassword"
+                style={{ color: "#fff" }}
+                onChange={this._onChange}
+                error={this.state.errors.confirmPassword}
+              />
+
+              <div className="mx-auto my-3">
+                <button type="submit" className="btn btn-outline-secondary  ">
+                  <span className="text-white">Submit</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      );
+    }
   }
 }
 
 const mapStateToProps = (state) => ({
   // errors: state.errors.errors,
-  // messages: state.messages.messages,
+  messages: state.messages.messages,
   // user: state.auth.user,
-  // loading: state.auth.loading,
+  loading: state.auth.loading,
   // status: state.auth.status, //checking if email exists
   // secretCheck: state.auth.secretCheck,
 });

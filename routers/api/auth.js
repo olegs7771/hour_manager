@@ -368,10 +368,21 @@ router.post("/new_password", (req, res) => {
         }
         user.password = hash;
         user.save().then(() => {
-          res.json({ message: "Password was updated" });
+          res.json({ message: "Password was updated successfully." });
         });
       });
     });
+  });
+});
+
+//Send SMS to User
+router.post("/sendSMS", (req, res) => {
+  User.findById(req.body.uid).then((user) => {
+    if (!user) {
+      return res.status(400).json({ error: "No user" });
+    }
+
+    console.log("user", user);
   });
 });
 

@@ -7,6 +7,7 @@ import {
   GET_STATUS_EMAIL,
   SECRET_CHECK,
   CLEAR_ERRORS,
+  STOP_LOADING,
 } from "../actions/types";
 const initialState = {
   isAuthenticated: false,
@@ -61,6 +62,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         secretCheck: action.payload,
+        loading: false,
+      };
+    case STOP_LOADING: //for recovery
+      return {
+        ...state,
         loading: false,
       };
     default:

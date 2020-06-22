@@ -9,6 +9,7 @@ import {
   GET_STATUS_EMAIL,
   SECRET_CHECK,
   CLEAR_ERRORS,
+  STOP_LOADING,
 } from "./types";
 import axios from "axios";
 import setAuthToken from "../../utils/setAuthToken";
@@ -195,9 +196,29 @@ export const newPassword = (data) => (dispatch) => {
     .post("/api/auth/new_password", data)
     .then((res) => {
       console.log("res.data new_password", res.data);
+      dispatch({
+        type: GET_MESSAGE,
+        payload: res.data,
+      });
+      dispatch({
+        type: STOP_LOADING,
+      });
     })
     .catch((err) => {
       console.log("error new_password", err.response.data);
+    });
+};
+
+//Send Request to API for SMS
+export const sendSMS = (data) => (dispatch) => {
+  dispatch(loading());
+  axios
+    .post("/api/auth/sendSMS", data)
+    .then((res) => {
+      console.log("res.data sendSMS", res.data);
+    })
+    .catch((err) => {
+      console.log("error sendSMS", err.response.data);
     });
 };
 
