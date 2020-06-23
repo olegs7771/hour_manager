@@ -391,8 +391,28 @@ router.post("/sendSMS", (req, res) => {
     const from = "HourManager";
     const to = "972503054422";
     const text = "1111111";
+    const opts = {
+      type: "unicode",
+    };
 
-    nexmo.message.sendSms(from, to, text);
+    nexmo.message.sendSms(from, to, text, opts, (err, response) => {
+      if (err) {
+        console.log("err", err);
+      } else {
+        if (response.messages[0]["status"] === "0") {
+          res.json({ message: "Message sent successfully." });
+        } else {
+          console.log(
+            `Message failed with error: ${response.messages[0]["error-text"]}`
+          );
+          res
+            .status(400)
+            .json({
+              error: `Message failed with error: ${response.messages[0]["error-text"]}`,
+            });
+        }
+      }
+    });
   });
 });
 

@@ -23,6 +23,7 @@ class PasswordRecovery extends Component {
     //Redux State
     email: "",
     errors: {},
+    messages: {},
     loading: false,
     status: false, //if user's details fetched turn status:true
     secretAnswer1: "",
@@ -100,6 +101,10 @@ class PasswordRecovery extends Component {
         this.props.clearErrors();
       }
     }
+    //By recovering with SMS
+    //we recieve message success with code
+    //Prompt user to enter code . if code is matching with db code
+    //Redirect to NewPasswordForm.js
   }
 
   _onSubmitSecret = (e) => {
@@ -418,7 +423,7 @@ class PasswordRecovery extends Component {
                     value={this.state.email}
                     error={this.state.errors.email}
                     message={this.state.status}
-                    feedback={this.state.status}
+                    feedback={"test"}
                   />
 
                   {this.state.status && (
@@ -428,6 +433,7 @@ class PasswordRecovery extends Component {
                       </span>
                       <div className="my-3">
                         <button
+                          disabled={!this.props.user}
                           className="btn btn-outline-secondary"
                           //Send SMS Submit by userID
                           onClick={this._sendSMS}

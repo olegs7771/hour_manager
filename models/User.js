@@ -25,6 +25,9 @@ const UserSchema = new mongoose.Schema(
     secretAnswer2: {
       type: String,
     },
+    code: {
+      type: String,
+    },
 
     password: {
       type: String,

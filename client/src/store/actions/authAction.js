@@ -216,9 +216,17 @@ export const sendSMS = (data) => (dispatch) => {
     .post("/api/auth/sendSMS", data)
     .then((res) => {
       console.log("res.data sendSMS", res.data);
+      dispatch({
+        type: GET_MESSAGE,
+        payload: res.data,
+      });
     })
     .catch((err) => {
       console.log("error sendSMS", err.response.data);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      });
     });
 };
 

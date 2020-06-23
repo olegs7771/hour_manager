@@ -74,4 +74,18 @@ const server = app.listen(port, () => {
 console.log("NODE_ENV", process.env.NODE_ENV);
 
 //Exercises
-// console.log(moment().format("X"));
+const response = {
+  "message-count": "1",
+  messages: [
+    {
+      to: "972503054422",
+      "message-id": "15000000EBB80BCF",
+      status: "0",
+      "remaining-balance": "0.68720000",
+      "message-price": "0.04240000",
+      network: "42503",
+    },
+  ],
+};
+
+console.log("response", response.messages[0]["status"]);
