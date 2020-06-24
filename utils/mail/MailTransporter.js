@@ -14,7 +14,7 @@ const oauth2Client = new OAuth2(
 );
 
 oauth2Client.setCredentials({
-  refresh_token
+  refresh_token,
 });
 const accessToken = oauth2Client.getAccessToken();
 
@@ -37,12 +37,12 @@ const sendMail = (data, cb) => {
         clientId: clientID,
         clientSecret,
         refreshToken: refresh_token,
-        accessToken
+        accessToken,
         // pass: mailPass // generated ethereal password
       },
       tls: {
-        rejectUnauthorized: false
-      }
+        rejectUnauthorized: false,
+      },
     });
 
     // send mail with defined transport object
@@ -52,7 +52,7 @@ const sendMail = (data, cb) => {
       to: data.email,
       subject: "Hour Manager", // Subject line
       text: "Hello world?", // plain text body
-      html // html body
+      html, // html body
     });
 
     // console.log("Message sent: %s", info.messageId);
@@ -60,7 +60,7 @@ const sendMail = (data, cb) => {
 
     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
   };
-  main().catch(err => {
+  main().catch((err) => {
     console.log("error to send email:", err);
   });
 };

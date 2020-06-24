@@ -6,8 +6,8 @@ import {
   GET_USER_DETAILS,
   GET_STATUS_EMAIL,
   SECRET_CHECK,
-  CLEAR_ERRORS,
   STOP_LOADING,
+  CODE_MATCH,
 } from "../actions/types";
 const initialState = {
   isAuthenticated: false,
@@ -17,6 +17,7 @@ const initialState = {
   confirmed_user: null,
   status: false,
   secretCheck: false,
+  code: false,
 };
 
 export default (state = initialState, action) => {
@@ -62,6 +63,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         secretCheck: action.payload,
+        loading: false,
+      };
+    case CODE_MATCH: //for recovery
+      return {
+        ...state,
+        code: action.payload,
         loading: false,
       };
     case STOP_LOADING: //for recovery

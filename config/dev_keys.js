@@ -1,11 +1,11 @@
 module.exports = {
   mongoDB: "mongodb://olegs7777:olegs7777@ds217799.mlab.com:17799/hour_manager",
   secredOrKey: "bubuna",
-  mailPass: "legion0503054422",
+  mailPass: "bamza2020",
   sessionSecret: "bubuna",
   clientID:
-    "647486022475-7g90e61uqn1oauvf4eagc7lgm80p56b6.apps.googleusercontent.com",
-  clientSecret: "h2VQ_UAYu0DeOfUCAe8-_lXa",
+    "647486022475-53rh8e6hdke7vje0ajl2q4c1d2vmte23.apps.googleusercontent.com",
+  clientSecret: "GOgAYmieA5-cYfYdtH7YvaFc",
   refresh_token:
-    "1//04uw1UliAuP39CgYIARAAGAQSNwF-L9IrnqOnpGhAtijJphoNSkubq1GgW1yX2XGZDVswJ4yhRz101GW_3igKTLmLOWtHon4mAmg",
+    "1//0fYDrlW7zu7DCCgYIARAAGA8SNwF-L9Irk_N-XZZolE8o1UqaHmPD_-EVlWfZvBbdnGGkaXkcSlmu226Z88gtBowBOOmqnSLHmeo",
 };

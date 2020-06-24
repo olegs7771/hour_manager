@@ -11,6 +11,9 @@ const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
 const sendMail = require("../../utils/mail/MailTransporter");
 const Nexmo = require("nexmo");
+const UpCase = (value) => {
+  return value[0].toLocaleUpperCase() + value.slice(1);
+};
 
 //1 New User Makes Registration
 //2 New temp user created in mongoDB
@@ -383,36 +386,59 @@ router.post("/sendSMS", (req, res) => {
       return res.status(400).json({ error: "No user" });
     }
 
-    console.log("user", user);
-    const nexmo = new Nexmo({
-      apiKey: "5b8b4a3e",
-      apiSecret: "dCstfbHMktqY7LIC",
-    });
-    const from = "HourManager";
-    const to = "972503054422";
-    const text = "1111111";
-    const opts = {
-      type: "unicode",
-    };
+    //Generate Random Code
+    const ranNum = Math.trunc(Math.random() * 1000000);
 
-    nexmo.message.sendSms(from, to, text, opts, (err, response) => {
-      if (err) {
-        console.log("err", err);
-      } else {
-        if (response.messages[0]["status"] === "0") {
-          res.json({ message: "Message sent successfully." });
+    user.code = ranNum;
+    user.save().then((upUser) => {
+      const nexmo = new Nexmo({
+        apiKey: "5b8b4a3e",
+        apiSecret: "dCstfbHMktqY7LIC",
+      });
+      const from = "HourManager";
+      const to = "972503054422";
+      const text = `
+      Hello ${UpCase(user.name)} your secret code is ${upUser.code}
+      HourManger Client Service
+      `;
+      const opts = {
+        type: "unicode",
+      };
+
+      nexmo.message.sendSms(from, to, text, opts, (err, response) => {
+        console.log("response", response);
+        if (err) {
+          console.log("error :", err);
+          res.status(400).json({ error: err });
         } else {
-          console.log(
-            `Message failed with error: ${response.messages[0]["error-text"]}`
-          );
-          res
-            .status(400)
-            .json({
+          if (response.messages[0]["status"] === "0") {
+            res.json({ message: "Please enter a recieved code" });
+          } else {
+            console.log(
+              `Message failed with error: ${response.messages[0]["error-text"]}`
+            );
+            res.status(400).json({
               error: `Message failed with error: ${response.messages[0]["error-text"]}`,
             });
+          }
         }
-      }
+      });
     });
+  });
+});
+
+//Match Code recieved by SMS
+//Return true or false if code matched with DB
+router.post("/match_code", (req, res) => {
+  User.findById(req.body.uid).then((user) => {
+    if (!user) {
+      return res.status(400).json({ error: "Can not find  the user" });
+    }
+    //Match code
+    if (user.code !== req.body.code) {
+      return res.status(400).json({ error: "Code not matched" });
+    }
+    res.json({ code: true });
   });
 });
 

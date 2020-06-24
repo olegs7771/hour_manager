@@ -10,6 +10,7 @@ import {
   SECRET_CHECK,
   CLEAR_ERRORS,
   STOP_LOADING,
+  CODE_MATCH,
 } from "./types";
 import axios from "axios";
 import setAuthToken from "../../utils/setAuthToken";
@@ -219,6 +220,32 @@ export const sendSMS = (data) => (dispatch) => {
       dispatch({
         type: GET_MESSAGE,
         payload: res.data,
+      });
+      dispatch({
+        type: STOP_LOADING,
+      });
+    })
+    .catch((err) => {
+      console.log("error sendSMS", err.response.data);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      });
+    });
+};
+//Match Code Recieved by SMS
+export const matchCode = (data) => (dispatch) => {
+  dispatch(loading());
+  axios
+    .post("/api/auth/match_code", data)
+    .then((res) => {
+      console.log("res.data sendSMS", res.data);
+      dispatch({
+        type: CODE_MATCH,
+        payload: res.data,
+      });
+      dispatch({
+        type: STOP_LOADING,
       });
     })
     .catch((err) => {

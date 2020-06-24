@@ -8,6 +8,7 @@ export const CONFIRMED_USER = "CONFIRMED_USER";
 export const GET_USER_DETAILS = "GET_USER_DETAILS";
 export const GET_STATUS_EMAIL = "GET_STATUS_EMAIL";
 export const SECRET_CHECK = "SECRET_CHECK";
+export const CODE_MATCH = "CODE_MATCH ";
 
 //Errors
 export const GET_ERRORS = "GET_ERRORS";

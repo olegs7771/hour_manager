@@ -1,3 +1,7 @@
+//This Component has two recovery options:
+//#1 By Secred two secret pairs
+//#2 By SMS code verefication Nexmo API(Vonage)
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
@@ -6,6 +10,7 @@ import {
   checkSecretPair,
   clearErrors,
   sendSMS,
+  matchCode,
 } from "../../store/actions/authAction";
 import "./recover.css";
 
@@ -30,6 +35,8 @@ class PasswordRecovery extends Component {
     secretAnswer2: "",
     isSubmitted: false,
     secretCheck: false,
+    //Code for Recovery
+    code: "",
   };
 
   _onChange = (e) => {
@@ -105,6 +112,9 @@ class PasswordRecovery extends Component {
     //we recieve message success with code
     //Prompt user to enter code . if code is matching with db code
     //Redirect to NewPasswordForm.js
+    if (this.props.messages !== prevProps.messages) {
+      this.setState({ messages: this.props.messages });
+    }
   }
 
   _onSubmitSecret = (e) => {
@@ -147,6 +157,16 @@ class PasswordRecovery extends Component {
   _sendSMS = () => {
     this.props.sendSMS({ uid: this.props.user._id });
   };
+  //Send  recieved by Phone Code for validation
+  //payload:userID,code
+  _sendCode = (e) => {
+    e.preventDefault();
+    const payload = {
+      uid: this.props.user._id,
+      code: this.state.code,
+    };
+    this.props.matchCode(payload);
+  };
 
   render() {
     return (
@@ -155,7 +175,7 @@ class PasswordRecovery extends Component {
           <span className="display-4 text-white">Account Recovery </span>
         </div>
         {/* if secretCheck true show create new password form */}
-        {this.state.secretCheck ? (
+        {this.state.secretCheck || this.props.code ? (
           <NewPasswordForm
             uid={this.state.user._id}
             history={this.props.history}
@@ -426,11 +446,18 @@ class PasswordRecovery extends Component {
                     feedback={"test"}
                   />
 
-                  {this.state.status && (
+                  {this.state.status && !this.state.messages.message ? (
                     <div className="my-1">
                       <span className="text-white">
                         Send SMS to phone number associated with this Account?
                       </span>
+                      {this.state.loading && (
+                        <div className="my-1">
+                          <DotLoaderSpinner />
+                        </div>
+                      )}
+                      {/* If Message arrived show message and form where to enter newlly recieved code for validation */}
+
                       <div className="my-3">
                         <button
                           disabled={!this.props.user}
@@ -442,7 +469,29 @@ class PasswordRecovery extends Component {
                         </button>
                       </div>
                     </div>
-                  )}
+                  ) : this.state.status && this.state.messages.message ? (
+                    <div className="my-1">
+                      <span className="text-success ">
+                        {this.state.messages.message}
+                      </span>
+                      <form onSubmit={this._sendCode}>
+                        <TextFormGroup
+                          name="code"
+                          value={this.state.code}
+                          onChange={this._onChange}
+                          placeholder="6 digits"
+                        />
+                        {this.state.code.length === 6 && (
+                          <button
+                            type="submit"
+                            className="btn btn-outline-secondary"
+                          >
+                            Send
+                          </button>
+                        )}
+                      </form>
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -460,6 +509,7 @@ const mapStateToProps = (state) => ({
   loading: state.auth.loading,
   status: state.auth.status, //checking if email exists
   secretCheck: state.auth.secretCheck,
+  code: state.auth.code, // code recieved by SMS matched against DB
 });
 
 const mapDispatchToProps = {
@@ -468,6 +518,7 @@ const mapDispatchToProps = {
   checkSecretPair,
   clearErrors,
   sendSMS,
+  matchCode,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PasswordRecovery);
