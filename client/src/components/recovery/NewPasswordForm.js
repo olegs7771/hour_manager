@@ -10,6 +10,7 @@ class NewPasswordForm extends Component {
     confirmPassword: "",
     errors: {},
     loading: false,
+    isPasswordsMatch: false, // for prevent redirect to login without typing in passwords, due to message props changed
   };
 
   _onChange = (e) => {
@@ -44,6 +45,9 @@ class NewPasswordForm extends Component {
       if (this.state.confirmPassword !== this.state.newPassword) {
         this.setState({ errors: { confirmPassword: "No Match" } });
       }
+      if (this.state.confirmPassword === this.state.newPassword) {
+        this.setState({ isPasswordsMatch: true });
+      }
       if (
         this.state.confirmPassword.length <= 10 &&
         this.state.confirmPassword.length >= 6 &&
@@ -53,7 +57,10 @@ class NewPasswordForm extends Component {
       }
     }
     //Redirect After
-    if (this.props.messages !== prevProps.messages) {
+    if (
+      this.props.messages !== prevProps.messages &&
+      this.state.isPasswordsMatch
+    ) {
       setTimeout(() => {
         this.props.history.push("/login");
       }, 3000);

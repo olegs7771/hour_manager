@@ -247,6 +247,10 @@ export const matchCode = (data) => (dispatch) => {
       dispatch({
         type: STOP_LOADING,
       });
+      dispatch({
+        type: GET_MESSAGE,
+        payload: {},
+      });
     })
     .catch((err) => {
       console.log("error sendSMS", err.response.data);

@@ -438,7 +438,7 @@ router.post("/match_code", (req, res) => {
     if (user.code !== req.body.code) {
       return res.status(400).json({ error: "Code not matched" });
     }
-    res.json({ code: true });
+    res.json({ codeStatus: true });
   });
 });
 

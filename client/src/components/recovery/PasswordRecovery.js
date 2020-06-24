@@ -115,6 +115,15 @@ class PasswordRecovery extends Component {
     if (this.props.messages !== prevProps.messages) {
       this.setState({ messages: this.props.messages });
     }
+    //After matching code . if code === true show NewPasswordForm.js
+    if (this.props.codeStatus !== prevProps.codeStatus) {
+      if (this.props.codeStatus) {
+        this.setState({
+          codeStatus: this.props.codeStatus.codeStatus,
+          messages: {},
+        });
+      }
+    }
   }
 
   _onSubmitSecret = (e) => {
@@ -175,7 +184,7 @@ class PasswordRecovery extends Component {
           <span className="display-4 text-white">Account Recovery </span>
         </div>
         {/* if secretCheck true show create new password form */}
-        {this.state.secretCheck || this.props.code ? (
+        {this.state.secretCheck || this.state.codeStatus ? (
           <NewPasswordForm
             uid={this.state.user._id}
             history={this.props.history}
@@ -234,7 +243,8 @@ class PasswordRecovery extends Component {
                 ) : (
                   <div className="my-3" style={{ height: 63.63 }}>
                     <span className="text-white">
-                      Please fill in your E-mail
+                      Please use the Email address that associated with your
+                      account
                     </span>
                   </div>
                 )}
@@ -429,72 +439,83 @@ class PasswordRecovery extends Component {
               </div>
             )}
             {/* Show if SMS choosen */}
-            <div className=" my-3 border">
-              <div className="text-center">
-                <span className="text-white">Recover Account By SMS</span>
-                <br />
-                <span className="text-white">
-                  Please use the Email address that associated with your account
-                </span>
-                <div className="mx-auto my-3" style={{ width: "50%" }}>
-                  <TextFormGroup
-                    name="email"
-                    onChange={this._onChange}
-                    value={this.state.email}
-                    error={this.state.errors.email}
-                    message={this.state.status}
-                    feedback={"test"}
-                  />
+            {this.state.isRecoverBySMS && (
+              <div className=" my-3 ">
+                <div className="text-center">
+                  <span className="text-white">Recover Account By SMS</span>
+                  <br />
+                  <span className="text-white">
+                    Please use the Email address that associated with your
+                    account
+                  </span>
+                  <div className="mx-auto my-3" style={{ width: "50%" }}>
+                    <TextFormGroup
+                      name="email"
+                      onChange={this._onChange}
+                      value={this.state.email}
+                      error={this.state.errors.email}
+                      message={this.state.status}
+                      feedback={"test"}
+                    />
 
-                  {this.state.status && !this.state.messages.message ? (
-                    <div className="my-1">
-                      <span className="text-white">
-                        Send SMS to phone number associated with this Account?
-                      </span>
-                      {this.state.loading && (
-                        <div className="my-1">
-                          <DotLoaderSpinner />
-                        </div>
-                      )}
-                      {/* If Message arrived show message and form where to enter newlly recieved code for validation */}
-
-                      <div className="my-3">
-                        <button
-                          disabled={!this.props.user}
-                          className="btn btn-outline-secondary"
-                          //Send SMS Submit by userID
-                          onClick={this._sendSMS}
-                        >
-                          Send Me SMS
-                        </button>
-                      </div>
-                    </div>
-                  ) : this.state.status && this.state.messages.message ? (
-                    <div className="my-1">
-                      <span className="text-success ">
-                        {this.state.messages.message}
-                      </span>
-                      <form onSubmit={this._sendCode}>
-                        <TextFormGroup
-                          name="code"
-                          value={this.state.code}
-                          onChange={this._onChange}
-                          placeholder="6 digits"
-                        />
-                        {this.state.code.length === 6 && (
-                          <button
-                            type="submit"
-                            className="btn btn-outline-secondary"
-                          >
-                            Send
-                          </button>
+                    {this.state.status && !this.state.messages.message ? (
+                      <div className="my-1">
+                        <span className="text-white">
+                          Send SMS to phone number associated with this Account?
+                        </span>
+                        {this.state.loading && (
+                          <div className="my-1">
+                            <DotLoaderSpinner />
+                          </div>
                         )}
-                      </form>
-                    </div>
-                  ) : null}
+                        {/* If Message arrived show message and form where to enter newlly recieved code for validation */}
+
+                        <div className="my-3">
+                          <button
+                            disabled={!this.props.user}
+                            className="btn btn-outline-secondary"
+                            //Send SMS Submit by userID
+                            onClick={this._sendSMS}
+                          >
+                            Send Me SMS
+                          </button>
+                        </div>
+                      </div>
+                    ) : this.state.status && this.state.messages.message ? (
+                      <div className="my-1">
+                        <span className="text-success ">
+                          {this.state.messages.message}
+                        </span>
+                        <br />
+                        {/* Errors code match */}
+                        {this.state.errors.error && (
+                          <span className="text-danger">
+                            {this.state.errors.error}
+                          </span>
+                        )}
+
+                        <form onSubmit={this._sendCode}>
+                          <TextFormGroup
+                            name="code"
+                            value={this.state.code}
+                            onChange={this._onChange}
+                            placeholder="6 digits"
+                          />
+                          {this.state.code.length === 6 && (
+                            <button
+                              type="submit"
+                              className="btn btn-outline-secondary"
+                            >
+                              Send
+                            </button>
+                          )}
+                        </form>
+                      </div>
+                    ) : null}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         )}
       </div>
@@ -509,7 +530,7 @@ const mapStateToProps = (state) => ({
   loading: state.auth.loading,
   status: state.auth.status, //checking if email exists
   secretCheck: state.auth.secretCheck,
-  code: state.auth.code, // code recieved by SMS matched against DB
+  codeStatus: state.auth.codeStatus, // code recieved by SMS matched against DB
 });
 
 const mapDispatchToProps = {

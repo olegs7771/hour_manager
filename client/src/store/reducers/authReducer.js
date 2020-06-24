@@ -17,7 +17,7 @@ const initialState = {
   confirmed_user: null,
   status: false,
   secretCheck: false,
-  code: false,
+  codeStatus: false,
 };
 
 export default (state = initialState, action) => {
@@ -68,7 +68,7 @@ export default (state = initialState, action) => {
     case CODE_MATCH: //for recovery
       return {
         ...state,
-        code: action.payload,
+        codeStatus: action.payload,
         loading: false,
       };
     case STOP_LOADING: //for recovery
