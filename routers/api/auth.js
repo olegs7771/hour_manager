@@ -11,10 +11,17 @@ const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
 const sendMail = require("../../utils/mail/MailTransporter");
 const Nexmo = require("nexmo");
+
+//UpperCase
 const UpCase = (value) => {
   return value[0].toLocaleUpperCase() + value.slice(1);
 };
 
+//Random Number Function
+const ranNum = () => {
+  let num;
+  return (num = Math.trunc(Math.random() * 1000000));
+};
 //1 New User Makes Registration
 //2 New temp user created in mongoDB
 //3 Admin receives notification about new user request
@@ -381,22 +388,22 @@ router.post("/new_password", (req, res) => {
 
 //Send SMS to User
 router.post("/sendSMS", (req, res) => {
-  User.findById(req.body.uid).then((user) => {
+  User.findById(req.body.uid).then(async (user) => {
     if (!user) {
       return res.status(400).json({ error: "No user" });
     }
 
     //Generate Random Code
-    const ranNum = Math.trunc(Math.random() * 1000000);
+    // const ranNum =  await Math.trunc(Math.random() * 1000000);
 
-    user.code = ranNum;
+    user.code = ranNum();
     user.save().then((upUser) => {
       const nexmo = new Nexmo({
         apiKey: "5b8b4a3e",
         apiSecret: "dCstfbHMktqY7LIC",
       });
       const from = "HourManager";
-      const to = "972503054422";
+      const to = user.phone;
       const text = `
       Hello ${UpCase(user.name)} your secret code is ${upUser.code}
       HourManger Client Service
