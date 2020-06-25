@@ -105,6 +105,23 @@ const htmlBody = (data) => {
         `<b>Email : ${data.uemail}`;
       "</div></body></html>";
       break;
+    case "NOTIFY_ADMIN_USER_RECOVER_BY_ACCOUNT_BYSMS":
+      html =
+        "<!DOCTYPE html>" +
+        "<html><head><title>Notification</title>" +
+        "</head><body><div>" +
+        `<h3>User has recovered acount by SMS and changed password </h3>` +
+        `User details:` +
+        `  <ul>` +
+        `<li>Name :${data.user.name}</li>` +
+        `<li>Email :${data.user.email}</li>` +
+        `<li>Phone :${data.user.phone}</li>` +
+        `<li>Location :${data.user.location}</li>` +
+        `<li>User Created Date :${data.user.date}</li>` +
+        `</ul>`;
+
+      "</div></body></html>";
+      break;
   }
 
   return html;

@@ -279,3 +279,10 @@ export const loading = () => {
     type: LOADING_USER,
   };
 };
+
+//Testing
+// export const testAPI = () => (dispatch) => {
+//   console.log("test fired");
+
+//   axios.post("/api/auth/test", { uid: "5eeb48da22c4713794f380dc" });
+// };

@@ -434,12 +434,44 @@ router.post("/match_code", (req, res) => {
     if (!user) {
       return res.status(400).json({ error: "Can not find  the user" });
     }
+    console.log("user", user);
+
     //Match code
     if (user.code !== req.body.code) {
       return res.status(400).json({ error: "Code not matched" });
     }
     res.json({ codeStatus: true });
+    //Notify an Admin about User Recovering Account password by sms successfully
+    const data = {
+      user,
+      type: "NOTIFY_ADMIN_USER_RECOVER_BY_ACCOUNT_BYSMS",
+      email: "olegs7771@gmail.com",
+    };
+    sendMail(data, (cb) => {
+      if (cb.infoMessageid) {
+        console.log("Your message was sent to Admin");
+      }
+    });
   });
 });
+
+// router.post("/test", (req, res) => {
+//   User.findById(req.body.uid).then((user) => {
+//     if (!user) {
+//       return console.log("can't find user");
+//     }
+
+//     const data = {
+//       user,
+//       type: "NOTIFY_ADMIN_USER_RECOVER_BY_ACCOUNT_BYSMS",
+//       email: "olegs7771@gmail.com",
+//     };
+//     sendMail(data, (cb) => {
+//       if (cb.infoMessageid) {
+//         console.log("Your message was sent to Admin");
+//       }
+//     });
+//   });
+// });
 
 module.exports = router;
