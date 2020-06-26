@@ -111,6 +111,7 @@ export const loginUser = (data, history) => (dispatch) => {
           email: decoded.email,
           name: decoded.name,
           phone: decoded.phone,
+          date: decoded.date,
         };
         dispatch(setCurrentUser(dataToRedux));
         console.log("history", history);

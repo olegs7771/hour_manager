@@ -87,7 +87,7 @@ export class Header extends Component {
                 </a>
               </li>
               <li className="nav-item active">
-                <a className="nav-link" href="/">
+                <a className="nav-link" href="/user">
                   <span
                     className="text-success border rounded p-2"
                     style={{ fontSize: 18 }}

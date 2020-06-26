@@ -7,6 +7,7 @@ import { withRouter } from "react-router-dom";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 import moment from "moment";
 import ProjectItems from "./ProjectItems";
+import { UpCase } from "../../../utils/UpperCase";
 // import ProjectDetails from "./ProjectItems";
 
 export class Project extends Component {
@@ -73,22 +74,22 @@ export class Project extends Component {
     } else {
       if (isEmpty(this.props.projects)) {
         return (
-          <div className=" ">
-            <h4 className="text-center">Projects</h4>
+          <div className="text-center " style={{ height: 900 }}>
+            <span className="text-white display-4">Projects</span>
             <div className="row my-3 mx-auto border">
-              <div className="col-md-6 ">
-                <p className="text-muted pl-3">
-                  Dear {this.props.auth.user.name} here you can Create,Edit and
-                  Manage your Projects. <br />
+              <div className="col-md-6 my-4 text-left ">
+                <span className="  text-white" style={{ fontSize: 20 }}>
+                  Dear {UpCase(this.props.auth.user.name)} here you can
+                  Create,Edit and Manage your Projects. <br />
                   In Order to create new Project press Create button
-                </p>
+                </span>
               </div>
               <div className="col-md-6   pt-3">
                 <button
                   className="btn btn-outline-success d-block mx-auto "
                   onClick={this._createProject}
                 >
-                  Create Project
+                  <span className="text-white">Create Project</span>
                 </button>
               </div>
             </div>

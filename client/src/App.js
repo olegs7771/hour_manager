@@ -7,6 +7,8 @@ import setAuthToken from "./utils/setAuthToken";
 import Register from "../src/components/auth/Register";
 import Login from "../src/components/auth/Login";
 import SuccessMessage from "../src/components/auth/SuccessMessage";
+import UserDashboard from "../src/components/auth/UserDashboard";
+
 //Recovery
 import PasswordRecovery from "../src/components/recovery/PasswordRecovery";
 
@@ -59,6 +61,7 @@ if (localStorage.jwtToken) {
     email: decoded.email,
     name: decoded.name,
     phone: decoded.phone,
+    date: decoded.date,
   };
   store.dispatch(setCurrentUser(dataToRedux));
 
@@ -115,6 +118,11 @@ class App extends Component {
             <Header />
             <div style={{ backgroundColor: "#2a5578" }}>
               <Switch>
+                <Route
+                  exact
+                  path="/user"
+                  component={userIsAuthenticated(UserDashboard)}
+                />
                 <Route
                   exact
                   path="/project"
