@@ -272,6 +272,10 @@ export const editUser = (data) => (dispatch) => {
     })
     .catch((err) => {
       console.log("error editUser", err.response.data);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      });
     });
 };
 

@@ -28,7 +28,6 @@ class UserEdit extends Component {
         email: this.props.email,
         phone: this.props.phone,
         location: this.props.location,
-        errors: {},
       });
     }
   }
@@ -61,6 +60,7 @@ class UserEdit extends Component {
                   name="name"
                   value={this.state.name}
                   styleContainer={{ marginBottom: -16, marginTop: -7 }}
+                  error={this.props.errors.name}
                 />
               </div>
             </div>
