@@ -462,6 +462,13 @@ router.post("/match_code", (req, res) => {
 });
 
 router.post("/edit_user", (req, res) => {
+  //Validation
+  const { errors, isValid } = validateRegisterInput(req.body);
+
+  if (!isValid) {
+    return res.status(500).json(errors);
+  }
+
   User.findById(req.body.uid).then((user) => {
     if (!user) {
       return console.log("can't find user");

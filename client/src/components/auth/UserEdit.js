@@ -3,9 +3,11 @@ import moment from "moment";
 import { UpCase } from "../../utils/UpperCase";
 import { connect } from "react-redux";
 import { editUser } from "../../store/actions/authAction";
+import TextFormGroup from "../textForms/TextFormGroup";
 //Phone Input
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import "./auth.css";
 
 class UserEdit extends Component {
   state = {
@@ -54,18 +56,11 @@ class UserEdit extends Component {
           <li className="list-group-item ">
             <div className="row">
               <div className="col-3 font-weight-bold">Name</div>
-              <div className="col-9 text-left">
-                <input
-                  type="text"
-                  value={this.state.name}
-                  style={{
-                    borderStyle: "none",
-
-                    marginTop: -5,
-                    marginBottom: -5,
-                  }}
+              <div className="col-9 text-left ">
+                <TextFormGroup
                   onChange={this._onChange}
                   name="name"
+                  value={this.state.name}
                 />
               </div>
             </div>
@@ -74,18 +69,13 @@ class UserEdit extends Component {
           <li className="list-group-item ">
             <div className="row">
               <div className="col-3 font-weight-bold  ">Email</div>
-              <input
-                type="text"
-                value={this.state.email}
-                style={{
-                  borderStyle: "none",
-                  paddingLeft: 15,
-                  marginTop: -5,
-                  marginBottom: -5,
-                }}
-                onChange={this._onChange}
-                name="email"
-              />
+              <div className="col-9 text-left ">
+                <TextFormGroup
+                  onChange={this._onChange}
+                  name="email"
+                  value={this.state.email}
+                />
+              </div>
             </div>
           </li>
 
@@ -98,39 +88,22 @@ class UserEdit extends Component {
                   country={"il"}
                   value={this.state.phone}
                   onChange={(phone) => this.setState({ phone })}
-                  inputStyle={{ width: "90%" }}
+                  inputStyle={{ width: "113%" }}
                 />
               </div>
-              {/* <input
-                type="text"
-                value={this.state.phone}
-                style={{
-                  borderStyle: "none",
-                  paddingLeft: 15,
-                  marginTop: -5,
-                  marginBottom: -5,
-                }}
-                onChange={this._onChange}
-                name="phone"
-              /> */}
             </div>
           </li>
           {/* Location*/}
           <li className="list-group-item ">
             <div className="row">
               <div className="col-3 font-weight-bold  ">Location</div>
-              <input
-                type="text"
-                value={this.state.location}
-                style={{
-                  borderStyle: "none",
-                  paddingLeft: 15,
-                  marginTop: -5,
-                  marginBottom: -5,
-                }}
-                onChange={this._onChange}
-                name="location"
-              />
+              <div className="col-9 text-left">
+                <TextFormGroup
+                  onChange={this._onChange}
+                  name="location"
+                  value={this.state.location}
+                />
+              </div>
             </div>
           </li>
         </ul>
@@ -141,5 +114,8 @@ class UserEdit extends Component {
     );
   }
 }
+const mapStateToProps = (state) => ({
+  errors: state.errors.errors,
+});
 
-export default connect(null, { editUser })(UserEdit);
+export default connect(mapStateToProps, { editUser })(UserEdit);

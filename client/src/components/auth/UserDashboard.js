@@ -4,6 +4,9 @@ import { DotLoaderSpinner } from "../spinners/DotLoaderSpinner";
 import { UpCase } from "../../utils/UpperCase";
 import moment from "moment";
 import UserEdit from "./UserEdit";
+//Phone Input
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 export class UserDashboard extends Component {
   state = {
@@ -50,7 +53,13 @@ export class UserDashboard extends Component {
                     <div className="row">
                       <div className="col-3 font-weight-bold  ">Phone</div>
                       <div className="col-9 text-left">
-                        {this.props.user.phone}
+                        <PhoneInput
+                          country={"il"}
+                          value={this.props.user.phone}
+                          onChange={(phone) => this.setState({ phone })}
+                          inputStyle={{ width: "90%", paddingRight: 20 }}
+                        />
+                        {/* {this.props.user.phone} */}
                       </div>
                     </div>
                   </li>

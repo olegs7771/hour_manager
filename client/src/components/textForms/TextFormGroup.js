@@ -12,14 +12,15 @@ const TextFormGroup = ({
   onChange,
   error,
   message,
-  style,
+  styleLabel,
+  styleInput,
   maxLength,
   minLength,
   onMouseEnter,
 }) => {
   return (
     <div className="form-group ">
-      {label && <label style={{ ...style }}>{label}</label>}
+      {label && <label style={{ ...styleLabel }}>{label}</label>}
       <input
         className={classnames(
           "form-control",
@@ -34,7 +35,7 @@ const TextFormGroup = ({
         name={name}
         onChange={onChange}
         onMouseEnter={onMouseEnter}
-        style={{ backgroundColor: "#bfe1f5", borderStyle: "none" }}
+        style={{ ...styleInput }}
         // style={{ marginTop: "-2rem" }}
       />
       {error && <div className="invalid-feedback pl-4">{error}</div>}

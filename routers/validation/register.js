@@ -17,9 +17,10 @@ const validateRegisterInput = (data) => {
   if (!validator.isMobilePhone("+" + data.phone)) {
     errors.phone = "Phone number wrong format.";
   }
-
-  if (data.password.length > 10 || data.password.length < 6) {
-    errors.password = "Password must contain min 6 and max 10 chars";
+  if (data.password) {
+    if (data.password.length > 10 || data.password.length < 6) {
+      errors.password = "Password must contain min 6 and max 10 chars";
+    }
   }
 
   //check for empty fields
@@ -35,17 +36,23 @@ const validateRegisterInput = (data) => {
   if (validator.isEmpty(data.location)) {
     errors.location = "Location can not be empty";
   }
-  if (validator.isEmpty(data.password)) {
-    errors.location = "Password can not be empty";
+  if (data.password) {
+    if (validator.isEmpty(data.password)) {
+      errors.location = "Password can not be empty";
+    }
   }
 
-  if (validator.isEmpty(data.secretAnswer1)) {
-    errors.secretAnswer1 = "Can not be empty";
+  if (data.secretAnswer1) {
+    if (validator.isEmpty(data.secretAnswer1)) {
+      errors.secretAnswer1 = "Can not be empty";
+    }
+  }
+  if (data.secretAnswer2) {
+    if (validator.isEmpty(data.secretAnswer2)) {
+      errors.secretAnswer2 = " Can not be empty";
+    }
   }
 
-  if (validator.isEmpty(data.secretAnswer2)) {
-    errors.secretAnswer2 = " Can not be empty";
-  }
   return {
     errors,
     isValid: isEmpty(errors),
