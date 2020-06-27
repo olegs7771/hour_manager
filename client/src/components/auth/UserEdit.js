@@ -7,7 +7,6 @@ import TextFormGroup from "../textForms/TextFormGroup";
 //Phone Input
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import "./auth.css";
 
 class UserEdit extends Component {
   state = {
@@ -61,10 +60,12 @@ class UserEdit extends Component {
                   onChange={this._onChange}
                   name="name"
                   value={this.state.name}
+                  styleContainer={{ marginBottom: -16, marginTop: -7 }}
                 />
               </div>
             </div>
           </li>
+
           {/* Email */}
           <li className="list-group-item ">
             <div className="row">
@@ -74,6 +75,7 @@ class UserEdit extends Component {
                   onChange={this._onChange}
                   name="email"
                   value={this.state.email}
+                  styleContainer={{ marginBottom: -16, marginTop: -7 }}
                 />
               </div>
             </div>
@@ -102,6 +104,7 @@ class UserEdit extends Component {
                   onChange={this._onChange}
                   name="location"
                   value={this.state.location}
+                  styleContainer={{ marginBottom: -16, marginTop: -7 }}
                 />
               </div>
             </div>
