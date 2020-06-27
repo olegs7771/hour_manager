@@ -282,16 +282,15 @@ router.post("/login", (req, res) => {
           .json({ password: "Password Email invalid pair" });
       }
       //Password matched, prepare token 8h exp time
-
-      // console.log("user", user);
-
       const payload = {
         id: user._id,
         name: user.name,
         email: user.email,
         phone: user.phone,
+        location: user.location,
         password: user.password,
         date: user.date,
+        projects: user.projects,
       };
       jwt.sign(payload, keys, { expiresIn: 28800 }, (err, token) => {
         if (err) {
@@ -462,23 +461,36 @@ router.post("/match_code", (req, res) => {
   });
 });
 
-// router.post("/test", (req, res) => {
-//   User.findById(req.body.uid).then((user) => {
-//     if (!user) {
-//       return console.log("can't find user");
-//     }
+router.post("/edit_user", (req, res) => {
+  User.findById(req.body.uid).then((user) => {
+    if (!user) {
+      return console.log("can't find user");
+    }
+    console.log("user", user);
+    user.name = req.body.name;
+    user.email = req.body.email;
+    user.location = req.body.location;
+    user.phone = req.body.phone;
+    user
+      .save()
+      .then((upUser) => {
+        console.log("upUser", upUser);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
 
-//     const data = {
-//       user,
-//       type: "NOTIFY_ADMIN_USER_RECOVER_BY_ACCOUNT_BYSMS",
-//       email: "olegs7771@gmail.com",
-//     };
-//     sendMail(data, (cb) => {
-//       if (cb.infoMessageid) {
-//         console.log("Your message was sent to Admin");
-//       }
-//     });
-//   });
-// });
+    // const data = {
+    //   user,
+    //   type: "NOTIFY_ADMIN_USER_RECOVER_BY_ACCOUNT_BYSMS",
+    //   email: "olegs7771@gmail.com",
+    // };
+    // sendMail(data, (cb) => {
+    //   if (cb.infoMessageid) {
+    //     console.log("Your message was sent to Admin");
+    //   }
+    // });
+  });
+});
 
 module.exports = router;

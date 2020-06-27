@@ -55,13 +55,15 @@ if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   //decode token and get user info and exp
   const decoded = jwt_decode(localStorage.jwtToken);
-  //set currentUser to auth.user in redux state and  Authenticate
+  //set currentUser to auth.user in redux state and  Authenticate for reloads
   const dataToRedux = {
     id: decoded.id,
     email: decoded.email,
     name: decoded.name,
     phone: decoded.phone,
+    location: decoded.location,
     date: decoded.date,
+    projects: decoded.projects,
   };
   store.dispatch(setCurrentUser(dataToRedux));
 

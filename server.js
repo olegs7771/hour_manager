@@ -74,10 +74,3 @@ const server = app.listen(port, () => {
 console.log("NODE_ENV", process.env.NODE_ENV);
 
 //Exercises
-console.log("rand", Math.trunc(Math.random() * 1000000));
-
-const ranNum = () => {
-  let num;
-  return (num = Math.trunc(Math.random() * 1000000));
-};
-console.log("ranNum", ranNum());

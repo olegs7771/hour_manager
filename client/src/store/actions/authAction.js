@@ -112,6 +112,7 @@ export const loginUser = (data, history) => (dispatch) => {
           name: decoded.name,
           phone: decoded.phone,
           date: decoded.date,
+          projects: decoded.projects,
         };
         dispatch(setCurrentUser(dataToRedux));
         console.log("history", history);
@@ -261,6 +262,18 @@ export const matchCode = (data) => (dispatch) => {
       });
     });
 };
+//Editing User Details
+export const editUser = (data) => (dispatch) => {
+  dispatch(loading());
+  axios
+    .post("/api/auth/edit_user", data)
+    .then((res) => {
+      console.log("res.data editUset");
+    })
+    .catch((err) => {
+      console.log("error editUser", err.response.data);
+    });
+};
 
 export const clearErrors = () => (dispatch) => {
   dispatch({
@@ -287,3 +300,5 @@ export const loading = () => {
 
 //   axios.post("/api/auth/test", { uid: "5eeb48da22c4713794f380dc" });
 // };
+
+//hfuhfgufhguihfdghdfppppfgbhsdpfig
