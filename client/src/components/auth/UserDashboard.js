@@ -147,7 +147,7 @@ export class UserDashboard extends Component {
                       />
                       <button className="btn btn-outline-info ml-2">
                         <span
-                          className="text-warning "
+                          className="text-danger "
                           onClick={this._deleteUser}
                         >
                           Delete

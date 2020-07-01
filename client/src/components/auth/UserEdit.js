@@ -25,10 +25,10 @@ class UserEdit extends Component {
   componentDidMount() {
     if (this.props.name) {
       this.setState({
-        name: UpCase(this.props.name),
-        email: this.props.email,
-        phone: this.props.phone,
-        location: this.props.location,
+        name: UpCase(this.props.name) ? UpCase(this.props.name) : "",
+        email: this.props.email ? this.props.email : "",
+        phone: this.props.phone ? this.props.phone : "",
+        location: this.props.location ? this.props.location : "",
       });
     }
   }
@@ -104,6 +104,9 @@ class UserEdit extends Component {
                   onChange={(phone) => this.setState({ phone })}
                   inputStyle={{ width: "113%" }}
                 />
+                {this.props.errors && (
+                  <span className="text-danger">{this.props.errors.phone}</span>
+                )}
               </div>
             </div>
           </li>

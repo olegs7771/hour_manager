@@ -283,6 +283,9 @@ export const editUser = (data) => (dispatch) => {
         type: GET_ERRORS,
         payload: err.response.data,
       });
+      dispatch({
+        type: STOP_LOADING,
+      });
     });
 };
 
