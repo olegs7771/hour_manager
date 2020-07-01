@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import moment from "moment";
 import { UpCase } from "../../utils/UpperCase";
 import { connect } from "react-redux";
-import { editUser } from "../../store/actions/authAction";
+import { editUser, clearOutUser } from "../../store/actions/authAction";
 import TextFormGroup from "../textForms/TextFormGroup";
 //Phone Input
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { DotLoaderSpinner } from "../spinners/DotLoaderSpinner";
 
 class UserEdit extends Component {
   state = {
@@ -31,6 +32,17 @@ class UserEdit extends Component {
       });
     }
   }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.messages !== prevProps.messages) {
+      console.log("messages changed");
+
+      setTimeout(() => {
+        console.log("time setout");
+        this.props.clearOutUser();
+      }, 3000);
+    }
+  }
+
   //Submit changes
   _onSubmit = (e) => {
     e.preventDefault();
@@ -110,6 +122,11 @@ class UserEdit extends Component {
             </div>
           </li>
         </ul>
+        {this.props.loading ? (
+          <DotLoaderSpinner />
+        ) : this.props.messages ? (
+          <span className="text-success">{this.props.messages.message}</span>
+        ) : null}
         <div className="my-3 mx-auto">
           <button onClick={this._onSubmit}>Submit</button>
         </div>
@@ -119,6 +136,8 @@ class UserEdit extends Component {
 }
 const mapStateToProps = (state) => ({
   errors: state.errors.errors,
+  loading: state.auth.loading,
+  messages: state.messages.messages,
 });
 
-export default connect(mapStateToProps, { editUser })(UserEdit);
+export default connect(mapStateToProps, { editUser, clearOutUser })(UserEdit);

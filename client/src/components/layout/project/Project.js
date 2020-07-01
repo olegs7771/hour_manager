@@ -76,7 +76,10 @@ export class Project extends Component {
         return (
           <div className="text-center " style={{ height: 900 }}>
             <span className="text-white display-4">Projects</span>
-            <div className="row my-3 mx-auto border">
+            <div
+              className="row my-3 mx-auto border"
+              style={{ paddingLeft: window.innerWidth > 500 ? "10%" : "" }}
+            >
               <div className="col-md-6 my-4 text-left ">
                 <span className="  text-white" style={{ fontSize: 20 }}>
                   Dear {UpCase(this.props.auth.user.name)} here you can

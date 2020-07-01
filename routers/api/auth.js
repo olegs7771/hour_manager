@@ -482,6 +482,7 @@ router.post("/edit_user", (req, res) => {
       .save()
       .then((upUser) => {
         console.log("upUser", upUser);
+        res.json({ message: "User was updated successfully" });
       })
       .catch((err) => {
         console.log("err", err);

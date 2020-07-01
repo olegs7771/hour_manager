@@ -269,6 +269,13 @@ export const editUser = (data) => (dispatch) => {
     .post("/api/auth/edit_user", data)
     .then((res) => {
       console.log("res.data editUset");
+      dispatch({
+        type: GET_MESSAGE,
+        payload: res.data,
+      });
+      dispatch({
+        type: STOP_LOADING,
+      });
     })
     .catch((err) => {
       console.log("error editUser", err.response.data);

@@ -15,7 +15,13 @@ export class UserDashboard extends Component {
   render() {
     if (this.props.user) {
       return (
-        <div className="py-4 text-center" style={{ height: 800 }}>
+        <div
+          className="py-4 text-center"
+          style={{
+            height: 800,
+            paddingLeft: window.innerWidth > 500 ? "10%" : "",
+          }}
+        >
           <span className="display-4 text-white">User Dashboard</span>
           <div className="my-4 row ">
             <div className="col-md-6">
@@ -99,15 +105,17 @@ export class UserDashboard extends Component {
             </div>
             <div className="col-md-6">
               <div className="btn-group">
-                <button className="btn btn-outline-info">
-                  <span
-                    className="text-white"
-                    onClick={() =>
-                      this.setState({ editUser: !this.state.editUser })
-                    }
-                  >
-                    Edit
-                  </span>
+                <button
+                  className="btn btn-outline-info"
+                  onClick={() =>
+                    this.setState({ editUser: !this.state.editUser })
+                  }
+                >
+                  {this.state.editUser ? (
+                    <span className="text-white">Cancel</span>
+                  ) : (
+                    <span className="text-white">Edit</span>
+                  )}
                 </button>
                 <button className="btn btn-outline-info ml-2">
                   <span className="text-warning ">Delete</span>
