@@ -6,10 +6,7 @@ import { withRouter } from "react-router-dom";
 import Popup from "../popup/Popup";
 import TextFormGroup from "../../textForms/TextFormGroup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  // faUserMinus,
-  faCheck,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 
 class ProjectItems extends Component {

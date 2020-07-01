@@ -7,10 +7,22 @@ import UserEdit from "./UserEdit";
 //Phone Input
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-
+import Popup from "../layout/popup/Popup";
+import TextFormGroup from "../textForms/TextFormGroup";
 export class UserDashboard extends Component {
   state = {
     editUser: false,
+    isDeleteBtn: false,
+    email: "",
+  };
+  _onChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  _deleteUser = () => {
+    this.setState({ isDeleteBtn: !this.state.isDeleteBtn });
   };
   render() {
     if (this.props.user) {
@@ -117,9 +129,37 @@ export class UserDashboard extends Component {
                     <span className="text-white">Edit</span>
                   )}
                 </button>
-                <button className="btn btn-outline-info ml-2">
-                  <span className="text-warning ">Delete</span>
-                </button>
+                <Popup
+                  icon={this.state.isDeleteBtn ? "Cancel" : "Delete "}
+                  body={
+                    <div className="mx-auto">
+                      <span className="text-danger">
+                        Warning! You about to delete your account! All Data such
+                        as all your projects, employees profiles,and their
+                        jobday records will be deleted permanently! <br />
+                        To proceed fill your Email
+                      </span>
+                      <TextFormGroup
+                        placeholder="Email.."
+                        onChange={this._onChange}
+                        value={this.state.email}
+                        name="email"
+                      />
+                      <button className="btn btn-outline-info ml-2">
+                        <span
+                          className="text-warning "
+                          onClick={this._deleteUser}
+                        >
+                          Delete
+                        </span>
+                      </button>
+                    </div>
+                  }
+                  margin={10}
+                  open={this._deleteUser}
+                  title={<span className="text-danger  ">Delete Warning</span>}
+                  placement={"top"}
+                />
               </div>
             </div>
           </div>

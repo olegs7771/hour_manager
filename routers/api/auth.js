@@ -11,6 +11,7 @@ const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
 const sendMail = require("../../utils/mail/MailTransporter");
 const Nexmo = require("nexmo");
+const passport = require("passport");
 
 //UpperCase
 const UpCase = (value) => {
@@ -487,18 +488,18 @@ router.post("/edit_user", (req, res) => {
       .catch((err) => {
         console.log("err", err);
       });
-
-    // const data = {
-    //   user,
-    //   type: "NOTIFY_ADMIN_USER_RECOVER_BY_ACCOUNT_BYSMS",
-    //   email: "olegs7771@gmail.com",
-    // };
-    // sendMail(data, (cb) => {
-    //   if (cb.infoMessageid) {
-    //     console.log("Your message was sent to Admin");
-    //   }
-    // });
   });
 });
+
+//To Delete User!!!
+//Delete Projects,Employees,Jobdays
+//Private Route
+router.post(
+  "/delete_user",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    console.log("req,body delete_user", req.body);
+  }
+);
 
 module.exports = router;
