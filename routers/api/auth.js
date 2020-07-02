@@ -498,7 +498,15 @@ router.post(
   "/delete_user",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    console.log("req,body delete_user", req.body);
+    User.findById(req.body.uid).then((user) => {
+      if (!user) {
+        return res
+          .status(400)
+          .json({ error: "User not exists or has been removed" });
+      }
+      //User found! Start Delete Projects,Employees,Jobdays
+      res.json(user);
+    });
   }
 );
 

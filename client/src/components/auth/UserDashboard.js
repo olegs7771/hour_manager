@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { deleteUser } from "../../store/actions/authAction";
 import { DotLoaderSpinner } from "../spinners/DotLoaderSpinner";
 import { UpCase } from "../../utils/UpperCase";
 import moment from "moment";
@@ -14,16 +15,46 @@ export class UserDashboard extends Component {
     editUser: false,
     isDeleteBtn: false,
     email: "",
+    isEmailMatch: false,
+    errors: {},
+    messages: {},
   };
   _onChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
   };
-
-  _deleteUser = () => {
+  //For Popup state change
+  _deleteBtn = () => {
     this.setState({ isDeleteBtn: !this.state.isDeleteBtn });
   };
+
+  _deleteUser = () => {
+    console.log("delete");
+    const payload = {
+      uid: this.props.user.id,
+    };
+    this.props.deleteUser(payload);
+  };
+  componentDidUpdate(prevProps, prevState) {
+    //Checking email for match. If matched user valid to delete their account
+    if (this.state.email !== prevState.email) {
+      if (this.state.email !== this.props.user.email) {
+        this.setState({
+          isEmailMatch: false,
+          errors: { email: "No match" },
+          messages: {},
+        });
+      } else {
+        this.setState({
+          isEmailMatch: true,
+          messages: { email: "Email Matched" },
+          errors: {},
+        });
+      }
+    }
+  }
+
   render() {
     if (this.props.user) {
       return (
@@ -131,32 +162,38 @@ export class UserDashboard extends Component {
                 </button>
                 <Popup
                   icon={this.state.isDeleteBtn ? "Cancel" : "Delete "}
+                  backgroundColor="#543e02"
                   body={
                     <div className="mx-auto">
-                      <span className="text-danger">
-                        Warning! You about to delete your account! All Data such
-                        as all your projects, employees profiles,and their
-                        jobday records will be deleted permanently! <br />
-                        To proceed fill your Email
-                      </span>
+                      <div className="mb-1">
+                        <span className="text-danger ">
+                          Warning! You about to delete your account! All Data
+                          such as all your projects, employees profiles,and
+                          their jobday records will be deleted permanently!{" "}
+                          <br />
+                          To proceed fill your Email
+                        </span>
+                      </div>
+
                       <TextFormGroup
                         placeholder="Email.."
                         onChange={this._onChange}
                         value={this.state.email}
                         name="email"
+                        error={this.state.errors.email}
+                        message={this.state.messages.email}
                       />
-                      <button className="btn btn-outline-info ml-2">
-                        <span
-                          className="text-danger "
-                          onClick={this._deleteUser}
-                        >
-                          Delete
-                        </span>
+                      <button
+                        className="btn btn-outline-danger ml-2"
+                        disabled={!this.state.isEmailMatch}
+                        onClick={this._deleteUser}
+                      >
+                        <span>Delete</span>
                       </button>
                     </div>
                   }
                   margin={10}
-                  open={this._deleteUser}
+                  open={this._deleteBtn}
                   title={<span className="text-danger  ">Delete Warning</span>}
                   placement={"top"}
                 />
@@ -175,6 +212,6 @@ const mapStateToProps = (state) => ({
   user: state.auth.user,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { deleteUser };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserDashboard);

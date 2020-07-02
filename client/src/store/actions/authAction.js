@@ -289,6 +289,19 @@ export const editUser = (data) => (dispatch) => {
     });
 };
 
+//Delete User
+export const deleteUser = (data) => (dispatch) => {
+  dispatch(loading());
+  axios
+    .post("/api/auth/delete_user", data)
+    .then((res) => {
+      console.log("res.data deleteUser", res.data);
+    })
+    .catch((err) => {
+      console.log("error to delete user ", err.response.data);
+    });
+};
+
 export const clearErrors = () => (dispatch) => {
   dispatch({
     type: CLEAR_ERRORS,
