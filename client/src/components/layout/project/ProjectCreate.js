@@ -54,7 +54,7 @@ export class ProjectCreate extends Component {
           },
         });
       }
-      if (!this.state.selectedCoords) {
+      if (this.state.selectedCoords === null) {
         return this.setState({
           errors: {
             coords:
@@ -89,6 +89,15 @@ export class ProjectCreate extends Component {
         });
       }
     } else {
+      if (this.state.selectedCoords === null) {
+        return this.setState({
+          errors: {
+            coords:
+              "Please Edit Geolocation of your project. Move the Marker to desirable spot",
+          },
+        });
+      }
+
       //  User selected Not Now intrested to edit Work Hours
       this.setState({ loading: true });
       const data = {

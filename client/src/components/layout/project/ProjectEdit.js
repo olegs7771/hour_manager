@@ -32,6 +32,8 @@ export class ProjectEdit extends Component {
       start: "",
       end: "",
       editWorkHours: true,
+      //edit core function button
+      editFunc: false,
     };
   }
   _onChange = (e) => {
@@ -45,7 +47,7 @@ export class ProjectEdit extends Component {
     this.props.getSelectedProject({
       id: this.props.match.params.id,
     });
-    console.log("this.props.match.params.id", this.props.match.params.id);
+    // console.log("this.props.match.params.id", this.props.match.params.id);
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.selectedProject !== this.props.selectedProject) {
@@ -249,26 +251,61 @@ export class ProjectEdit extends Component {
                   onChange={this._onChange}
                   error={this.state.errors.location}
                 />
-
-                <span
-                  style={{
-                    fontWeight: "bold",
-                    color: "#FFF",
-                    marginLeft: 20,
-                  }}
-                >
-                  Please Select a Business Function that are carried out by your
-                  enterprise.
-                </span>
-                <div>
-                  <SelectFormGroup
-                    options={options}
-                    name="companyCoreFunc"
-                    value={this.state.value}
-                    onChange={this._onChange}
-                    error={this.state.errors.companyCoreFunc}
-                  />
+                <TextFormGroup
+                  label={
+                    <span
+                      style={{
+                        fontWeight: "bold",
+                        color: "#FFF",
+                        marginLeft: 20,
+                      }}
+                    >
+                      Core Function
+                    </span>
+                  }
+                  value={this.state.companyCoreFunc}
+                  name="companyCoreFunc"
+                  onChange={this._onChange}
+                  error={this.state.errors.companyCoreFun}
+                />
+                <div className="my-2 mx-auto">
+                  <button
+                    className="btn btn-outline-success"
+                    type="button"
+                    onClick={() =>
+                      this.setState({ editFunc: !this.state.editFunc })
+                    }
+                  >
+                    <span>
+                      {this.state.editFunc ? "Close" : "Edit Core Function"}
+                    </span>
+                  </button>
                 </div>
+
+                {this.state.editFunc ? (
+                  <div>
+                    <span
+                      style={{
+                        fontWeight: "bold",
+                        color: "#FFF",
+                        marginLeft: 20,
+                      }}
+                    >
+                      Please Select a Business Function that are carried out by
+                      your enterprise.
+                    </span>
+                    <div>
+                      <SelectFormGroup
+                        options={options}
+                        name="companyCoreFunc"
+                        value={this.state.value}
+                        onChange={this._onChange}
+                        error={this.state.errors.companyCoreFunc}
+                      />
+                    </div>
+                  </div>
+                ) : null}
+
                 {/* Add Project Geolocation */}
 
                 <div className="my-5 border rounded p-4">

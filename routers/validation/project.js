@@ -1,10 +1,10 @@
 const validator = require("validator");
 const isEmpty = require("./isEmpty");
 
-const validateProjectInput = data => {
+const validateProjectInput = (data) => {
   let errors = {};
   //companyName Field
-  if (!validator.isLength(data.companyName, { min: 2, max: 12 })) {
+  if (!validator.isLength(data.companyName, { min: 2, max: 25 })) {
     errors.companyName = "Name must contain between 2 and 12 characters";
   }
   //companyName Field
@@ -37,7 +37,7 @@ const validateProjectInput = data => {
 
   return {
     errors,
-    isValid: isEmpty(errors)
+    isValid: isEmpty(errors),
   };
 };
 
