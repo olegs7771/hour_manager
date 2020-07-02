@@ -105,6 +105,7 @@ export class ProjectEdit extends Component {
 
     const upProject = {
       companyName: this.state.companyName,
+      projectName: this.state.projectName,
       location: this.state.location,
       companyCoreFunc: this.state.companyCoreFunc,
       start: this.state.start,
@@ -151,20 +152,22 @@ export class ProjectEdit extends Component {
       );
     } else if (this.state.messages.message) {
       return (
-        <div style={{ height: 700 }}>
+        <div style={{ height: 700, paddingTop: "10%" }} className="text-center">
           <span className="text-success text-center h5">
             {this.state.messages.message}
           </span>
           <div className="my-3  ">
             <button
-              className="d-flex align-items-center btn btn-outline-secondary"
+              className="d-flex align-items-center btn btn-outline-secondary mx-auto"
               onClick={() => this.props.history.push("/project")}
             >
-              Back to Projects{" "}
+              <span className="text-white">Back to Projects</span>
+
               <FontAwesomeIcon
                 icon={faLongArrowAltRight}
                 size="2x"
                 className="ml-3"
+                color="#FFF"
               />
             </button>
           </div>
@@ -228,6 +231,27 @@ export class ProjectEdit extends Component {
                   name="companyName"
                   onChange={this._onChange}
                   error={this.state.errors.companyName}
+                />
+                <TextFormGroup
+                  label={
+                    <span
+                      style={{
+                        fontWeight: "bold",
+                        color: "#FFF",
+                        marginLeft: 20,
+                      }}
+                    >
+                      Project Name
+                    </span>
+                  }
+                  value={
+                    this.state.projectName
+                      ? UpCase(this.state.projectName)
+                      : this.state.projectName
+                  }
+                  name="projectName"
+                  onChange={this._onChange}
+                  error={this.state.errors.projectName}
                 />
 
                 <TextFormGroup

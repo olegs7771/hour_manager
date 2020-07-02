@@ -198,6 +198,11 @@ router.post(
   "/update",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const { errors, isValid } = validateProjectInput(req.body);
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
     Project.findOne({ user: req.user.id }).then((project) => {
       if (!project) {
         return res.status(400).json({ error: "No such a project" });

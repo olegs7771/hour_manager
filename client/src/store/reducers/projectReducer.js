@@ -3,6 +3,7 @@ import {
   GET_SELECTED_PROJECT,
   LOADING_PROJECT,
   SELECT_COORDINATES,
+  STOP_LOADING_PROJECT,
 } from "../actions/types";
 
 const initialState = {
@@ -35,6 +36,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         selectedCoords: action.payload,
+      };
+    case STOP_LOADING_PROJECT:
+      return {
+        ...state,
+        loading: false,
       };
 
     default:

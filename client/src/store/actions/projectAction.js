@@ -5,6 +5,7 @@ import {
   GET_ERRORS,
   LOADING_PROJECT,
   SELECT_COORDINATES,
+  STOP_LOADING_PROJECT,
 } from "./types";
 import axios from "axios";
 
@@ -84,6 +85,13 @@ export const editProject = (data) => (dispatch) => {
     })
     .catch((err) => {
       console.log("err :", err.response.data);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      });
+      dispatch({
+        type: STOP_LOADING_PROJECT,
+      });
     });
 };
 
@@ -139,4 +147,9 @@ export const loading = () => {
     type: LOADING_PROJECT,
   };
 };
-//ו
+//Stop Loading
+export const stopLoading = () => {
+  return {
+    type: STOP_LOADING_PROJECT,
+  };
+};
