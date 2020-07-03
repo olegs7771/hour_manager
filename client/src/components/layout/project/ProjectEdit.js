@@ -34,6 +34,8 @@ export class ProjectEdit extends Component {
       editWorkHours: true,
       //edit core function button
       editFunc: false,
+      //edit coords  button
+      editCoords: false,
     };
   }
   _onChange = (e) => {
@@ -332,14 +334,38 @@ export class ProjectEdit extends Component {
 
                 {/* Add Project Geolocation */}
 
-                <div className="my-5 border rounded p-4">
-                  <p className="text-white">Edit Geolocation of your project</p>
-                  <input
+                {!this.state.editCoords ? (
+                  <div className="mt-4 mx-auto">
+                    <span className="text-white">Geo Address :</span>{" "}
+                    <span style={{ color: "#fcf800" }}>
+                      {this.state.selectedProject.address}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="mt-4 border rounded p-4">
+                    <p className="text-white">
+                      Edit Geolocation of your project
+                    </p>
+                    <input
+                      type="button"
+                      value="Add Coordenates"
+                      onClick={this._getCoordsToMap}
+                      className="btn btn-outline-info"
+                    />
+                  </div>
+                )}
+                <div className="my-2 mx-auto">
+                  <button
+                    className="btn btn-outline-success"
                     type="button"
-                    value="Add Coordenates"
-                    onClick={this._getCoordsToMap}
-                    className="btn btn-outline-info"
-                  />
+                    onClick={() =>
+                      this.setState({ editCoords: !this.state.editCoords })
+                    }
+                  >
+                    <span>
+                      {this.state.editCoords ? "Close" : "Edit Geolocation "}
+                    </span>
+                  </button>
                 </div>
 
                 <div className="my-1 ">

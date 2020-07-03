@@ -7,6 +7,9 @@ const jwt_decode = require("jwt-decode");
 // const passport = require("passport");
 const moment = require("moment");
 const User = require("../../models/User");
+const Project = require("../../models/Project");
+const Employee = require("../../models/Employee");
+const Jobday = require("../../models/Jobday");
 const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
 const sendMail = require("../../utils/mail/MailTransporter");
@@ -505,7 +508,14 @@ router.post(
           .json({ error: "User not exists or has been removed" });
       }
       //User found! Start Delete Projects,Employees,Jobdays
-      res.json(user);
+      console.log("user", user);
+      //Find all Projects
+      Project.find({ user: req.body.uid }).then((projects) => {
+        if (!projects) {
+          console.log("No projects for this user");
+        }
+        console.log("projects", projects);
+      });
     });
   }
 );

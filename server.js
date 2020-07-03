@@ -56,7 +56,7 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
-// app.use(express.static(path.join(__dirname, "public")));
+// app.use(dxpress.static(path.join(__dirname, "public")));
 
 // Use Routes
 
@@ -74,3 +74,19 @@ const server = app.listen(port, () => {
 console.log("NODE_ENV", process.env.NODE_ENV);
 
 //Exercises
+
+const UpCase = (value) => {
+  var splitStr = value.toLowerCase().split("");
+  console.log("splitStr", splitStr);
+  for (let i = 0; i < splitStr.length; i++) {
+    splitStr[i] =
+      splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+    if (typeof value !== "string") {
+      throw new Error("Not String provided");
+    } else {
+      return splitStr.join("");
+    }
+  }
+};
+
+console.log(UpCase("oleg smushkevich"));

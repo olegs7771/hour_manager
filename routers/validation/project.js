@@ -7,17 +7,17 @@ const validateProjectInput = (data) => {
   let errors = {};
   //companyName Field
   if (!validator.isLength(data.companyName, { min: 2, max: 25 })) {
-    errors.companyName = "Name must contain between 2 and 12 characters";
+    errors.companyName = "Name must contain between 2 and 25 characters";
   }
   //companyName Field
-  if (!validator.isLength(data.projectName, { min: 2, max: 12 })) {
+  if (!validator.isLength(data.projectName, { min: 2, max: 25 })) {
     errors.projectName =
-      "Project name must contain between 2 and 12 characters";
+      "Project name must contain between 2 and 25 characters";
   }
   //location Field
 
-  if (!validator.isLength(data.location, { min: 2, max: 12 })) {
-    errors.location = "Location must contain between 2 and 12 characters";
+  if (!validator.isLength(data.location, { min: 2, max: 30 })) {
+    errors.location = "Location must contain between 2 and 30 characters";
   }
 
   //check for empty  company fields

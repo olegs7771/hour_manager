@@ -48,8 +48,8 @@ export class EmployeeStaff extends Component {
       if (isEmpty(this.props.employees)) {
         return (
           <div
-            className="my-3 text-center h5 "
-            style={{ paddingTop: "30%", paddingBottom: "30%" }}
+            className="my-3 text-center h5 text-white"
+            style={{ paddingTop: "10%", paddingBottom: "30%", height: 700 }}
           >
             No Employees in this Project
           </div>
