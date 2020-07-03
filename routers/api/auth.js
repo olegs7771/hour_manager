@@ -119,11 +119,15 @@ router.post("/confirm_registration", (req, res) => {
   if (decoded.exp < moment().format("X")) {
     //Token Expired . Delete User in DB
     User.findById(req.body.id).then((user) => {
-      user.remove().then(() => {
-        return res.status(400).json({
-          error: "Registration link has been expired. Please Sign up again",
+      if (!user.confirmed) {
+        user.remove().then(() => {
+          return res.status(400).json({
+            error: "Registration link has been expired. Please Sign up again",
+          });
         });
-      });
+      } else {
+        res.status(400).json({ error: " Account already activated" });
+      }
     });
   }
   console.log("token valid");

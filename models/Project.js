@@ -33,6 +33,11 @@ const ProjectSchema = new Schema({
   address: {
     type: String,
   },
+  //For Employee Login. To look up project for existing Employees
+  //Code created at the project creation and never changed
+  projectCode: {
+    type: Number,
+  },
 
   //List of Employees
   staff: [

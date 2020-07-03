@@ -9,6 +9,7 @@ const keys = require("../../config/dev_keys").secredOrKey;
 const passport = require("passport");
 const validateEmployeeInput = require("../validation/employee");
 const sendMail = require("../../utils/mail/MailTransporter");
+const UpCase = require("../../utils/helpFunctions/UpperCase");
 
 //Create New Employee
 //Private Route
@@ -209,14 +210,19 @@ router.post("/activate", async (req, res) => {
     project.save().then((upProject) => {
       //Notify Employee that Accout been Activated!
       res.json({
-        message: `Dear ${employeeToUpdate.employeeName} your account for HourManager App was successfully activated! Please remember
-        your code [${upEmployee.code}] and E-mail [${upEmployee.email}]. You will need it for SignIn in HourManager App.
+        message: `Dear ${UpCase(
+          employeeToUpdate.employeeName
+        )} your account for HourManager App was successfully activated! Please remember
+        your code [${upEmployee.code}]  and E-mail [${
+          upEmployee.email
+        }]. You will need it for SignIn in HourManager App.
         Please check email 
         `,
         employee: {
           name: employeeToUpdate.employeeName,
           code: upEmployee.code,
           email: upEmployee.email,
+          projectID: upEmployee.projectID,
         },
       });
     });
@@ -340,6 +346,7 @@ router.post(
 //req.body (email,code)
 //returns token
 router.post("/employee_login", (req, res) => {
+  //Look up current Project for all
   Employee.findOne({ email: req.body.email }).then((employee) => {
     if (!employee)
       return res

@@ -23,6 +23,8 @@ router.post(
       if (!project) {
         //No Project for user create on
         console.log("No Project for user create one");
+        //Create Random Code
+
         //Create New Project
         const newProject = {
           user: req.user.id,

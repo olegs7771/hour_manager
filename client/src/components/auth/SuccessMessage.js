@@ -72,13 +72,14 @@ export class SuccessMessage extends Component {
               {UpCase(this.state.confirmed_user.name)}
             </span>{" "}
             <span className="text-center text-white">
-              Thank you for registration
+              Thank you for registration.
             </span>
             <br />
             <p className="text-white">
-              You've now sent your request to the Hourmanager admin. Once the
-              admin approves your request, you will be able the to access
-              HourManager. Please save your credentials for further Login
+              We've now sent your request to the Hourmanager admin. Once the
+              admin approves your request, you will be notified by email and be
+              able the to access HourManager. Please save your credentials for
+              further Login
             </p>
             <div className="my-3  rounded text-white">
               <span>Email : {this.state.confirmed_user.email}</span>

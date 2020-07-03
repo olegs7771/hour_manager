@@ -1,4 +1,4 @@
-export const UpCase = (value) => {
+const UpCase = (value) => {
   if (typeof value !== "string") {
     throw new Error("Not String provided");
   } else {
@@ -9,3 +9,4 @@ export const UpCase = (value) => {
       .join(" ");
   }
 };
+module.exports = UpCase;

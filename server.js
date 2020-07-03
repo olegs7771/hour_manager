@@ -76,17 +76,15 @@ console.log("NODE_ENV", process.env.NODE_ENV);
 //Exercises
 
 const UpCase = (value) => {
-  var splitStr = value.toLowerCase().split("");
-  console.log("splitStr", splitStr);
-  for (let i = 0; i < splitStr.length; i++) {
-    splitStr[i] =
-      splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
-    if (typeof value !== "string") {
-      throw new Error("Not String provided");
-    } else {
-      return splitStr.join("");
-    }
+  if (typeof value !== "string") {
+    throw new Error("Not String provided");
+  } else {
+    return value
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
   }
 };
 
-console.log(UpCase("oleg smushkevich"));
+console.log(UpCase("oleg smushkevich one"));
