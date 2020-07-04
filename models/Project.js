@@ -60,6 +60,9 @@ const ProjectSchema = new Schema({
       employeePhone: {
         type: String,
       },
+      code: {
+        type: Number,
+      },
       func: {
         type: String,
       },

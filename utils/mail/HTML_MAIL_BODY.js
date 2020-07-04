@@ -90,7 +90,7 @@ const htmlBody = (data) => {
         ` <p>Dear ${UpCase(
           data.name
         )}. The HourManager App has been activated.</p>` +
-        ` <p>Please download HourManager app and login with your Email ${data.email}  and secret code :${data.code} </p>` +
+        ` <p>Please download HourManager app and login with your Email ${data.email} , app code :${data.code} ,project code :${data.projectCode} </p>` +
         "<p>See You Soon.</p>";
       "</div></body></html>";
       break;

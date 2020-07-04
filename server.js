@@ -75,16 +75,4 @@ console.log("NODE_ENV", process.env.NODE_ENV);
 
 //Exercises
 
-const UpCase = (value) => {
-  if (typeof value !== "string") {
-    throw new Error("Not String provided");
-  } else {
-    return value
-      .toLowerCase()
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  }
-};
-
-console.log(UpCase("oleg smushkevich one"));
+// console.log(Math.trunc(Math.random() * 10000000));

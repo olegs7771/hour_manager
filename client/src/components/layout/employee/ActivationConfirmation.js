@@ -29,6 +29,7 @@ class ActivationConfirmation extends Component {
         const payload = {
           name: this.props.activatedEmployee.name,
           code: this.props.activatedEmployee.code,
+          projectCode: this.props.activatedEmployee.projectCode,
           email: this.props.activatedEmployee.email,
         };
 

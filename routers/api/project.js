@@ -24,6 +24,7 @@ router.post(
         //No Project for user create on
         console.log("No Project for user create one");
         //Create Random Code
+        const ranNum = Math.trunc(Math.random() * 10000000);
 
         //Create New Project
         const newProject = {
@@ -32,6 +33,7 @@ router.post(
           location: req.body.location,
           companyCoreFunc: req.body.companyCoreFunc,
           projectName: req.body.projectName,
+          projectCode: ranNum,
           workDayHours: {
             start: req.body.jobStart,
             end: req.body.jobEnd,
@@ -68,12 +70,15 @@ router.post(
             .json({ projectName: "Such a project name already exists" });
         }
         //Create New Project
+        //Create Random Code
+        const ranNum = Math.trunc(Math.random() * 10000000);
         const newProject = {
           user: req.user.id,
           companyName: req.body.companyName,
           location: req.body.location,
           companyCoreFunc: req.body.companyCoreFunc,
           projectName: req.body.projectName,
+          projectCode: ranNum,
           workDayHours: {
             start: req.body.jobStart,
             end: req.body.jobEnd,
