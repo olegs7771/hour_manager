@@ -358,14 +358,14 @@ router.post("/employee_login", (req, res) => {
       if (!project) {
         return res.status(400).json({ projectCode: "Wrong Project Code" });
       }
-      console.log("project found", project);
+      // console.log("project found", project);
 
       //Project Found
       const employeeFound = project.staff.find((emp) => {
-        console.log("emp", emp);
-
+        console.log("emp", emp.code);
         return emp.code.toString() === req.body.appCode;
       });
+      console.log("employeeFound", employeeFound);
 
       if (!employeeFound) {
         return res.status(400).json({ appCode: "Wrong App Code" });
@@ -389,33 +389,33 @@ router.post("/employee_login", (req, res) => {
       };
       console.log("payload", payload);
 
-      // jwt.sign(payload, keys, (err, token) => {
-      //   console.log("token", token);
+      jwt.sign(payload, keys, (err, token) => {
+        console.log("token", token);
 
-      //   if (err) {
-      //     throw err;
-      //   }
-      //   employeeFound.app = true;
-      //   project.save().then(() => {
-      //     console.log("token set");
+        if (err) {
+          throw err;
+        }
+        employeeFound.app = true;
+        project.save().then(() => {
+          console.log("token set");
 
-      //     res.json({
-      //       token,
-      //       name: employeeFound.employeeName,
-      //       email: employeeFound.employeeEmail,
-      //       uid: employeeFound._id,
-      //       projectID: project._id,
-      //     });
-      //     //Update Employee Model
-      //     Employee.findById(employeeFound._id).then((employee) => {
-      //       if (!employee) {
-      //         return console.log("can not find an employee");
-      //       }
-      //       employee.token = token;
-      //       employee.save();
-      //     });
-      //   });
-      // });
+          res.json({
+            token,
+            name: employeeFound.employeeName,
+            email: employeeFound.employeeEmail,
+            uid: employeeFound._id,
+            projectID: project._id,
+          });
+          //Update Employee Model
+          Employee.findById(employeeFound._id).then((employee) => {
+            if (!employee) {
+              return console.log("can not find an employee");
+            }
+            employee.token = token;
+            employee.save();
+          });
+        });
+      });
     }
   );
 });
