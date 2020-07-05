@@ -30,6 +30,7 @@ router.post("/checkIn_automatic", (req, res) => {
     if (!emp) {
       return res.status(400).json({ error: "Unauthorized!" });
     }
+
     //validation passed!
     //Check if JobDay was alredy Created
     //Create date parameter for dateFilter( 2020-04-10)
@@ -43,10 +44,13 @@ router.post("/checkIn_automatic", (req, res) => {
       $lt: new Date(dateParam + "T23:59:59"),
       $gt: new Date(dateParam + "T00:00:00"),
     };
-    JobDay.find({ date: dateFilter })
+
+    JobDay.find({ employee: req.body.id })
       .then((days) => {
+        console.log("days.length", days.length);
+
         if (days.length === 0) {
-          //No job days today yet .Create new one by checkIn Button
+          //No job days for this employee been found at all! .Create new one by checkIn Button
           new JobDay({
             employee: req.body.id,
             projectID: req.body.projectID,
@@ -58,16 +62,40 @@ router.post("/checkIn_automatic", (req, res) => {
               res.json(jobday);
             })
             .catch((err) => {
-              res.status(400).json({ error: "Error to create" });
+              res.status(400).json({ error: err });
             });
         } else {
-          console.log("day already created");
+          console.log("found jobdays for current employee");
+          //Check if Employee has jobday for current day
 
           const selectedDay = days.find((day) => {
             console.log("day", day);
-            return day.employee == req.body.id;
+            return (
+              moment(day.date).format("L") === moment(req.body.id).format("L")
+            );
           });
-          res.json({ selectedDay, message: "this date  already exists" });
+          console.log("found day", selectedDay);
+
+          if (selectedDay) {
+            return res.json({
+              selectedDay,
+              message: "this date  already exists",
+            });
+          } else {
+            new JobDay({
+              employee: req.body.id,
+              projectID: req.body.projectID,
+              timeStart: req.body.timeStart,
+              date: new Date(moment().format()),
+            })
+              .save()
+              .then((jobday) => {
+                res.json(jobday);
+              })
+              .catch((err) => {
+                res.status(400).json({ error: err });
+              });
+          }
         }
       })
       .catch((err) => {
@@ -77,9 +105,9 @@ router.post("/checkIn_automatic", (req, res) => {
     console.log("Authorized");
   });
 });
+
 //Create Jobday CheckOut Automatic(by start&end buttons)
 //After checkOut calculate total time spend on job
-
 router.post("/checkOut_automatic", (req, res) => {
   console.log("req.body checkOut_automatic", req.body);
   Employee.findOne({ token: req.body.token }).then((emp) => {

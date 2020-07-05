@@ -130,7 +130,9 @@ class EmployeeTable extends Component {
           <td
             className="btn btn-outline-info  d-flex justify-content-center"
             onClick={() =>
-              this.props.history.push(`/employee_details/${this.props.id}`)
+              this.props.history.push(
+                `/employee_details/${this.props.id}/${this.props.match.params.id}`
+              )
             }
             style={{ border: "none" }}
           >

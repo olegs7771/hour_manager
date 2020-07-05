@@ -106,6 +106,7 @@ export class ProjectEdit extends Component {
     e.preventDefault();
 
     const upProject = {
+      projectID: this.state.selectedProject._id,
       companyName: this.state.companyName,
       projectName: this.state.projectName,
       location: this.state.location,

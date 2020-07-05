@@ -353,115 +353,71 @@ router.post(
 router.post("/employee_login", (req, res) => {
   //Look up current Project for all
   console.log("req.body.employee_login", req.body);
-  Project.findOne({ projectCode: req.body.projectCode }).then((project) => {
-    if (!project) {
-      return res.status(400).json({ projectCode: "Wrong Project Code" });
-    }
-
-    //Project Found
-    const employeeFound = project.staff.find((emp) => {
-      return emp.code.toString() === req.body.appCode;
-    });
-
-    if (!employeeFound) {
-      return res.status(400).json({ appCode: "Wrong App Code" });
-    }
-    //Employee Found
-    if (employeeFound.employeeEmail !== req.body.email) {
-      return res.status(400).json({
-        email: "Employee not exists or been removed. Please check Email",
-      });
-    }
-    console.log("employeeFound", employeeFound);
-    //Create Payload and Token
-    const payload = {
-      name: employeeFound.employeeName,
-      email: employeeFound.employeeEmail,
-      address: employeeFound.address,
-      phone: employeeFound.employeePhone,
-      started: employeeFound.started,
-      func: employeeFound.func,
-      projectID: project._id,
-    };
-    console.log("payload", payload);
-
-    jwt.sign(payload, keys, (err, token) => {
-      console.log("token", token);
-
-      if (err) {
-        throw err;
+  Project.findOne({ projectCode: parseInt(req.body.projectCode) }).then(
+    (project) => {
+      if (!project) {
+        return res.status(400).json({ projectCode: "Wrong Project Code" });
       }
-      employeeFound.app = true;
-      project.save().then(() => {
-        console.log("token set");
-        res.json({
-          token,
-          name: employeeFound.name,
-          email: employeeFound.email,
-          uid: employeeFound._id,
-          projectID: project._id,
-        });
-        //Update Employee Model
-        Employee.findById(employeeFound._id).then((employee) => {
-          if (!employee) {
-            return console.log("can not find an employee");
-          }
-          employee.token = token;
-          employee.save();
-        });
+      console.log("project found", project);
+
+      //Project Found
+      const employeeFound = project.staff.find((emp) => {
+        console.log("emp", emp);
+
+        return emp.code.toString() === req.body.appCode;
       });
-    });
-  });
 
-  // Employee.findOne({ email: req.body.email }).then((employee) => {
-  //   if (!employee)
-  //     return res
-  //       .status(400)
-  //       .json({ error: "Employee not exists. Please check Email " });
-  //   //Employee Found
-  //   console.log("employee", employee);
+      if (!employeeFound) {
+        return res.status(400).json({ appCode: "Wrong App Code" });
+      }
+      //Employee Found
+      if (employeeFound.employeeEmail !== req.body.email) {
+        return res.status(400).json({
+          email: "Employee not exists or been removed. Please check Email",
+        });
+      }
+      console.log("employeeFound", employeeFound);
+      //Create Payload and Token
+      const payload = {
+        name: employeeFound.employeeName,
+        email: employeeFound.employeeEmail,
+        address: employeeFound.address,
+        phone: employeeFound.employeePhone,
+        started: employeeFound.started,
+        func: employeeFound.func,
+        projectID: project._id,
+      };
+      console.log("payload", payload);
 
-  //   if (employee.code !== parseInt(req.body.code))
-  //     return res.status(400).json({ error: "Wrong code. Please try again" });
-  //   //Code valid.Create Token For Logged Employee App
-  //   const payload = {
-  //     name: employee.name,
-  //     email: employee.email,
-  //     address: employee.address,
-  //     phone: employee.phone,
-  //     started: employee.started,
-  //     func: employee.func,
-  //     projectID: employee.projectID,
-  //   };
-  //   jwt.sign(payload, keys, (err, token) => {
-  //     if (err) {
-  //       throw err;
-  //     }
-  //     employee.token = token;
-  //     employee.save().then(() => {
-  //       console.log("token set");
-  //       res.json({
-  //         token,
-  //         name: employee.name,
-  //         email: employee.email,
-  //         uid: employee._id,
-  //         projectID: employee.projectID,
-  //       });
-  //       //Update in Project current employee app=true;
-  //       Project.findById(employee.projectID).then((project) => {
-  //         console.log("project", project);
-  //         const employeeToUpdate = project.staff.find((emp) => {
-  //           return emp.employeeEmail === req.body.email;
-  //         });
-  //         console.log("employeeToUpdate", employeeToUpdate);
-  //         employeeToUpdate.app = true;
-  //         employeeToUpdate.save().then((upEmp) => {
-  //           console.log("upEmp", upEmp);
-  //         });
-  //       });
-  //     });
-  //   });
-  // });
+      // jwt.sign(payload, keys, (err, token) => {
+      //   console.log("token", token);
+
+      //   if (err) {
+      //     throw err;
+      //   }
+      //   employeeFound.app = true;
+      //   project.save().then(() => {
+      //     console.log("token set");
+
+      //     res.json({
+      //       token,
+      //       name: employeeFound.employeeName,
+      //       email: employeeFound.employeeEmail,
+      //       uid: employeeFound._id,
+      //       projectID: project._id,
+      //     });
+      //     //Update Employee Model
+      //     Employee.findById(employeeFound._id).then((employee) => {
+      //       if (!employee) {
+      //         return console.log("can not find an employee");
+      //       }
+      //       employee.token = token;
+      //       employee.save();
+      //     });
+      //   });
+      // });
+    }
+  );
 });
 
 module.exports = router;

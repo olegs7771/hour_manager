@@ -7,6 +7,7 @@ import {
   getEmployee,
   deleteEmployee,
 } from "../../../store/actions/employeeAction";
+import { getSelectedProject } from "../../../store/actions/projectAction";
 
 import { DotLoaderSpinner } from "../../spinners/DotLoaderSpinner";
 import { UpCase } from "../../../utils/UpperCase";
@@ -37,6 +38,7 @@ export class EmployeeDetails extends Component {
     messages: {},
     match: false,
     selectedEmployee: null,
+    selectedProject: {},
     selectedEmployeeDetails: null,
     loading: null,
     showDay: false,
@@ -83,6 +85,10 @@ export class EmployeeDetails extends Component {
         selectedEmployeeDetails: this.props.selectedEmployee,
       });
     }
+    //Selected project
+    if (this.props.selectedProject !== prevProps.selectedProject) {
+      this.setState({ selectedProject: this.props.selectedProject });
+    }
 
     // GET Errors in State
     if (prevProps.errors !== this.props.errors) {
@@ -113,7 +119,8 @@ export class EmployeeDetails extends Component {
   }
 
   componentDidMount() {
-    this.props.getEmployee({ id: this.props.match.params.id });
+    this.props.getEmployee({ id: this.props.match.params.employeeID });
+    this.props.getSelectedProject({ id: this.props.match.params.projectID });
   }
 
   _deleteEmployee = (e) => {
@@ -248,26 +255,15 @@ export class EmployeeDetails extends Component {
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
                   <span className="font-italic" style={{ fontSize: 12 }}>
-                    Code for login in App
-                    <br />
-                    In Case if lost
+                    App Code
                   </span>
-                  <span className="font-weight-bolder">
-                    {this.props.selectedEmployee.code}
+                  <span>{this.props.selectedEmployee.code}</span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between">
+                  <span className="font-italic" style={{ fontSize: 12 }}>
+                    Project Code
                   </span>
-
-                  <span className="">
-                    {this.props.selectedEmployee.confirmed ? (
-                      <span className="text-success">
-                        <FontAwesomeIcon icon={faCheck} />
-                      </span>
-                    ) : (
-                      <span className="text-danger">
-                        {" "}
-                        <FontAwesomeIcon icon={faExclamationCircle} />
-                      </span>
-                    )}
-                  </span>
+                  <span>{this.state.selectedProject.projectCode}</span>
                 </li>
               </ul>
             </div>
@@ -380,13 +376,14 @@ export class EmployeeDetails extends Component {
 
 const mapStateToProps = (state) => ({
   selectedEmployee: state.employees.selectedEmployee,
+  selectedProject: state.projects.selectedProject,
   selectedDay: state.jobday.selectedDay,
   errors: state.errors.errors,
   loading: state.employees.loading,
   messages: state.messages.messages,
 });
 
-const mapDispatchToProps = { getEmployee, deleteEmployee };
+const mapDispatchToProps = { getEmployee, deleteEmployee, getSelectedProject };
 
 export default connect(
   mapStateToProps,

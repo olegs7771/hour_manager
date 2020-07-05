@@ -152,7 +152,7 @@ class App extends Component {
                 />
                 <Route
                   exact
-                  path="/employee_details/:id"
+                  path="/employee_details/:employeeID/:projectID"
                   component={userIsAuthenticated(EmployeeDetails)}
                 />
                 <Route

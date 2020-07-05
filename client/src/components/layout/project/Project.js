@@ -73,6 +73,7 @@ export class Project extends Component {
       );
     } else {
       if (isEmpty(this.props.projects)) {
+        // No Project exists
         return (
           <div className="text-center " style={{ height: 900 }}>
             <span className="text-white display-4">Projects</span>
@@ -99,27 +100,28 @@ export class Project extends Component {
           </div>
         );
       } else {
+        //User has projects
         return (
           <div className="" style={{ height: 900 }}>
-            <div className=" p-3 ">
-              <span className=" text-white">
-                In this section you can view or create the new project.
-              </span>
-              <br />
-              <span className=" text-white">
-                To create a new project click on the Add Project button.
-              </span>
-            </div>
-            <div className="my-3 p-3 ">
-              <button
-                className="btn btn-outline-info"
-                onClick={this._createProject}
-              >
-                <span className="text-white">Add Project</span>
-              </button>
-            </div>
             <div className="row  d-flex justify-content-around">
-              <div className="col-md-4 ">
+              <div className="col-md-6 ">
+                <div className=" p-3 ">
+                  <span className=" text-white">
+                    In this section you can view or create the new project.
+                  </span>
+                  <br />
+                  <span className=" text-white">
+                    To create a new project click on the Add Project button.
+                  </span>
+                </div>
+                <div className="my-3 p-3 ">
+                  <button
+                    className="btn btn-outline-info"
+                    onClick={this._createProject}
+                  >
+                    <span className="text-white">Add Project</span>
+                  </button>
+                </div>
                 <div className="h5 text-center text-white my-4">Projects</div>
                 {this.props.projects.map((project) => (
                   <ul className="list-group" key={project._id}>
@@ -135,6 +137,18 @@ export class Project extends Component {
                       onMouseEnter={() => this.setState({ hover: true })}
                       onMouseLeave={() => this.setState({ hover: false })}
                     >
+                      <div>
+                        <span className="text-left font-weight-bold text-white">
+                          Company:
+                        </span>
+                        <span
+                          className=" ml-2 font-weight-bold "
+                          style={{ color: "#f6f78b" }}
+                        >
+                          {project.companyName[0].toLocaleUpperCase() +
+                            project.companyName.slice(1)}
+                        </span>
+                      </div>
                       <div>
                         <span className="text-left font-weight-bold text-white">
                           Project:

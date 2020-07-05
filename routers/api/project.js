@@ -205,17 +205,20 @@ router.post(
   "/update",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    console.log("re.body update", req.body);
+
     const { errors, isValid } = validateProjectInput(req.body);
     if (!isValid) {
       return res.status(400).json(errors);
     }
 
-    Project.findOne({ user: req.user.id }).then((project) => {
+    Project.findById(req.body.projectID).then((project) => {
       if (!project) {
         return res.status(400).json({ error: "No such a project" });
       }
-      console.log("project", project);
+
       project.companyName = req.body.companyName;
+      project.projectName = req.body.projectName;
       project.location = req.body.location;
       project.companyCoreFunc = req.body.companyCoreFunc;
       project.workDayHours.start = req.body.start
