@@ -46,7 +46,7 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     //Get Selected
-    // console.log("test req.body get_jobday ", req.body);
+    console.log(" req.body get_jobday ", req.body);
     Project.findById(req.body.projectID).then((project) => {
       if (!project) {
         return res.status(400).json({ error: "No Project found" });
@@ -58,9 +58,10 @@ router.post(
         $lt: new Date(req.body.date + "T23:59:59"),
         $gt: new Date(req.body.date + "T00:00:00"),
       };
+      //Search for all jobdays of current Employee
 
       JobDay.find({ date: dateFilter }).then((days) => {
-        // console.log("days", days);
+        console.log("days", days);
 
         if (days.length === 0) {
           return res.json({
@@ -69,13 +70,27 @@ router.post(
           });
         }
 
-        days.map((day) => {
-          if (day.employee.toString() === req.body.employeeID) {
-            return res.json({ day, hours: { startHour, endHour } });
-          } else {
-            res.json({ message: "no jobdays for this employee" });
-          }
+        //Found jobdays for current date
+        //Check jobday for current Employee
+        const dayFound = days.find((day) => {
+          return day.employee.toString() === req.body.employeeID;
         });
+        console.log("dayFound", dayFound);
+        if (!dayFound) {
+          return res.json({ message: "no jobdays for this employee" });
+        }
+        res.json({ day: dayFound, hours: { startHour, endHour } });
+
+        // days.map((day) => {
+        //   console.log("day", day);
+
+        //   if (day.employee.toString() === req.body.employeeID) {
+        //     return res.json({ day, hours: { startHour, endHour } });
+        //   } else {
+        //     // res.json({ message: "no jobdays for this employee" });
+        //     console.log("no jobdays for this employee");
+        //   }
+        // });
       });
     });
   }

@@ -74,3 +74,5 @@ const server = app.listen(port, () => {
 console.log("NODE_ENV", process.env.NODE_ENV);
 
 //Exercises
+// const d = new Date();
+// console.log(d.toISOString());

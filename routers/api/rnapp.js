@@ -71,10 +71,11 @@ router.post("/checkIn_automatic", (req, res) => {
           const selectedDay = days.find((day) => {
             console.log("day", day);
             return (
-              moment(day.date).format("L") === moment(req.body.id).format("L")
+              moment(day.date).format("L") ===
+              moment(req.body.timeStart).format("L")
             );
           });
-          console.log("found day", selectedDay);
+          // console.log("found day", selectedDay);
 
           if (selectedDay) {
             return res.json({
@@ -157,7 +158,7 @@ router.post("/checkOut_automatic", (req, res) => {
 //Get Todays CheckIn checkOut Time if day exists
 //For showing in JobdayScreen
 router.post("/get_today_time", (req, res) => {
-  // console.log("req.body", req.body);
+  console.log("req.body get_today_time", req.body);
   Employee.findOne({ token: req.body.token }).then((emp) => {
     if (!emp) {
       return res.status(400).json({ error: "Unauthorized!" });
