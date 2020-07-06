@@ -44,6 +44,8 @@ router.post(
 
         const {
           projectID,
+          managerID,
+          managerName,
           name,
           email,
           phone,
@@ -53,6 +55,8 @@ router.post(
         } = req.body;
         new Employee({
           projectID,
+          managerID,
+          managerName,
           name,
           email,
           address,

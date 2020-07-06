@@ -80,17 +80,6 @@ router.post(
           return res.json({ message: "no jobdays for this employee" });
         }
         res.json({ day: dayFound, hours: { startHour, endHour } });
-
-        // days.map((day) => {
-        //   console.log("day", day);
-
-        //   if (day.employee.toString() === req.body.employeeID) {
-        //     return res.json({ day, hours: { startHour, endHour } });
-        //   } else {
-        //     // res.json({ message: "no jobdays for this employee" });
-        //     console.log("no jobdays for this employee");
-        //   }
-        // });
       });
     });
   }

@@ -76,3 +76,21 @@ console.log("NODE_ENV", process.env.NODE_ENV);
 //Exercises
 // const d = new Date();
 // console.log(d.toISOString());
+
+const carsArr = [
+  { color: "green", price: 1000, brend: "Honda" },
+  { color: "red", price: 3000, brend: "Fiat" },
+  { color: "blue", price: 500, brend: "Mersedes" },
+  { color: "black", price: 4000, brend: "BMW" },
+  { color: "white", price: 2000, brend: "KIA" },
+];
+
+const pricesToSelect = [1000, 4000, 500];
+
+pricesToSelect.map((price) => {
+  console.log(price);
+  const carFound = carsArr.filter((car) => {
+    return car.price !== price;
+  });
+  console.log("carFound", carFound);
+});

@@ -6,6 +6,13 @@ const EmployeeSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Project",
   },
+  managerID: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
+  managerName: {
+    type: String,
+  },
   name: {
     type: String,
     require: true,

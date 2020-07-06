@@ -505,6 +505,8 @@ router.post(
   "/delete_user",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    console.log("req.body delete_user", req.body);
+
     User.findById(req.body.uid).then((user) => {
       if (!user) {
         return res
@@ -512,13 +514,37 @@ router.post(
           .json({ error: "User not exists or has been removed" });
       }
       //User found! Start Delete Projects,Employees,Jobdays
-      console.log("user", user);
+      // console.log("user", user);
       //Find all Projects
       Project.find({ user: req.body.uid }).then((projects) => {
         if (!projects) {
           console.log("No projects for this user");
         }
         console.log("projects", projects);
+        //Get Projects ID's for the  further  searching of the  Jobdays
+        let projectsID = [];
+        projects.map((project) => {
+          projectsID.push(project._id);
+        });
+        console.log("projectsID", projectsID);
+
+        //Find all Employees
+        Employee.find({ managerID: req.body.uid }).then((emps) => {
+          if (emps.length === 0) {
+            return console.log("No Employees for this user");
+          }
+          // console.log("empployees found", emps);
+          //Find all jobdays
+
+          Jobday.find().then((jobdays) => {
+            // console.log("jobdays", jobdays);
+            let daysToDelete = [];
+            for (let i = 0; i < jobdays.length; i++) {
+              const jobday = jobdays[i];
+              // if(jobday.projectID===)
+            }
+          });
+        });
       });
     });
   }

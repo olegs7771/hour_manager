@@ -62,6 +62,8 @@ export class EmployeeAdd extends Component {
     e.preventDefault();
     const newEmployee = {
       projectID: this.props.selectedProject._id,
+      managerID: this.props.selectedProject.user._id,
+      managerName: this.props.selectedProject.user.name,
       name: this.state.name,
       email: this.state.email,
       phone: this.state.phone,
