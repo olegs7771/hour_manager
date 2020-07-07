@@ -54,6 +54,7 @@ router.post("/checkIn_automatic", (req, res) => {
           new JobDay({
             employee: req.body.id,
             projectID: req.body.projectID,
+            managerID: req.body.managerID,
             timeStart: req.body.timeStart,
             date: new Date(moment().format()),
           })
@@ -86,6 +87,7 @@ router.post("/checkIn_automatic", (req, res) => {
             new JobDay({
               employee: req.body.id,
               projectID: req.body.projectID,
+              managerID: req.body.managerID,
               timeStart: req.body.timeStart,
               date: new Date(moment().format()),
             })

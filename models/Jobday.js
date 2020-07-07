@@ -9,7 +9,10 @@ const JobDaySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Project",
   },
-
+  managerID: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
   timeStart: {
     type: Date,
   },
