@@ -77,20 +77,27 @@ console.log("NODE_ENV", process.env.NODE_ENV);
 // const d = new Date();
 // console.log(d.toISOString());
 
-const carsArr = [
-  { color: "green", price: 1000, brend: "Honda" },
-  { color: "red", price: 3000, brend: "Fiat" },
-  { color: "blue", price: 500, brend: "Mersedes" },
-  { color: "black", price: 4000, brend: "BMW" },
-  { color: "white", price: 2000, brend: "KIA" },
-];
+// const carsArr = [
+//   { id: 1, color: "green", price: 1000, brend: "Honda" },
+//   { id: 2, color: "red", price: 3000, brend: "Fiat" },
+//   { id: 3, color: "blue", price: 500, brend: "Mersedes" },
+//   { id: 4, color: "black", price: 4000, brend: "BMW" },
+//   { id: 5, color: "white", price: 2000, brend: "KIA" },
+// ];
 
-const pricesToSelect = [1000, 4000, 500];
-
-pricesToSelect.map((price) => {
-  console.log(price);
-  const carFound = carsArr.filter((car) => {
-    return car.price !== price;
-  });
-  console.log("carFound", carFound);
-});
+// const pricesToSelect = [1000, 4000, 500];
+// const carFound = (...arg) => {
+//   console.log("arg", arg);
+//   let newArr;
+//   let price;
+//   for (let i = 0; i < arg.length; i++) {
+//     price = arg[i];
+//     ((carArr) => {
+//       newArr = carArr.filter((car) => {
+//         return car.price !== price;
+//       });
+//     })(i);
+//   }
+//   return newArr;
+// };
+// console.log(carFound(...pricesToSelect));

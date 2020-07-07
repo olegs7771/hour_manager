@@ -366,10 +366,8 @@ router.post("/employee_login", (req, res) => {
 
       //Project Found
       const employeeFound = project.staff.find((emp) => {
-        console.log("emp", emp.code);
         return emp.code.toString() === req.body.appCode;
       });
-      console.log("employeeFound", employeeFound);
 
       if (!employeeFound) {
         return res.status(400).json({ appCode: "Wrong App Code" });
@@ -381,42 +379,51 @@ router.post("/employee_login", (req, res) => {
         });
       }
       console.log("employeeFound", employeeFound);
-      //Create Payload and Token
-      const payload = {
-        name: employeeFound.employeeName,
-        email: employeeFound.employeeEmail,
-        address: employeeFound.address,
-        phone: employeeFound.employeePhone,
-        started: employeeFound.started,
-        func: employeeFound.func,
-        projectID: project._id,
-      };
-      console.log("payload", payload);
-
-      jwt.sign(payload, keys, (err, token) => {
-        console.log("token", token);
-
-        if (err) {
-          throw err;
+      //Find Employee Model
+      Employee.findById(employeeFound._id).then((emp) => {
+        if (!emp) {
+          return res.json({ message: "No Employee found in Employee Model" });
         }
-        employeeFound.app = true;
-        project.save().then(() => {
-          console.log("token set");
+        console.log("emp found", emp);
+        //Create Payload and Token
+        const payload = {
+          name: employeeFound.employeeName,
+          email: employeeFound.employeeEmail,
+          address: employeeFound.address,
+          phone: employeeFound.employeePhone,
+          started: employeeFound.started,
+          func: employeeFound.func,
+          projectID: project._id,
+          managerID: emp.managerID,
+        };
+        console.log("payload", payload);
 
-          res.json({
-            token,
-            name: employeeFound.employeeName,
-            email: employeeFound.employeeEmail,
-            uid: employeeFound._id,
-            projectID: project._id,
-          });
-          //Update Employee Model
-          Employee.findById(employeeFound._id).then((employee) => {
-            if (!employee) {
-              return console.log("can not find an employee");
-            }
-            employee.token = token;
-            employee.save();
+        jwt.sign(payload, keys, (err, token) => {
+          console.log("token", token);
+
+          if (err) {
+            throw err;
+          }
+          employeeFound.app = true;
+          project.save().then(() => {
+            console.log("token set");
+
+            res.json({
+              token,
+              name: employeeFound.employeeName,
+              email: employeeFound.employeeEmail,
+              uid: employeeFound._id,
+              projectID: project._id,
+              managerID: emp.managerID,
+            });
+            //Update Employee Model
+            Employee.findById(employeeFound._id).then((employee) => {
+              if (!employee) {
+                return console.log("can not find an employee");
+              }
+              employee.token = token;
+              employee.save();
+            });
           });
         });
       });
