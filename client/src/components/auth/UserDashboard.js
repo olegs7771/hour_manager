@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { deleteUser } from "../../store/actions/authAction";
+import { deleteUser, clearOutUser } from "../../store/actions/authAction";
 import { DotLoaderSpinner } from "../spinners/DotLoaderSpinner";
 import { UpCase } from "../../utils/UpperCase";
 import moment from "moment";
@@ -53,10 +53,40 @@ export class UserDashboard extends Component {
         });
       }
     }
+    if (prevProps.messages !== this.props.messages) {
+      this.setState({ messages: this.props.messages });
+
+      setTimeout(() => {
+        localStorage.removeItem("jwtToken");
+        this.props.clearOutUser();
+        this.props.history.push("/");
+      }, 4000);
+    }
   }
 
   render() {
-    if (this.props.user) {
+    if (this.props.user === null || this.props.loading) {
+      return (
+        <div style={{ paddingTop: "10%", height: 700 }}>
+          <div className="mx-auto">
+            <DotLoaderSpinner />
+          </div>
+        </div>
+      );
+    } else if (this.state.messages.message) {
+      return (
+        <div style={{ paddingTop: "10%", height: 700 }}>
+          <div
+            className="border rounded text-center p-3 mx-auto"
+            style={{ width: "50%", backgroundColor: "#fff" }}
+          >
+            <span className="h5 text-success">
+              {this.state.messages.message}
+            </span>
+          </div>
+        </div>
+      );
+    } else {
       return (
         <div
           className="py-4 text-center"
@@ -202,16 +232,16 @@ export class UserDashboard extends Component {
           </div>
         </div>
       );
-    } else {
-      return <DotLoaderSpinner />;
     }
   }
 }
 
 const mapStateToProps = (state) => ({
   user: state.auth.user,
+  messages: state.messages.messages,
+  loading: state.auth.loading,
 });
 
-const mapDispatchToProps = { deleteUser };
+const mapDispatchToProps = { deleteUser, clearOutUser };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserDashboard);

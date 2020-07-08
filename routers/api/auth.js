@@ -272,6 +272,13 @@ router.post("/login", (req, res) => {
         .status(400)
         .json({ error: "User with such email does not exist" });
     }
+    // Check for confirmed(by email user must click on the confirmation link)
+    if (!user.confirmed) {
+      return res.status(400).json({
+        error:
+          " Please check your Email for confirmation link. If link has been expired, repeat SignUp procedure.",
+      });
+    }
     // Check for approvedByAdmin
     if (!user.approvedByAdmin) {
       return res.status(400).json({
@@ -513,37 +520,53 @@ router.post(
           .status(400)
           .json({ error: "User not exists or has been removed" });
       }
-      //User found! Start Delete Projects,Employees,Jobdays
-      // console.log("user", user);
-      //Find all Projects
-      Project.find({ user: req.body.uid }).then((projects) => {
-        if (!projects) {
-          console.log("No projects for this user");
-        }
-        console.log("projects", projects);
-        //Get Projects ID's for the  further  searching of the  Jobdays
-        let projectsID = [];
-        projects.map((project) => {
-          projectsID.push(project._id);
-        });
-        console.log("projectsID", projectsID);
-
-        //Find all Employees
-        Employee.find({ managerID: req.body.uid }).then((emps) => {
-          if (emps.length === 0) {
-            return console.log("No Employees for this user");
+      user.remove().then(() => {
+        console.log("User Removed");
+        //User found! Start Delete Projects,Employees,Jobdays
+        //Find all Projects
+        Project.find({ user: req.body.uid }).then((projects) => {
+          if (!projects) {
+            console.log("No projects for this user");
           }
-          // console.log("empployees found", emps);
-          //Find all jobdays
+          projects.map((project) => {
+            project.remove().then((cb) => {
+              console.log("cb deleteMany projects", cb);
+              console.log("projects been removed");
 
-          Jobday.find().then((jobdays) => {
-            // console.log("jobdays", jobdays);
-            let daysToDelete = [];
-            for (let i = 0; i < jobdays.length; i++) {
-              const jobday = jobdays[i];
-              // if(jobday.projectID===)
-            }
+              //Find all Employees
+              Employee.find({ managerID: req.body.uid }).then((emps) => {
+                if (emps.length === 0) {
+                  return console.log("No Employees for this user");
+                }
+                // console.log("empployees found", emps);
+                //Find all jobdays
+                emps.map((emp) => {
+                  emp.remove().then((cb) => {
+                    console.log("cb deleteMany employees", cb);
+                    console.log("employees been removed");
+
+                    //Remove theier Jobdays
+                    Jobday.find({ managerID: req.body.uid }).then((jobdays) => {
+                      if (!jobdays) {
+                        return console.log("log no jobdays");
+                      }
+                      jobdays.map((jobday) => {
+                        jobday.remove().then((cb) => {
+                          console.log("cb deleteMany jobdays", cb);
+                          console.log("jobdays been removed");
+                        });
+                      });
+                    });
+                  });
+                });
+              });
+            });
           });
+        });
+        //Response message(  user been removed successfully)
+        res.json({
+          message:
+            "User was deleted successfully. Thank You for using the HourManager!",
         });
       });
     });

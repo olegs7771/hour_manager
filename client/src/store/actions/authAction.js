@@ -296,9 +296,23 @@ export const deleteUser = (data) => (dispatch) => {
     .post("/api/auth/delete_user", data)
     .then((res) => {
       console.log("res.data deleteUser", res.data);
+      dispatch({
+        type: GET_MESSAGE,
+        payload: res.data,
+      });
+      dispatch({
+        type: STOP_LOADING,
+      });
     })
     .catch((err) => {
       console.log("error to delete user ", err.response.data);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      });
+      dispatch({
+        type: STOP_LOADING,
+      });
     });
 };
 

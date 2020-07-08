@@ -74,30 +74,3 @@ const server = app.listen(port, () => {
 console.log("NODE_ENV", process.env.NODE_ENV);
 
 //Exercises
-// const d = new Date();
-// console.log(d.toISOString());
-
-// const carsArr = [
-//   { id: 1, color: "green", price: 1000, brend: "Honda" },
-//   { id: 2, color: "red", price: 3000, brend: "Fiat" },
-//   { id: 3, color: "blue", price: 500, brend: "Mersedes" },
-//   { id: 4, color: "black", price: 4000, brend: "BMW" },
-//   { id: 5, color: "white", price: 2000, brend: "KIA" },
-// ];
-
-// const pricesToSelect = [1000, 4000, 500];
-// const carFound = (...arg) => {
-//   console.log("arg", arg);
-//   let newArr;
-//   let price;
-//   for (let i = 0; i < arg.length; i++) {
-//     price = arg[i];
-//     ((carArr) => {
-//       newArr = carArr.filter((car) => {
-//         return car.price !== price;
-//       });
-//     })(i);
-//   }
-//   return newArr;
-// };
-// console.log(carFound(...pricesToSelect));

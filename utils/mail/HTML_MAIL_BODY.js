@@ -9,7 +9,7 @@ const htmlBody = (data) => {
         "<!DOCTYPE html>" +
         "<html><head><title>Registaration</title>" +
         "</head><body><div>" +
-        '<img src="https://hourmanager1.s3.us-east-1.amazonaws.com/hourmanagerLogo.png?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEPr%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCWV1LXdlc3QtMyJHMEUCIEhKgX0zmBmInQV0ucBbBTldcew4ZVP88yXRHzevNteLAiEAjTFi%2B2%2FVqzdlSTTben5BuWN1HtC4Ixm3MY0xco59FFUq5gEIMhAAGgw3OTQ3NjU3NDcyODYiDEyKlLMYIa32VMnfLSrDAXxXsbVevz5Aw4vhvnJWGY27l388JNQ3vASOfaetYlioPlHHusz4OUSG7KibGvM9S4QZY2gjILZyR3x386%2BlCWfb87fnIwWwlKBzuaQol0QChHa9%2FavaoyJIqTm2oMQnL3LKIuNpie6mjxj4C%2FvtCyC6ria0pR0XP1iPFtzwxFi2ILDAaexwBRPg52NmRln67LbM8i6SFstcSGV8aexZy6G9zLDZZ5eZ3V1awm54VjPQI0qiK5wRxvHRik5gjskNH%2FU8RjC7rrH1BTrwAiL%2F2USaEO5BkS48ieuHVdfHG3deNQ3nz3a8%2F8C39PQVBxcdM4OQ%2B20j4bPiVW5YNE5cEZZbhDpfvThrjOmx3xjwrwo00YAsZW4xLX6%2Bp2TKy92KeF8mdUCvDBapsc9Ti5uklQg0S8ZU8xnHBP6mq0mMtXb7pRat7XszXOl6wkNgdq92sNLKTlimvRJsPUb%2FcXbgkROvAfC8Tm1XxMffO%2BLTgRxW1lSFDH8G0u%2BiALMtV6tCxwXiUuqpezEL4Gfq593qSaKD5siAYyqk8iQ%2FuuDRfp0MsbMoOAuYm3G1z0j%2FijuCauS0QICdO5K5EM%2FJYiSmwHxUCgSQ6W5Tdc6hta8hi6WpF8Qo4m%2BVn0vJQPPZUTPwDmw1WTX4VbDpsSMci3E5tTpZybagmhP73j9INf0t1sk1lmpWF7314hExR3uUafYd%2BtQQkCMgWmDe1N235yXXncYG9lf6DuhsF0e9QIQTwqWzEsPiF0yfQtsGb7%2BR&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200501T203641Z&X-Amz-SignedHeaders=host&X-Amz-Expires=299&X-Amz-Credential=ASIA3SC524RLCEC42BPY%2F20200501%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=60e979b65881e2fb7f11c68cfd0283f19c086af7537d570ec7067ff635919809" alt="" width="250">' +
+        '<img src="https://hourmanager1.s3.amazonaws.com/imgs/hourmanagerLogo.png" alt="" width="250">' +
         ` <p>Dear` +
         " " +
         ` ${UpCase(
@@ -19,6 +19,13 @@ const htmlBody = (data) => {
         `This link will be valid for 12 hours` +
         "<p>See You Soon.</p>";
       "</div></body></html>";
+      attachments = [
+        {
+          filename: "threadmill.jpg",
+          path: __dirname + "/threadmill.jpg",
+          cid: "uniq-threadmill.jpg",
+        },
+      ];
       break;
 
     case "ADMIN":
@@ -66,7 +73,7 @@ const htmlBody = (data) => {
         "<!DOCTYPE html>" +
         "<html><head><title>New employee welcome email</title>" +
         "</head><body><div>" +
-        '<img src="https://hourmanager1.s3.us-east-1.amazonaws.com/hourmanagerLogo.png?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEPr%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCWV1LXdlc3QtMyJHMEUCIEhKgX0zmBmInQV0ucBbBTldcew4ZVP88yXRHzevNteLAiEAjTFi%2B2%2FVqzdlSTTben5BuWN1HtC4Ixm3MY0xco59FFUq5gEIMhAAGgw3OTQ3NjU3NDcyODYiDEyKlLMYIa32VMnfLSrDAXxXsbVevz5Aw4vhvnJWGY27l388JNQ3vASOfaetYlioPlHHusz4OUSG7KibGvM9S4QZY2gjILZyR3x386%2BlCWfb87fnIwWwlKBzuaQol0QChHa9%2FavaoyJIqTm2oMQnL3LKIuNpie6mjxj4C%2FvtCyC6ria0pR0XP1iPFtzwxFi2ILDAaexwBRPg52NmRln67LbM8i6SFstcSGV8aexZy6G9zLDZZ5eZ3V1awm54VjPQI0qiK5wRxvHRik5gjskNH%2FU8RjC7rrH1BTrwAiL%2F2USaEO5BkS48ieuHVdfHG3deNQ3nz3a8%2F8C39PQVBxcdM4OQ%2B20j4bPiVW5YNE5cEZZbhDpfvThrjOmx3xjwrwo00YAsZW4xLX6%2Bp2TKy92KeF8mdUCvDBapsc9Ti5uklQg0S8ZU8xnHBP6mq0mMtXb7pRat7XszXOl6wkNgdq92sNLKTlimvRJsPUb%2FcXbgkROvAfC8Tm1XxMffO%2BLTgRxW1lSFDH8G0u%2BiALMtV6tCxwXiUuqpezEL4Gfq593qSaKD5siAYyqk8iQ%2FuuDRfp0MsbMoOAuYm3G1z0j%2FijuCauS0QICdO5K5EM%2FJYiSmwHxUCgSQ6W5Tdc6hta8hi6WpF8Qo4m%2BVn0vJQPPZUTPwDmw1WTX4VbDpsSMci3E5tTpZybagmhP73j9INf0t1sk1lmpWF7314hExR3uUafYd%2BtQQkCMgWmDe1N235yXXncYG9lf6DuhsF0e9QIQTwqWzEsPiF0yfQtsGb7%2BR&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200501T203641Z&X-Amz-SignedHeaders=host&X-Amz-Expires=299&X-Amz-Credential=ASIA3SC524RLCEC42BPY%2F20200501%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=60e979b65881e2fb7f11c68cfd0283f19c086af7537d570ec7067ff635919809" alt="" width="250">' +
+        '<img src="https://hourmanager1.s3.amazonaws.com/imgs/hourmanagerLogo.png" alt="" width="250">' +
         `<h2>New employee welcome email</h2>` +
         `<h3 >Welcome to ${data.companyName}</h3>` +
         `</br>` +
@@ -86,7 +93,7 @@ const htmlBody = (data) => {
         "<!DOCTYPE html>" +
         "<html><head><title>Activation</title>" +
         "</head><body><div>" +
-        '<img src="https://hourmanager1.s3.us-east-1.amazonaws.com/hourmanagerLogo.png?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEPr%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCWV1LXdlc3QtMyJHMEUCIEhKgX0zmBmInQV0ucBbBTldcew4ZVP88yXRHzevNteLAiEAjTFi%2B2%2FVqzdlSTTben5BuWN1HtC4Ixm3MY0xco59FFUq5gEIMhAAGgw3OTQ3NjU3NDcyODYiDEyKlLMYIa32VMnfLSrDAXxXsbVevz5Aw4vhvnJWGY27l388JNQ3vASOfaetYlioPlHHusz4OUSG7KibGvM9S4QZY2gjILZyR3x386%2BlCWfb87fnIwWwlKBzuaQol0QChHa9%2FavaoyJIqTm2oMQnL3LKIuNpie6mjxj4C%2FvtCyC6ria0pR0XP1iPFtzwxFi2ILDAaexwBRPg52NmRln67LbM8i6SFstcSGV8aexZy6G9zLDZZ5eZ3V1awm54VjPQI0qiK5wRxvHRik5gjskNH%2FU8RjC7rrH1BTrwAiL%2F2USaEO5BkS48ieuHVdfHG3deNQ3nz3a8%2F8C39PQVBxcdM4OQ%2B20j4bPiVW5YNE5cEZZbhDpfvThrjOmx3xjwrwo00YAsZW4xLX6%2Bp2TKy92KeF8mdUCvDBapsc9Ti5uklQg0S8ZU8xnHBP6mq0mMtXb7pRat7XszXOl6wkNgdq92sNLKTlimvRJsPUb%2FcXbgkROvAfC8Tm1XxMffO%2BLTgRxW1lSFDH8G0u%2BiALMtV6tCxwXiUuqpezEL4Gfq593qSaKD5siAYyqk8iQ%2FuuDRfp0MsbMoOAuYm3G1z0j%2FijuCauS0QICdO5K5EM%2FJYiSmwHxUCgSQ6W5Tdc6hta8hi6WpF8Qo4m%2BVn0vJQPPZUTPwDmw1WTX4VbDpsSMci3E5tTpZybagmhP73j9INf0t1sk1lmpWF7314hExR3uUafYd%2BtQQkCMgWmDe1N235yXXncYG9lf6DuhsF0e9QIQTwqWzEsPiF0yfQtsGb7%2BR&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200501T203641Z&X-Amz-SignedHeaders=host&X-Amz-Expires=299&X-Amz-Credential=ASIA3SC524RLCEC42BPY%2F20200501%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=60e979b65881e2fb7f11c68cfd0283f19c086af7537d570ec7067ff635919809" alt="" width="250">' +
+        '<img src="https://hourmanager1.s3.amazonaws.com/imgs/hourmanagerLogo.png" alt="" width="250">' +
         ` <p>Dear ${UpCase(
           data.name
         )}. The HourManager App has been activated.</p>` +
