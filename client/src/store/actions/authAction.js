@@ -11,6 +11,7 @@ import {
   CLEAR_ERRORS,
   STOP_LOADING,
   CODE_MATCH,
+  GET_USER_DATA,
 } from "./types";
 import axios from "axios";
 import setAuthToken from "../../utils/setAuthToken";
@@ -19,21 +20,29 @@ import jwt_decode from "jwt-decode";
 // Registration new user
 
 export const registerUser = (data) => (dispatch) => {
+  dispatch(loading());
   console.log("data", data);
   axios
     .post("/api/auth/register", data)
     .then((res) => {
-      console.log("res.data", res.data);
+      console.log("res.data register", res.data);
 
       dispatch({
         type: GET_MESSAGE,
         payload: res.data,
+      });
+      dispatch({
+        type: GET_USER_DATA,
+        payload: res.data.payload,
       });
     })
     .catch((err) => {
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data,
+      });
+      dispatch({
+        type: STOP_LOADING,
       });
       console.log("error :", err.response.data);
     });

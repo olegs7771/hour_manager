@@ -93,10 +93,35 @@ router.post("/register", (req, res) => {
         };
 
         sendMail(data, (cb) => {
+          //New user Received Confirmation
+          if (cb.error) {
+            console.log("error to sent email", cb.error);
+
+            //Email not successfull . delete temp user
+            User.findById(user.id).then((user) => {
+              if (!user) {
+                return res
+                  .status(400)
+                  .json({ error: "Can't delete temp user " });
+              }
+              user.remove(() => {
+                console.log("the temp user was deleted successfully");
+              });
+            });
+          }
           if (cb.infoMessageid) {
-            res.status(200).json({
+            console.log("cb.infoMessageid", cb.infoMessageid);
+            //Payload to show New User their Creds
+            const payload = {
+              name: user.name,
+              email: user.email,
+              phone: user.phone,
+              location: user.location,
+            };
+            res.json({
               message:
-                "Success! Thank You for Registering on HourManager. Please check your email to confirm registration. ",
+                "Success! Thank You for Registering on HourManager Please check your email to confirm registration.",
+              payload,
             });
             //New user Received Confirmation
           }

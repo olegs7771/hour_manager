@@ -19,13 +19,13 @@ const htmlBody = (data) => {
         `This link will be valid for 12 hours` +
         "<p>See You Soon.</p>";
       "</div></body></html>";
-      attachments = [
-        {
-          filename: "threadmill.jpg",
-          path: __dirname + "/threadmill.jpg",
-          cid: "uniq-threadmill.jpg",
-        },
-      ];
+      // attachments = [
+      //   {
+      //     filename: "threadmill.jpg",
+      //     path: __dirname + "/threadmill.jpg",
+      //     cid: "uniq-threadmill.jpg",
+      //   },
+      // ];
       break;
 
     case "ADMIN":
@@ -54,6 +54,7 @@ const htmlBody = (data) => {
         "<!DOCTYPE html>" +
         "<html><head><title>Notification</title>" +
         "</head><body><div>" +
+        '<img src="https://hourmanager1.s3.amazonaws.com/imgs/hourmanagerLogo.png" alt="" width="250">' +
         "<h3>Admin Permission has been Granted.</h3>" +
         `</br>` +
         ` <span>Dear  ${UpCase(data.uname)} .</span>` +
@@ -132,7 +133,7 @@ const htmlBody = (data) => {
       break;
   }
 
-  return html;
+  return { html };
 };
 
 module.exports = htmlBody;

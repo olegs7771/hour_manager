@@ -23,7 +23,9 @@ const sendMail = (data, cb) => {
     console.log("data in mailer", data);
     //Create html body
     htmlBody(data); //from separate file( HTML_MAIL_BODY)
-    const html = htmlBody(data);
+    const { html } = htmlBody(data);
+    // console.log("attachments", attachments);
+
     // const attachments=
 
     // create reusable transporter object using the default SMTP transport
@@ -54,6 +56,7 @@ const sendMail = (data, cb) => {
       subject: "Hour Manager", // Subject line
       text: "Hello world?", // plain text body
       html, // html body
+      // attachments,
     });
 
     // console.log("Message sent: %s", info.messageId);
@@ -61,8 +64,9 @@ const sendMail = (data, cb) => {
 
     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
   };
-  main().catch((err) => {
-    console.log("error to send email:", err);
+  main().catch((error) => {
+    // console.log("error to send email:", err);
+    return cb({ error });
   });
 };
 

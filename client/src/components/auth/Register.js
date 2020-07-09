@@ -18,12 +18,12 @@ export class Register extends Component {
     password: "",
     location: "",
     errors: {},
-    messages: {},
     loading: false,
     secretQuestion1: "Your first car's brand?",
     secretAnswer1: "",
     secretQuestion2: "Your mother's middle name?",
     secretAnswer2: "",
+    messages: {},
   };
 
   _onChange = (e) => {
@@ -37,7 +37,6 @@ export class Register extends Component {
   _onSubmit = (e) => {
     e.preventDefault();
 
-    this.setState({ loading: true });
     const {
       name,
       email,
@@ -71,32 +70,106 @@ export class Register extends Component {
     }
     if (prevProps.messages !== this.props.messages) {
       this.setState({
-        messages: this.props.messages,
-        loading: false,
         errors: {},
       });
-      setTimeout(() => {
-        this.props.history.push("/");
-      }, 4000);
     }
     //Check if  the picked Secret Answers not the same
     if (this.state.secretQuestion2 !== prevState.secretQuestion2) {
       if (this.state.secretQuestion2 === this.state.secretQuestion1) {
         this.setState({
-          errors: { secretQuestion: " Same  question." },
+          errors: { secretQuestion: " Same question." },
         });
       }
     }
     if (this.state.secretQuestion1 !== prevState.secretQuestion1) {
       if (this.state.secretQuestion1 === this.state.secretQuestion2) {
         this.setState({
-          errors: { secretQuestion: " Same  question." },
+          errors: { secretQuestion: " Same question." },
         });
       }
     }
   }
+  _onClickButton = () => {
+    this.props.history.push("/");
+  };
 
   render() {
+    if (this.props.loading) {
+      return (
+        <div className="mx-auto" style={{ paddingTop: "10%", height: 700 }}>
+          <DotLoaderSpinner />;
+        </div>
+      );
+    }
+
+    if (Object.keys(this.props.messages).length > 0) {
+      return (
+        <div style={{ paddingTop: "5%", height: 700 }}>
+          <div
+            className="mx-auto border rounded text-center p-5 "
+            style={{
+              width: window.innerWidth > 500 ? "50%" : "100%",
+              backgroundColor: "#FFF",
+            }}
+          >
+            <span className="text-success font-weight-bold">
+              {this.props.messages.message}
+            </span>
+            <div className="my-4 ">
+              <ul
+                className={
+                  window.innerWidth > 500 ? "list-group px-4 " : "list-group"
+                }
+              >
+                <li className="list-group-item">
+                  {/* Name */}
+                  <div className="row">
+                    <div className="col-6">
+                      <span className="font-weight-bold">Name</span>
+                    </div>
+                    <div className="col-6">{this.props.userData.name}</div>
+                  </div>
+                </li>
+                <li className="list-group-item">
+                  {/* Email */}
+                  <div className="row">
+                    <div className="col-6">
+                      <span className="font-weight-bold">Email</span>
+                    </div>
+                    <div className="col-6">{this.props.userData.email}</div>
+                  </div>
+                </li>
+                <li className="list-group-item">
+                  {/* Phone*/}
+                  <div className="row">
+                    <div className="col-6">
+                      <span className="font-weight-bold">Phone</span>
+                    </div>
+                    <div className="col-6">{this.props.userData.phone}</div>
+                  </div>
+                </li>
+                <li className="list-group-item">
+                  {/* Location*/}
+                  <div className="row">
+                    <div className="col-6">
+                      <span className="font-weight-bold">Location</span>
+                    </div>
+                    <div className="col-6">{this.props.userData.location}</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            {/* Submit Button */}
+            <button
+              onClick={this._onClickButton}
+              className="btn btn-outline-success"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="py-3">
         <div className="my3 text-center h3 text-white">SignUp</div>
@@ -302,15 +375,10 @@ export class Register extends Component {
               error={this.state.errors.password}
               type="password"
             />
-            {this.state.messages.message ? (
-              <div className="text-success mb-3">
-                {this.state.messages.message}
-              </div>
-            ) : null}
+
             {this.state.errors.error ? (
               <div className="text-danger mb-3">{this.state.errors.error}</div>
             ) : null}
-            <DotLoaderSpinner loading={this.state.loading} />
 
             <button type="submit" className="btn btn-outline-secondary  ">
               <span className="text-white">Submit</span>
@@ -326,7 +394,9 @@ export class Register extends Component {
 const mapStateToProps = (state) => ({
   auth: state.auth,
   errors: state.errors.errors,
+  loading: state.auth.loading,
   messages: state.messages.messages,
+  userData: state.auth.userData,
 });
 
 const mapDispatchToProps = { registerUser };
@@ -335,7 +405,20 @@ Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
-  messages: PropTypes.object.isRequired,
+  message: PropTypes.object.isRequired,
+  userData: PropTypes.object.isRequired,
 };
+// Register.defaultProps = {
+//   messages: {
+//     message:
+//       "Success! Thank You for Registering on HourManager Please check your email to confirm registration.",
+//   },
+//   userData: {
+//     name: "name",
+//     email: "email",
+//     phone: "phone",
+//     location: "location",
+//   },
+// };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

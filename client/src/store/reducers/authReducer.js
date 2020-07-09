@@ -8,6 +8,7 @@ import {
   SECRET_CHECK,
   STOP_LOADING,
   CODE_MATCH,
+  GET_USER_DATA,
 } from "../actions/types";
 const initialState = {
   isAuthenticated: false,
@@ -18,6 +19,8 @@ const initialState = {
   status: false,
   secretCheck: false,
   codeStatus: false,
+  //For Registration to show success message with new user's data
+  userData: {},
 };
 
 export default (state = initialState, action) => {
@@ -74,6 +77,12 @@ export default (state = initialState, action) => {
     case STOP_LOADING: //for recovery
       return {
         ...state,
+        loading: false,
+      };
+    case GET_USER_DATA: //for registartion
+      return {
+        ...state,
+        userData: action.payload,
         loading: false,
       };
     default:

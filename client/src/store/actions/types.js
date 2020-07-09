@@ -3,6 +3,7 @@ export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const CLEAR_OUT_USER = "CLEAR_OUT_USER";
 export const LOADING_USER = "LOADING_USER";
 export const CONFIRMED_USER = "CONFIRMED_USER";
+export const GET_USER_DATA = "GET_USER_DATA";
 
 //checkin if email exists in recovery
 export const GET_USER_DETAILS = "GET_USER_DETAILS";
