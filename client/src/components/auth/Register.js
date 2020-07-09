@@ -19,9 +19,9 @@ export class Register extends Component {
     location: "",
     errors: {},
     loading: false,
-    secretQuestion1: "Your first car's brand?",
+    secretQuestion1: "Secret Question",
     secretAnswer1: "",
-    secretQuestion2: "Your mother's middle name?",
+    secretQuestion2: "Secret Question",
     secretAnswer2: "",
     messages: {},
   };
@@ -30,8 +30,18 @@ export class Register extends Component {
     this.setState({
       [e.target.name]: e.target.value.toLowerCase(),
     });
-
     this.setState({ errors: {} });
+  };
+  _onMouseLeaveSelect = () => {
+    if (
+      (this.state.secretQuestion1 === this.state.secretQuestion1 &&
+        this.state.secretQuestion1 !== "Secret Question") ||
+      this.state.secretQuestion2 === this.state.secretQuestion2
+    ) {
+      this.setState({
+        errors: { secretQuestion: "Same question." },
+      });
+    }
   };
 
   _onSubmit = (e) => {
@@ -253,6 +263,7 @@ export class Register extends Component {
                   onChange={this._onChange}
                   name="secretQuestion1"
                   className="field"
+                  onMouseEnter={this._onMouseLeaveSelect}
                 >
                   <option value="Your first car's brand?">
                     {this.state.secretQuestion1}
@@ -265,6 +276,9 @@ export class Register extends Component {
                   </option>
                   <option value="City of your birth?">
                     City of your birth?
+                  </option>
+                  <option value="Your first car's brand?">
+                    Your first car's brand?
                   </option>
                 </select>
 
@@ -284,6 +298,7 @@ export class Register extends Component {
                   onChange={this._onChange}
                   placeholder="Answer"
                   className="field"
+                  onMouseEnter={this._onMouseLeaveSelect}
                 />
                 {this.state.errors.secretAnswer1 && (
                   <div className="pl-4">
@@ -315,6 +330,9 @@ export class Register extends Component {
                   <option value="City of your birth?">
                     City of your birth?
                   </option>
+                  <option value="Your mother's middle name?">
+                    Your mother middle name?
+                  </option>
                 </select>
 
                 {this.state.errors.secretQuestion && (
@@ -333,6 +351,7 @@ export class Register extends Component {
                   onChange={this._onChange}
                   placeholder="Answer"
                   className="field"
+                  onMouseEnter={this._onMouseLeaveSelect}
                 />
                 {this.state.errors.secretAnswer2 && (
                   <div className="pl-4">
