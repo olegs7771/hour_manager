@@ -408,17 +408,5 @@ Register.propTypes = {
   message: PropTypes.object.isRequired,
   userData: PropTypes.object.isRequired,
 };
-// Register.defaultProps = {
-//   messages: {
-//     message:
-//       "Success! Thank You for Registering on HourManager Please check your email to confirm registration.",
-//   },
-//   userData: {
-//     name: "name",
-//     email: "email",
-//     phone: "phone",
-//     location: "location",
-//   },
-// };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);
