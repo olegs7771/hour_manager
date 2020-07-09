@@ -33,10 +33,11 @@ export class Register extends Component {
     this.setState({ errors: {} });
   };
   _onMouseLeaveSelect = () => {
+    const { secretQuestion1, secretQuestion2 } = this.state;
+
     if (
-      (this.state.secretQuestion1 === this.state.secretQuestion1 &&
-        this.state.secretQuestion1 !== "Secret Question") ||
-      this.state.secretQuestion2 === this.state.secretQuestion2
+      secretQuestion1 === secretQuestion2 &&
+      secretQuestion1 !== "Secret Question"
     ) {
       this.setState({
         errors: { secretQuestion: "Same question." },
@@ -263,7 +264,7 @@ export class Register extends Component {
                   onChange={this._onChange}
                   name="secretQuestion1"
                   className="field"
-                  onMouseEnter={this._onMouseLeaveSelect}
+                  onMouseLeave={this._onMouseLeaveSelect}
                 >
                   <option value="Your first car's brand?">
                     {this.state.secretQuestion1}
@@ -298,7 +299,6 @@ export class Register extends Component {
                   onChange={this._onChange}
                   placeholder="Answer"
                   className="field"
-                  onMouseEnter={this._onMouseLeaveSelect}
                 />
                 {this.state.errors.secretAnswer1 && (
                   <div className="pl-4">
@@ -317,6 +317,7 @@ export class Register extends Component {
                   onChange={this._onChange}
                   name="secretQuestion2"
                   className="field"
+                  onMouseLeave={this._onMouseLeaveSelect}
                 >
                   <option value="Your mother's middle name?">
                     {this.state.secretQuestion2}
@@ -351,7 +352,7 @@ export class Register extends Component {
                   onChange={this._onChange}
                   placeholder="Answer"
                   className="field"
-                  onMouseEnter={this._onMouseLeaveSelect}
+                  onMouseLeave={this._onMouseLeaveSelect}
                 />
                 {this.state.errors.secretAnswer2 && (
                   <div className="pl-4">
@@ -424,7 +425,7 @@ Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
-  message: PropTypes.object.isRequired,
+  messages: PropTypes.object.isRequired,
   userData: PropTypes.object.isRequired,
 };
 
