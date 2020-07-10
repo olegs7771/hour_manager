@@ -108,7 +108,7 @@ export const managerEditHours = (data) => (dispatch) => {
 
 export const managerCreatesJobday = (data) => (dispatch) => {
   console.log("data managerEditHours", data);
-  //if only pre Validation than no need for loading()
+  // //if only pre Validation than no need for loading()
   if (data.timeStart) {
     dispatch(loading());
   }

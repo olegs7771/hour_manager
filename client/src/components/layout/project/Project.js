@@ -103,7 +103,7 @@ export class Project extends Component {
         //User has projects
         return (
           <div className="" style={{ height: 900 }}>
-            <div className="row  d-flex justify-content-around">
+            <div className="row  d-flex justify-content-around p-5">
               <div className="col-md-6 ">
                 <div className=" p-3 ">
                   <span className=" text-white">
