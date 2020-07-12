@@ -219,6 +219,7 @@ router.post("/startTime_manually", (req, res) => {
         new JobDay({
           employee: req.body.id,
           projectID: req.body.projectID,
+          managerID: req.body.managerID,
           timeStart: dateFormat,
           messages: { text: req.body.message },
           timeStartMan: moment().format(), //Current Date
@@ -253,6 +254,7 @@ router.post("/startTime_manually", (req, res) => {
           new JobDay({
             employee: req.body.id,
             projectID: req.body.projectID,
+            managerID: req.body.managerID,
             timeStart: dateFormat,
             messages: { text: req.body.message },
             timeStartMan: moment().format(), //Current Date
