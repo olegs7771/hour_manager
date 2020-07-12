@@ -42,13 +42,13 @@ export class SuccessMessage extends Component {
   render() {
     if (this.state.loading || this.state.confirmed_user === null) {
       return (
-        <div className="my-5" style={{ height: 700 }}>
+        <div className="my-5" style={{ height: "100vh" }}>
           <DotLoaderSpinner />
         </div>
       );
     } else if (this.state.errors.error) {
       return (
-        <div className="py-5" style={{ height: 700 }}>
+        <div className="py-5" style={{ height: "100vh" }}>
           <div
             className="text-center mx-auto py-3 rounded"
             style={{ backgroundColor: "#FFF", width: "50%" }}
@@ -62,8 +62,11 @@ export class SuccessMessage extends Component {
     } else {
       return (
         <div
-          className="py-3 "
-          style={{ height: 700, paddingRight: "30%", paddingLeft: "30%" }}
+          className="py-3 mx-auto "
+          style={{
+            height: "100vh",
+            width: window.innerWidth > 500 ? "50%" : "100%",
+          }}
         >
           <div className="text-center my-3 display-4 text-white">Success!</div>
           <div className="my-3 border rounded p-4">

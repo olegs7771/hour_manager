@@ -107,7 +107,7 @@ export class Register extends Component {
   render() {
     if (this.props.loading) {
       return (
-        <div className="mx-auto" style={{ paddingTop: "10%", height: 700 }}>
+        <div className="mx-auto" style={{ paddingTop: "10%", height: "100vh" }}>
           <DotLoaderSpinner />;
         </div>
       );
@@ -182,7 +182,7 @@ export class Register extends Component {
       );
     }
     return (
-      <div className="py-3">
+      <div style={{ height: "130vh" }}>
         <div className="my3 text-center h3 text-white">SignUp</div>
 
         <div
