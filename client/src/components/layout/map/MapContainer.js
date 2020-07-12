@@ -156,7 +156,7 @@ class MapContainer extends Component {
             ? "pt-3 tex-center pr-4"
             : "pt-3 tex-center  "
         }
-        style={{ minHeight: 700 }}
+        style={{ minHeight: "100vh" }}
       >
         <div className="text-center h6 text-white ">Pick Location</div>
         <div className="row py-4">

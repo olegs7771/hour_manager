@@ -179,7 +179,10 @@ export class ProjectCreate extends Component {
       { label: "Financial", value: "Financial" },
     ];
     return (
-      <div className="  p-4 ">
+      <div
+        className="  p-4 "
+        style={{ height: window.innerWidth > 500 ? "100vh" : "150vh" }}
+      >
         <div className="h4 text-center text-white my-3">Create Project</div>
         <div className="row">
           <div className="col-md-6">

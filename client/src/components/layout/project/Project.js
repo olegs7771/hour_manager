@@ -66,7 +66,7 @@ export class Project extends Component {
       return (
         <div
           className="mx-auto"
-          style={{ paddingTop: "10%", paddingBottom: "10%", height: 800 }}
+          style={{ paddingTop: "10%", paddingBottom: "10%", height: "100vh" }}
         >
           <DotLoaderSpinner />
         </div>
@@ -75,7 +75,7 @@ export class Project extends Component {
       if (isEmpty(this.props.projects)) {
         // No Project exists
         return (
-          <div className="text-center " style={{ height: 900 }}>
+          <div className="text-center " style={{ height: "100Vh" }}>
             <span className="text-white display-4">Projects</span>
             <div
               className="row my-3 mx-auto border"
@@ -102,7 +102,7 @@ export class Project extends Component {
       } else {
         //User has projects
         return (
-          <div className="" style={{ height: 900 }}>
+          <div className="" style={{ height: "100vh" }}>
             <div className="row  d-flex justify-content-around">
               <div className="col-md-6 ">
                 <div className=" p-3 ">
