@@ -11,7 +11,7 @@ class Landing extends Component {
           backgroundImage: `url(${image})`,
           backgroundSize: "cover",
           overflow: "hidden",
-          height: 700,
+          height: "100vh",
         }}
       >
         <div className="display-4 text-white pt-5 pl-5">HourManger</div>

@@ -102,8 +102,8 @@ export class Project extends Component {
       } else {
         //User has projects
         return (
-          <div className="" style={{ height: "100vh" }}>
-            <div className="row  d-flex justify-content-around">
+          <div className="" style={{ height: 900 }}>
+            <div className="row  d-flex justify-content-around p-5">
               <div className="col-md-6 ">
                 <div className=" p-3 ">
                   <span className=" text-white">

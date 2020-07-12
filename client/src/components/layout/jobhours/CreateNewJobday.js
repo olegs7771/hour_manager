@@ -97,6 +97,7 @@ class CreateNewJobday extends Component {
     const payload = {
       employeeID: this.props.selectedEmployeeDetails._id,
       projectID: this.props.selectedEmployeeDetails.projectID,
+      managerID: this.props.selectedEmployeeDetails.managerID,
       date: this.state.date,
       timeStart: this.state.timeStart,
       timeEnd: this.state.timeEnd,

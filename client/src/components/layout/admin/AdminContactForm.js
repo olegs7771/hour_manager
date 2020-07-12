@@ -76,7 +76,7 @@ export class AdminContactForm extends Component {
   render() {
     if (this.state.loading) {
       return (
-        <div className="my-5">
+        <div style={{ height: "100vh", paddingTop: "10%" }}>
           <DotLoaderSpinner />
         </div>
       );
@@ -93,23 +93,26 @@ export class AdminContactForm extends Component {
       );
     } else {
       return (
-        <div className="border pb-5">
+        <div style={{ height: "100vh" }}>
           <div
             className="text-center  font-italic my-3 text-white"
             style={{ fontSize: 40 }}
           >
             Contact Admin
           </div>
+
           <form
             onSubmit={this._onSubmit}
-            className="border p-5 d-block mx-auto"
-            style={{ width: "60%" }}
+            className={
+              window.innerWidth > 500 ? "border rounded p-4 mx-auto " : ""
+            }
+            style={{ width: window.innerWidth > 500 ? "40%" : "100%" }}
           >
             <div className="form-group">
               <input
                 type="text"
                 className="form-control"
-                placeholder=" Your Name.."
+                placeholder=" Your Name..!!"
                 name="name"
                 value={this.state.name}
                 onChange={this._onChange}

@@ -69,7 +69,7 @@ export class Login extends Component {
 
   render() {
     return (
-      <div className="py-3" style={{ height: "100vh" }}>
+      <div style={{ height: "100vh", paddingTop: "5%" }}>
         <div className="my3 text-center h3 text-white">SignIn</div>
         <div className="div row">
           <div className="col-md-6 d-block mx-auto my-3">
