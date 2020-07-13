@@ -45,6 +45,7 @@ class MapContainer extends Component {
       // coords.
       circleCoords: {},
       address: "", //from GeoCode
+      plus_code: "",
       //Local State
       loading: false,
       //Redux
@@ -72,19 +73,16 @@ class MapContainer extends Component {
     });
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log(
-      "coords for circle in cdu",
-      this.props.location.state.data.coords
-    );
-
     if (prevState.coords !== this.state.coords) {
       //Geocode new position
       Geocode.fromLatLng(this.state.coords.lat, this.state.coords.lng)
         .then((address) => {
           console.log("address", address);
-          this.setState((prevState) => ({
+          const str1 = this.setState({
             address: address.results[0].formatted_address,
-          }));
+            //subString from global_code  firsr 8 chars : "8G4QV37F+6W"
+            plus_code: address.plus_code.global_code.substring(8, 0),
+          });
         })
         .catch((err) => {
           console.log("error to get address", err);
@@ -97,9 +95,7 @@ class MapContainer extends Component {
     }
   }
 
-  _centerMoved = (mapProps, map) => {
-    console.log("e moved", mapProps, map);
-  };
+  // _centerMoved = (mapProps, map) => {};
 
   _positionChanged = (e) => {
     const position = this.markerRef.current.marker.getPosition();

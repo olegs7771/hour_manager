@@ -73,3 +73,7 @@ const server = app.listen(port, () => {
 console.log("NODE_ENV", process.env.NODE_ENV);
 
 //Exercises
+
+const str1 = "8G4QV37F+6W";
+
+console.log(str1.substring(8, 0));
