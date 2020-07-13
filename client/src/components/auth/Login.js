@@ -69,90 +69,88 @@ export class Login extends Component {
 
   render() {
     return (
-      <div style={{ height: 800, paddingTop: "5%" }}>
+      <div style={{ height: "100vh", paddingTop: "5%" }}>
         <div className="my3 text-center h3 text-white">SignIn</div>
-        <div className="div row">
-          <div className="col-md-6 d-block mx-auto my-3">
-            <div className="my-3 border rounded p-5">
-              <form onSubmit={this._onSubmit}>
-                <TextFormGroup
-                  label={
-                    <span
-                      className="ml-3"
-                      style={{ fontWeight: "bold", color: "#FFF" }}
-                    >
-                      Email
-                    </span>
-                  }
-                  placeholder="brown@exemple.com"
-                  onChange={this._onChange}
-                  onMouseLeave={this._onMouseLeave}
-                  value={this.state.email}
-                  name="email"
-                  error={this.state.errors.email}
-                  type="email"
-                />
-                {/* Show only error email not exists onMouseLeave */}
-                {this.state.errors.error ===
-                "No such e-mail in our data storage" ? (
-                  <div
-                    className="my-3 border p-1 rounded border-danger"
-                    style={{ backgroundColor: "#FFF" }}
-                  >
-                    <span className="text-danger ">
-                      {this.state.errors.error}
-                    </span>
-                  </div>
-                ) : null}
-                <TextFormGroup
-                  label={
-                    <span
-                      className="ml-3"
-                      style={{ fontWeight: "bold", color: "#FFF" }}
-                    >
-                      Password
-                    </span>
-                  }
-                  placeholder="e.g. 6-10 chars"
-                  onChange={this._onChange}
-                  value={this.state.password}
-                  name="password"
-                  error={this.state.errors.password}
-                  type="password"
-                />
 
-                {this.state.errors.error !==
-                  "No such e-mail in our data storage" &&
-                this.state.errors.error ? (
-                  <div
-                    className="my-3 border p-2 rounded border-danger"
-                    style={{ backgroundColor: "#FFF" }}
-                  >
-                    <span className="text-danger ">
-                      {this.state.errors.error}
-                    </span>
-                  </div>
-                ) : null}
-                <DotLoaderSpinner loading={this.state.loading} />
+        <div
+          className="my-3 border rounded p-5 mx-auto"
+          style={{ width: window.innerWidth > 500 ? "50%" : "100%" }}
+        >
+          <form onSubmit={this._onSubmit}>
+            <TextFormGroup
+              label={
+                <span
+                  className="ml-3"
+                  style={{ fontWeight: "bold", color: "#FFF" }}
+                >
+                  Email
+                </span>
+              }
+              placeholder="brown@exemple.com"
+              onChange={this._onChange}
+              onMouseLeave={this._onMouseLeave}
+              value={this.state.email}
+              name="email"
+              error={this.state.errors.email}
+              type="email"
+            />
+            {/* Show only error email not exists onMouseLeave */}
+            {this.state.errors.error ===
+            "No such e-mail in our data storage" ? (
+              <div
+                className="my-3 border p-1 rounded border-danger"
+                style={{ backgroundColor: "#FFF" }}
+              >
+                <span className="text-danger ">{this.state.errors.error}</span>
+              </div>
+            ) : null}
+            <TextFormGroup
+              label={
+                <span
+                  className="ml-3"
+                  style={{ fontWeight: "bold", color: "#FFF" }}
+                >
+                  Password
+                </span>
+              }
+              placeholder="e.g. 6-10 chars"
+              onChange={this._onChange}
+              value={this.state.password}
+              name="password"
+              error={this.state.errors.password}
+              type="password"
+            />
 
-                <button type="submit" className="btn btn-outline-secondary  ">
-                  <span className="text-white">Submit</span>
-                </button>
-              </form>
-            </div>
-            <div className="row ">
-              <div className="col-md-6  text-center">
-                <span className="text-white">Not Registered yet? please </span>
-                <a href="/register" className="text-white">
-                  <span style={{ color: "#e5f52c" }}>SingUp</span>
-                </a>
+            {this.state.errors.error !== "No such e-mail in our data storage" &&
+            this.state.errors.error ? (
+              <div
+                className="my-3 border p-2 rounded border-danger"
+                style={{ backgroundColor: "#FFF" }}
+              >
+                <span className="text-danger ">{this.state.errors.error}</span>
               </div>
-              <div className="col-md-6  text-center">
-                <a href="/recover" className="text-white">
-                  <span style={{ color: "#e5f52c" }}>Forgot password?</span>
-                </a>
-              </div>
-            </div>
+            ) : null}
+            <DotLoaderSpinner loading={this.state.loading} />
+
+            <button type="submit" className="btn btn-outline-secondary  ">
+              <span className="text-white">Submit</span>
+            </button>
+          </form>
+        </div>
+        <div
+          className="row mx-auto"
+          style={{ width: window.innerWidth > 500 ? "50%" : "100%" }}
+        >
+          <div className="col-md-6  ">
+            <span className="text-white">Not Registered yet? please </span>
+            <a href="/register" className="text-white">
+              <span style={{ color: "#e5f52c" }}>SingUp</span>
+            </a>
+          </div>
+          <div className="col-md-6  text-center">
+            <a href="/recover" className="text-white">
+              <span style={{ color: "#e5f52c" }}>Forgot password?</span>
+            </a>
           </div>
         </div>
       </div>
