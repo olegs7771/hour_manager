@@ -80,7 +80,7 @@ class MapContainer extends Component {
           console.log("address", address);
           const str1 = this.setState({
             address: address.results[0].formatted_address,
-            //subString from global_code  firsr 8 chars : "8G4QV37F+6W"
+            //subString from global_code  first 8 chars : "8G4QV37F+6W"
             plus_code: address.plus_code.global_code.substring(8, 0),
           });
         })
@@ -123,6 +123,7 @@ class MapContainer extends Component {
       const payload = {
         coords: this.state.choosenPlace,
         address: this.state.address,
+        plus_code: this.state.plus_code,
       };
       this.setState({ loading: true });
       this.props.pickLocation(payload);
@@ -135,6 +136,7 @@ class MapContainer extends Component {
         projectID: this.state.projectID,
         coords: this.state.choosenPlace,
         address: this.state.address,
+        plus_code: this.state.plus_code,
       };
       this.props.addCoords(payload);
       this.setState({ loading: true });

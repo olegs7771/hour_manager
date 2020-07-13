@@ -77,6 +77,7 @@ export class ProjectCreate extends Component {
           coords: {
             address: this.state.selectedCoords.address,
             coords: this.state.selectedCoords.coords,
+            plus_code: this.state.selectedCoords.plus_code,
           },
         };
         this.props.createProject(data);
@@ -110,6 +111,7 @@ export class ProjectCreate extends Component {
         coords: {
           address: this.state.selectedCoords.address,
           coords: this.state.selectedCoords.coords,
+          plus_code: this.state.selectedCoords.plus_code,
         },
       };
       this.props.createProject(data);
@@ -181,7 +183,7 @@ export class ProjectCreate extends Component {
     return (
       <div
         className="  p-4 "
-        style={{ height: window.innerWidth > 500 ? "100vh" : "150vh" }}
+        style={{ height: window.innerWidth > 500 ? "130vh" : "150vh" }}
       >
         <div className="h4 text-center text-white my-3">Create Project</div>
         <div className="row">

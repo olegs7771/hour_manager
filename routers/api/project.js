@@ -40,6 +40,7 @@ router.post(
           },
           coords: req.body.coords.coords,
           address: req.body.coords.address,
+          plus_code: req.body.coords.plus_code,
         };
 
         new Project(newProject).save().then((project) => {
@@ -85,6 +86,7 @@ router.post(
           },
           coords: req.body.coords.coords,
           address: req.body.coords.address,
+          plus_code: req.body.coords.plus_code,
         };
 
         new Project(newProject).save().then((project) => {
@@ -267,6 +269,7 @@ router.post(
       }
       project.coords = req.body.coords;
       project.address = req.body.address;
+      project.plus_code = req.body.plus_code;
 
       project
         .save()
