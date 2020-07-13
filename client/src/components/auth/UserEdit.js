@@ -61,7 +61,10 @@ class UserEdit extends Component {
   render() {
     return (
       <div>
-        <ul className="list-group">
+        <ul
+          className="list-group rounded p-3"
+          style={{ backgroundColor: "#fff" }}
+        >
           {/* Name */}
           <li className="list-group-item ">
             <div className="row">
@@ -131,7 +134,9 @@ class UserEdit extends Component {
           <span className="text-success">{this.props.messages.message}</span>
         ) : null}
         <div className="my-3 mx-auto">
-          <button onClick={this._onSubmit}>Submit</button>
+          <button onClick={this._onSubmit} className="btn btn-outline-success">
+            Submit
+          </button>
         </div>
       </div>
     );

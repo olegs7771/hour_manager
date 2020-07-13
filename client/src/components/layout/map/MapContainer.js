@@ -18,7 +18,13 @@ Geocode.setApiKey(GEOCODE_API_KEY);
 
 const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
-const LoadingContainer = (props) => <div>Fancy loading container!</div>;
+const LoadingContainer = (props) => (
+  <div style={{ height: "100vh" }}>
+    <div className="my-5 mx-auto">
+      <DotLoaderSpinner />
+    </div>
+  </div>
+);
 
 class MapContainer extends Component {
   constructor(props) {
@@ -156,7 +162,7 @@ class MapContainer extends Component {
             ? "pt-3 tex-center pr-4"
             : "pt-3 tex-center  "
         }
-        style={{ minHeight: 700 }}
+        style={{ minHeight: "100vh" }}
       >
         <div className="text-center h6 text-white ">Pick Location</div>
         <div className="row py-4">
@@ -262,7 +268,7 @@ class MapContainer extends Component {
         </div>
       </div>
     ) : (
-      <div style={{ minHeight: 700 }}>Loading!!!..</div>
+      <div style={{ minHeight: "100vh" }}>Loading!!!..</div>
     );
   }
 }

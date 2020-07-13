@@ -67,7 +67,7 @@ export class UserDashboard extends Component {
   render() {
     if (this.props.user === null || this.props.loading) {
       return (
-        <div style={{ paddingTop: "10%", height: 700 }}>
+        <div style={{ paddingTop: "10%", height: "100vh" }}>
           <div className="mx-auto">
             <DotLoaderSpinner />
           </div>
@@ -75,7 +75,7 @@ export class UserDashboard extends Component {
       );
     } else if (this.state.messages.message) {
       return (
-        <div style={{ paddingTop: "10%", height: 700 }}>
+        <div style={{ paddingTop: "10%", height: "100vh" }}>
           <div
             className="border rounded text-center p-3 mx-auto"
             style={{ width: "50%", backgroundColor: "#fff" }}
@@ -91,7 +91,7 @@ export class UserDashboard extends Component {
         <div
           className="py-4 text-center"
           style={{
-            height: 800,
+            height: "100vh",
             paddingLeft: window.innerWidth > 500 ? "10%" : "",
           }}
         >
@@ -177,7 +177,11 @@ export class UserDashboard extends Component {
               )}
             </div>
             <div className="col-md-6">
-              <div className="btn-group">
+              <div
+                className={
+                  window.innerWidth > 500 ? "btn-group" : "btn-group mt-2"
+                }
+              >
                 <button
                   className="btn btn-outline-info"
                   onClick={() =>

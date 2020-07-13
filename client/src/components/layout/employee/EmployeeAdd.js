@@ -81,10 +81,7 @@ export class EmployeeAdd extends Component {
       this.props.errors === {}
     ) {
       return (
-        <div
-          className="mx-auto"
-          style={{ paddingTop: "30%", paddingBottom: "30%" }}
-        >
+        <div className="mx-auto" style={{ paddingTop: "10%", height: "100vh" }}>
           <HashLoaderSpinner loading={true} />
         </div>
       );
@@ -100,10 +97,7 @@ export class EmployeeAdd extends Component {
         user,
       } = this.props.selectedProject;
       return (
-        <div
-          className="py-3 border"
-          style={{ height: this.state.isFormOpened ? "auto" : 700 }}
-        >
+        <div className="py-3 border" style={{ height: "100vh" }}>
           {/* Title */}
           <div className="h5 text-center my-4">
             <span className="text-white h4">Project </span>
