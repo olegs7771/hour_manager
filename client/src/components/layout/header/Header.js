@@ -69,13 +69,13 @@ export class Header extends Component {
                 <a className="dropdown-item" href="/about">
                   About Hour Manager
                 </a>
-                {/* <a className="dropdown-item" href="/#">
-                  Another action
+                <a className="dropdown-item" href="/policy">
+                  Privacy Policy
                 </a>
                 <div className="dropdown-divider"></div>
                 <a className="dropdown-item" href="/#">
                   Something else here
-                </a> */}
+                </a>
               </div>
             </li>
           </ul>

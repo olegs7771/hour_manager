@@ -34,6 +34,8 @@ import ActivationConfirmation from "../src/components/layout/employee/Activation
 import AdminControl from "./components/layout/admin/AdminControl";
 import AdminContactForm from "./components/layout/admin/AdminContactForm";
 import About from "./components/layout/admin/About";
+import PrivacyPolicyPage from "./components/layout/admin/PrivacyPolicyPage";
+
 //404
 import NoPage404 from "./components/layout/404/NoPage404";
 
@@ -195,6 +197,7 @@ class App extends Component {
                   component={AdminControl}
                 />
                 <Route exact path="/about" component={About} />
+                <Route exact path="/policy" component={PrivacyPolicyPage} />
                 <Route exact path="/recover" component={PasswordRecovery} />
                 <Route exact path="/*" component={NoPage404} />
               </Switch>
