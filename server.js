@@ -4,7 +4,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-require("dotenv").config();
+
 const app = express();
 const moment = require("moment");
 const validator = require("validator");
@@ -35,7 +35,7 @@ passport.deserializeUser((user, done) => {
 require("./config/passport")(passport);
 
 //db config
-const db = require("./config/keys").mongoDB;
+const db = process.env.MONGO_URI;
 
 //connect to mongoDB
 mongoose

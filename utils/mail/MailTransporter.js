@@ -2,10 +2,13 @@ const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 // const mailPass = require("../../config/keys").mailPass;
-const clientID = require("../../config/keys").clientID;
-const clientSecret = require("../../config/keys").clientSecret;
-const refresh_token = require("../../config/keys").refresh_token;
 const htmlBody = require("./HTML_MAIL_BODY");
+// const clientID = require("../../config/keys").clientID;
+// const clientSecret = require("../../config/keys").clientSecret;
+// const refresh_token = require("../../config/keys").refresh_token;
+const clientID = process.env.CLIENT_ID;
+const clientSecret = process.env.CLIENT_SECRET;
+const refresh_token = process.env.REFRESH_TOKEN;
 
 const oauth2Client = new OAuth2(
   clientID,
@@ -17,10 +20,6 @@ oauth2Client.setCredentials({
   refresh_token,
 });
 const accessToken = oauth2Client.getAccessToken();
-console.log("accessToken", accessToken);
-console.log("clientID", clientID);
-console.log("clientSecret", clientSecret);
-console.log("refresh_token", refresh_token);
 
 const sendMail = (data, cb) => {
   const main = async () => {
