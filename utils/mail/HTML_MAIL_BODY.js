@@ -98,7 +98,7 @@ const htmlBody = (data) => {
         ` <p>Dear ${UpCase(
           data.name
         )}. The HourManager App has been activated.</p>` +
-        ` <p>Please download HourManager app and login with your Email ${data.email} , app code :${data.code} ,project code :${data.projectCode} </p>` +
+        ` <p>Please <a href= https://play.google.com/store/apps/details?id=com.hourmanagerapp>download</a> HourManager app and login with your Email ${data.email} , app code :${data.code} ,project code :${data.projectCode} </p>` +
         "<p>See You Soon.</p>";
       "</div></body></html>";
       break;
