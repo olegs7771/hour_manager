@@ -77,7 +77,7 @@ router.post("/register", (req, res) => {
         console.log("temp user created", user);
         let URLString;
         if (process.env.NODE_ENV === "production") {
-          URLString = `https://glacial-crag-30370.herokuapp.com/confirm/${user.id}/${user.token}`;
+          URLString = `https://hourmanager.herokuapp.com/confirm/${user.id}/${user.token}`;
         } else {
           URLString = `http://localhost:3000/confirm/${user.id}/${user.token}`;
         }
@@ -203,7 +203,7 @@ router.post("/confirm_registration", (req, res) => {
               console.log("access", access);
               let URL_Approve_ACCESS;
               if (process.env.NODE_ENV === "production") {
-                URL_Approve_ACCESS = `https://glacial-crag-30370.herokuapp.com/admin/${token}/${access}`;
+                URL_Approve_ACCESS = `https://hourmanager.herokuapp.com/admin/${token}/${access}`;
               } else {
                 URL_Approve_ACCESS = `http://localhost:3000/admin/${token}/${access}`;
               }
@@ -261,7 +261,7 @@ router.post("/admin", (req, res) => {
       // Create URL ling to Login page
       let loginURL;
       if (process.env.NODE_ENV === "production") {
-        loginURL = `https://glacial-crag-30370.herokuapp.com/login`;
+        loginURL = `https://hourmanager.herokuapp.com/login`;
       } else {
         loginURL = `http://localhost:3000/login`;
       }
