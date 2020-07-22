@@ -4,8 +4,8 @@ module.exports = {
   mailPass: "bamza2020",
   sessionSecret: "bubuna",
   clientID:
-    "647486022475-53rh8e6hdke7vje0ajl2q4c1d2vmte23.apps.googleusercontent.com",
-  clientSecret: "GOgAYmieA5-cYfYdtH7YvaFc",
+    "647486022475-ikr7er85r8itvhufufoamomqabku4b4k.apps.googleusercontent.com",
+  clientSecret: "Iw4Pg6HdhoJyKvyuR7XR4q3x",
   refresh_token:
-    "1//0fYDrlW7zu7DCCgYIARAAGA8SNwF-L9Irk_N-XZZolE8o1UqaHmPD_-EVlWfZvBbdnGGkaXkcSlmu226Z88gtBowBOOmqnSLHmeo",
+    "1//04IkDrPMHNBGSCgYIARAAGAQSNwF-L9Ir7kmsoPNNbBR6l0iPlzgpOydw6tMnM3L2PszSf4ZBa4nf7DlcB2Q0s83EL6pbH-anNGU",
 };

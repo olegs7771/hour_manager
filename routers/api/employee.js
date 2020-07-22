@@ -115,15 +115,46 @@ router.post(
                         url: URL,
                       };
                       sendMail(data, (cb) => {
+                        console.log("cb from MailTransporter", cb);
                         if (!cb.infoMessageid) {
-                          return res
-                            .status(400)
-                            .json({ error: "Can't send Email" });
+                          //Email cannot be sent! Remove Employee
+                          Employee.findById(newEmployee._id)
+                            .then((employee) => {
+                              // if (!employee) {
+                              //   return res.status(400).json({ error: "No Employee with such ID" });
+                              // }
+
+                              employee.remove().then((removed) => {
+                                //Remove removed employee from project.staff[]
+                                Project.findById(removed.projectID).then(
+                                  (project) => {
+                                    const upStaff = project.staff.filter(
+                                      (item) => {
+                                        return (
+                                          item.employeeEmail !== removed.email
+                                        );
+                                      }
+                                    );
+                                    project.staff = upStaff;
+                                    project.save().then((upProject) => {
+                                      return res.status(400).json({
+                                        error:
+                                          "Employee can not be created . Some issue with Email. Please contact Admin. We apologise for inconvinience",
+                                      });
+                                    });
+                                  }
+                                );
+                              });
+                            })
+                            .catch((err) => {
+                              console.log("err", err);
+                            });
+                        } else {
+                          res.json({
+                            message:
+                              "The new Employee was added to your project. Message was send to new Employee's Email ",
+                          });
                         }
-                        res.json({
-                          message:
-                            "The new Employee was added to your project. Message was send to new Employee's Email ",
-                        });
                       });
                     })
                     .catch((err) => {

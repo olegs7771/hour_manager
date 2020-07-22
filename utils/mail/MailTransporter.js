@@ -17,6 +17,10 @@ oauth2Client.setCredentials({
   refresh_token,
 });
 const accessToken = oauth2Client.getAccessToken();
+console.log("accessToken", accessToken);
+console.log("clientID", clientID);
+console.log("clientSecret", clientSecret);
+console.log("refresh_token", refresh_token);
 
 const sendMail = (data, cb) => {
   const main = async () => {
