@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const keys = process.env.SECRED_KEY;
+const keys = process.env.SECRET_KEY;
 const jwt_decode = require("jwt-decode");
 // const passport = require("passport");
 const moment = require("moment");
@@ -334,7 +334,7 @@ router.post("/login", (req, res) => {
       };
       jwt.sign(payload, keys, { expiresIn: 28800 }, (err, token) => {
         if (err) {
-          return res.status(400).json({ message: "something wrong" });
+          return res.status(400).json({ message: "can't create token." });
         }
         res.status(200).json({ token: `bearer ${token}` });
       });
