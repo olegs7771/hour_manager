@@ -57,6 +57,10 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+app.all('/',(req,res,next)=>{
+console.log('req hourmanager headers',req.headers);
+})
+
 // Use Routes
 
 app.use("/api/employee", employee);
