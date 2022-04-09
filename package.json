@@ -24,7 +24,7 @@
     "googleapis": "^48.0.0",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "moment-timezone": "^0.5.28",
     "mongoose": "^5.8.11",
     "nexmo": "^2.7.0",
